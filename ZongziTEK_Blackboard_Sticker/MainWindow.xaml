@@ -1,0 +1,23 @@
+﻿<Window x:Name="window" x:Class="ZongziTEK_Blackboard_Sticker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
+        mc:Ignorable="d"
+        Title="ZongziTEK 黑板贴" Height="900" Width="375" Background="#FF000500" ResizeMode="NoResize"
+        StateChanged="window_StateChanged" WindowStyle="None" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png">
+
+    <StackPanel>
+        <InkCanvas x:Name="inkCanvas" MinHeight="860">
+            <InkCanvas.Background>
+                <ImageBrush ImageSource="/form.png"/>
+            </InkCanvas.Background>
+
+        </InkCanvas>
+        <Button x:Name="penButton" Click="penButton_Click">画笔</Button>
+        <Button x:Name="eraserButton" Click="eraserButton_Click">橡皮</Button>
+        <!--<Button x:Name="scrShot" Click="scrShot_Click">截图</Button>-->
+    </StackPanel>
+
+</Window>
