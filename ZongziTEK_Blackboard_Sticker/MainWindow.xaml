@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴" Height="900" Width="375" Background="#FF000500" ResizeMode="NoResize"
-        StateChanged="window_StateChanged" WindowStyle="None" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png">
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="False"
+        ui:ThemeManager.RequestedTheme="Dark"
+        Title="ZongziTEK 黑板贴" Height="900" Width="440" Background="#66000000" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True">
 
-    <StackPanel>
-        <InkCanvas x:Name="inkCanvas" MinHeight="860">
-            <InkCanvas.Background>
-                <ImageBrush ImageSource="/form.png"/>
-            </InkCanvas.Background>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        </InkCanvas>
-        <Button x:Name="penButton" Click="penButton_Click">画笔</Button>
-        <Button x:Name="eraserButton" Click="eraserButton_Click">橡皮</Button>
-        <!--<Button x:Name="scrShot" Click="scrShot_Click">截图</Button>-->
-    </StackPanel>
-
+            <InkCanvas x:Name="inkCanvas" Background="Black" Grid.Row="0"/>
+            <ui:SimpleStackPanel x:Name="simpleStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="1">
+                <Button x:Name="penButton" Click="penButton_Click" Foreground="White" Background="#33FFFFFF" HorizontalAlignment="Center" Height="32">画笔</Button>
+                <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="White" Background="#33FFFFFF" HorizontalAlignment="Center" Height="32">橡皮</Button>
+                <!--<Button x:Name="scrShot" Click="scrShot_Click">截图</Button>-->
+            </ui:SimpleStackPanel>
+        </Grid>
+    </Grid>
 </Window>
