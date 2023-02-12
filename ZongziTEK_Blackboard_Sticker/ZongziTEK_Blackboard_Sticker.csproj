@@ -84,6 +84,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Curriculums.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -116,9 +117,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="form.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="黑板贴.png" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +138,18 @@
     <PackageReference Include="ModernWpfUI">
       <Version>0.9.6</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\EasiNote5.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\EasiCamera.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ThisPC.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
