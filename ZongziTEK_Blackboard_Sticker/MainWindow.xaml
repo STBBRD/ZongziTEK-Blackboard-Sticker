@@ -8,12 +8,12 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="False"
         ui:ThemeManager.RequestedTheme="Dark"
-        Title="ZongziTEK 黑板贴" Height="1800" Width="540" Background="#AA000000" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
+        Title="ZongziTEK 黑板贴" Height="1080" Width="960" Background="#AA000000" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
 
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition x:Name="rowZero"/>
+                <RowDefinition x:Name="rowZero" Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
@@ -22,11 +22,20 @@
                 <ColumnDefinition x:Name="ColumnLauncher"/>
             </Grid.ColumnDefinitions>
             <!--小黑板-->
+            <Border x:Name="borderClearConfirm" Visibility="Collapsed" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+                <ui:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Foreground="White" Text="确定清除吗" FontSize="32"/>
+                    <ui:SimpleStackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="btnClearCancel" Foreground="White" Content="取消" Click="btnClearCancel_Click"/>
+                        <Button x:Name="btnClearOK" Foreground="White" Background="#FF0088FF" Content="确定" Click="btnClearOK_Click"/>
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </Border>
             <Grid x:Name="touchGrid" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
                   ManipulationStarting="touchGrid_ManipulationStarting" ManipulationDelta="touchGrid_ManipulationDelta" Background="#00000000">
-                <InkCanvas x:Name="inkCanvas" Background="#BF000000" MouseWheel="inkCanvas_MouseWheel" 
-                           PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp" StrokeCollected="inkCanvas_StrokeCollected"
-                           StrokeErased="inkCanvas_StrokeErased"
+                <InkCanvas x:Name="inkCanvas" Background="#88000000" MouseWheel="inkCanvas_MouseWheel" 
+                           PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp"
+                           StrokeCollected="inkCanvas_StrokeCollected" StrokeErased="inkCanvas_StrokeErased"
                            IsManipulationEnabled="True"/>
             </Grid>
 
@@ -36,9 +45,9 @@
                 <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">橡皮</Button>
                 <Button x:Name="clearButton" Click="clearButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">清除</Button>
             </ui:SimpleStackPanel>
-            
+
             <!--启动台-->
-            <ui:ScrollViewerEx x:Name="scrollViewerLauncher" Grid.Row="1" Grid.Column="1">
+            <ScrollViewer x:Name="scrollViewerLauncher" Grid.Row="1" Grid.Column="1" PanningMode="VerticalOnly">
                 <ui:SimpleStackPanel Spacing="8" Margin="8" VerticalAlignment="Bottom">
                     <Button x:Name="buttonEasiNote5" HorizontalAlignment="Stretch" Height="48" Click="buttonEasiNote5_Click" HorizontalContentAlignment="Left">
                         <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
@@ -46,14 +55,14 @@
                             <TextBlock Text="希沃白板 5"/>
                         </ui:SimpleStackPanel>
                     </Button>
-                    
+
                     <Button x:Name="buttonEasiCamera" HorizontalAlignment="Stretch" Height="48" HorizontalContentAlignment="Left" Click="buttonEasiCamera_Click">
                         <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
                             <Image Source="Resources/EasiCamera.ico"/>
                             <TextBlock Text="希沃视频展台"/>
                         </ui:SimpleStackPanel>
                     </Button>
-                    
+
                     <Button x:Name="buttonExplorer" HorizontalAlignment="Stretch" Height="48" Click="buttonExplorer_Click" HorizontalContentAlignment="Left">
                         <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
                             <Image Source="Resources/ThisPC.ico"/>
@@ -61,24 +70,24 @@
                         </ui:SimpleStackPanel>
                     </Button>
                 </ui:SimpleStackPanel>
-            </ui:ScrollViewerEx>
+            </ScrollViewer>
 
             <Label Content="启动台" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="8" FontSize="24"/>
-            <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="1">
+            <ui:SimpleStackPanel x:Name="simpleStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="1">
                 <Button x:Name="editCurriculumButton" Click="editCurriculumButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">编辑课程表</Button>
                 <Button x:Name="saveCurriculumButton" Click="saveCurriculumButton_Click" Foreground="White" Background="#FF0088FF" Height="32" Visibility="Collapsed">保存课程表</Button>
             </ui:SimpleStackPanel>
-            
+
             <!--课程表-->
-            <StackPanel x:Name="stackPanelCurriculum" Grid.Row="0" Grid.Column="1">
-                <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="32" VerticalAlignment="Top" Foreground="White"
+            <StackPanel x:Name="stackPanelCurriculum" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
+                <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="36" VerticalAlignment="Top" Foreground="White"                           
                            Text="--:--:--"
-                           Margin="8"/>
+                           Margin="8" FontFamily="Resources/#Digiface"/>
                 <TextBlock x:Name="textBlockCurriculum" Margin="8" 
                        Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                        FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </StackPanel>
-            <ui:ScrollViewerEx x:Name="scrollViewerCurriculum" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed">
+            <ScrollViewer x:Name="scrollViewerCurriculum" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" PanningMode="VerticalOnly">
                 <ui:SimpleStackPanel Spacing="8" Margin="8">
                     <TextBlock Text="周一" FontSize="24" Foreground="White"/>
                     <TextBox x:Name="textBoxMonday" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
@@ -101,7 +110,7 @@
                     <TextBlock Text="周日" FontSize="24" Foreground="White"/>
                     <TextBox x:Name="textBoxSunday" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
                 </ui:SimpleStackPanel>
-            </ui:ScrollViewerEx>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

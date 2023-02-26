@@ -45,9 +45,11 @@ namespace ZongziTEK_Blackboard_Sticker
             Left = SystemParameters.WorkArea.Width - Width;
             ColumnLauncher.Width = new GridLength(Width * 0.3);
 
+            rowZero.MaxHeight = Height - 114;
+
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += new EventHandler(Clock);
-            clockTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
         }
         private void window_StateChanged(object sender, EventArgs e)
@@ -73,18 +75,25 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("确认清除吗", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            borderClearConfirm.Visibility = Visibility.Visible;
+            touchGrid.Visibility = Visibility.Collapsed;
+        }
+        private void btnClearCancel_Click(object sender, RoutedEventArgs e)
+        {
+            borderClearConfirm.Visibility = Visibility.Collapsed;
+            touchGrid.Visibility = Visibility.Visible;
+        }
+
+        private void btnClearOK_Click(object sender, RoutedEventArgs e)
+        {
+            inkCanvas.Strokes.Clear();
+
+            if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "sticker.icstk"))
             {
-                inkCanvas.Strokes.Clear();
+                File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + "sticker.icstk");
             }
-        }
-        private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
-        {
-            SaveStrokes();
-        }
-        private void inkCanvas_StrokeErased(object sender, RoutedEventArgs e)
-        {
-            SaveStrokes();
+            borderClearConfirm.Visibility = Visibility.Collapsed;
+            touchGrid.Visibility = Visibility.Visible;
         }
         private void SaveStrokes()
         {
@@ -125,6 +134,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     stroke.Transform(matrix, false);
                 }
             }
+            SaveStrokes();
         }
 
         private List<int> dec = new List<int>(); //记录触摸设备ID
@@ -202,9 +212,19 @@ namespace ZongziTEK_Blackboard_Sticker
                 if (inkCanvas.EditingMode == InkCanvasEditingMode.None)
                 {
                     inkCanvas.EditingMode = lastEditingMode;
+                    SaveStrokes();
                 }
             }
             dec.Remove(e.TouchDevice.Id);
+        }
+        private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            SaveStrokes();
+        }
+
+        private void inkCanvas_StrokeErased(object sender, RoutedEventArgs e)
+        {
+            SaveStrokes();
         }
         #endregion
 
@@ -323,7 +343,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Seewo\EasiNote5\swenlauncher\swenlauncher.exe");
             }
             catch (Exception)
-            {}
+            { }
         }
         private void buttonEasiCamera_Click(object sender, RoutedEventArgs e)
         {
@@ -344,8 +364,7 @@ namespace ZongziTEK_Blackboard_Sticker
             { }
         }
 
-        #endregion
 
-        
+        #endregion
     }
 }
