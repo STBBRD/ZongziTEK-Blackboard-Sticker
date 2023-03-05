@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         ui:WindowHelper.UseModernWindowStyle="False"
         ui:ThemeManager.RequestedTheme="Dark"
-        Title="ZongziTEK 黑板贴" Height="1080" Width="960" Background="#AA000000" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
+        Title="ZongziTEK 黑板贴" Height="1080" Width="960" 
+        Background="#AA000000" 
+        ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
+        Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
 
     <Grid>
         <Grid>
@@ -41,7 +45,32 @@
 
             <Label Content="小黑板" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="8" FontSize="24"/>
             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="0">
-                <Button x:Name="penButton" Click="penButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">画笔</Button>
+                <Grid>
+                    <Button x:Name="penButton" Click="penButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">画笔</Button>
+                    <Border x:Name="borderColorPicker" Margin="-100,-450,-100,36" Background="#22FFFFFF"
+                                    CornerRadius="4" Width="246" Height="420"
+                                    Visibility="Collapsed">
+                        <ui:SimpleStackPanel Margin="16" Spacing="12">
+                            <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="White"/>
+                            <Border x:Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
+                            <colorpicker:SquarePicker x:Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
+                            <Grid Height="75">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="White"/>
+                                <Button x:Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
+                                <Button x:Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
+                                <Button x:Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
+                            </Grid>
+                        </ui:SimpleStackPanel>
+                    </Border>
+                </Grid>
                 <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">橡皮</Button>
                 <Button x:Name="clearButton" Click="clearButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">清除</Button>
             </ui:SimpleStackPanel>

@@ -7,10 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Input.StylusPlugIns;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Windows.Devices.Bluetooth;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
 using ZongziTEK_Blackboard_Sticker.Properties;
 using File = System.IO.File;
 
@@ -28,8 +30,8 @@ namespace ZongziTEK_Blackboard_Sticker
             drawingAttributes = new DrawingAttributes();
             inkCanvas.DefaultDrawingAttributes = drawingAttributes;
             drawingAttributes.Color = Colors.White;
-            drawingAttributes.Width = 2;
-            drawingAttributes.Height = 1.5;
+            drawingAttributes.Width = 1.75;
+            drawingAttributes.Height = 1.75;
             drawingAttributes.StylusTip = StylusTip.Ellipse;
             drawingAttributes.FitToCurve = true;
             drawingAttributes.IgnorePressure = true;
@@ -66,26 +68,45 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Ink Canvas
         private void penButton_Click(object sender, RoutedEventArgs e)
         {
-            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
+            {
+                if (!confirmingClear) borderColorPicker.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            }
         }
 
         private void eraserButton_Click(object sender, RoutedEventArgs e)
         {
+            borderColorPicker.Visibility = Visibility.Collapsed;
             inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
         }
+
+        bool confirmingClear = false;
+
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
+            borderColorPicker.Visibility = Visibility.Collapsed;
             borderClearConfirm.Visibility = Visibility.Visible;
+
+            confirmingClear = true;
+
             touchGrid.Visibility = Visibility.Collapsed;
         }
         private void btnClearCancel_Click(object sender, RoutedEventArgs e)
         {
             borderClearConfirm.Visibility = Visibility.Collapsed;
             touchGrid.Visibility = Visibility.Visible;
+
+            confirmingClear = false;
         }
 
         private void btnClearOK_Click(object sender, RoutedEventArgs e)
         {
+            confirmingClear = false;
+
             inkCanvas.Strokes.Clear();
 
             if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "sticker.icstk"))
@@ -94,6 +115,31 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             borderClearConfirm.Visibility = Visibility.Collapsed;
             touchGrid.Visibility = Visibility.Visible;
+        }
+
+        private void squarePicker_ColorChanged(object sender, RoutedEventArgs e)
+        {
+            borderShowColor.Background = new SolidColorBrush(squarePicker.SelectedColor);
+            inkCanvas.DefaultDrawingAttributes.Color = squarePicker.SelectedColor;
+        }
+        private void btnWhite_Click(object sender, RoutedEventArgs e)
+        {
+            squarePicker.SelectedColor = ((SolidColorBrush)btnWhite.Background).Color;
+        }
+
+        private void btnBlue_Click(object sender, RoutedEventArgs e)
+        {
+            squarePicker.SelectedColor = ((SolidColorBrush)btnBlue.Background).Color;
+        }
+
+        private void btnYellow_Click(object sender, RoutedEventArgs e)
+        {
+            squarePicker.SelectedColor = ((SolidColorBrush)btnYellow.Background).Color;
+        }
+
+        private void btnRed_Click(object sender, RoutedEventArgs e)
+        {
+            squarePicker.SelectedColor = ((SolidColorBrush)btnRed.Background).Color;
         }
         private void SaveStrokes()
         {
@@ -181,6 +227,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         InkCanvasEditingMode lastEditingMode = new InkCanvasEditingMode();
+
         private void inkCanvas_PreviewTouchDown(object sender, TouchEventArgs e)
         {
             dec.Add(e.TouchDevice.Id);
@@ -217,8 +264,14 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             dec.Remove(e.TouchDevice.Id);
         }
+
+        
         private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
+            borderColorPicker.Visibility = Visibility.Collapsed;
+
+            
+
             SaveStrokes();
         }
 
@@ -226,6 +279,9 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             SaveStrokes();
         }
+
+        
+
         #endregion
 
         #region Curriculum
@@ -366,5 +422,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
 
         #endregion
+
     }
 }

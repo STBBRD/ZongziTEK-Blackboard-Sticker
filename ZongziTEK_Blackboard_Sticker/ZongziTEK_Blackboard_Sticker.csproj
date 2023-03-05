@@ -142,6 +142,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.2</Version>
     </PackageReference>
+    <PackageReference Include="PixiEditor.ColorPicker">
+      <Version>3.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\EasiNote5.ico" />
