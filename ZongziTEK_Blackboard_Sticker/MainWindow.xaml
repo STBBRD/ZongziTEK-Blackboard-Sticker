@@ -9,13 +9,25 @@
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         ui:WindowHelper.UseModernWindowStyle="False"
         ui:ThemeManager.RequestedTheme="Dark"
-        Title="ZongziTEK 黑板贴" Height="1080" Width="960" 
-        Background="#AA000000" 
+        Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
+        Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
         Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
 
     <Grid>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="borderSwitchPositionLeft" Grid.Column="0" Background="#AA000000" HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="4,0,0,4"
+                MouseDown="borderSwitchPositionLeft_MouseDown">
+            <Label Content="&#xe76b;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="4,8,4,8"/>
+        </Border>
+        <Border x:Name="borderSwitchPositionRight" Grid.Column="1" Background="#AA000000" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0,4,4,0" Visibility="Collapsed"
+                MouseDown="borderSwitchPositionRight_MouseDown">
+            <Label Content="&#xe76c;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="4,8,4,8"/>
+        </Border>
+        <Grid x:Name="MainGrid" Background="#AA000000" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="rowZero" Height="Auto"/>
                 <RowDefinition/>
@@ -25,6 +37,7 @@
                 <ColumnDefinition x:Name="ColumnCanvas"/>
                 <ColumnDefinition x:Name="ColumnLauncher"/>
             </Grid.ColumnDefinitions>
+
             <!--小黑板-->
             <Border x:Name="borderClearConfirm" Visibility="Collapsed" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
                 <ui:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -47,9 +60,8 @@
             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="0">
                 <Grid>
                     <Button x:Name="penButton" Click="penButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">画笔</Button>
-                    <Border x:Name="borderColorPicker" Margin="-100,-450,-100,36" Background="#22FFFFFF"
-                                    CornerRadius="4" Width="246" Height="420"
-                                    Visibility="Collapsed">
+                    <Border x:Name="borderColorPicker" Margin="-100,-480,-100,36" Background="#33FFFFFF"
+                                    CornerRadius="4" Width="246" Height="450" Visibility="Collapsed">
                         <ui:SimpleStackPanel Margin="16" Spacing="12">
                             <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="White"/>
                             <Border x:Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
@@ -63,16 +75,18 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="White"/>
-                                <Button x:Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
-                                <Button x:Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
-                                <Button x:Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
+                                <Button x:Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="White"/>
+                                <Button x:Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
+                                <Button x:Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
+                                <Button x:Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
                             </Grid>
+                            <Button x:Name="btnCloseColorPicker" Content="关闭" HorizontalAlignment="Stretch" Click="btnCloseColorPicker_Click"/>
                         </ui:SimpleStackPanel>
                     </Border>
                 </Grid>
                 <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">橡皮</Button>
                 <Button x:Name="clearButton" Click="clearButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">清除</Button>
+                <Button x:Name="btnShowSettingsPanel" Click="btnShowSettingsPanel_Click" Content="设置"/>
             </ui:SimpleStackPanel>
 
             <!--启动台-->
@@ -111,7 +125,7 @@
             <StackPanel x:Name="stackPanelCurriculum" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
                 <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="36" VerticalAlignment="Top" Foreground="White"                           
                            Text="--:--:--"
-                           Margin="8" FontFamily="Resources/#Digiface"/>
+                           Margin="8" FontFamily="Resources\#Digiface"/>
                 <TextBlock x:Name="textBlockCurriculum" Margin="8" 
                        Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                        FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -140,6 +154,38 @@
                     <TextBox x:Name="textBoxSunday" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
                 </ui:SimpleStackPanel>
             </ScrollViewer>
+            <!--设置-->
+            <Border x:Name="borderSettingsPanel" Grid.RowSpan="3" Grid.ColumnSpan="2" Background="#FF222222" Visibility="Collapsed">
+                <Grid Margin="48">
+                    <ScrollViewer PanningMode="VerticalOnly" ui:ThemeManager.RequestedTheme="Dark">
+                        <ui:SimpleStackPanel Spacing="16">
+                            <TextBlock Text="设置" Foreground="White" FontSize="32"/>
+                            <GroupBox Header="行为">
+                                <ui:SimpleStackPanel Spacing="12">
+                                    <Button x:Name="btnRestart" Content="立即重新启动黑板贴" Width="240" Click="btnRestart_Click"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled"/>
+                                </ui:SimpleStackPanel>
+                            </GroupBox>
+                        </ui:SimpleStackPanel>
+                    </ScrollViewer>
+                    <Grid VerticalAlignment="Bottom">
+                        <Button x:Name="btnHideSettingsPanel" Click="btnHideSettingsPanel_Click" HorizontalAlignment="Right" Content="关闭" Width="120"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border x:Name="borderFirstOpening" Grid.RowSpan="3" Grid.ColumnSpan="2" Background="#FF222222" Visibility="Collapsed">
+                <Grid Margin="48">
+                    <ScrollViewer PanningMode="VerticalOnly" ui:ThemeManager.RequestedTheme="Dark">
+                        <ui:SimpleStackPanel Spacing="16">
+                            <TextBlock FontSize="32" Text="初次使用,请查看以下常用设置项" Foreground="White"/>
+                            <ui:ToggleSwitch Header="开机时运行" OnContent="开" OffContent="关" IsOn="{Binding IsOn, ElementName=ToggleSwitchRunAtStartup}"/>
+                        </ui:SimpleStackPanel>
+                    </ScrollViewer>
+                    <Grid VerticalAlignment="Bottom">
+                        <Button x:Name="btnCloseFirstOpening" HorizontalAlignment="Right" Content="完成" Width="120" Click="btnCloseFirstOpening_Click"/>
+                    </Grid>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>
