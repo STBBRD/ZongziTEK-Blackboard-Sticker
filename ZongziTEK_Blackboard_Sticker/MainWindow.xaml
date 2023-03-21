@@ -166,6 +166,19 @@
                                     <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
+                            <GroupBox Header="关于">
+                                <ui:SimpleStackPanel Spacing="12">
+                                    <TextBlock FontSize="14">
+                                     <Bold>开发者:</Bold> ZongziTEK
+                                    </TextBlock>
+                                    <TextBlock FontSize="14">
+                                    <Bold>开源地址:</Bold>
+                                    <Hyperlink Click="Hyperlink_Click">
+                                           <TextBlock Text="https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker"></TextBlock>
+                                    </Hyperlink>
+                                </TextBlock>
+                                </ui:SimpleStackPanel>
+                            </GroupBox>
                         </ui:SimpleStackPanel>
                     </ScrollViewer>
                     <Grid VerticalAlignment="Bottom">

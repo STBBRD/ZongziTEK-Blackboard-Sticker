@@ -859,6 +859,11 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Other Functions
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
+        }
+
         public static bool StartAutomaticallyCreate(string exeName)
         {
             try
@@ -889,5 +894,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
 
         #endregion
+
+        
     }
 }
