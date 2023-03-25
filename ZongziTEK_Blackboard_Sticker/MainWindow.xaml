@@ -11,7 +11,7 @@
         ui:ThemeManager.RequestedTheme="Dark"
         Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
         Background="#00000000" 
-        ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize" ShowInTaskbar="False"
         Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
 
     <Grid>
@@ -19,13 +19,23 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="borderSwitchPositionLeft" Grid.Column="0" Background="#AA000000" HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="4,0,0,4"
-                MouseDown="borderSwitchPositionLeft_MouseDown">
-            <Label Content="&#xe76b;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="4,8,4,8"/>
+        <Border x:Name="borderLeftToolBar" Grid.Column="0" Background="#AA000000" HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="4,0,0,4">
+            <ui:SimpleStackPanel Margin="4" Spacing="8">
+                <ui:SymbolIcon Foreground="White" Symbol="Clock" MouseDown="iconShowBigClock_MouseDown"/>
+                <Label Name="iconSwitchLeft" Content="&#xe76b;" FontFamily="Segoe MDL2 Assets" FontSize="20" MouseDown="iconSwitchLeft_MouseDown"/>
+                <Viewbox Height="20" MouseDown="iconShowSettingsPanel_MouseDown">
+                    <ui:SymbolIcon Foreground="White" Symbol="Setting" Margin="1"/>
+                </Viewbox>
+            </ui:SimpleStackPanel>
         </Border>
-        <Border x:Name="borderSwitchPositionRight" Grid.Column="1" Background="#AA000000" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0,4,4,0" Visibility="Collapsed"
-                MouseDown="borderSwitchPositionRight_MouseDown">
-            <Label Content="&#xe76c;" FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="4,8,4,8"/>
+        <Border x:Name="borderRightToolBar" Grid.Column="1" Background="#AA000000" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0,4,4,0" Visibility="Collapsed">
+            <ui:SimpleStackPanel Margin="4" Spacing="8">
+                <ui:SymbolIcon Foreground="White" Symbol="Clock" MouseDown="iconShowBigClock_MouseDown"/>
+                <Label Name="iconSwitchRight" Content="&#xe76c;" FontFamily="Segoe MDL2 Assets" FontSize="20" MouseDown="iconSwitchRight_MouseDown"/>
+                <Viewbox Height="20" MouseDown="iconShowSettingsPanel_MouseDown">
+                    <ui:SymbolIcon Foreground="White" Symbol="Setting" Margin="1"/>
+                </Viewbox>
+            </ui:SimpleStackPanel>
         </Border>
         <Grid x:Name="MainGrid" Background="#AA000000" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -86,7 +96,6 @@
                 </Grid>
                 <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">橡皮</Button>
                 <Button x:Name="clearButton" Click="clearButton_Click" Foreground="White" Background="#33FFFFFF" Height="32">清除</Button>
-                <Button x:Name="btnShowSettingsPanel" Click="btnShowSettingsPanel_Click" Content="设置"/>
             </ui:SimpleStackPanel>
 
             <!--启动台-->
@@ -123,9 +132,9 @@
 
             <!--课程表-->
             <StackPanel x:Name="stackPanelCurriculum" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
-                <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="36" VerticalAlignment="Top" Foreground="White"                           
+                <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="40" VerticalAlignment="Top" Foreground="White"                           
                            Text="--:--:--"
-                           Margin="8" FontFamily="Resources\#Digiface"/>
+                           Margin="8" FontFamily="Resources\#Digital-7 Mono"/>
                 <TextBlock x:Name="textBlockCurriculum" Margin="8" 
                        Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                        FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>

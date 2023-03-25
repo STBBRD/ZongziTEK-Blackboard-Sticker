@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Data;
 using System.Windows.Input.StylusPlugIns;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -41,16 +42,16 @@ namespace ZongziTEK_Blackboard_Sticker
         bool isLoaded = false;
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
+            Height = System.Windows.SystemParameters.WorkArea.Height;
+            Width = System.Windows.SystemParameters.WorkArea.Width;
+            Top = 0;
+            Left = 0;
+
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
             LoadCurriculum();
             LoadStrokes();
             LoadSettings();
             InitializeLauncher();
-
-            Height = System.Windows.SystemParameters.WorkArea.Height;
-            Width = System.Windows.SystemParameters.WorkArea.Width;
-            Top = 0;
-            Left = 0;
 
             ColumnLauncher.Width = new GridLength(Width * 0.15);
             rowZero.MaxHeight = Height - 114;
@@ -91,18 +92,19 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveCurriculum();
 
         }
-        private void borderSwitchPositionRight_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Grid.SetColumn(MainGrid, 1);
-            borderSwitchPositionRight.Visibility = Visibility.Collapsed;
-            borderSwitchPositionLeft.Visibility = Visibility.Visible;
-        }
 
-        private void borderSwitchPositionLeft_MouseDown(object sender, MouseButtonEventArgs e)
+        private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Grid.SetColumn(MainGrid, 0);
-            borderSwitchPositionLeft.Visibility = Visibility.Collapsed;
-            borderSwitchPositionRight.Visibility = Visibility.Visible;
+            borderLeftToolBar.Visibility = Visibility.Collapsed;
+            borderRightToolBar.Visibility = Visibility.Visible;
+        }
+
+        private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid.SetColumn(MainGrid, 1);
+            borderRightToolBar.Visibility = Visibility.Collapsed;
+            borderLeftToolBar.Visibility = Visibility.Visible;
         }
         #endregion
 
@@ -729,7 +731,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             LoadCurriculum();
         }
-        #endregion        
+        #endregion
 
         #region Clock
 
@@ -740,7 +742,10 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private DispatcherTimer clockTimer;
 
-
+        private void iconShowBigClock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new FullScreenClock().Show();
+        }
         #endregion
 
         #region Launcher
@@ -785,7 +790,9 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Settings
 
         #region Panel Show & Hide
-        private void btnShowSettingsPanel_Click(object sender, RoutedEventArgs e)
+        
+
+        private void iconShowSettingsPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             borderSettingsPanel.Visibility = Visibility.Visible;
         }
@@ -890,6 +897,8 @@ namespace ZongziTEK_Blackboard_Sticker
             catch (Exception) { }
             return false;
         }
+
+
 
 
 
