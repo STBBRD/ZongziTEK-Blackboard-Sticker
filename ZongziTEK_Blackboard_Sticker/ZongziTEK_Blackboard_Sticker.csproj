@@ -92,6 +92,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileUtility.cs" />
     <Compile Include="FullScreenClock.xaml.cs">
       <DependentUpon>FullScreenClock.xaml</DependentUpon>
     </Compile>

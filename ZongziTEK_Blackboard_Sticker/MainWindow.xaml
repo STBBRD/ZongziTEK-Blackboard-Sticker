@@ -12,7 +12,8 @@
         Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
-        Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing">
+        Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True"
+        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -132,15 +133,17 @@
 
             <!--课程表-->
             <StackPanel x:Name="stackPanelCurriculum" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
-                <TextBlock x:Name="textBlockTime" HorizontalAlignment="Center" FontSize="40" VerticalAlignment="Top" Foreground="White"                           
+                <TextBlock x:Name="textBlockTime" TextAlignment="Center" FontSize="40" Foreground="White"                           
                            Text="--:--:--"
                            Margin="8" FontFamily="Resources\#Digital-7 Mono"/>
-                <TextBlock x:Name="textBlockCurriculum" Margin="8" 
+                <TextBlock x:Name="textBlockCurriculum" Margin="8" TextWrapping="Wrap"
                        Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
-                       FontSize="28" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                       FontSize="28" Foreground="White" TextAlignment="Center"/>
             </StackPanel>
             <ScrollViewer x:Name="scrollViewerCurriculum" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel Spacing="8" Margin="8">
+                <ui:SimpleStackPanel Spacing="16" Margin="24">
+                    <TextBlock Text="编辑课程表" FontSize="36" Foreground="White"/>
+                    <TextBlock Text="在文本框内输入课程，可回车换行，建议一行一节课" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
                     <TextBlock Text="周一" FontSize="24" Foreground="White"/>
                     <TextBox x:Name="textBoxMonday" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="White"/>
 
@@ -221,6 +224,14 @@
                         <Button x:Name="btnCloseFirstOpening" HorizontalAlignment="Right" Content="完成" Width="120" Click="btnCloseFirstOpening_Click"/>
                     </Grid>
                 </Grid>
+            </Border>
+            <Border Name="BorderDragEnter" Background="#FF222222" Grid.RowSpan="3" Grid.ColumnSpan="2" Visibility="Collapsed">
+                <ui:SimpleStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="48">
+                    <Viewbox>
+                        <TextBlock Name="TextBlockDragHint" Text="松手以将文件添加到桌面" Foreground="White"/>
+                    </Viewbox>
+                    <ui:ProgressBar Name="ProgressBarDragEnter" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
+                </ui:SimpleStackPanel>
             </Border>
         </Grid>
     </Grid>
