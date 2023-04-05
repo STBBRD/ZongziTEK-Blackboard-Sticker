@@ -672,8 +672,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #endregion
 
-
-
         #region Curriculum
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
@@ -973,6 +971,45 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         #endregion
 
+        #region Utility
+        #region FileDrag
+        private void window_DragEnter(object sender, System.Windows.DragEventArgs e)
+        {
+            TextBlockDragHint.Text = "松手以将文件添加到桌面";
+            BorderDragEnter.Visibility = Visibility.Visible;
+        }
+
+        private void window_DragLeave(object sender, System.Windows.DragEventArgs e)
+        {
+            BorderDragEnter.Visibility = Visibility.Collapsed;
+        }
+
+        private void window_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            ProgressBarDragEnter.Visibility = Visibility.Visible;
+            TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
+            string folderFileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            string dest = Path.GetFileName(folderFileName);
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
+            if (folderFileName != desktop + dest)
+            {
+                if (new DirectoryInfo(folderFileName).Exists)
+                {
+                    if (new DirectoryInfo(desktop + dest).Exists) new DirectoryInfo(desktop + dest).Delete(true);
+                    try { FileUtility.CopyFolder(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
+                }
+                else
+                {
+                    if (File.Exists(desktop + dest)) File.Delete(desktop + dest);
+                    try { File.Copy(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
+                }
+            }
+            BorderDragEnter.Visibility = Visibility.Collapsed;
+            ProgressBarDragEnter.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+        #endregion
+
         #region Other Functions
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
@@ -1005,50 +1042,6 @@ namespace ZongziTEK_Blackboard_Sticker
             catch (Exception) { }
             return false;
         }
-
-
-
-
-
-
-
-
-
         #endregion
-
-        private void window_DragEnter(object sender, System.Windows.DragEventArgs e)
-        {
-            TextBlockDragHint.Text = "松手以将文件添加到桌面";
-            BorderDragEnter.Visibility = Visibility.Visible;
-        }
-
-        private void window_DragLeave(object sender, System.Windows.DragEventArgs e)
-        {
-            BorderDragEnter.Visibility = Visibility.Collapsed;
-        }
-
-        private void window_Drop(object sender, System.Windows.DragEventArgs e)
-        {
-            ProgressBarDragEnter.Visibility = Visibility.Visible;
-            TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
-            string folderFileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            string dest = Path.GetFileName(folderFileName);
-            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+"\\";
-            if (folderFileName != desktop + dest)
-            {
-                if (new DirectoryInfo(folderFileName).Exists)
-                {
-                    if (new DirectoryInfo(desktop + dest).Exists) new DirectoryInfo(desktop + dest).Delete(true);
-                    try { FileUtility.CopyFolder(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
-                }
-                else
-                {
-                    if (File.Exists(desktop + dest)) File.Delete(desktop + dest);
-                    try { File.Copy(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
-                }
-            }
-            BorderDragEnter.Visibility = Visibility.Collapsed;
-            ProgressBarDragEnter.Visibility = Visibility.Collapsed;
-        }
     }
 }
