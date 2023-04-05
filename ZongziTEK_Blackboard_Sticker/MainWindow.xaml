@@ -175,6 +175,20 @@
                                     <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
+                            <GroupBox Header="存储">
+                                <ui:SimpleStackPanel Spacing="12">
+                                    <ui:ToggleSwitch Name="ToggleSwitchDataLocation" Header="将数据保存在程序目录下" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchDataLocation_Toggled"/>
+                                    <TextBlock Text="将数据保存在何处" FontSize="14" Visibility="{Binding Visibility, ElementName=GridDataLocation}"/>
+                                    <Grid Name="GridDataLocation" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="64"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Name="TextBoxDataLocation" TextChanged="TextBoxDataLocation_TextChanged" Margin="0,0,16,0"/>
+                                        <Button Name="ButtonDataLocation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Content="浏览" Click="ButtonDataLocation_Click"/>
+                                    </Grid>
+                                </ui:SimpleStackPanel>
+                            </GroupBox>
                             <GroupBox Header="关于">
                                 <ui:SimpleStackPanel Spacing="12">
                                     <TextBlock FontSize="14">

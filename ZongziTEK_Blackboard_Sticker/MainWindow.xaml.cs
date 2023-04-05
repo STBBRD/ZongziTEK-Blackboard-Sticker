@@ -17,6 +17,7 @@ using System.Windows.Threading;
 using MessageBox = System.Windows.MessageBox;
 using File = System.IO.File;
 using IWshRuntimeLibrary;
+using System.Windows.Forms;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -48,9 +49,9 @@ namespace ZongziTEK_Blackboard_Sticker
             Left = 0;
 
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            LoadSettings();
             LoadCurriculum();
             LoadStrokes();
-            LoadSettings();
             InitializeLauncher();
 
             ColumnLauncher.Width = new GridLength(Width * 0.15);
@@ -194,14 +195,48 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void SaveStrokes()
         {
-            string path = System.AppDomain.CurrentDomain.BaseDirectory;
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;
+                if (!path.EndsWith("\\") || !path.EndsWith("/"))
+                {
+                    path += "\\";
+                }
+
+                if (!new DirectoryInfo(path).Exists)
+                {
+                    try { new DirectoryInfo(path).Create(); }
+                    catch { }
+                }
+            }
+
             FileStream fileStream = new FileStream(path + "sticker.icstk", FileMode.Create);
             inkCanvas.Strokes.Save(fileStream);
             fileStream.Close();
         }
         private void LoadStrokes()
         {
-            string path = System.AppDomain.CurrentDomain.BaseDirectory;
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;
+                if (!path.EndsWith("\\") || !path.EndsWith("/"))
+                {
+                    path += "\\";
+                }
+            }
+
             if (File.Exists(path + "sticker.icstk"))
             {
                 FileStream fileStream = new FileStream(path + "sticker.icstk", FileMode.Open);
@@ -384,10 +419,6 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             SaveStrokes();
         }
-
-
-
-        #endregion
 
         #region Brush effect from WXRIW
         // A StylusPlugin that renders ink with a linear gradient brush effect.
@@ -638,6 +669,10 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         #endregion
 
+        #endregion
+
+
+
         #region Curriculum
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
@@ -653,20 +688,51 @@ namespace ZongziTEK_Blackboard_Sticker
             Curriculums.Sunday.Curriculums = textBoxSunday.Text;
 
             string text = JsonConvert.SerializeObject(Curriculums, Formatting.Indented);
+
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;
+                if (!path.EndsWith("\\") || !path.EndsWith("/"))
+                {
+                    path += "\\";
+                }
+            }
+
             try
             {
-                File.WriteAllText(curriculumsFileName, text);
+                File.WriteAllText(path + curriculumsFileName, text);
             }
             catch { }
         }
 
         private void LoadCurriculum()
         {
-            if (File.Exists(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + curriculumsFileName))
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;
+                if (!path.EndsWith("\\") || !path.EndsWith("/"))
+                {
+                    path += "\\";
+                }
+            }
+
+            if (File.Exists(path + curriculumsFileName))
             {
                 try
                 {
-                    string text = File.ReadAllText(curriculumsFileName);
+                    string text = File.ReadAllText(path + curriculumsFileName);
                     Curriculums = JsonConvert.DeserializeObject<Curriculums>(text);
                 }
                 catch { }
@@ -790,7 +856,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Settings
 
         #region Panel Show & Hide
-        
+
 
         private void iconShowSettingsPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -814,7 +880,7 @@ namespace ZongziTEK_Blackboard_Sticker
             Process.Start(System.Windows.Forms.Application.ExecutablePath, "-m");
 
             CloseIsFromButton = true;
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
         {
@@ -827,6 +893,34 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 StartAutomaticallyDel("ZongziTEK_Blackboard_Sticker");
             }
+        }
+        private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            if (ToggleSwitchDataLocation.IsOn)
+            {
+                Settings.Storage.isFilesSavingWithProgram = true;
+                GridDataLocation.Visibility = Visibility.Collapsed;
+                SaveSettings();
+            }
+            else
+            {
+                Settings.Storage.isFilesSavingWithProgram = false;
+                GridDataLocation.Visibility = Visibility.Visible;
+                SaveSettings();
+            }
+        }
+        private void TextBoxDataLocation_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsLoaded) return;
+            Settings.Storage.dataPath = TextBoxDataLocation.Text;
+            SaveSettings();
+        }
+        private void ButtonDataLocation_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+            folderBrowser.ShowDialog();
+            TextBoxDataLocation.Text = folderBrowser.SelectedPath;
         }
 
         #endregion
@@ -851,6 +945,19 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 ToggleSwitchRunAtStartup.IsOn = true;
             }
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                ToggleSwitchDataLocation.IsOn = true;
+                GridDataLocation.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ToggleSwitchDataLocation.IsOn = false;
+                GridDataLocation.Visibility = Visibility.Visible;
+            }
+
+            TextBoxDataLocation.Text = Settings.Storage.dataPath;
         }
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";
@@ -902,8 +1009,11 @@ namespace ZongziTEK_Blackboard_Sticker
 
 
 
+
+
+
         #endregion
 
-        
+
     }
 }
