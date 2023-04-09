@@ -19,6 +19,8 @@ using File = System.IO.File;
 using IWshRuntimeLibrary;
 using System.Windows.Media.Animation;
 using System.Threading.Tasks;
+using ModernWpf;
+using Windows.UI.Input.Inking;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -893,6 +895,22 @@ namespace ZongziTEK_Blackboard_Sticker
                 StartAutomaticallyDel("ZongziTEK_Blackboard_Sticker");
             }
         }
+        private void ToggleSwitchTheme_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            if (ToggleSwitchTheme.IsOn)
+            {
+                //亮
+                SetTheme("Light");
+                SaveSettings();
+            }
+            else
+            {
+                //暗
+                SetTheme("Dark");
+                SaveSettings();
+            }
+        }
         private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
@@ -956,6 +974,17 @@ namespace ZongziTEK_Blackboard_Sticker
                 GridDataLocation.Visibility = Visibility.Visible;
             }
 
+            if (Settings.Look.IsLightTheme)
+            {
+                ToggleSwitchTheme.IsOn = true;
+                SetTheme("Light");
+            }
+            else
+            {
+                ToggleSwitchTheme.IsOn = false;
+                SetTheme("Dark");
+            }
+
             TextBoxDataLocation.Text = Settings.Storage.dataPath;
         }
         public static Settings Settings = new Settings();
@@ -1011,6 +1040,42 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Other Functions
+        
+        private void SetTheme(string theme)
+        {
+            if (theme == "Light")
+            {
+                ThemeManager.SetRequestedTheme(window, ElementTheme.Light);
+                ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Light.xaml", UriKind.Relative) };
+                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                Settings.Look.IsLightTheme = true;
+
+                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White) inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
+                foreach (Stroke stroke in inkCanvas.Strokes)
+                {
+                    if(stroke.DrawingAttributes.Color == Colors.White)
+                    {
+                        stroke.DrawingAttributes.Color = Colors.Black;
+                    }
+                }
+            }
+            else if (theme == "Dark")
+            {
+                ThemeManager.SetRequestedTheme(window, ElementTheme.Dark);
+                ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Dark.xaml", UriKind.Relative) };
+                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                Settings.Look.IsLightTheme = false;
+
+                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black) inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
+                foreach (Stroke stroke in inkCanvas.Strokes)
+                {
+                    if (stroke.DrawingAttributes.Color == Colors.Black)
+                    {
+                        stroke.DrawingAttributes.Color = Colors.White;
+                    }
+                }
+            }
+        }
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
