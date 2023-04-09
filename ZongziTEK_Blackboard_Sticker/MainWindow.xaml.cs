@@ -30,6 +30,8 @@ namespace ZongziTEK_Blackboard_Sticker
     public partial class MainWindow : Window
     {
         DrawingAttributes drawingAttributes;
+
+        bool isLoaded = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -41,11 +43,7 @@ namespace ZongziTEK_Blackboard_Sticker
             drawingAttributes.StylusTip = StylusTip.Ellipse;
             drawingAttributes.FitToCurve = true;
             //drawingAttributes.IgnorePressure = true;
-        }
-        #region Window
-        bool isLoaded = false;
-        private void window_Loaded(object sender, RoutedEventArgs e)
-        {
+
             Height = System.Windows.SystemParameters.WorkArea.Height;
             Width = System.Windows.SystemParameters.WorkArea.Width;
             Top = 0;
@@ -67,6 +65,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             isLoaded = true;
         }
+        #region Window
         private void window_StateChanged(object sender, EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
@@ -1040,7 +1039,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Other Functions
-        
+
         private void SetTheme(string theme)
         {
             if (theme == "Light")
@@ -1053,7 +1052,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White) inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
-                    if(stroke.DrawingAttributes.Color == Colors.White)
+                    if (stroke.DrawingAttributes.Color == Colors.White)
                     {
                         stroke.DrawingAttributes.Color = Colors.Black;
                     }

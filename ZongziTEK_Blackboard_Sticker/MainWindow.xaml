@@ -12,7 +12,7 @@
         Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
-        Loaded="window_Loaded" Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True"
+        Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True"
         DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop">
 
     <Grid>
