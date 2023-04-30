@@ -21,6 +21,7 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using ModernWpf;
 using Windows.UI.Input.Inking;
+using System.Windows.Controls.Primitives;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -50,9 +51,9 @@ namespace ZongziTEK_Blackboard_Sticker
             Left = 0;
 
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            LoadStrokes();
             LoadSettings();
             LoadCurriculum();
-            LoadStrokes();
             InitializeLauncher();
 
             ColumnLauncher.Width = new GridLength(Width * 0.15);
@@ -62,6 +63,8 @@ namespace ZongziTEK_Blackboard_Sticker
             clockTimer.Tick += new EventHandler(Clock);
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
+
+            Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
             isLoaded = true;
         }
@@ -159,9 +162,25 @@ namespace ZongziTEK_Blackboard_Sticker
 
             inkCanvas.Strokes.Clear();
 
-            if (File.Exists(System.AppDomain.CurrentDomain.BaseDirectory + "sticker.icstk"))
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
             {
-                File.Delete(System.AppDomain.CurrentDomain.BaseDirectory + "sticker.icstk");
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;                
+            }
+
+            if (!path.EndsWith("\\") || !path.EndsWith("/"))
+            {
+                path += "\\";
+            }
+
+            if (File.Exists(path + "sticker.icstk"))
+            {
+                File.Delete(path + "sticker.icstk");
             }
             borderClearConfirm.Visibility = Visibility.Collapsed;
             touchGrid.Visibility = Visibility.Visible;
@@ -860,7 +879,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void iconShowSettingsPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            borderSettingsPanel.Visibility = Visibility.Visible;
+            if (borderSettingsPanel.Visibility == Visibility.Collapsed) borderSettingsPanel.Visibility = Visibility.Visible;
+            else btnHideSettingsPanel_Click(null, null);
         }
         private void btnHideSettingsPanel_Click(object sender, RoutedEventArgs e)
         {
@@ -910,6 +930,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 SaveSettings();
             }
         }
+        private void ToggleSwitchThemeAuto_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Look.IsSwitchThemeAuto = ToggleSwitchThemeAuto.IsOn;
+            SaveSettings();
+        }
+
         private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
@@ -984,6 +1011,21 @@ namespace ZongziTEK_Blackboard_Sticker
                 SetTheme("Dark");
             }
 
+            ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
+
+            if (Settings.Look.IsSwitchThemeAuto)
+            {
+                ToggleSwitchTheme.IsOn = IsSystemThemeLight();
+                if (ToggleSwitchTheme.IsOn == true)
+                {
+                    SetTheme("Light");
+                }
+                else
+                {
+                    SetTheme("Dark");
+                }
+            }
+
             TextBoxDataLocation.Text = Settings.Storage.dataPath;
         }
         public static Settings Settings = new Settings();
@@ -1036,6 +1078,34 @@ namespace ZongziTEK_Blackboard_Sticker
             ProgressBarDragEnter.Visibility = Visibility.Collapsed;
         }
         #endregion
+        #endregion
+
+        #region Check
+        private void SystemEvents_UserPreferenceChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
+        {
+            if (Settings.Look.IsSwitchThemeAuto)
+            {
+                ToggleSwitchTheme.IsOn = IsSystemThemeLight();
+            }
+        }
+
+        private bool IsSystemThemeLight()
+        {
+            bool light = false;
+            try
+            {
+                RegistryKey registryKey = Registry.CurrentUser;
+                RegistryKey themeKey = registryKey.OpenSubKey("software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+                int keyValue = 0;
+                if (themeKey != null)
+                {
+                    keyValue = (int)themeKey.GetValue("SystemUsesLightTheme");
+                }
+                if (keyValue == 1) light = true;
+            }
+            catch { }
+            return light;
+        }
         #endregion
 
         #region Other Functions
@@ -1107,5 +1177,7 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
         #endregion
+
+
     }
 }

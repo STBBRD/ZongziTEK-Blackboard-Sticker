@@ -15,7 +15,8 @@
                        x:FieldModifier="public"/>
             </Viewbox>
         </Grid>
-        <Border x:Name="BorderCloseBigClock" Width="200" Height="50" CornerRadius="4" VerticalAlignment="Bottom" Margin="50" MouseDown="BorderCloseBigClock_MouseDown" Visibility="Collapsed">
+        <Border x:Name="BorderCloseBigClock" Width="200" Height="50" CornerRadius="4" VerticalAlignment="Bottom" Margin="100"
+                MouseDown="BorderCloseBigClock_MouseDown" Visibility="Collapsed">
             <Border.Effect>
                 <DropShadowEffect Color="#FF00E7FF" BlurRadius="10" ShadowDepth="4" Opacity="0.5" Direction="270"/>
             </Border.Effect>

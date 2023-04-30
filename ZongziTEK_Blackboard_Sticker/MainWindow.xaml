@@ -181,6 +181,7 @@
                             <GroupBox Header="外观" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
                                     <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Header="存储" Foreground="{DynamicResource ForegroundColor}">

@@ -49,13 +49,13 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 isBorderCloseBigClockShowing = true;
                 BorderCloseBigClock.Opacity = 0;
-                BorderCloseBigClock.Margin = new Thickness(25);
+                BorderCloseBigClock.Margin = new Thickness(150);
                 BorderCloseBigClock.Visibility = Visibility.Visible;
 
                 var BorderCloseBigClockThicknessAnimation = new ThicknessAnimation()
                 {
-                    From = new Thickness(25),
-                    To = new Thickness(50),
+                    From = new Thickness(150),
+                    To = new Thickness(200),
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
@@ -76,8 +76,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 var BorderCloseBigClockExitThicknessAnimation = new ThicknessAnimation()
                 {
-                    From = new Thickness(50),
-                    To = new Thickness(25),
+                    From = new Thickness(200),
+                    To = new Thickness(150),
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
