@@ -31,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +62,7 @@
     <Reference Include="netstandard" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -168,12 +170,6 @@
     <PackageReference Include="PixiEditor.ColorPicker">
       <Version>3.3.1</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\EasiNote5.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\EasiCamera.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ThisPC.ico" />

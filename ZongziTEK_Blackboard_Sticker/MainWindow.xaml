@@ -40,8 +40,7 @@
         </Border>
         <Grid x:Name="MainGrid" Background="{DynamicResource WindowBackgroundColor}" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition x:Name="rowZero" Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Name="RowMain"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -50,7 +49,7 @@
             </Grid.ColumnDefinitions>
 
             <!--小黑板-->
-            <Border x:Name="borderClearConfirm" Visibility="Collapsed" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+            <Border x:Name="borderClearConfirm" Visibility="Collapsed" Grid.Row="0" Grid.Column="0">
                 <ui:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="确定清除吗" FontSize="32"/>
                     <ui:SimpleStackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -59,7 +58,7 @@
                     </ui:SimpleStackPanel>
                 </ui:SimpleStackPanel>
             </Border>
-            <Grid x:Name="touchGrid" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+            <Grid x:Name="touchGrid" Grid.Row="0" Grid.Column="0"
                   ManipulationStarting="touchGrid_ManipulationStarting" ManipulationDelta="touchGrid_ManipulationDelta" Background="#00000000">
                 <InkCanvas x:Name="inkCanvas" Background="{DynamicResource InkCanvasBackgroundColor}" MouseWheel="inkCanvas_MouseWheel" 
                            PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp"
@@ -100,22 +99,10 @@
             </ui:SimpleStackPanel>
 
             <!--启动台-->
-            <ScrollViewer x:Name="scrollViewerLauncher" Grid.Row="1" Grid.Column="1" PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel Spacing="8" Margin="8" VerticalAlignment="Bottom">
-                    <Button x:Name="buttonEasiNote5" HorizontalAlignment="Stretch" Height="48" Click="buttonEasiNote5_Click" HorizontalContentAlignment="Left">
-                        <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
-                            <Image Source="Resources\EasiNote5.ico"/>
-                            <TextBlock Text="希沃白板 5"/>
-                        </ui:SimpleStackPanel>
-                    </Button>
-
-                    <Button x:Name="buttonEasiCamera" HorizontalAlignment="Stretch" Height="48" HorizontalContentAlignment="Left" Click="buttonEasiCamera_Click">
-                        <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
-                            <Image Source="Resources/EasiCamera.ico"/>
-                            <TextBlock Text="希沃视频展台"/>
-                        </ui:SimpleStackPanel>
-                    </Button>
-
+            <ui:ProgressBar Name="ProgressBarLauncher" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" IsIndeterminate="True" Margin="20" Visibility="Collapsed"/>
+            <ScrollViewer Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Grid.Column="1" Margin="8" VerticalAlignment="Bottom"
+                          MaxHeight="216" SizeChanged="ScrollViewerLauncher_SizeChanged">
+                <ui:SimpleStackPanel Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
                     <Button x:Name="buttonExplorer" HorizontalAlignment="Stretch" Height="48" Click="buttonExplorer_Click" HorizontalContentAlignment="Left">
                         <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
                             <Image Source="Resources/ThisPC.ico"/>
@@ -136,11 +123,14 @@
                 <TextBlock x:Name="textBlockTime" TextAlignment="Center" FontSize="40" Foreground="{DynamicResource ForegroundColor}"                           
                            Text="--:--:--"
                            Margin="8" FontFamily="Resources\#Digital-7 Mono"/>
-                <TextBlock x:Name="textBlockCurriculum" Margin="8" TextWrapping="Wrap"
+                <ScrollViewer Name="ScrollViewerShowingCurriculum" PanningMode="VerticalOnly" Margin="8">
+                    <TextBlock x:Name="textBlockCurriculum" TextWrapping="Wrap"
                        Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
-                       FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
+                       FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center" 
+                               SizeChanged="textBlockCurriculum_SizeChanged"/>
+                </ScrollViewer>
             </StackPanel>
-            <ScrollViewer x:Name="scrollViewerCurriculum" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" PanningMode="VerticalOnly">
+            <ScrollViewer x:Name="scrollViewerCurriculum" Grid.Row="0" Grid.Column="1" Visibility="Collapsed" PanningMode="VerticalOnly">
                 <ui:SimpleStackPanel Spacing="16" Margin="24">
                     <TextBlock Text="编辑课程表" FontSize="36" Foreground="{DynamicResource ForegroundColor}"/>
                     <TextBlock Text="在文本框内输入课程，可回车换行，建议一行一节课" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
@@ -167,11 +157,11 @@
                 </ui:SimpleStackPanel>
             </ScrollViewer>
             <!--设置-->
-            <Border x:Name="borderSettingsPanel" Grid.RowSpan="3" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
+            <Border x:Name="borderSettingsPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                 <Grid Margin="48">
-                    <ScrollViewer PanningMode="VerticalOnly">
+                    <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
+                    <ScrollViewer PanningMode="VerticalOnly" Margin="12,100,12,100">
                         <ui:SimpleStackPanel Spacing="16">
-                            <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
                             <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
                                     <Button x:Name="btnRestart" Content="立即重新启动黑板贴" Width="240" Click="btnRestart_Click" Foreground="{DynamicResource ForegroundColor}"/>
@@ -218,7 +208,7 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Border x:Name="borderFirstOpening" Grid.RowSpan="3" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
+            <Border x:Name="borderFirstOpening" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                 <Grid Margin="48">
                     <ScrollViewer PanningMode="VerticalOnly">
                         <ui:SimpleStackPanel Spacing="16">
@@ -231,7 +221,7 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Border Name="BorderDragEnter" Background="{DynamicResource OtherPanelsBackgroundColor}" Grid.RowSpan="3" Grid.ColumnSpan="2" Visibility="Collapsed">
+            <Border Name="BorderDragEnter" Background="{DynamicResource OtherPanelsBackgroundColor}" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Collapsed">
                 <ui:SimpleStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="48">
                     <Viewbox>
                         <TextBlock Name="TextBlockDragHint" Text="松手以将文件添加到桌面" Foreground="{DynamicResource ForegroundColor}"/>

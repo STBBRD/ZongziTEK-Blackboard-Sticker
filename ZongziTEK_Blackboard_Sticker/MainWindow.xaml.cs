@@ -8,6 +8,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using Drawing = System.Drawing;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Data;
@@ -18,6 +19,7 @@ using MessageBox = System.Windows.MessageBox;
 using File = System.IO.File;
 using IWshRuntimeLibrary;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 using ModernWpf;
 using Windows.UI.Input.Inking;
@@ -54,10 +56,15 @@ namespace ZongziTEK_Blackboard_Sticker
             LoadStrokes();
             LoadSettings();
             LoadCurriculum();
-            InitializeLauncher();
+            Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    LoadLauncher();
+                });
+            });
 
             ColumnLauncher.Width = new GridLength(Width * 0.15);
-            rowZero.MaxHeight = Height - 114;
 
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += new EventHandler(Clock);
@@ -170,7 +177,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                path = Settings.Storage.dataPath;                
+                path = Settings.Storage.dataPath;
             }
 
             if (!path.EndsWith("\\") || !path.EndsWith("/"))
@@ -696,6 +703,10 @@ namespace ZongziTEK_Blackboard_Sticker
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
 
+        private void textBlockCurriculum_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetSomeLayout();
+        }
         private void SaveCurriculum()
         {
             Curriculums.Monday.Curriculums = textBoxMonday.Text;
@@ -712,7 +723,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (Settings.Storage.isFilesSavingWithProgram)
             {
-                path = System.AppDomain.CurrentDomain.BaseDirectory;
+                path = AppDomain.CurrentDomain.BaseDirectory;
             }
             else
             {
@@ -797,7 +808,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             stackPanelCurriculum.Visibility = Visibility.Collapsed;
             editCurriculumButton.Visibility = Visibility.Collapsed;
-            scrollViewerLauncher.Visibility = Visibility.Collapsed;
+            StackPanelLauncher.Visibility = Visibility.Collapsed;
 
             saveCurriculumButton.Visibility = Visibility.Visible;
             scrollViewerCurriculum.Visibility = Visibility.Visible;
@@ -809,7 +820,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             stackPanelCurriculum.Visibility = Visibility.Visible;
             editCurriculumButton.Visibility = Visibility.Visible;
-            scrollViewerLauncher.Visibility = Visibility.Visible;
+            StackPanelLauncher.Visibility = Visibility.Visible;
 
             saveCurriculumButton.Visibility = Visibility.Collapsed;
             scrollViewerCurriculum.Visibility = Visibility.Collapsed;
@@ -834,41 +845,125 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Launcher
-        private void InitializeLauncher()
+        private async void LoadLauncher()
         {
-            if (!File.Exists(@"C:\Program Files (x86)\Seewo\EasiNote5\swenlauncher\swenlauncher.exe")) buttonEasiNote5.Visibility = Visibility.Collapsed;
-            if (!File.Exists(@"C:\Program Files (x86)\Seewo\EasiCamera\sweclauncher\sweclauncher.exe")) buttonEasiCamera.Visibility = Visibility.Collapsed;
-        }
-        private void buttonEasiNote5_Click(object sender, RoutedEventArgs e)
-        {
+            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
+            ProgressBarLauncher.Visibility = Visibility.Visible;
+
+            Dictionary<string, Drawing.Bitmap> fileInfo = new();
+            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
+            if (!new DirectoryInfo(LinkPath).Exists)
+            {
+                try { new DirectoryInfo(LinkPath).Create(); }
+                catch { }
+            }
             try
             {
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Seewo\EasiNote5\swenlauncher\swenlauncher.exe");
+                string[] files = Directory.GetFiles(LinkPath);
+                foreach (string filePath in files)
+                {
+                    if (!filePath.EndsWith(".lnk"))
+                    {
+                        continue;
+                    }
+                    IWshRuntimeLibrary.WshShell shell = new();
+                    IWshRuntimeLibrary.IWshShortcut wshShortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(filePath);
+                    if (!File.Exists(wshShortcut.TargetPath))
+                    {
+                        continue;
+                    }
+                    try
+                    {
+#pragma warning disable CS8602 // 解引用可能出现空引用。
+                        Drawing.Bitmap icon = System.Drawing.Icon.ExtractAssociatedIcon(wshShortcut.TargetPath).ToBitmap();
+#pragma warning restore CS8602 // 解引用可能出现空引用。
+                        fileInfo.Add(wshShortcut.TargetPath, icon);
+                    }
+                    catch { }
+
+                    foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
+                    {
+                        //启动台里面的按钮
+                        Button LinkButton = new()
+                        {
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            Height = 48,
+                            HorizontalContentAlignment = HorizontalAlignment.Left
+                        };
+
+                        //按钮里面的布局
+                        ModernWpf.Controls.SimpleStackPanel ContentStackPanel = new()
+                        {
+                            Spacing = 8,
+                            Margin = new(8, 8, 8, 8),
+                            Orientation = Orientation.Horizontal
+                        };
+
+                        //图标
+                        Image image = new()
+                        {
+                            Height = 19
+                        };
+                        BitmapSource bitmapSource = System.Windows.Interop.Imaging.
+                            CreateBitmapSourceFromHBitmap(file.Value.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        image.Source = bitmapSource;
+
+                        //名字
+                        TextBlock textBlockFileName = new()
+                        {
+                            Text = Path.GetFileName(file.Key),
+                        };
+
+                        //开始组装按钮
+                        ContentStackPanel.Children.Add(image);
+                        ContentStackPanel.Children.Add(textBlockFileName);
+                        LinkButton.Content = ContentStackPanel;
+                        LinkButton.Click += LinkButton_Click;
+
+                        //往启动台里面添加按钮
+                        await Task.Run(() =>
+                        {
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                StackPanelLauncher.Children.Add(LinkButton);
+                            }));
+                        });
+                    }
+                }
+
+                ScrollViewerLauncher.Visibility = Visibility.Visible;
+                ProgressBarLauncher.Visibility = Visibility.Collapsed;
             }
-            catch (Exception)
-            { }
-        }
-        private void buttonEasiCamera_Click(object sender, RoutedEventArgs e)
-        {
-            try
+            catch (Exception e)
             {
-                System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Seewo\EasiCamera\sweclauncher\sweclauncher.exe");
+                MessageBox.Show("加载启动台时出现错误：\r\n" + e.Message);
             }
-            catch (Exception)
-            { }
+
+            SetSomeLayout();
+        }
+
+        private void LinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
+            string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Button)sender).Content).Children[1]).Text + ".lnk";
+            WshShell shell = new();
+            IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
+            Process.Start("explorer.exe", wshShortcut.TargetPath);
         }
         private void buttonExplorer_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                System.Diagnostics.Process.Start(@"C:\Windows\System32\explorer.exe");
+                Process.Start(@"C:\Windows\System32\explorer.exe", "/s,");
             }
             catch (Exception)
             { }
         }
 
-
-
+        private void ScrollViewerLauncher_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetSomeLayout();
+        }
 
         #endregion
 
@@ -1145,6 +1240,27 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
             }
         }
+
+        private void SetSomeLayout()
+        {
+            if (!isLoaded) return;
+            double height = RowMain.ActualHeight - ScrollViewerLauncher.ActualHeight - 32;
+            try
+            {
+                if (height > 0)
+                {
+                    stackPanelCurriculum.MaxHeight = height;
+                }
+                else
+                {
+                    stackPanelCurriculum.MaxHeight = 0;
+                }
+                ScrollViewerShowingCurriculum.Height = height - textBlockTime.ActualHeight - 32;
+
+            }
+            catch { }
+
+        }
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
@@ -1176,8 +1292,7 @@ namespace ZongziTEK_Blackboard_Sticker
             catch (Exception) { }
             return false;
         }
+
         #endregion
-
-
     }
 }
