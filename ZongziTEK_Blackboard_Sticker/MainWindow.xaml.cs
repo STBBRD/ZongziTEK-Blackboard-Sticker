@@ -877,67 +877,69 @@ namespace ZongziTEK_Blackboard_Sticker
 #pragma warning disable CS8602 // 解引用可能出现空引用。
                         Drawing.Bitmap icon = Drawing.Icon.ExtractAssociatedIcon(wshShortcut.TargetPath).ToBitmap();
 #pragma warning restore CS8602 // 解引用可能出现空引用。
-                        fileInfo.Add(wshShortcut.TargetPath, icon);
+                        //fileInfo.Add(wshShortcut.TargetPath, icon);
+                        fileInfo.Add(filePath, icon);
                     }
-                    catch { }                    
-
-                    foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
-                    {
-                        //启动台里面的按钮
-                        Button LinkButton = new()
-                        {
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            Height = 48,
-                            HorizontalContentAlignment = HorizontalAlignment.Left
-                        };
-
-                        //按钮里面的布局
-                        ModernWpf.Controls.SimpleStackPanel ContentStackPanel = new()
-                        {
-                            Spacing = 8,
-                            Margin = new(8, 8, 8, 8),
-                            Orientation = Orientation.Horizontal
-                        };
-
-                        //图标
-                        Image image = new()
-                        {
-                            Height = 19
-                        };
-                        BitmapSource bitmapSource = System.Windows.Interop.Imaging.
-                            CreateBitmapSourceFromHBitmap(file.Value.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                        image.Source = bitmapSource;
-
-                        //名字
-                        TextBlock textBlockFileName = new()
-                        {
-                            Text = Path.GetFileName(file.Key),
-                            Visibility = Visibility.Collapsed
-                        };
-
-                        TextBlock textBlockLinkName = new()
-                        {
-                            Text = Path.GetFileName(filePath).Remove(Path.GetFileName(filePath).LastIndexOf("."), 4)
-                        };
-
-                        //开始组装按钮
-                        ContentStackPanel.Children.Add(image);
-                        ContentStackPanel.Children.Add(textBlockFileName);
-                        ContentStackPanel.Children.Add(textBlockLinkName);
-                        LinkButton.Content = ContentStackPanel;
-                        LinkButton.Click += LinkButton_Click;
-
-                        //往启动台里面添加按钮
-                        await Task.Run(() =>
-                        {
-                            Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                StackPanelLauncher.Children.Add(LinkButton);
-                            }));
-                        });
-                    }
+                    catch { }
                 }
-                //for debug
+
+                foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
+                {
+                    //启动台里面的按钮
+                    Button LinkButton = new()
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        Height = 48,
+                        HorizontalContentAlignment = HorizontalAlignment.Left
+                    };
+
+                    //按钮里面的布局
+                    ModernWpf.Controls.SimpleStackPanel ContentStackPanel = new()
+                    {
+                        Spacing = 8,
+                        Margin = new(8, 8, 8, 8),
+                        Orientation = Orientation.Horizontal
+                    };
+
+                    //图标
+                    Image image = new()
+                    {
+                        Height = 19
+                    };
+                    BitmapSource bitmapSource = System.Windows.Interop.Imaging.
+                        CreateBitmapSourceFromHBitmap(file.Value.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    image.Source = bitmapSource;
+
+                    //名字
+                    TextBlock textBlockFileName = new()
+                    {
+                        Text = Path.GetFileName(file.Key),
+                        Visibility = Visibility.Collapsed
+                    };
+
+                    TextBlock textBlockLinkName = new()
+                    {
+                        Text = Path.GetFileName(file.Key).Remove(Path.GetFileName(file.Key).LastIndexOf("."), 4)
+                    };
+
+                    //开始组装按钮
+                    ContentStackPanel.Children.Add(image);
+                    ContentStackPanel.Children.Add(textBlockFileName);
+                    ContentStackPanel.Children.Add(textBlockLinkName);
+                    LinkButton.Content = ContentStackPanel;
+                    LinkButton.Click += LinkButton_Click;
+
+                    //往启动台里面添加按钮
+                    await Task.Run(() =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            StackPanelLauncher.Children.Add(LinkButton);
+                        }));
+                    });
+                }
+
+                /*//for debug
                 string names = "";
 
                 foreach (KeyValuePair<string, Drawing.Bitmap> name in fileInfo)
@@ -946,7 +948,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 MessageBox.Show(names);
-                //for debug end
+                *///for debug end
 
                 ScrollViewerLauncher.Visibility = Visibility.Visible;
                 ProgressBarLauncher.Visibility = Visibility.Collapsed;
@@ -1018,7 +1020,18 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             ScrollViewerLauncher.Visibility = Visibility.Collapsed;
             ProgressBarLauncher.Visibility = Visibility.Visible;
+
+            Button buttonExplorerBackup = buttonExplorer;
+
             StackPanelLauncher.Children.Clear();
+
+            Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    StackPanelLauncher.Children.Add(buttonExplorerBackup);
+                }));
+            });
 
             Task.Run(() =>
             {
