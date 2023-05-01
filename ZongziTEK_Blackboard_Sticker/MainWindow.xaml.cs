@@ -866,8 +866,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     {
                         continue;
                     }
-                    IWshRuntimeLibrary.WshShell shell = new();
-                    IWshRuntimeLibrary.IWshShortcut wshShortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(filePath);
+                    WshShell shell = new();
+                    IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
                     if (!File.Exists(wshShortcut.TargetPath))
                     {
                         continue;
@@ -875,11 +875,11 @@ namespace ZongziTEK_Blackboard_Sticker
                     try
                     {
 #pragma warning disable CS8602 // 解引用可能出现空引用。
-                        Drawing.Bitmap icon = System.Drawing.Icon.ExtractAssociatedIcon(wshShortcut.TargetPath).ToBitmap();
+                        Drawing.Bitmap icon = Drawing.Icon.ExtractAssociatedIcon(wshShortcut.TargetPath).ToBitmap();
 #pragma warning restore CS8602 // 解引用可能出现空引用。
                         fileInfo.Add(wshShortcut.TargetPath, icon);
                     }
-                    catch { }
+                    catch { }                    
 
                     foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
                     {
@@ -912,11 +912,18 @@ namespace ZongziTEK_Blackboard_Sticker
                         TextBlock textBlockFileName = new()
                         {
                             Text = Path.GetFileName(file.Key),
+                            Visibility = Visibility.Collapsed
+                        };
+
+                        TextBlock textBlockLinkName = new()
+                        {
+                            Text = Path.GetFileName(filePath).Remove(Path.GetFileName(filePath).LastIndexOf("."), 4)
                         };
 
                         //开始组装按钮
                         ContentStackPanel.Children.Add(image);
                         ContentStackPanel.Children.Add(textBlockFileName);
+                        ContentStackPanel.Children.Add(textBlockLinkName);
                         LinkButton.Content = ContentStackPanel;
                         LinkButton.Click += LinkButton_Click;
 
@@ -930,6 +937,16 @@ namespace ZongziTEK_Blackboard_Sticker
                         });
                     }
                 }
+                //for debug
+                string names = "";
+
+                foreach (KeyValuePair<string, Drawing.Bitmap> name in fileInfo)
+                {
+                    names += name.Key + "\r\n";
+                }
+
+                MessageBox.Show(names);
+                //for debug end
 
                 ScrollViewerLauncher.Visibility = Visibility.Visible;
                 ProgressBarLauncher.Visibility = Visibility.Collapsed;
@@ -945,7 +962,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void LinkButton_Click(object sender, RoutedEventArgs e)
         {
             string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
-            string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Button)sender).Content).Children[1]).Text + ".lnk";
+            string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Button)sender).Content).Children[2]).Text + ".lnk";
             WshShell shell = new();
             IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
             Process.Start("explorer.exe", wshShortcut.TargetPath);
@@ -997,6 +1014,22 @@ namespace ZongziTEK_Blackboard_Sticker
             CloseIsFromButton = true;
             System.Windows.Application.Current.Shutdown();
         }
+        private void ButtonReloadLauncher_Click(object sender, RoutedEventArgs e)
+        {
+            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
+            ProgressBarLauncher.Visibility = Visibility.Visible;
+            StackPanelLauncher.Children.Clear();
+
+            Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    LoadLauncher();
+                });
+            });
+            btnHideSettingsPanel_Click(null, null);
+        }
+
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
@@ -1294,5 +1327,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         #endregion
+
+
     }
 }

@@ -164,7 +164,10 @@
                         <ui:SimpleStackPanel Spacing="16">
                             <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
-                                    <Button x:Name="btnRestart" Content="立即重新启动黑板贴" Width="240" Click="btnRestart_Click" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Button x:Name="btnRestart" Content="重新启动黑板贴" Width="240" Click="btnRestart_Click" 
+                                            Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Button Name="ButtonReloadLauncher" Content="重新加载启动台" Width="240" Click="ButtonReloadLauncher_Click"
+                                            Foreground="{DynamicResource ForegroundColor}"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
