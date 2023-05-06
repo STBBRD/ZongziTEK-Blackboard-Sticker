@@ -34,7 +34,7 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         DrawingAttributes drawingAttributes;
 
-        bool isLoaded = false;
+        bool isSettingsLoaded = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -53,8 +53,9 @@ namespace ZongziTEK_Blackboard_Sticker
             Left = 0;
 
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
-            LoadStrokes();
             LoadSettings();
+            isSettingsLoaded = true;
+            LoadStrokes();
             LoadCurriculum();
             Task.Run(() =>
             {
@@ -71,9 +72,11 @@ namespace ZongziTEK_Blackboard_Sticker
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
 
-            Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
-            isLoaded = true;
+            Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            SystemEvents_UserPreferenceChanged(null,null);
+
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -868,10 +871,10 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                     WshShell shell = new();
                     IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
-                    if (!File.Exists(wshShortcut.TargetPath))
+                    /*if (!File.Exists(wshShortcut.TargetPath))
                     {
                         continue;
-                    }
+                    }*/
                     try
                     {
 #pragma warning disable CS8602 // 解引用可能出现空引用。
@@ -1045,7 +1048,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
         {
-            if (!isLoaded) return;
+            if (!isSettingsLoaded) return;
             if (ToggleSwitchRunAtStartup.IsOn)
             {
                 StartAutomaticallyCreate("ZongziTEK_Blackboard_Sticker");
@@ -1057,7 +1060,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void ToggleSwitchTheme_Toggled(object sender, RoutedEventArgs e)
         {
-            if (!isLoaded) return;
+            if (!isSettingsLoaded) return;
             if (ToggleSwitchTheme.IsOn)
             {
                 //亮
@@ -1073,14 +1076,14 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void ToggleSwitchThemeAuto_Toggled(object sender, RoutedEventArgs e)
         {
-            if (!isLoaded) return;
+            if (!isSettingsLoaded) return;
             Settings.Look.IsSwitchThemeAuto = ToggleSwitchThemeAuto.IsOn;
             SaveSettings();
         }
 
         private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
         {
-            if (!isLoaded) return;
+            if (!isSettingsLoaded) return;
             if (ToggleSwitchDataLocation.IsOn)
             {
                 Settings.Storage.isFilesSavingWithProgram = true;
@@ -1153,19 +1156,6 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
-
-            if (Settings.Look.IsSwitchThemeAuto)
-            {
-                ToggleSwitchTheme.IsOn = IsSystemThemeLight();
-                if (ToggleSwitchTheme.IsOn == true)
-                {
-                    SetTheme("Light");
-                }
-                else
-                {
-                    SetTheme("Dark");
-                }
-            }
 
             TextBoxDataLocation.Text = Settings.Storage.dataPath;
         }
@@ -1289,7 +1279,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void SetSomeLayout()
         {
-            if (!isLoaded) return;
+            if (!isSettingsLoaded) return;
             double height = RowMain.ActualHeight - ScrollViewerLauncher.ActualHeight - 32;
             try
             {

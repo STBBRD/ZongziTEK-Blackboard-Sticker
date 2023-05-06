@@ -159,8 +159,8 @@
             <!--设置-->
             <Border x:Name="borderSettingsPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                 <Grid Margin="48">
-                    <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
-                    <ScrollViewer PanningMode="VerticalOnly" Margin="12,100,12,100">
+                    <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>                    
+                    <ScrollViewer PanningMode="VerticalOnly" Margin="12,64,12,64">
                         <ui:SimpleStackPanel Spacing="16">
                             <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
