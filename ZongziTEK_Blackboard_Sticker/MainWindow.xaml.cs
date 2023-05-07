@@ -75,8 +75,7 @@ namespace ZongziTEK_Blackboard_Sticker
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-            SystemEvents_UserPreferenceChanged(null,null);
-
+            SystemEvents_UserPreferenceChanged(null, null);
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -854,7 +853,7 @@ namespace ZongziTEK_Blackboard_Sticker
             ProgressBarLauncher.Visibility = Visibility.Visible;
 
             Dictionary<string, Drawing.Bitmap> fileInfo = new();
-            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
+            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"LauncherLinks\";
             if (!new DirectoryInfo(LinkPath).Exists)
             {
                 try { new DirectoryInfo(LinkPath).Create(); }
@@ -942,17 +941,6 @@ namespace ZongziTEK_Blackboard_Sticker
                     });
                 }
 
-                /*//for debug
-                string names = "";
-
-                foreach (KeyValuePair<string, Drawing.Bitmap> name in fileInfo)
-                {
-                    names += name.Key + "\r\n";
-                }
-
-                MessageBox.Show(names);
-                *///for debug end
-
                 ScrollViewerLauncher.Visibility = Visibility.Visible;
                 ProgressBarLauncher.Visibility = Visibility.Collapsed;
             }
@@ -966,7 +954,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void LinkButton_Click(object sender, RoutedEventArgs e)
         {
-            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
+            string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"LauncherLinks\";
             string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Button)sender).Content).Children[2]).Text + ".lnk";
             WshShell shell = new();
             IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
@@ -1044,6 +1032,12 @@ namespace ZongziTEK_Blackboard_Sticker
                 });
             });
             btnHideSettingsPanel_Click(null, null);
+        }
+
+        private void ButtonEditLauncher_Click(object sender, RoutedEventArgs e)
+        {
+            new LauncherEditor().ShowDialog();
+            ButtonReloadLauncher_Click(null, null);
         }
 
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
@@ -1329,8 +1323,7 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
 
+
         #endregion
-
-
     }
 }

@@ -168,6 +168,8 @@
                                             Foreground="{DynamicResource ForegroundColor}"/>
                                     <Button Name="ButtonReloadLauncher" Content="重新加载启动台" Width="240" Click="ButtonReloadLauncher_Click"
                                             Foreground="{DynamicResource ForegroundColor}"/>
+                                    <Button Name="ButtonEditLauncher" Content="编辑启动台" Width="240" Click="ButtonEditLauncher_Click"
+                                            Foreground="{DynamicResource ForegroundColor}"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>

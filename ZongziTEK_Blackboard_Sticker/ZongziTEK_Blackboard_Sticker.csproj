@@ -82,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="LauncherEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style\Dark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +109,9 @@
     <Compile Include="FileUtility.cs" />
     <Compile Include="FullScreenClock.xaml.cs">
       <DependentUpon>FullScreenClock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LauncherEditor.xaml.cs">
+      <DependentUpon>LauncherEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Curriculums.cs" />
