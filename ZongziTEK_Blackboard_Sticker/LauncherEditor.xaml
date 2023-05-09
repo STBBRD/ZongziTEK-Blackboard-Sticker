@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 启动台编辑器" Height="450" Width="800"
         ui:WindowHelper.UseModernWindowStyle="True"
+        ui:ThemeManager.RequestedTheme="Light"
         Background="#fff3f3f3">
     <Grid>
         <TextBlock Text="编辑启动台" Margin="24,12,24,12" FontSize="32"/>
