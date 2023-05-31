@@ -225,51 +225,15 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void SaveStrokes()
         {
-            string path;
-
-            if (Settings.Storage.isFilesSavingWithProgram)
-            {
-                path = System.AppDomain.CurrentDomain.BaseDirectory;
-            }
-            else
-            {
-                path = Settings.Storage.dataPath;
-                if (!path.EndsWith("\\") || !path.EndsWith("/"))
-                {
-                    path += "\\";
-                }
-
-                if (!new DirectoryInfo(path).Exists)
-                {
-                    try { new DirectoryInfo(path).Create(); }
-                    catch { }
-                }
-            }
-
-            FileStream fileStream = new FileStream(path + "sticker.icstk", FileMode.Create);
+            FileStream fileStream = new FileStream(GetDataPath() + "sticker.icstk", FileMode.Create);
             inkCanvas.Strokes.Save(fileStream);
             fileStream.Close();
         }
         private void LoadStrokes()
         {
-            string path;
-
-            if (Settings.Storage.isFilesSavingWithProgram)
+            if (File.Exists(GetDataPath() + "sticker.icstk"))
             {
-                path = System.AppDomain.CurrentDomain.BaseDirectory;
-            }
-            else
-            {
-                path = Settings.Storage.dataPath;
-                if (!path.EndsWith("\\") || !path.EndsWith("/"))
-                {
-                    path += "\\";
-                }
-            }
-
-            if (File.Exists(path + "sticker.icstk"))
-            {
-                FileStream fileStream = new FileStream(path + "sticker.icstk", FileMode.Open);
+                FileStream fileStream = new FileStream(GetDataPath() + "sticker.icstk", FileMode.Open);
                 inkCanvas.Strokes = new StrokeCollection(fileStream);
                 fileStream.Close();
             }
@@ -721,50 +685,20 @@ namespace ZongziTEK_Blackboard_Sticker
 
             string text = JsonConvert.SerializeObject(Curriculums, Formatting.Indented);
 
-            string path;
-
-            if (Settings.Storage.isFilesSavingWithProgram)
-            {
-                path = AppDomain.CurrentDomain.BaseDirectory;
-            }
-            else
-            {
-                path = Settings.Storage.dataPath;
-                if (!path.EndsWith("\\") || !path.EndsWith("/"))
-                {
-                    path += "\\";
-                }
-            }
-
             try
             {
-                File.WriteAllText(path + curriculumsFileName, text);
+                File.WriteAllText(GetDataPath() + curriculumsFileName, text);
             }
             catch { }
         }
 
         private void LoadCurriculum()
         {
-            string path;
-
-            if (Settings.Storage.isFilesSavingWithProgram)
-            {
-                path = System.AppDomain.CurrentDomain.BaseDirectory;
-            }
-            else
-            {
-                path = Settings.Storage.dataPath;
-                if (!path.EndsWith("\\") || !path.EndsWith("/"))
-                {
-                    path += "\\";
-                }
-            }
-
-            if (File.Exists(path + curriculumsFileName))
+            if (File.Exists(GetDataPath() + curriculumsFileName))
             {
                 try
                 {
-                    string text = File.ReadAllText(path + curriculumsFileName);
+                    string text = File.ReadAllText(GetDataPath() + curriculumsFileName);
                     Curriculums = JsonConvert.DeserializeObject<Curriculums>(text);
                 }
                 catch { }
@@ -1234,6 +1168,31 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Other Functions
+
+        private string GetDataPath()
+        {
+            string path;
+
+            if (Settings.Storage.isFilesSavingWithProgram)
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                path = Settings.Storage.dataPath;
+                if (!path.EndsWith("\\") || !path.EndsWith("/"))
+                {
+                    path += "\\";
+                }
+
+                if (!new DirectoryInfo(path).Exists)
+                {
+                    try { new DirectoryInfo(path).Create(); }
+                    catch { }
+                }
+            }
+            return path;
+        }
 
         private void SetTheme(string theme)
         {
