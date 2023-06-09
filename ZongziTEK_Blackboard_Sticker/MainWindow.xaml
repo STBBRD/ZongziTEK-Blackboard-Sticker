@@ -13,7 +13,7 @@
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
         Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True"
-        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop">
+        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop" Activated="window_Activated">
 
     <Grid>
         <Grid.ColumnDefinitions>

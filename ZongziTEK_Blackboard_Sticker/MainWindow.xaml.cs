@@ -24,6 +24,8 @@ using System.Threading.Tasks;
 using ModernWpf;
 using Windows.UI.Input.Inking;
 using System.Windows.Controls.Primitives;
+using ModernWpf.Controls.Primitives;
+using ZongziTEK_Blackboard_Sticker.Helpers;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -80,10 +82,15 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
         {
-            if (WindowState == WindowState.Minimized)
-            {
-                WindowState = WindowState.Normal;
-            }
+            WindowState = WindowState.Normal;
+            //WindowsHelper.SetBottom(window);
+            WindowsHelper.SetOnDesktop(window);
+        }
+
+        private void window_Activated(object sender, EventArgs e)
+        {
+            //WindowsHelper.SetBottom(window);
+            WindowsHelper.SetOnDesktop(window);
         }
 
         public static bool CloseIsFromButton = false;
@@ -1006,6 +1013,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (!isSettingsLoaded) return;
             Settings.Look.IsSwitchThemeAuto = ToggleSwitchThemeAuto.IsOn;
+            SystemEvents_UserPreferenceChanged(null, null);
             SaveSettings();
         }
 
