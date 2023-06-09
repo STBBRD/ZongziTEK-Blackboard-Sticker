@@ -83,14 +83,12 @@ namespace ZongziTEK_Blackboard_Sticker
         private void window_StateChanged(object sender, EventArgs e)
         {
             WindowState = WindowState.Normal;
-            //WindowsHelper.SetBottom(window);
-            WindowsHelper.SetOnDesktop(window);
+            WindowsHelper.SetBottom(window);
         }
 
         private void window_Activated(object sender, EventArgs e)
         {
-            //WindowsHelper.SetBottom(window);
-            WindowsHelper.SetOnDesktop(window);
+            WindowsHelper.SetBottom(window);
         }
 
         public static bool CloseIsFromButton = false;
