@@ -106,6 +106,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Timetable.cs" />
     <Compile Include="Helpers\WindowsHelper.cs" />
     <Compile Include="Helpers\FileUtility.cs" />
     <Compile Include="FullScreenClock.xaml.cs">
@@ -114,8 +115,8 @@
     <Compile Include="LauncherEditor.xaml.cs">
       <DependentUpon>LauncherEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="Curriculums.cs" />
+    <Compile Include="Classes\Settings.cs" />
+    <Compile Include="Classes\Curriculums.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

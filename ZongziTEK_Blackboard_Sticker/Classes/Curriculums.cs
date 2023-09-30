@@ -10,11 +10,11 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public Monday Monday { get; set; } = new Monday();
         public Tuesday Tuesday { get; set; } = new Tuesday();
-        public Wednesday Wednesday { get; set; }=new Wednesday();
-        public Friday Friday { get; set; } =new Friday();
-        public Sunday Sunday { get; set; } =new Sunday();
-        public Thursday Thursday { get; set; } =new Thursday();
-        public Saturday Saturday { get; set; } =new Saturday();
+        public Wednesday Wednesday { get; set; } = new Wednesday();
+        public Friday Friday { get; set; } = new Friday();
+        public Sunday Sunday { get; set; } = new Sunday();
+        public Thursday Thursday { get; set; } = new Thursday();
+        public Saturday Saturday { get; set; } = new Saturday();
     }
 
     public class Monday
