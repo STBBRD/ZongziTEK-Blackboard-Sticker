@@ -26,6 +26,7 @@ using Windows.UI.Input.Inking;
 using System.Windows.Controls.Primitives;
 using ModernWpf.Controls.Primitives;
 using ZongziTEK_Blackboard_Sticker.Helpers;
+using Windows.Media.Core;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -59,6 +60,7 @@ namespace ZongziTEK_Blackboard_Sticker
             isSettingsLoaded = true;
             LoadStrokes();
             LoadCurriculum();
+            LoadTimetable();
             Task.Run(() =>
             {
                 Dispatcher.BeginInvoke(() =>
@@ -74,10 +76,17 @@ namespace ZongziTEK_Blackboard_Sticker
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
 
+            timetableTimer = new DispatcherTimer();
+            timetableTimer.Tick += new EventHandler(CheckTimetable);
+            timetableTimer.Interval = new TimeSpan(0, 0, 1);
+            timetableTimer.Start();
+
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
+
+            new TimetableEditor().Show();
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -776,6 +785,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Timetable
         public static Timetable Timetable = new Timetable();
         public static string timetableFileName = "Timetable.json";
+        private DispatcherTimer timetableTimer;
 
         private void LoadTimetable()
         {
@@ -788,7 +798,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
                 catch { }
             }
-            
+
             string day = DateTime.Today.DayOfWeek.ToString();
 
             switch (day)
@@ -815,6 +825,76 @@ namespace ZongziTEK_Blackboard_Sticker
                     textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Sunday);
                     break;
             }
+        }
+        private int lessonIndex = -1;
+        private void CheckTimetable(object sender, EventArgs e)
+        {
+            List<Lesson> today = Timetable.Monday;
+            string day = DateTime.Today.DayOfWeek.ToString();
+            switch (day)
+            {
+                case "Monday":
+                    today = Timetable.Monday;
+                    break;
+                case "Tuesday":
+                    today = Timetable.Tuesday;
+                    break;
+                case "Wednesday":
+                    today = Timetable.Wednesday;
+                    break;
+                case "Thursday":
+                    today = Timetable.Thursday;
+                    break;
+                case "Friday":
+                    today = Timetable.Friday;
+                    break;
+                case "Saturday":
+                    today = Timetable.Saturday;
+                    break;
+                case "Sunday":
+                    today = Timetable.Sunday;
+                    break;
+            }
+
+            TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
+            if (today != null)
+            {
+                for (int i = 0; i < today.Count; i++)
+                {
+                    Lesson lesson = today[i];
+                    if (currentTime >= lesson.StartTime)
+                    {
+                        lessonIndex = i;
+                        if (currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10))
+                        {
+                            if (lessonIndex + 1 <= today.Count) ShowClassBeginPreNotification(today, lessonIndex);
+                        }
+                        if (currentTime == lesson.EndTime)
+                        {
+                            if (lessonIndex + 1 <= today.Count) ShowClassOverNotification(today, lessonIndex);
+                            break;
+                        }
+                        if (currentTime < lesson.EndTime) break;
+                    }
+                }
+            }
+        }
+
+        private void ShowClassBeginPreNotification(List<Lesson> today, int index)
+        {
+            int nextLessonIndex = index + 1;
+            string title = today[nextLessonIndex].Subject + "课 即将开始";
+
+            ShowNotificationBNS(title, "", 2, false);
+        }
+
+        private void ShowClassOverNotification(List<Lesson> today, int index)
+        {
+            int nextLessonIndex = index + 1;
+            string title = "下一节 " + today[nextLessonIndex].Subject + "课";
+            string subtitle = "课堂结束";
+
+            ShowNotificationBNS(title, subtitle, 2, false);
         }
         #endregion
 
@@ -1307,6 +1387,7 @@ namespace ZongziTEK_Blackboard_Sticker
             catch { }
 
         }
+
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
@@ -1328,6 +1409,7 @@ namespace ZongziTEK_Blackboard_Sticker
             catch (Exception) { }
             return false;
         }
+
         public static bool StartAutomaticallyDel(string exeName)
         {
             try
@@ -1339,7 +1421,19 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
 
+        private void ShowNotificationBNS(string title, string subtitle, int time, bool isBottom)
+        {
+            string bnsPath = "D:\\bns.exe";
 
+            string timeString = time.ToString();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = bnsPath;
+            startInfo.Arguments = title + " " + subtitle + " -t " + timeString;
+            if (isBottom) startInfo.Arguments += " -bottom";
+
+            Process.Start(startInfo);
+        }
         #endregion
     }
 }

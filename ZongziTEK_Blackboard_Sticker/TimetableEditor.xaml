@@ -40,7 +40,7 @@
             </ComboBox>
             <ui:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
                 <Button Content="取消" Width="80"/>
-                <Button Content="保存" Background="#0078D7" Foreground="White" Width="80"/>
+                <Button Content="保存" Background="#0078D7" Foreground="White" Width="80" Click="ButtonSave_Click"/>
             </ui:SimpleStackPanel>
         </Grid>
     </Grid>
