@@ -1169,8 +1169,11 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void window_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            ProgressBarDragEnter.Visibility = Visibility.Visible;
-            TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
+            //ProgressBarDragEnter.Visibility = Visibility.Visible;
+            //TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
+
+            BorderDragEnter.Visibility = Visibility.Collapsed;
+
             string folderFileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             string dest = Path.GetFileName(folderFileName);
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
@@ -1187,8 +1190,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     try { File.Copy(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
                 }
             }
-            BorderDragEnter.Visibility = Visibility.Collapsed;
-            ProgressBarDragEnter.Visibility = Visibility.Collapsed;
+            //BorderDragEnter.Visibility = Visibility.Collapsed;
+            //ProgressBarDragEnter.Visibility = Visibility.Collapsed;
         }
         #endregion
         #endregion
