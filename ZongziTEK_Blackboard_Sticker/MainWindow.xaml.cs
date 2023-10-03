@@ -773,6 +773,51 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         #endregion
 
+        #region Timetable
+        public static Timetable Timetable = new Timetable();
+        public static string timetableFileName = "Timetable.json";
+
+        private void LoadTimetable()
+        {
+            if (File.Exists(GetDataPath() + timetableFileName))
+            {
+                try
+                {
+                    string text = File.ReadAllText(GetDataPath() + timetableFileName);
+                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                }
+                catch { }
+            }
+            
+            string day = DateTime.Today.DayOfWeek.ToString();
+
+            switch (day)
+            {
+                case "Monday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Monday);
+                    break;
+                case "Tuesday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Tuesday);
+                    break;
+                case "Wednesday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Wednesday);
+                    break;
+                case "Thursday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Thursday);
+                    break;
+                case "Friday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Friday);
+                    break;
+                case "Saturday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Saturday);
+                    break;
+                case "Sunday":
+                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Sunday);
+                    break;
+            }
+        }
+        #endregion
+
         #region Clock
 
         private void Clock(object sender, EventArgs e)

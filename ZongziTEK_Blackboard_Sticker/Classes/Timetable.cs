@@ -15,6 +15,18 @@ namespace ZongziTEK_Blackboard_Sticker
         public List<Lesson> Friday { get; set; }
         public List<Lesson> Saturday { get; set; }
         public List<Lesson> Sunday { get; set; }
+        public List<Lesson> Temp { get; set; }
+
+        public string ToCurriculums(List<Lesson> list)
+        {
+            string curriculums = "";
+            foreach (Lesson lesson in list)
+            {
+                curriculums += lesson.Subject + "\n";
+            }
+            curriculums = curriculums.Remove(curriculums.Length - 2);
+            return curriculums;
+        }
     }
 
     public class Lesson
