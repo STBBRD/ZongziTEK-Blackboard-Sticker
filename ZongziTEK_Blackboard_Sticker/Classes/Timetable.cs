@@ -8,14 +8,14 @@ namespace ZongziTEK_Blackboard_Sticker
 {
     public class Timetable
     {
-        public List<Lesson> Monday { get; set; }
-        public List<Lesson> Tuesday { get; set; }
-        public List<Lesson> Wednesday { get; set; }
-        public List<Lesson> Thursday { get; set; }
-        public List<Lesson> Friday { get; set; }
-        public List<Lesson> Saturday { get; set; }
-        public List<Lesson> Sunday { get; set; }
-        public List<Lesson> Temp { get; set; }
+        public List<Lesson> Monday { get; set; } = new List<Lesson>();
+        public List<Lesson> Tuesday { get; set; } = new List<Lesson>();
+        public List<Lesson> Wednesday { get; set; } = new List<Lesson>();
+        public List<Lesson> Thursday { get; set; } = new List<Lesson>();
+        public List<Lesson> Friday { get; set; } = new List<Lesson>();
+        public List<Lesson> Saturday { get; set; } = new List<Lesson>();
+        public List<Lesson> Sunday { get; set; } = new List<Lesson>();
+        public List<Lesson> Temp { get; set; } = new List<Lesson>();
 
         public string ToCurriculums(List<Lesson> list)
         {
@@ -24,7 +24,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 curriculums += lesson.Subject + "\n";
             }
-            curriculums = curriculums.Remove(curriculums.Length - 2);
+            if (curriculums.Length > 0) curriculums = curriculums.Remove(curriculums.Length - 1);
             return curriculums;
         }
     }

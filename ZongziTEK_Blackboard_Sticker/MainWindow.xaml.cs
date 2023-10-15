@@ -27,6 +27,7 @@ using System.Windows.Controls.Primitives;
 using ModernWpf.Controls.Primitives;
 using ZongziTEK_Blackboard_Sticker.Helpers;
 using Windows.Media.Core;
+using System.ComponentModel;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -85,8 +86,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
-
-            new TimetableEditor().Show();
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -857,6 +856,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
+
             if (today != null)
             {
                 for (int i = 0; i < today.Count; i++)
@@ -865,17 +865,21 @@ namespace ZongziTEK_Blackboard_Sticker
                     if (currentTime >= lesson.StartTime)
                     {
                         lessonIndex = i;
-                        if (currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10))
-                        {
-                            if (lessonIndex + 1 <= today.Count) ShowClassBeginPreNotification(today, lessonIndex);
-                        }
                         if (currentTime == lesson.EndTime)
                         {
-                            if (lessonIndex + 1 <= today.Count) ShowClassOverNotification(today, lessonIndex);
+                            if (lessonIndex + 1 < today.Count) ShowClassOverNotification(today, lessonIndex);
+                            else ShowLastClassOverNotification();
                             break;
                         }
-                        if (currentTime < lesson.EndTime) break;
                     }
+                    if (lessonIndex + 1 < today.Count)
+                    {
+                        if (currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10))
+                        {
+                            if (lessonIndex + 1 < today.Count) ShowClassBeginPreNotification(today, lessonIndex);
+                        }
+                    }
+                    if (currentTime < lesson.EndTime) break;
                 }
             }
         }
@@ -895,6 +899,11 @@ namespace ZongziTEK_Blackboard_Sticker
             string subtitle = "课堂结束";
 
             ShowNotificationBNS(title, subtitle, 2, false);
+        }
+
+        private void ShowLastClassOverNotification()
+        {
+            ShowNotificationBNS("课堂结束", "这是最后一节课", 2, false);
         }
         #endregion
 
@@ -1429,7 +1438,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = bnsPath;
-            startInfo.Arguments = title + " " + subtitle + " -t " + timeString;
+            startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
             if (isBottom) startInfo.Arguments += " -bottom";
 
             Process.Start(startInfo);
