@@ -887,16 +887,24 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ShowClassBeginPreNotification(List<Lesson> today, int index)
         {
             int nextLessonIndex = index + 1;
-            string title = today[nextLessonIndex].Subject + "课 即将开始";
 
-            ShowNotificationBNS(title, "", 2, false);
+            string startTimeString = today[nextLessonIndex].StartTime.ToString(@"hh\:mm");
+            string endTimeString = today[nextLessonIndex].EndTime.ToString(@"hh\:mm");
+
+            string title = today[nextLessonIndex].Subject + "课 即将开始";
+            string subtitle = "此课程将从 " + startTimeString + " 开始，到 " + endTimeString + " 结束";
+
+            ShowNotificationBNS(title, subtitle, 2, false);
         }
 
         private void ShowClassOverNotification(List<Lesson> today, int index)
         {
             int nextLessonIndex = index + 1;
+
+            string startTimeString = today[nextLessonIndex].StartTime.ToString(@"hh\:mm");
+
             string title = "下一节 " + today[nextLessonIndex].Subject + "课";
-            string subtitle = "课堂结束";
+            string subtitle = "课堂结束，下一节课将于 " + startTimeString + " 开始";
 
             ShowNotificationBNS(title, subtitle, 2, false);
         }
