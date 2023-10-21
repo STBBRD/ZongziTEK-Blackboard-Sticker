@@ -13,6 +13,7 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public Storage Storage { get; set; } = new Storage();
         public Look Look { get; set; } = new Look();
+        public TimetableSettings TimetableSettings { get; set; } = new TimetableSettings();
     }
 
     public class Storage
@@ -25,5 +26,10 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
+    }
+
+    public class TimetableSettings
+    {
+        public bool useTimetable { get; set; } = true;
     }
 }
