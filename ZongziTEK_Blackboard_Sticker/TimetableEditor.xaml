@@ -14,7 +14,7 @@
     <Grid>
         <Grid VerticalAlignment="Top" Margin="24,12,24,12">
             <TextBlock Text="编辑课程表" FontSize="32"/>
-            <Button Content="切换为简单课程表 ( 无时间 )" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Button Name="ButtonUseCurriculum" Content="切换为旧版课程表 ( 无时间 )" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ButtonUseCurriculum_Click"/>
         </Grid>
         <ui:SimpleStackPanel Spacing="8" Margin="24,64,24,64">
             <StackPanel Orientation="Horizontal">

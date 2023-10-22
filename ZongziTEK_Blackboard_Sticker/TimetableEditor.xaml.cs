@@ -25,6 +25,22 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             InitializeComponent();
         }
+        
+        public static event Action EditorButtonUseCurriculum_Click;
+
+        private bool isCloseWithButtonUseCurriculum = false;
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!isCloseWithButtonUseCurriculum)
+            {
+                e.Cancel = true;
+                if (MessageBox.Show("确定直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    e.Cancel = false;
+                }
+            }
+        }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
@@ -36,13 +52,15 @@ namespace ZongziTEK_Blackboard_Sticker
             Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ButtonUseCurriculum_Click(object sender, RoutedEventArgs e)
         {
-            e.Cancel = true;
-            if (MessageBox.Show("确定直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if(MessageBox.Show("是否保存当前含时间信息的课程表内容","ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
-                e.Cancel = false;
+                ButtonSave_Click(null, null);
             }
+            EditorButtonUseCurriculum_Click?.Invoke();
+            isCloseWithButtonUseCurriculum = true;
+            Close();
         }
     }
 }

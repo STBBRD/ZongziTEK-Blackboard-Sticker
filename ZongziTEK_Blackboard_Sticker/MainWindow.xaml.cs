@@ -81,6 +81,8 @@ namespace ZongziTEK_Blackboard_Sticker
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
             timetableTimer.Start();
 
+            TimetableEditor.EditorButtonUseCurriculum_Click += EditorButtonSettingUseCurriculum;
+
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
@@ -690,6 +692,11 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private void EditorButtonSettingUseCurriculum()
+        {
+            ToggleSwitchUseTimetable.IsOn = false;
+        }
+
         #region Curriculum
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
@@ -770,7 +777,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.TimetableSettings.useTimetable)
             {
                 new TimetableEditor().ShowDialog();
-                LoadTimetable();
+                LoadTimetableorCurriculum();
             }
             else
             {
