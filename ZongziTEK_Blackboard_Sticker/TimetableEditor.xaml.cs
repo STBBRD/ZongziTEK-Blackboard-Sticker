@@ -58,6 +58,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 ButtonSave_Click(null, null);
             }
+            MessageBox.Show("若后续需要使用含时间信息的课程表，请在设置中启用","ZongziTEK 黑板贴");
             EditorButtonUseCurriculum_Click?.Invoke();
             isCloseWithButtonUseCurriculum = true;
             Close();

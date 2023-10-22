@@ -801,7 +801,7 @@ namespace ZongziTEK_Blackboard_Sticker
             saveCurriculumButton.Visibility = Visibility.Collapsed;
             scrollViewerCurriculum.Visibility = Visibility.Collapsed;
 
-            LoadCurriculum();
+            LoadTimetableorCurriculum();
         }
         #endregion
 
