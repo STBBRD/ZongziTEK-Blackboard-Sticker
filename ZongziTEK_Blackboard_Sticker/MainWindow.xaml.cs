@@ -60,8 +60,7 @@ namespace ZongziTEK_Blackboard_Sticker
             LoadSettings();
             isSettingsLoaded = true;
             LoadStrokes();
-            LoadCurriculum();
-            LoadTimetable();
+            LoadTimetableorCurriculum();
             Task.Run(() =>
             {
                 Dispatcher.BeginInvoke(() =>
@@ -116,9 +115,6 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                 }
             }
-
-            SaveCurriculum();
-
         }
 
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
@@ -681,6 +677,19 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #endregion
 
+        #region Timetable & Curriculum
+        private void LoadTimetableorCurriculum()
+        {
+            if (Settings.TimetableSettings.useTimetable)
+            {
+                LoadTimetable();
+            }
+            else
+            {
+                LoadCurriculum();
+            }
+        }
+
         #region Curriculum
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
@@ -758,12 +767,20 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void editCurriculumButton_Click(object sender, RoutedEventArgs e)
         {
-            stackPanelCurriculum.Visibility = Visibility.Collapsed;
-            editCurriculumButton.Visibility = Visibility.Collapsed;
-            StackPanelLauncher.Visibility = Visibility.Collapsed;
+            if (Settings.TimetableSettings.useTimetable)
+            {
+                new TimetableEditor().ShowDialog();
+                LoadTimetable();
+            }
+            else
+            {
+                stackPanelCurriculum.Visibility = Visibility.Collapsed;
+                editCurriculumButton.Visibility = Visibility.Collapsed;
+                StackPanelLauncher.Visibility = Visibility.Collapsed;
 
-            saveCurriculumButton.Visibility = Visibility.Visible;
-            scrollViewerCurriculum.Visibility = Visibility.Visible;
+                saveCurriculumButton.Visibility = Visibility.Visible;
+                scrollViewerCurriculum.Visibility = Visibility.Visible;
+            }
         }
 
         private void saveCurriculumButton_Click(object sender, RoutedEventArgs e)
@@ -913,6 +930,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             ShowNotificationBNS("课堂结束", "这是最后一节课", 2, false);
         }
+        #endregion
         #endregion
 
         #region Clock
@@ -1178,7 +1196,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void TextBoxDataLocation_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!IsLoaded) return;
+            if (!isSettingsLoaded) return;
             Settings.Storage.dataPath = TextBoxDataLocation.Text;
             SaveSettings();
         }
@@ -1187,6 +1205,13 @@ namespace ZongziTEK_Blackboard_Sticker
             System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             folderBrowser.ShowDialog();
             TextBoxDataLocation.Text = folderBrowser.SelectedPath;
+        }
+        private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            Settings.TimetableSettings.useTimetable = ToggleSwitchUseTimetable.IsOn;
+            LoadTimetableorCurriculum();
+            SaveSettings();
         }
 
         #endregion
@@ -1237,6 +1262,8 @@ namespace ZongziTEK_Blackboard_Sticker
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
 
             TextBoxDataLocation.Text = Settings.Storage.dataPath;
+
+            ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.useTimetable;
         }
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";

@@ -9,7 +9,8 @@
         Title="ZongziTEK 黑板贴 - 课程表编辑器" Height="450" Width="800" MinHeight="450" MinWidth="800"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.RequestedTheme="Light"
-        Background="#fff3f3f3">
+        Background="#fff3f3f3"
+        Closing="Window_Closing">
     <Grid>
         <Grid VerticalAlignment="Top" Margin="24,12,24,12">
             <TextBlock Text="编辑课程表" FontSize="32"/>
@@ -39,7 +40,7 @@
                 <ComboBoxItem Content="临时"/>
             </ComboBox>
             <ui:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
-                <Button Content="取消" Width="80"/>
+                <Button Content="取消" Width="80" Click="ButtonClose_Click"/>
                 <Button Content="保存" Background="#0078D7" Foreground="White" Width="80" Click="ButtonSave_Click"/>
             </ui:SimpleStackPanel>
         </Grid>

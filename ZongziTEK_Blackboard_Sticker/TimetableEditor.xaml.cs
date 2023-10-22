@@ -28,16 +28,21 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            //Timetable timetable = new Timetable();
-            //timetable.Tuesday = new List<Lesson>();
-            //timetable.Tuesday.Add(new Lesson("数学", new TimeSpan(14, 1, 0), new TimeSpan(14, 2, 0)));
 
-            //string text = JsonConvert.SerializeObject(timetable, Formatting.Indented);
-            //try
-            //{
-            //    File.WriteAllText("D:\\Repos\\ZongziTEK_Blackboard_Sticker\\ZongziTEK_Blackboard_Sticker\\bin\\Release\\Timetable.json", text);
-            //}
-            //catch { }
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            if (MessageBox.Show("确定直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                e.Cancel = false;
+            }
         }
     }
 }
