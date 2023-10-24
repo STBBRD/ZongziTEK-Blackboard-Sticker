@@ -198,6 +198,10 @@
                                     <ui:ToggleSwitch Name="ToggleSwitchUseTimetable" Header="使用带时间信息的课程表" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                     <TextBlock Text="开启上面的开关后，将使用带时间信息的课程表，并且出现上下课提醒功能。关闭上面的开关后，课程表就是文本信息，方便编辑，但没有上下课提醒。"
                                                TextWrapping="Wrap" Opacity="0.75"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchTimetableNotification" Header="启用上下课提醒" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchTimetableNotification_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <TextBlock Text="黑板通知服务路径" FontSize="14"/>
+                                    <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">

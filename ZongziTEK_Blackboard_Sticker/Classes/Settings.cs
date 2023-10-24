@@ -31,5 +31,8 @@ namespace ZongziTEK_Blackboard_Sticker
     public class TimetableSettings
     {
         public bool useTimetable { get; set; } = true;
+        public bool enableTimetableNotification { get; set; } = true;
+        public bool useDefaultBNSPath = true;
+        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
     }
 }

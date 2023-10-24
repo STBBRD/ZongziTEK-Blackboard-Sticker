@@ -1221,6 +1221,26 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveSettings();
         }
 
+        private void ToggleSwitchTimetableNotification_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            Settings.TimetableSettings.enableTimetableNotification = ToggleSwitchTimetableNotification.IsOn;
+            SaveSettings();
+        }
+
+        private void ToggleSwitchUseDefaultBNSPath_Toggled(object sender, RoutedEventArgs e)
+        {
+            TextBoxBNSPath.IsEnabled = !ToggleSwitchUseDefaultBNSPath.IsOn;
+            if (!isSettingsLoaded) return;
+            Settings.TimetableSettings.useDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
+            SaveSettings();
+        }
+
+        private void TextBoxBNSPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
         #endregion
 
         private void LoadSettings()
