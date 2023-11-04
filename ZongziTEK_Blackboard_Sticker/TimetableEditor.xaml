@@ -1,4 +1,4 @@
-﻿<Window x:Class="ZongziTEK_Blackboard_Sticker.TimetableEditor"
+﻿<Window xmlns:Resources="clr-namespace:ZongziTEK_Blackboard_Sticker.Resources"  x:Class="ZongziTEK_Blackboard_Sticker.TimetableEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,8 +23,10 @@
                 <TextBlock Text="课表" FontSize="16"/>
             </StackPanel>
             <ScrollViewer PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel Name="ListStackPanel" Spacing="8">
-                    
+                <ui:SimpleStackPanel Name="ListStackPanel" Spacing="4">
+                    <Resources:TimetableEditorItem />
+                    <Resources:TimetableEditorItem />
+                    <Resources:TimetableEditorItem />
                 </ui:SimpleStackPanel>
             </ScrollViewer>
         </ui:SimpleStackPanel>

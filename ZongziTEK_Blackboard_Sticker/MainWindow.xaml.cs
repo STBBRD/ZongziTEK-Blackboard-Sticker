@@ -1357,7 +1357,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #region Other Functions
 
-        private string GetDataPath()
+        public static string GetDataPath()
         {
             string path;
 

@@ -82,10 +82,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resources\TimetableEditorItem.xaml.cs">
+      <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
     <Page Include="LauncherEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\TimetableEditorItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,7 +160,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Resource Include="Resources\digital-7-mono-italic-2.ttf" />
-    <Resource Include="Resources\Segoe Fluent Icons.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -63,5 +63,20 @@ namespace ZongziTEK_Blackboard_Sticker
             isCloseWithButtonUseCurriculum = true;
             Close();
         }
+
+        public static Timetable Timetable = new Timetable();
+        public static string timetableFileName = "Timetable.json";
+        private void LoadTimetable()
+        {
+            if (File.Exists(MainWindow.GetDataPath() + timetableFileName))
+            {
+                try
+                {
+                    string text = File.ReadAllText(MainWindow.GetDataPath() + timetableFileName);
+                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                }
+                catch { }
+            }
+        }
     }
 }
