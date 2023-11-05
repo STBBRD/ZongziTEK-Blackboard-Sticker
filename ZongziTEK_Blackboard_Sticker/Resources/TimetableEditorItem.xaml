@@ -7,6 +7,11 @@
              xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="local:TimeTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="ui:TextBoxHelper.IsDeleteButtonVisible" Value="False" />
+        </Style>
+    </UserControl.Resources>
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="48"
             Background="#FFFBFBFB" 
             CornerRadius="2" BorderBrush="#FFE1E6EA" BorderThickness="1">
@@ -17,9 +22,9 @@
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Margin="8,6" Text="语文" VerticalContentAlignment="Center"/>
-            <TextBox Grid.Column="1" Margin="8,6" Text="07:25" VerticalContentAlignment="Center"/>
-            <TextBox Grid.Column="2" Margin="8,6" Text="08:55" VerticalContentAlignment="Center"/>
+            <TextBox BorderThickness="0" Grid.Column="0" Margin="8,6" Text="语文" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"/>
+            <local:TimeTextBox BorderThickness="0" Grid.Column="1" Margin="8,6" Text="07:25" VerticalContentAlignment="Center" Background="{x:Null}"/>
+            <local:TimeTextBox BorderThickness="0" Grid.Column="2" Margin="8,6" Text="08:55" VerticalContentAlignment="Center" Background="{x:Null}"/>
         </Grid>
     </Border>
 </UserControl>

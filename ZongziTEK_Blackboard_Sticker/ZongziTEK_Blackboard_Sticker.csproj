@@ -85,6 +85,7 @@
     <Compile Include="Resources\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\TimeTextBox.cs" />
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
