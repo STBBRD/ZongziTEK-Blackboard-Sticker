@@ -13,7 +13,8 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
         {
             PreviewTextInput += TimeTextBox_PreviewTextInput;
             TextChanged += TimeTextBox_TextChanged;
-            TextAlignment = System.Windows.TextAlignment.Center;            
+            PreviewMouseUp += TimeTextBox_PreviewMouseUp;
+            TextAlignment = System.Windows.TextAlignment.Center;
         }
 
         private void TimeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -110,6 +111,11 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             }
 
             return true;
+        }
+
+        private void TimeTextBox_PreviewMouseUp(object sender, MouseEventArgs e)
+        {
+            SelectionLength = 0;    //防止文本被选中
         }
     }
 }
