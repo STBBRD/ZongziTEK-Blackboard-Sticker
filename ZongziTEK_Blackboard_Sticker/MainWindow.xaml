@@ -201,7 +201,7 @@
                                     <ui:ToggleSwitch Name="ToggleSwitchTimetableNotification" Header="启用上下课提醒" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchTimetableNotification_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                     <TextBlock Text="黑板通知服务路径" FontSize="14"/>
-                                    <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">

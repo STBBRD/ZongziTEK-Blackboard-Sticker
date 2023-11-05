@@ -16,24 +16,10 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            
-            <Border Grid.Column="0" HorizontalAlignment="Right" BorderBrush="#CCCCCC" BorderThickness="1" Margin="0,4"/>
-            <Border Grid.Column="1" HorizontalAlignment="Right" BorderBrush="#CCCCCC" BorderThickness="1" Margin="0,4"/>
 
-            <ui:SimpleStackPanel Grid.Column="0" Margin="16,6" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                <TextBlock Text="课程名称" FontSize="14" VerticalAlignment="Center"/>
-                <TextBox Text="语文" Width="240"/>
-            </ui:SimpleStackPanel>
-
-            <ui:SimpleStackPanel Grid.Column="1" Margin="16,6" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                <TextBlock Text="开始时间" FontSize="14" VerticalAlignment="Center"/>
-                <TextBox Text="07:25" Width="100"/>
-            </ui:SimpleStackPanel>
-            
-            <ui:SimpleStackPanel Grid.Column="2" Margin="16,6" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                <TextBlock Text="结束时间" FontSize="14" VerticalAlignment="Center"/>
-                <TextBox Text="08:55" Width="100"/>
-            </ui:SimpleStackPanel>
+            <TextBox Grid.Column="0" Margin="8,6" Text="语文" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Margin="8,6" Text="07:25" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="2" Margin="8,6" Text="08:55" VerticalContentAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

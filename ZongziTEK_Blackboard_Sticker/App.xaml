@@ -12,6 +12,7 @@
                 <ui:XamlControlsResources />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>

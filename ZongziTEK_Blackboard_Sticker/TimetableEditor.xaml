@@ -22,8 +22,22 @@
                 <TextBlock FontSize="16" Text="{Binding SelectedItem.Content, ElementName=comboBox}"/>
                 <TextBlock Text="课表" FontSize="16"/>
             </StackPanel>
+            <Border Height="48"
+            Background="#FFFBFBFB" 
+            CornerRadius="2" BorderBrush="#FFE1E6EA" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="200"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="课程名称" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="开始时间" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="结束时间" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
             <ScrollViewer PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel Name="ListStackPanel" Spacing="4">
+                <ui:SimpleStackPanel Name="ListStackPanel" Spacing="4">                    
                     <Resources:TimetableEditorItem />
                     <Resources:TimetableEditorItem />
                     <Resources:TimetableEditorItem />
