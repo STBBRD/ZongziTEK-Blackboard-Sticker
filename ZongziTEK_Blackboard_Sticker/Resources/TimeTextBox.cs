@@ -13,7 +13,7 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
         {
             PreviewTextInput += TimeTextBox_PreviewTextInput;
             TextChanged += TimeTextBox_TextChanged;
-            PreviewMouseUp += TimeTextBox_PreviewMouseUp;
+            SelectionChanged += TimeTextBox_SelectionChanged;
             TextAlignment = System.Windows.TextAlignment.Center;
         }
 
@@ -113,9 +113,9 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             return true;
         }
 
-        private void TimeTextBox_PreviewMouseUp(object sender, MouseEventArgs e)
+        private void TimeTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            SelectionLength = 0;    //防止文本被选中
+            if (SelectionLength != 0) SelectionLength = 0;    //防止文本被选中
         }
     }
 }
