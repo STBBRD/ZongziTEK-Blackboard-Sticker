@@ -14,6 +14,10 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             PreviewTextInput += TimeTextBox_PreviewTextInput;
             TextChanged += TimeTextBox_TextChanged;
             SelectionChanged += TimeTextBox_SelectionChanged;
+            GotFocus += TimeTextBox_GotFocus;
+            PreviewMouseDown += TimeTextBox_PreviewMouseDown;
+
+            Text = "00:00";
             TextAlignment = System.Windows.TextAlignment.Center;
         }
 
@@ -84,7 +88,7 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             int textLength = Text.Length;
 
             // 当光标在最后一个数字的后面时，将光标移到第一个数字前面
-            if (caretIndex > textLength)
+            if (caretIndex >= textLength)
             {
                 CaretIndex = 0;
             }
@@ -116,6 +120,22 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
         private void TimeTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (SelectionLength != 0) SelectionLength = 0;    //防止文本被选中
+        }
+
+        private void TimeTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CaretIndex = 0;
+            CaretIndex = 0;
+            CaretIndex = 0;
+        }
+
+        private void TimeTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsKeyboardFocusWithin)
+            {
+                e.Handled = true;
+                Focus();
+            }
         }
     }
 }

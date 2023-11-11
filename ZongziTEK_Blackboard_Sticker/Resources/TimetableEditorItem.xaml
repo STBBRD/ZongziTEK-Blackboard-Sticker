@@ -21,10 +21,18 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-
-            <TextBox BorderThickness="0" Grid.Column="0" Margin="8,6" Text="语文" TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"/>
-            <local:TimeTextBox BorderThickness="0" Grid.Column="1" Margin="8,6" Text="07:25" VerticalContentAlignment="Center" Background="{x:Null}"/>
-            <local:TimeTextBox BorderThickness="0" Grid.Column="2" Margin="8,6" Text="08:55" VerticalContentAlignment="Center" Background="{x:Null}"/>
+            <Grid Grid.Column="0" Margin="8,6">
+                <TextBlock x:Name="TextBlockHintSubject" Text="在此输入课程名称" Foreground="#CC000000" FontSize="14" 
+                           TextAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="TextBoxSubject" BorderThickness="0" 
+                         Text="{Binding Subject, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
+                         GotFocus="TextBoxSubject_GotFocus" LostFocus="TextBoxSubject_LostFocus"/>
+            </Grid>
+            <local:TimeTextBox BorderThickness="0" Grid.Column="1" Margin="8,6" 
+                               Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center" Background="{x:Null}"/>
+            <local:TimeTextBox BorderThickness="0" Grid.Column="2" Margin="8,6" 
+                               Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center" Background="{x:Null}"/>
         </Grid>
     </Border>
 </UserControl>
