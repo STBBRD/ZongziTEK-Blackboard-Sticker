@@ -1241,13 +1241,13 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (!isSettingsLoaded) return;
             Settings.TimetableSettings.useDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
-            TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
             SaveSettings();
         }
 
         private void TextBoxBNSPath_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!isSettingsLoaded) return;
+            if (!isSettingsLoaded) return;
             Settings.TimetableSettings.BNSPath = TextBoxBNSPath.Text;
             SaveSettings();
         }

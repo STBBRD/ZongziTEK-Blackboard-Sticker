@@ -33,6 +33,6 @@ namespace ZongziTEK_Blackboard_Sticker
         public bool isTimetableEnabled { get; set; } = true;
         public bool isTimetableNotificationEnabled { get; set; } = true;
         public bool useDefaultBNSPath = true;
-        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
     }
 }
