@@ -33,10 +33,11 @@
                                Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="StartTimeTextBox_TextChanged"/>
-            <local:TimeTextBox x:Name="EndTimeTextBox" BorderThickness="0" Grid.Column="2" Margin="8,6" 
+            <local:TimeTextBox x:Name="EndTimeTextBox" BorderThickness="0" Grid.Column="2" Margin="48,6" 
                                Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="EndTimeTextBox_TextChanged"/>
+            <ui:SymbolIcon Grid.Column="2" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" Symbol="Delete" MouseUp="SymbolIconDelete_MouseUp"/>
         </Grid>
     </Border>
 </UserControl>

@@ -52,7 +52,6 @@ namespace ZongziTEK_Blackboard_Sticker
             string text = JsonConvert.SerializeObject(Timetable, Formatting.Indented);
             try
             {
-                MessageBox.Show(text);
                 File.WriteAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName, text);
             }
             catch { }
@@ -106,10 +105,23 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private void Item_LessonDeleting(object sender, EventArgs e)
+        {
+            if(sender is TimetableEditorItem)
+            {
+                TimetableEditorItem itemToDelete = sender as TimetableEditorItem;
+                int index = ListStackPanel.Children.IndexOf(itemToDelete);
+
+                ListStackPanel.Children.RemoveAt(index);
+                GetSelectedDay().RemoveAt(index);
+            }
+        }
+
         private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
         {
             TimetableEditorItem item = new TimetableEditorItem();
             item.LessonInfoChanged += Item_LessonInfoChanged;
+            item.LessonDeleting += Item_LessonDeleting;
             ListStackPanel.Children.Add(item);
         }
         #endregion
@@ -129,6 +141,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     EndTime = lesson.EndTime.ToString(@"hh\:mm")
                 };
                 item.LessonInfoChanged += Item_LessonInfoChanged;
+                item.LessonDeleting += Item_LessonDeleting;
                 ListStackPanel.Children.Add(item);
             }
         }
