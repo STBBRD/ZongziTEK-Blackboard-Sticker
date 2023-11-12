@@ -33,11 +33,11 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Window & Controls
         public static event Action EditorButtonUseCurriculum_Click;
 
-        private bool isCloseWithButtonUseCurriculum = false;
+        private bool isCloseWithoutWarning = false;
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!isCloseWithButtonUseCurriculum)
+            if (!isCloseWithoutWarning)
             {
                 e.Cancel = true;
                 if (MessageBox.Show("确定直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
@@ -49,7 +49,16 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            string text = JsonConvert.SerializeObject(Timetable, Formatting.Indented);
+            try
+            {
+                MessageBox.Show(text);
+                File.WriteAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName, text);
+            }
+            catch { }
 
+            isCloseWithoutWarning = true;
+            Close();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -65,7 +74,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             MessageBox.Show("若后续需要使用含时间信息的课程表，请在设置中启用", "ZongziTEK 黑板贴");
             EditorButtonUseCurriculum_Click?.Invoke();
-            isCloseWithButtonUseCurriculum = true;
+            isCloseWithoutWarning = true;
             Close();
         }
 
@@ -73,10 +82,61 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             LoadTimetable();
         }
+
+        private void Item_LessonInfoChanged(object sender, EventArgs e)
+        {
+            if (sender is TimetableEditorItem)
+            {
+                TimetableEditorItem changedItem = sender as TimetableEditorItem;
+                int index = ListStackPanel.Children.IndexOf(changedItem);
+
+                try
+                {
+                    Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime));
+                    //GetSelectedDay()[index] = lesson;
+
+                    switch (ComboBoxDay.SelectedIndex)
+                    {
+                        case 0:
+                            Timetable.Monday[index] = lesson;
+                            break;
+                        case 1:
+                            Timetable.Tuesday[index] = lesson;
+                            break;
+                        case 2:
+                            Timetable.Wednesday[index] = lesson;
+                            break;
+                        case 3:
+                            Timetable.Thursday[index] = lesson;
+                            break;
+                        case 4:
+                            Timetable.Friday[index] = lesson;
+                            break;
+                        case 5:
+                            Timetable.Saturday[index] = lesson;
+                            break;
+                        case 6:
+                            Timetable.Sunday[index] = lesson;
+                            break;
+                        case 7:
+                            Timetable.Temp[index] = lesson;
+                            break;
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
+        {
+            TimetableEditorItem item = new TimetableEditorItem();
+            item.LessonInfoChanged += Item_LessonInfoChanged;
+            ListStackPanel.Children.Add(item);
+        }
         #endregion
 
         #region Load & Save
-        private Timetable Timetable = MainWindow.Timetable;
+        Timetable Timetable = MainWindow.Timetable;
 
         private void LoadTimetable()
         {
@@ -89,6 +149,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     StartTime = lesson.StartTime.ToString(@"hh\:mm"),
                     EndTime = lesson.EndTime.ToString(@"hh\:mm")
                 };
+                item.LessonInfoChanged += Item_LessonInfoChanged;
                 ListStackPanel.Children.Add(item);
             }
         }

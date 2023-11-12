@@ -29,10 +29,14 @@
                          TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
                          GotFocus="TextBoxSubject_GotFocus" LostFocus="TextBoxSubject_LostFocus" TextChanged="TextBoxSubject_TextChanged"/>
             </Grid>
-            <local:TimeTextBox BorderThickness="0" Grid.Column="1" Margin="8,6" 
-                               Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center" Background="{x:Null}"/>
-            <local:TimeTextBox BorderThickness="0" Grid.Column="2" Margin="8,6" 
-                               Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalContentAlignment="Center" Background="{x:Null}"/>
+            <local:TimeTextBox x:Name="StartTimeTextBox" BorderThickness="0" Grid.Column="1" Margin="8,6" 
+                               Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalContentAlignment="Center" Background="{x:Null}"
+                               TextChanged="StartTimeTextBox_TextChanged"/>
+            <local:TimeTextBox x:Name="EndTimeTextBox" BorderThickness="0" Grid.Column="2" Margin="8,6" 
+                               Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               VerticalContentAlignment="Center" Background="{x:Null}"
+                               TextChanged="EndTimeTextBox_TextChanged"/>
         </Grid>
     </Border>
 </UserControl>

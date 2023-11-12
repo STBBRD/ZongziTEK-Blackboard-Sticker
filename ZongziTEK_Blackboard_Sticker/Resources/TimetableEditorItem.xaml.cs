@@ -34,6 +34,8 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             }
         }
 
+        public event EventHandler LessonInfoChanged;
+
         public static readonly DependencyProperty SubjectProperty =
         DependencyProperty.Register("Subject", typeof(string), typeof(TimetableEditorItem));
 
@@ -74,6 +76,12 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             }
         }
 
+        private void OnLessonInfoChanged()
+        {
+            EventHandler handler = LessonInfoChanged;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
         private void TextBoxSubject_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TextBoxSubject.Text == "")
@@ -84,6 +92,18 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             {
                 TextBlockHintSubject.Visibility = Visibility.Hidden;
             }
+
+            OnLessonInfoChanged();
+        }
+
+        private void StartTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnLessonInfoChanged();
+        }
+
+        private void EndTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnLessonInfoChanged();
         }
     }
 }
