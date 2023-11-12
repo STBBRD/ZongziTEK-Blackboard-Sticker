@@ -23,6 +23,15 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
         public TimetableEditorItem()
         {
             InitializeComponent();
+
+            if (TextBoxSubject.Text == "")
+            {
+                TextBlockHintSubject.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TextBlockHintSubject.Visibility = Visibility.Hidden;
+            }
         }
 
         public static readonly DependencyProperty SubjectProperty =
@@ -62,6 +71,18 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             if(TextBoxSubject.Text == "")
             {
                 TextBlockHintSubject.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void TextBoxSubject_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxSubject.Text == "")
+            {
+                TextBlockHintSubject.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TextBlockHintSubject.Visibility = Visibility.Hidden;
             }
         }
     }

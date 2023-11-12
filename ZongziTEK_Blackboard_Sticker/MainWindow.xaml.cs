@@ -944,7 +944,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void Clock(object sender, EventArgs e)
         {
-            textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            textBlockTime.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
         private DispatcherTimer clockTimer;

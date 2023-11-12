@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Resources;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -24,8 +25,12 @@ namespace ZongziTEK_Blackboard_Sticker
         public TimetableEditor()
         {
             InitializeComponent();
+
+            ComboBoxDay.SelectedIndex = 7;
+            ChangeComboBoxDaySelectedIndexToday();
         }
-        
+
+        #region Window & Controls
         public static event Action EditorButtonUseCurriculum_Click;
 
         private bool isCloseWithButtonUseCurriculum = false;
@@ -54,29 +59,95 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonUseCurriculum_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("是否保存当前含时间信息的课程表内容","ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (MessageBox.Show("是否保存当前含时间信息的课程表内容", "ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 ButtonSave_Click(null, null);
             }
-            MessageBox.Show("若后续需要使用含时间信息的课程表，请在设置中启用","ZongziTEK 黑板贴");
+            MessageBox.Show("若后续需要使用含时间信息的课程表，请在设置中启用", "ZongziTEK 黑板贴");
             EditorButtonUseCurriculum_Click?.Invoke();
             isCloseWithButtonUseCurriculum = true;
             Close();
         }
 
-        public static Timetable Timetable = new Timetable();
-        public static string timetableFileName = "Timetable.json";
+        private void ComboBoxDay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadTimetable();
+        }
+        #endregion
+
+        #region Load & Save
+        private Timetable Timetable = MainWindow.Timetable;
+
         private void LoadTimetable()
         {
-            if (File.Exists(MainWindow.GetDataPath() + timetableFileName))
+            ListStackPanel.Children.Clear();
+            foreach (Lesson lesson in GetSelectedDay())
             {
-                try
+                TimetableEditorItem item = new TimetableEditorItem()
                 {
-                    string text = File.ReadAllText(MainWindow.GetDataPath() + timetableFileName);
-                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
-                }
-                catch { }
+                    Subject = lesson.Subject,
+                    StartTime = lesson.StartTime.ToString(@"hh\:mm"),
+                    EndTime = lesson.EndTime.ToString(@"hh\:mm")
+                };
+                ListStackPanel.Children.Add(item);
             }
         }
+        #endregion
+
+        #region Other Functions
+        private List<Lesson> GetSelectedDay()
+        {
+            switch (ComboBoxDay.SelectedIndex)
+            {
+                case 0:
+                    return Timetable.Monday;
+                case 1:
+                    return Timetable.Tuesday;
+                case 2:
+                    return Timetable.Wednesday;
+                case 3:
+                    return Timetable.Thursday;
+                case 4:
+                    return Timetable.Friday;
+                case 5:
+                    return Timetable.Saturday;
+                case 6:
+                    return Timetable.Sunday;
+                case 7:
+                    return Timetable.Temp;
+            }
+            return Timetable.Monday;
+        }
+
+        private void ChangeComboBoxDaySelectedIndexToday()
+        {
+
+            string day = DateTime.Today.DayOfWeek.ToString();
+            switch (day)
+            {
+                case "Monday":
+                    ComboBoxDay.SelectedIndex = 0;
+                    break;
+                case "Tuesday":
+                    ComboBoxDay.SelectedIndex = 1;
+                    break;
+                case "Wednesday":
+                    ComboBoxDay.SelectedIndex = 2;
+                    break;
+                case "Thursday":
+                    ComboBoxDay.SelectedIndex = 3;
+                    break;
+                case "Friday":
+                    ComboBoxDay.SelectedIndex = 4;
+                    break;
+                case "Saturday":
+                    ComboBoxDay.SelectedIndex = 5;
+                    break;
+                case "Sunday":
+                    ComboBoxDay.SelectedIndex = 6;
+                    break;
+            }
+        }
+        #endregion
     }
 }
