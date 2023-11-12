@@ -93,34 +93,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 try
                 {
                     Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime));
-                    //GetSelectedDay()[index] = lesson;
-
-                    switch (ComboBoxDay.SelectedIndex)
+                    if (index < GetSelectedDay().Count)
                     {
-                        case 0:
-                            Timetable.Monday[index] = lesson;
-                            break;
-                        case 1:
-                            Timetable.Tuesday[index] = lesson;
-                            break;
-                        case 2:
-                            Timetable.Wednesday[index] = lesson;
-                            break;
-                        case 3:
-                            Timetable.Thursday[index] = lesson;
-                            break;
-                        case 4:
-                            Timetable.Friday[index] = lesson;
-                            break;
-                        case 5:
-                            Timetable.Saturday[index] = lesson;
-                            break;
-                        case 6:
-                            Timetable.Sunday[index] = lesson;
-                            break;
-                        case 7:
-                            Timetable.Temp[index] = lesson;
-                            break;
+                        GetSelectedDay()[index] = lesson;
+                    }
+                    else
+                    {
+                        GetSelectedDay().Add(lesson);
                     }
                 }
                 catch { }

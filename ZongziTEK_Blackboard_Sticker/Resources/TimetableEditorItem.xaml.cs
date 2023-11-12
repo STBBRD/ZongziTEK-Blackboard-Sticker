@@ -92,17 +92,19 @@ namespace ZongziTEK_Blackboard_Sticker.Resources
             {
                 TextBlockHintSubject.Visibility = Visibility.Hidden;
             }
-
+            Subject = TextBoxSubject.Text;
             OnLessonInfoChanged();
         }
 
         private void StartTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            StartTime = StartTimeTextBox.Text;
             OnLessonInfoChanged();
         }
 
         private void EndTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            EndTime = EndTimeTextBox.Text;
             OnLessonInfoChanged();
         }
     }
