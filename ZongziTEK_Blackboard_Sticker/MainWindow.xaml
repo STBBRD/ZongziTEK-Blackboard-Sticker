@@ -70,8 +70,8 @@
             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="0">
                 <Grid>
                     <Button x:Name="penButton" Click="penButton_Click" Foreground="{DynamicResource ForegroundColor}" Height="32">画笔</Button>
-                    <Border x:Name="borderColorPicker" Margin="-100,-480,-100,36" Background="#33FFFFFF"
-                                    CornerRadius="4" Width="246" Height="450" Visibility="Collapsed">
+                    <Border x:Name="borderColorPicker" Margin="-100,-480,-100,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" 
+                            Background="{Binding Background, ElementName=penButton}">
                         <ui:SimpleStackPanel Margin="16" Spacing="12">
                             <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                             <Border x:Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
@@ -159,7 +159,7 @@
             <!--设置-->
             <Border x:Name="borderSettingsPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                 <Grid Margin="48">
-                    <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>                    
+                    <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
                     <ScrollViewer PanningMode="VerticalOnly" Margin="12,64,12,64">
                         <ui:SimpleStackPanel Spacing="16">
                             <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
@@ -175,8 +175,9 @@
                             </GroupBox>
                             <GroupBox Header="外观" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
-                                    <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"
+                                                     IsEnabled="{Binding IsOn, Converter={StaticResource InverseBooleanConverter}, ElementName=ToggleSwitchThemeAuto}"/>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Header="存储" Foreground="{DynamicResource ForegroundColor}">
