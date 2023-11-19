@@ -80,6 +80,14 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ComboBoxDay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadTimetable();
+            if (ComboBoxDay.SelectedIndex == 7)
+            {
+                TextBlockHintTempTimetable.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TextBlockHintTempTimetable.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Item_LessonInfoChanged(object sender, EventArgs e)
@@ -100,7 +108,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void Item_LessonDeleting(object sender, EventArgs e)
         {
-            if(sender is TimetableEditorItem)
+            if (sender is TimetableEditorItem)
             {
                 TimetableEditorItem itemToDelete = sender as TimetableEditorItem;
                 int index = ListStackPanel.Children.IndexOf(itemToDelete);
@@ -115,7 +123,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TimetableEditorItem item = new TimetableEditorItem();
             item.LessonInfoChanged += Item_LessonInfoChanged;
             item.LessonDeleting += Item_LessonDeleting;
-            GetSelectedDay().Add(new Lesson("",new TimeSpan(0,0,0),new TimeSpan(0,0,0)));
+            GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0)));
             ListStackPanel.Children.Add(item);
         }
         #endregion

@@ -26,6 +26,7 @@
                 <TextBlock Text="当前编辑的是: " FontSize="16"/>
                 <TextBlock FontSize="16" Text="{Binding SelectedItem.Content, ElementName=ComboBoxDay}"/>
                 <TextBlock Text="课表" FontSize="16"/>
+                <TextBlock Name="TextBlockHintTempTimetable" Text="，如需展示临时课表，请前往 设置→课程表" FontSize="16" Visibility="Collapsed"/>
             </StackPanel>
             <Border Height="48" Background="#FFFBFBFB" CornerRadius="2" BorderBrush="#FFE1E6EA" BorderThickness="1" Grid.Row="1">
                 <Grid>

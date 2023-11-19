@@ -21,11 +21,18 @@ namespace ZongziTEK_Blackboard_Sticker
         public string ToCurriculums(List<Lesson> list)
         {
             string curriculums = "";
-            foreach (Lesson lesson in list)
+            if (list.Count > 0)
             {
-                curriculums += lesson.Subject + "\n";
+                foreach (Lesson lesson in list)
+                {
+                    curriculums += lesson.Subject + "\n";
+                }
+                if (curriculums.Length > 0) curriculums = curriculums.Remove(curriculums.Length - 1);
             }
-            if (curriculums.Length > 0) curriculums = curriculums.Remove(curriculums.Length - 1);
+            else
+            {
+                curriculums = "无课程";
+            }
             return curriculums;
         }
     }

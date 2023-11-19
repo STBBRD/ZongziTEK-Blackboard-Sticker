@@ -697,6 +697,11 @@ namespace ZongziTEK_Blackboard_Sticker
             ToggleSwitchUseTimetable.IsOn = false;
         }
 
+        private void ToggleSwitchTempTimetable_Toggled(object sender, RoutedEventArgs e)
+        {
+            LoadTimetableorCurriculum();
+        }
+
         #region Curriculum
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
@@ -824,29 +829,36 @@ namespace ZongziTEK_Blackboard_Sticker
 
             string day = DateTime.Today.DayOfWeek.ToString();
 
-            switch (day)
+            if (!ToggleSwitchTempTimetable.IsOn)
             {
-                case "Monday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Monday);
-                    break;
-                case "Tuesday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Tuesday);
-                    break;
-                case "Wednesday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Wednesday);
-                    break;
-                case "Thursday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Thursday);
-                    break;
-                case "Friday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Friday);
-                    break;
-                case "Saturday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Saturday);
-                    break;
-                case "Sunday":
-                    textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Sunday);
-                    break;
+                switch (day)
+                {
+                    case "Monday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Monday);
+                        break;
+                    case "Tuesday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Tuesday);
+                        break;
+                    case "Wednesday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Wednesday);
+                        break;
+                    case "Thursday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Thursday);
+                        break;
+                    case "Friday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Friday);
+                        break;
+                    case "Saturday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Saturday);
+                        break;
+                    case "Sunday":
+                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Sunday);
+                        break;
+                }
+            }
+            else
+            {
+                textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Temp);
             }
         }
         private int lessonIndex = -1;
