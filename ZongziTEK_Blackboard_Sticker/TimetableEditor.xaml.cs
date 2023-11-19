@@ -92,14 +92,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 try
                 {
                     Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime));
-                    if (index < GetSelectedDay().Count)
-                    {
-                        GetSelectedDay()[index] = lesson;
-                    }
-                    else
-                    {
-                        GetSelectedDay().Add(lesson);
-                    }
+                    GetSelectedDay()[index] = lesson;
                 }
                 catch { }
             }
@@ -122,6 +115,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TimetableEditorItem item = new TimetableEditorItem();
             item.LessonInfoChanged += Item_LessonInfoChanged;
             item.LessonDeleting += Item_LessonDeleting;
+            GetSelectedDay().Add(new Lesson("",new TimeSpan(0,0,0),new TimeSpan(0,0,0)));
             ListStackPanel.Children.Add(item);
         }
         #endregion

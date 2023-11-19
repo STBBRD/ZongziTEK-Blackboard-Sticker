@@ -20,6 +20,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="48"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Margin="8,6">
                 <TextBlock x:Name="TextBlockHintSubject" Text="在此输入课程名称" Foreground="#CC000000" FontSize="14" 
@@ -33,11 +34,11 @@
                                Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="StartTimeTextBox_TextChanged"/>
-            <local:TimeTextBox x:Name="EndTimeTextBox" BorderThickness="0" Grid.Column="2" Margin="48,6" 
+            <local:TimeTextBox x:Name="EndTimeTextBox" BorderThickness="0" Grid.Column="2" Margin="8,6" 
                                Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="EndTimeTextBox_TextChanged"/>
-            <ui:SymbolIcon Grid.Column="2" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" Symbol="Delete" MouseUp="SymbolIconDelete_MouseUp"/>
+            <ui:SymbolIcon Grid.Column="3" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" Symbol="Delete" MouseUp="SymbolIconDelete_MouseUp"/>
         </Grid>
     </Border>
 </UserControl>
