@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public Sunday Sunday { get; set; } = new Sunday();
         public Thursday Thursday { get; set; } = new Thursday();
         public Saturday Saturday { get; set; } = new Saturday();
+        public Temp Temp { get; set; } = new Temp();
     }
 
     public class Monday
@@ -48,6 +50,11 @@ namespace ZongziTEK_Blackboard_Sticker
     }
 
     public class Sunday
+    {
+        public string Curriculums { get; set; }
+    }
+
+    public class Temp
     {
         public string Curriculums { get; set; }
     }

@@ -719,6 +719,7 @@ namespace ZongziTEK_Blackboard_Sticker
             Curriculums.Friday.Curriculums = textBoxFriday.Text;
             Curriculums.Saturday.Curriculums = textBoxSaturday.Text;
             Curriculums.Sunday.Curriculums = textBoxSunday.Text;
+            Curriculums.Temp.Curriculums = textBoxTempCurriculums.Text;
 
             string text = JsonConvert.SerializeObject(Curriculums, Formatting.Indented);
 
@@ -748,32 +749,40 @@ namespace ZongziTEK_Blackboard_Sticker
             textBoxFriday.Text = Curriculums.Friday.Curriculums;
             textBoxSaturday.Text = Curriculums.Saturday.Curriculums;
             textBoxSunday.Text = Curriculums.Sunday.Curriculums;
+            textBoxTempCurriculums.Text = Curriculums.Temp.Curriculums;
 
             string day = DateTime.Today.DayOfWeek.ToString();
 
-            switch (day)
+            if (!ToggleSwitchTempTimetable.IsOn)
             {
-                case "Monday":
-                    textBlockCurriculum.Text = Curriculums.Monday.Curriculums;
-                    break;
-                case "Tuesday":
-                    textBlockCurriculum.Text = Curriculums.Tuesday.Curriculums;
-                    break;
-                case "Wednesday":
-                    textBlockCurriculum.Text = Curriculums.Wednesday.Curriculums;
-                    break;
-                case "Thursday":
-                    textBlockCurriculum.Text = Curriculums.Thursday.Curriculums;
-                    break;
-                case "Friday":
-                    textBlockCurriculum.Text = Curriculums.Friday.Curriculums;
-                    break;
-                case "Saturday":
-                    textBlockCurriculum.Text = Curriculums.Saturday.Curriculums;
-                    break;
-                case "Sunday":
-                    textBlockCurriculum.Text = Curriculums.Sunday.Curriculums;
-                    break;
+                switch (day)
+                {
+                    case "Monday":
+                        textBlockCurriculum.Text = Curriculums.Monday.Curriculums;
+                        break;
+                    case "Tuesday":
+                        textBlockCurriculum.Text = Curriculums.Tuesday.Curriculums;
+                        break;
+                    case "Wednesday":
+                        textBlockCurriculum.Text = Curriculums.Wednesday.Curriculums;
+                        break;
+                    case "Thursday":
+                        textBlockCurriculum.Text = Curriculums.Thursday.Curriculums;
+                        break;
+                    case "Friday":
+                        textBlockCurriculum.Text = Curriculums.Friday.Curriculums;
+                        break;
+                    case "Saturday":
+                        textBlockCurriculum.Text = Curriculums.Saturday.Curriculums;
+                        break;
+                    case "Sunday":
+                        textBlockCurriculum.Text = Curriculums.Sunday.Curriculums;
+                        break;
+                }
+            }
+            else
+            {
+                textBlockCurriculum.Text = Curriculums.Temp.Curriculums;
             }
         }
 
