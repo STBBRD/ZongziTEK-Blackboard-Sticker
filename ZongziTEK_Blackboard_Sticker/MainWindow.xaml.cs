@@ -106,7 +106,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!CloseIsFromButton)
             {
                 e.Cancel = true;
-                if (MessageBox.Show("是否继续关闭 ZongziTEK 黑板贴", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("是否继续关闭 ZongziTEK 黑板贴", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     if (MessageBox.Show("真的狠心关闭 ZongziTEK 黑板贴 吗？", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
                     {
@@ -866,29 +866,36 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             List<Lesson> today = Timetable.Monday;
             string day = DateTime.Today.DayOfWeek.ToString();
-            switch (day)
+            if (!ToggleSwitchTempTimetable.IsOn)
             {
-                case "Monday":
-                    today = Timetable.Monday;
-                    break;
-                case "Tuesday":
-                    today = Timetable.Tuesday;
-                    break;
-                case "Wednesday":
-                    today = Timetable.Wednesday;
-                    break;
-                case "Thursday":
-                    today = Timetable.Thursday;
-                    break;
-                case "Friday":
-                    today = Timetable.Friday;
-                    break;
-                case "Saturday":
-                    today = Timetable.Saturday;
-                    break;
-                case "Sunday":
-                    today = Timetable.Sunday;
-                    break;
+                switch (day)
+                {
+                    case "Monday":
+                        today = Timetable.Monday;
+                        break;
+                    case "Tuesday":
+                        today = Timetable.Tuesday;
+                        break;
+                    case "Wednesday":
+                        today = Timetable.Wednesday;
+                        break;
+                    case "Thursday":
+                        today = Timetable.Thursday;
+                        break;
+                    case "Friday":
+                        today = Timetable.Friday;
+                        break;
+                    case "Saturday":
+                        today = Timetable.Saturday;
+                        break;
+                    case "Sunday":
+                        today = Timetable.Sunday;
+                        break;
+                }
+            }
+            else
+            {
+                today = Timetable.Temp;
             }
 
             TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
@@ -962,7 +969,6 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Clock
-
         private void Clock(object sender, EventArgs e)
         {
             textBlockTime.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -1525,19 +1531,24 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             string timeString = time.ToString();
 
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            if (Settings.TimetableSettings.BNSPath.EndsWith("\\"))
+            try
             {
-                startInfo.FileName = Settings.TimetableSettings.BNSPath + "bns.exe";
-            }
-            else
-            {
-                startInfo.FileName = Settings.TimetableSettings.BNSPath + "\\bns.exe";
-            }
-            startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
-            if (isBottom) startInfo.Arguments += " -bottom";
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                if (Settings.TimetableSettings.BNSPath.EndsWith("\\"))
+                {
+                    startInfo.FileName = Settings.TimetableSettings.BNSPath + "bns.exe";
+                }
+                else
+                {
+                    startInfo.FileName = Settings.TimetableSettings.BNSPath + "\\bns.exe";
+                }
 
-            Process.Start(startInfo);
+                startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
+                if (isBottom) startInfo.Arguments += " -bottom";
+
+                Process.Start(startInfo);
+            }
+            catch { }
         }
         #endregion
     }

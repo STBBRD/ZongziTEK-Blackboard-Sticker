@@ -196,7 +196,7 @@
                             <GroupBox Header="课程表" Foreground="{DynamicResource ForegroundColor}">
                                 <ui:SimpleStackPanel Spacing="12">
                                     <ui:ToggleSwitch Name="ToggleSwitchUseTimetable" Header="使用带时间信息的课程表" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
-                                    <TextBlock Text="开启上面的开关后，将使用带时间信息的课程表，并且出现上下课提醒功能。关闭上面的开关后，课程表就是文本信息，方便编辑，但没有上下课提醒。&#10;暂不支持在不使用带时间信息的课程表时使用临时课表。"
+                                    <TextBlock Text="开启上面的开关后，将使用带时间信息的课程表，并且出现上下课提醒功能。关闭上面的开关后，课程表就是文本信息，方便编辑，但没有上下课提醒。&#10;注意：如果需要使用上下课提醒，请下载 黑板通知服务 (https://github.com/STBBRD/Blackboard-Notification-Service)"
                                                TextWrapping="Wrap" Opacity="0.75"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchTimetableNotification" Header="启用上下课提醒" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchTimetableNotification_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchTempTimetable" Header="展示临时课表" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchTempTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseTimetable}"/>
