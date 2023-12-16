@@ -14,6 +14,8 @@ namespace ZongziTEK_Blackboard_Sticker
         public Storage Storage { get; set; } = new Storage();
         public Look Look { get; set; } = new Look();
         public TimetableSettings TimetableSettings { get; set; } = new TimetableSettings();
+
+        public Blackboard Blackboard { get; set; } = new Blackboard();
     }
 
     public class Storage
@@ -34,5 +36,10 @@ namespace ZongziTEK_Blackboard_Sticker
         public bool isTimetableNotificationEnabled { get; set; } = true;
         public bool useDefaultBNSPath = true;
         public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
+    }
+
+    public class Blackboard
+    {
+        public bool isLocked { get; set; } = false;
     }
 }

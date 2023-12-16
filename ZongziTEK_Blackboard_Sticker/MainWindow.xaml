@@ -45,7 +45,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="ColumnCanvas"/>
-                <ColumnDefinition x:Name="ColumnLauncher"/>
+                <ColumnDefinition x:Name="ColumnLauncher" Width="0.425*"/>
             </Grid.ColumnDefinitions>
 
             <!--小黑板-->
@@ -58,24 +58,29 @@
                     </ui:SimpleStackPanel>
                 </ui:SimpleStackPanel>
             </Border>
-            <Grid x:Name="touchGrid" Grid.Row="0" Grid.Column="0"
+            <Grid Name="touchGrid" Grid.Row="0" Grid.Column="0"
                   ManipulationStarting="touchGrid_ManipulationStarting" ManipulationDelta="touchGrid_ManipulationDelta" Background="#00000000">
-                <InkCanvas x:Name="inkCanvas" Background="{DynamicResource InkCanvasBackgroundColor}" MouseWheel="inkCanvas_MouseWheel" 
+                <InkCanvas x:Name="inkCanvas" Background="{DynamicResource InkCanvasBackgroundColor}" 
                            PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp"
                            StrokeCollected="inkCanvas_StrokeCollected" StrokeErased="inkCanvas_StrokeErased"
                            IsManipulationEnabled="True"/>
             </Grid>
+            <Border Name="BorderLockBlackboard" Grid.Row="0" Grid.Column="0" Background="#00000000" Visibility="Collapsed" MouseDown="BorderLockBlackboard_MouseDown"/>
 
             <Label Content="小黑板" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="8" FontSize="24"/>
             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8" Grid.Row="2" Grid.Column="0">
                 <Grid>
-                    <Button x:Name="penButton" Click="penButton_Click" Foreground="{DynamicResource ForegroundColor}" Height="32">画笔</Button>
-                    <Border x:Name="borderColorPicker" Margin="-100,-480,-100,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" 
-                            Background="{Binding Background, ElementName=penButton}">
+                    <Button Name="penButton" Click="penButton_Click" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                            Width="32" Height="32" Padding="0"
+                            HorizontalAlignment="Right">
+                        <ui:SymbolIcon Symbol="Edit"/>
+                    </Button>
+                    <Border Name="borderColorPicker" Margin="-100,-480,-80,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed"
+                            Background="{Binding Background, ElementName=buttonExplorer}">
                         <ui:SimpleStackPanel Margin="16" Spacing="12">
                             <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
-                            <Border x:Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
-                            <colorpicker:SquarePicker x:Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
+                            <Border Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
+                            <colorpicker:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
                             <Grid Height="75">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -85,17 +90,24 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="{DynamicResource ForegroundColor}"/>
-                                <Button x:Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
-                                <Button x:Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
-                                <Button x:Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
+                                <Button Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="{DynamicResource ForegroundColor}"/>
+                                <Button Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
+                                <Button Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
+                                <Button Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
                             </Grid>
                             <Button x:Name="btnCloseColorPicker" Content="关闭" HorizontalAlignment="Stretch" Click="btnCloseColorPicker_Click"/>
                         </ui:SimpleStackPanel>
                     </Border>
                 </Grid>
-                <Button x:Name="eraserButton" Click="eraserButton_Click" Foreground="{DynamicResource ForegroundColor}" Height="32">橡皮</Button>
-                <Button x:Name="clearButton" Click="clearButton_Click" Foreground="{DynamicResource ForegroundColor}" Height="32">清除</Button>
+                <Button Name="eraserButton" Click="eraserButton_Click" Background="#00000000" Foreground="{DynamicResource ForegroundColor}" Width="32" Height="32" Padding="0">
+                    <Label Content="&#xe75c;" FontFamily="#Segoe MDL2 Assets" FontSize="20"/>
+                </Button>
+                <Button Name="clearButton" Click="clearButton_Click" Background="#00000000" Foreground="{DynamicResource ForegroundColor}" Width="32" Height="32" Padding="0">
+                    <ui:SymbolIcon Symbol="Delete"/>
+                </Button>
+                <ToggleButton Name="ToggleButtonLock" Width="32" Height="32" Padding="0" Background="#00000000" Click="ToggleButtonLock_Click">
+                    <Label Content="&#xe72e;" FontFamily="#Segoe MDL2 Assets" FontSize="20" Foreground="{Binding Foreground, ElementName=ToggleButtonLock}"/>
+                </ToggleButton>
             </ui:SimpleStackPanel>
 
             <!--启动台-->
@@ -103,7 +115,7 @@
             <ScrollViewer Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Grid.Column="1" Margin="8" VerticalAlignment="Bottom"
                           MaxHeight="216" SizeChanged="ScrollViewerLauncher_SizeChanged">
                 <ui:SimpleStackPanel Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
-                    <Button x:Name="buttonExplorer" HorizontalAlignment="Stretch" Height="48" Click="buttonExplorer_Click" HorizontalContentAlignment="Left">
+                    <Button Name="buttonExplorer" HorizontalAlignment="Stretch" Height="48" Click="buttonExplorer_Click" HorizontalContentAlignment="Left">
                         <ui:SimpleStackPanel Spacing="8" Margin="8" Orientation="Horizontal">
                             <Image Source="Resources/ThisPC.ico"/>
                             <TextBlock Text="此电脑"/>

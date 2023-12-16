@@ -69,8 +69,6 @@ namespace ZongziTEK_Blackboard_Sticker
                 });
             });
 
-            ColumnLauncher.Width = new GridLength(Width * 0.15);
-
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += new EventHandler(Clock);
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
@@ -87,6 +85,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
+
+            CheckIsBlackboardLocked();
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -134,40 +134,62 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         #endregion
 
-        #region Ink Canvas
+        #region Blackboard
         private void penButton_Click(object sender, RoutedEventArgs e)
         {
-            if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
+            if (!Settings.Blackboard.isLocked)
             {
-                if (!confirmingClear)
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
                 {
-                    if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
-                    else borderColorPicker.Visibility = Visibility.Collapsed;
+                    if (!confirmingClear)
+                    {
+                        if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
+                        else borderColorPicker.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else
+                {
+                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                 }
             }
             else
             {
-                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                HighlightLockState();
             }
         }
 
         private void eraserButton_Click(object sender, RoutedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+            if (!Settings.Blackboard.isLocked)
+            {
+                borderColorPicker.Visibility = Visibility.Collapsed;
+                inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+            }
+            else
+            {
+                HighlightLockState();
+            }
         }
 
         bool confirmingClear = false;
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
-            borderClearConfirm.Visibility = Visibility.Visible;
+            if (!Settings.Blackboard.isLocked)
+            {
+                borderColorPicker.Visibility = Visibility.Collapsed;
+                borderClearConfirm.Visibility = Visibility.Visible;
 
-            confirmingClear = true;
+                confirmingClear = true;
 
-            touchGrid.Visibility = Visibility.Collapsed;
+                touchGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                HighlightLockState();
+            }
         }
+
         private void btnClearCancel_Click(object sender, RoutedEventArgs e)
         {
             borderClearConfirm.Visibility = Visibility.Collapsed;
@@ -234,12 +256,87 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             borderColorPicker.Visibility = Visibility.Collapsed;
         }
+
+        private void ToggleButtonLock_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Blackboard.isLocked = ToggleButtonLock.IsChecked.Value;
+            CheckIsBlackboardLocked();
+
+            SaveSettings();
+        }
+
+        private void CheckIsBlackboardLocked()
+        {
+            if (Settings.Blackboard.isLocked)
+            {
+                if (confirmingClear)
+                {
+                    btnClearCancel_Click(null, null);
+                }
+
+                BorderLockBlackboard.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                BorderLockBlackboard.Visibility = Visibility.Collapsed;
+
+                eraserButton_Click(null, null);
+                penButton_Click(null, null);
+            }
+        }
+
+        private void BorderLockBlackboard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            HighlightLockState();
+        }
+
+        private bool isHighlightingLockState = false;
+        private async void HighlightLockState()
+        {
+            if (!isHighlightingLockState)
+            {
+                isHighlightingLockState = true;
+                if (Settings.Look.IsLightTheme)
+                {
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                }
+                else
+                {
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                }
+                isHighlightingLockState = false;
+            }
+        }
+
         private void SaveStrokes()
         {
             FileStream fileStream = new FileStream(GetDataPath() + "sticker.icstk", FileMode.Create);
             inkCanvas.Strokes.Save(fileStream);
             fileStream.Close();
         }
+
         private void LoadStrokes()
         {
             if (File.Exists(GetDataPath() + "sticker.icstk"))
@@ -252,14 +349,15 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.Look.IsLightTheme) SetTheme("Light");
             else SetTheme("Dark");
         }
-        private void inkCanvas_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+
+        /*private void inkCanvas_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             if (e.Delta < 0)
             {
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
                     Matrix matrix = new Matrix();
-                    matrix.ScaleAt(0.8, 0.8, Mouse.GetPosition(inkCanvas).X, Mouse.GetPosition(inkCanvas).Y);
+                    matrix.ScaleAt(0.95, 0.95, Mouse.GetPosition(inkCanvas).X, Mouse.GetPosition(inkCanvas).Y);
                     matrix.Translate(1.2, 0);
                     stroke.Transform(matrix, false);
                 }
@@ -269,13 +367,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
                     Matrix matrix = new Matrix();
-                    matrix.ScaleAt(1.25, 1.25, Mouse.GetPosition(inkCanvas).X, Mouse.GetPosition(inkCanvas).Y);
+                    matrix.ScaleAt(1/0.95, 1/0.95, Mouse.GetPosition(inkCanvas).X, Mouse.GetPosition(inkCanvas).Y);
                     matrix.Translate(0, 1.2);
                     stroke.Transform(matrix, false);
                 }
             }
             SaveStrokes();
-        }
+        }*/
 
         private List<int> dec = new List<int>(); //记录触摸设备ID
         Point centerPoint; //中心点
@@ -304,7 +402,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 // Update matrix to reflect translation/rotation
                 m.Translate(trans.X, trans.Y);  // 移动
-                m.ScaleAt(scale.X, scale.Y, center.X, center.Y);  // 缩放
+                m.ScaleAt(scale.X * 0.8, scale.Y * 0.8, center.X, center.Y);  // 缩放
 
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
@@ -312,8 +410,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
                     try
                     {
-                        stroke.DrawingAttributes.Width *= md.Scale.X;
-                        stroke.DrawingAttributes.Height *= md.Scale.Y;
+                        stroke.DrawingAttributes.Width *= md.Scale.X * 0.8;
+                        stroke.DrawingAttributes.Height *= md.Scale.Y * 0.8;
                     }
                     catch { }
                 }
@@ -1335,6 +1433,8 @@ namespace ZongziTEK_Blackboard_Sticker
             ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.useDefaultBNSPath;
 
             TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
+
+            ToggleButtonLock.IsChecked = Settings.Blackboard.isLocked;
         }
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";
@@ -1351,42 +1451,73 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #region Utility
         #region FileDrag
+
+        private bool isCopying = false;
         private void window_DragEnter(object sender, System.Windows.DragEventArgs e)
         {
             TextBlockDragHint.Text = "松手以将文件添加到桌面";
+            ProgressBarDragEnter.Visibility = Visibility.Collapsed;
             BorderDragEnter.Visibility = Visibility.Visible;
         }
 
         private void window_DragLeave(object sender, System.Windows.DragEventArgs e)
         {
-            BorderDragEnter.Visibility = Visibility.Collapsed;
+            if (!isCopying) BorderDragEnter.Visibility = Visibility.Collapsed;
         }
 
-        private void window_Drop(object sender, System.Windows.DragEventArgs e)
+        private async void window_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            //ProgressBarDragEnter.Visibility = Visibility.Visible;
-            //TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
+            isCopying = true;
+
+            ProgressBarDragEnter.Visibility = Visibility.Visible;
+            TextBlockDragHint.Text = "正在添加文件到桌面，请稍等";
 
             BorderDragEnter.Visibility = Visibility.Collapsed;
 
-            string folderFileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            string folderFileName;
+            try { folderFileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString(); }
+            catch
+            {
+                MessageBox.Show("请将此文件拖到桌面空白处", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                BorderDragEnter.Visibility = Visibility.Collapsed;
+                ProgressBarDragEnter.Visibility = Visibility.Collapsed;
+
+                return;
+            }
+
             string dest = Path.GetFileName(folderFileName);
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
-            if (folderFileName != desktop + dest)
+
+            await Task.Run(() =>
             {
-                if (new DirectoryInfo(folderFileName).Exists)
+                if (folderFileName != desktop + dest)
                 {
-                    if (new DirectoryInfo(desktop + dest).Exists) new DirectoryInfo(desktop + dest).Delete(true);
-                    try { FileUtility.CopyFolder(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
+                    if (new DirectoryInfo(folderFileName).Exists)
+                    {
+                        if (new DirectoryInfo(desktop + dest).Exists) new DirectoryInfo(desktop + dest).Delete(true);
+                        try
+                        {
+                            FileUtility.CopyFolder(folderFileName, desktop + dest);
+                        }
+                        catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
+                    }
+                    else
+                    {
+                        if (File.Exists(desktop + dest)) File.Delete(desktop + dest);
+                        try
+                        {
+                            File.Copy(folderFileName, desktop + dest);
+                        }
+                        catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
+                    }
                 }
-                else
-                {
-                    if (File.Exists(desktop + dest)) File.Delete(desktop + dest);
-                    try { File.Copy(folderFileName, desktop + dest); } catch (Exception ex) { MessageBox.Show(Convert.ToString(ex)); }
-                }
-            }
-            //BorderDragEnter.Visibility = Visibility.Collapsed;
-            //ProgressBarDragEnter.Visibility = Visibility.Collapsed;
+            });
+
+            BorderDragEnter.Visibility = Visibility.Collapsed;
+            ProgressBarDragEnter.Visibility = Visibility.Collapsed;
+
+            isCopying = false;
         }
         #endregion
         #endregion
@@ -1485,6 +1616,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void SetSomeLayout()
         {
             if (!isSettingsLoaded) return;
+
             double height = RowMain.ActualHeight - ScrollViewerLauncher.ActualHeight - 32;
             try
             {
@@ -1500,7 +1632,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
             }
             catch { }
-
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
