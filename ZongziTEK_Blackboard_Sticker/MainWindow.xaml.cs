@@ -402,7 +402,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 // Update matrix to reflect translation/rotation
                 m.Translate(trans.X, trans.Y);  // 移动
-                m.ScaleAt(scale.X * 0.8, scale.Y * 0.8, center.X, center.Y);  // 缩放
+                m.ScaleAt(scale.X, scale.Y, center.X, center.Y);  // 缩放
 
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
@@ -410,8 +410,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
                     try
                     {
-                        stroke.DrawingAttributes.Width *= md.Scale.X * 0.8;
-                        stroke.DrawingAttributes.Height *= md.Scale.Y * 0.8;
+                        stroke.DrawingAttributes.Width *= md.Scale.X;
+                        stroke.DrawingAttributes.Height *= md.Scale.Y;
                     }
                     catch { }
                 }
