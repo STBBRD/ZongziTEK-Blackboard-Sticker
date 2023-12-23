@@ -42,8 +42,8 @@
                 </Grid>
             </Border>
             <ScrollViewer PanningMode="VerticalOnly" Grid.Row="2">
-                <ui:SimpleStackPanel Name="ListStackPanel" Spacing="4">
-                </ui:SimpleStackPanel>
+                <local:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
+                </local:SimpleStackPanel>
             </ScrollViewer>
         </Grid>
         <Grid VerticalAlignment="Bottom" Margin="24,12,24,12">
@@ -65,10 +65,10 @@
                     </Viewbox>
                 </Grid>
             </Button>
-            <ui:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
+            <local:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
                 <Button Content="关闭" Width="80" Click="ButtonClose_Click"/>
                 <Button Content="保存" Background="#0078D7" Foreground="White" Width="80" Click="ButtonSave_Click"/>
-            </ui:SimpleStackPanel>
+            </local:SimpleStackPanel>
         </Grid>
     </Grid>
 </Window>

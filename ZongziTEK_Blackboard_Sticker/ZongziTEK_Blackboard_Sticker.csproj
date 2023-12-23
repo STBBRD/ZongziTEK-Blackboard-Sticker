@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resources\SimpleStackPanel.cs" />
     <Compile Include="Resources\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
@@ -188,10 +189,10 @@
       <Version>0.9.6</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="PixiEditor.ColorPicker">
-      <Version>3.3.1</Version>
+      <Version>3.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
