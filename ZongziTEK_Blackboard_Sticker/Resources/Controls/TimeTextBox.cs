@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System;
 using System.Windows;
 
-namespace ZongziTEK_Blackboard_Sticker.Resources
+namespace ZongziTEK_Blackboard_Sticker
 {
     public class TimeTextBox : TextBox
     {

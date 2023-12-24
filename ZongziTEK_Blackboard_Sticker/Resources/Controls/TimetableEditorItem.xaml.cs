@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ZongziTEK_Blackboard_Sticker.Resources
+namespace ZongziTEK_Blackboard_Sticker
 {
     /// <summary>
     /// TimetableEditorItem.xaml 的交互逻辑

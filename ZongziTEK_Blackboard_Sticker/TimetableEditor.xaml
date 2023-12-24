@@ -3,18 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Resources"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 课程表编辑器" Height="600" Width="800" MinHeight="450" MinWidth="800"
-        ui:WindowHelper.UseModernWindowStyle="True"
-        ui:ThemeManager.RequestedTheme="Light"
-        Background="#fff3f3f3"
+        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False" ui:ThemeManager.RequestedTheme="Light"
         Closing="Window_Closing" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid VerticalAlignment="Top" Margin="24,12,24,12">
             <TextBlock Text="编辑课程表" FontSize="32"/>
-            <Button Name="ButtonUseCurriculum" Content="切换为旧版课程表 ( 无时间 )" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ButtonUseCurriculum_Click"/>
+            <Button Name="ButtonUseCurriculum" Height="32" Content="切换为旧版课程表 ( 无时间 )" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ButtonUseCurriculum_Click"/>
         </Grid>
         <Grid Margin="24,64,24,64">
             <Grid.RowDefinitions>
@@ -42,12 +40,12 @@
                 </Grid>
             </Border>
             <ScrollViewer PanningMode="VerticalOnly" Grid.Row="2">
-                <local:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
-                </local:SimpleStackPanel>
+                <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
+                </ui:SimpleStackPanel>
             </ScrollViewer>
         </Grid>
-        <Grid VerticalAlignment="Bottom" Margin="24,12,24,12">
-            <ComboBox Name="ComboBoxDay" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
+        <Grid VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32">
+            <ComboBox Name="ComboBoxDay" Width="120" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
                 <ComboBoxItem Content="周一"/>
                 <ComboBoxItem Content="周二"/>
                 <ComboBoxItem Content="周三"/>
@@ -57,18 +55,16 @@
                 <ComboBoxItem Content="周日"/>
                 <ComboBoxItem Content="临时"/>
             </ComboBox>
-            <Button Name="ButtonInsertLesson" HorizontalAlignment="Center" Width="160" HorizontalContentAlignment="Stretch" Padding="32,5,16,6" Click="ButtonInsertLesson_Click">
-                <Grid>
-                    <TextBlock Text="新建课程" HorizontalAlignment="Center"/>
-                    <Viewbox HorizontalAlignment="Left" Height="14">
-                        <ui:SymbolIcon Symbol="Add"/>
-                    </Viewbox>
-                </Grid>
+            <Button Name="ButtonInsertLesson" HorizontalAlignment="Center" Width="160" Click="ButtonInsertLesson_Click" VerticalAlignment="Stretch">
+                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                    <ui:SymbolIcon Symbol="Add"/>
+                    <Label Content="新建课程"/>
+                </ui:SimpleStackPanel>
             </Button>
-            <local:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
-                <Button Content="关闭" Width="80" Click="ButtonClose_Click"/>
-                <Button Content="保存" Background="#0078D7" Foreground="White" Width="80" Click="ButtonSave_Click"/>
-            </local:SimpleStackPanel>
+            <ui:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
+                <Button Content="关闭" Width="80" Click="ButtonClose_Click" VerticalAlignment="Stretch"/>
+                <Button Content="保存" Style="{StaticResource AccentButtonStyle}" Width="80" Click="ButtonSave_Click" VerticalAlignment="Stretch"/>
+            </ui:SimpleStackPanel>
         </Grid>
     </Grid>
 </Window>

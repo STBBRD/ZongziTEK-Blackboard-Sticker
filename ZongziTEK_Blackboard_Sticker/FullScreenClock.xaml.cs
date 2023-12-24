@@ -79,7 +79,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     From = new Thickness(200),
                     To = new Thickness(150),
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
-                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
                 };
 
                 var BorderCloseBigClockExitDoubleAnimation = new DoubleAnimation()
@@ -87,7 +87,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     From = 1,
                     To = 0,
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
-                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
                 };
 
                 BorderCloseBigClock.BeginAnimation(MarginProperty, BorderCloseBigClockExitThicknessAnimation);

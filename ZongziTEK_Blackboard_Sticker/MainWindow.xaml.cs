@@ -15,19 +15,16 @@ using System.Windows.Data;
 using System.Windows.Input.StylusPlugIns;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MessageBox = System.Windows.MessageBox;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 using File = System.IO.File;
 using IWshRuntimeLibrary;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
-using ModernWpf;
-using Windows.UI.Input.Inking;
 using System.Windows.Controls.Primitives;
-using ModernWpf.Controls.Primitives;
 using ZongziTEK_Blackboard_Sticker.Helpers;
-using Windows.Media.Core;
-using System.ComponentModel;
+using iNKORE.UI.WPF.Modern;
+using iNKORE.UI.WPF.Modern.Controls;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -141,11 +138,11 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
                 {
-                    if (!confirmingClear)
-                    {
+                    //if (!confirmingClear)
+                    //{
                         if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
                         else borderColorPicker.Visibility = Visibility.Collapsed;
-                    }
+                    //}
                 }
                 else
                 {
@@ -171,18 +168,18 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        bool confirmingClear = false;
+        //bool confirmingClear = false;
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
             if (!Settings.Blackboard.isLocked)
             {
                 borderColorPicker.Visibility = Visibility.Collapsed;
-                borderClearConfirm.Visibility = Visibility.Visible;
+                //borderClearConfirm.Visibility = Visibility.Visible;
 
-                confirmingClear = true;
+                //confirmingClear = true;
 
-                touchGrid.Visibility = Visibility.Collapsed;
+                //touchGrid.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -192,17 +189,20 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void btnClearCancel_Click(object sender, RoutedEventArgs e)
         {
-            borderClearConfirm.Visibility = Visibility.Collapsed;
-            touchGrid.Visibility = Visibility.Visible;
+            //borderClearConfirm.Visibility = Visibility.Collapsed;
+            //touchGrid.Visibility = Visibility.Visible;
 
-            confirmingClear = false;
+            //confirmingClear = false;
         }
 
         private void btnClearOK_Click(object sender, RoutedEventArgs e)
         {
-            confirmingClear = false;
+            //confirmingClear = false;
 
             inkCanvas.Strokes.Clear();
+
+            Flyout flyout = FlyoutService.GetFlyout(clearButton) as Flyout;
+            if(flyout != null) flyout.Hide();
 
             string path;
 
@@ -224,8 +224,8 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 File.Delete(path + "sticker.icstk");
             }
-            borderClearConfirm.Visibility = Visibility.Collapsed;
-            touchGrid.Visibility = Visibility.Visible;
+            //borderClearConfirm.Visibility = Visibility.Collapsed;
+            //touchGrid.Visibility = Visibility.Visible;
         }
 
         private void squarePicker_ColorChanged(object sender, RoutedEventArgs e)
@@ -271,16 +271,20 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (Settings.Blackboard.isLocked)
             {
-                if (confirmingClear)
-                {
+                //if (confirmingClear)
+                //{
                     btnClearCancel_Click(null, null);
-                }
+                //}
 
                 BorderLockBlackboard.Visibility = Visibility.Visible;
+
+                if (Settings.Look.IsLightTheme) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
             }
             else
             {
                 BorderLockBlackboard.Visibility = Visibility.Collapsed;
+
+                if (Settings.Look.IsLightTheme) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
 
                 eraserButton_Click(null, null);
                 penButton_Click(null, null);
@@ -298,10 +302,11 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isHighlightingLockState)
             {
                 isHighlightingLockState = true;
+
+                Style originalStyle = new ToggleButton { Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)), BorderThickness = new Thickness(0) }.Style;
+
                 if (Settings.Look.IsLightTheme)
                 {
-                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
-                    await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
@@ -311,11 +316,11 @@ namespace ZongziTEK_Blackboard_Sticker
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
                 }
                 else
                 {
-                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
-                    await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
@@ -325,7 +330,10 @@ namespace ZongziTEK_Blackboard_Sticker
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                    await Task.Delay(200);
+                    ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                 }
+
                 isHighlightingLockState = false;
             }
         }
@@ -1139,7 +1147,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     };
 
                     //按钮里面的布局
-                    ModernWpf.Controls.SimpleStackPanel ContentStackPanel = new()
+                    SimpleStackPanel ContentStackPanel = new()
                     {
                         Spacing = 8,
                         Margin = new(8, 8, 8, 8),
@@ -1198,7 +1206,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void LinkButton_Click(object sender, RoutedEventArgs e)
         {
             string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"LauncherLinks\";
-            string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Button)sender).Content).Children[2]).Text + ".lnk";
+            string filePath = LinkPath + ((TextBlock)((SimpleStackPanel)((Button)sender).Content).Children[2]).Text + ".lnk";
             WshShell shell = new();
             IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
             Process.Start("explorer.exe", wshShortcut.TargetPath);
@@ -1584,6 +1592,9 @@ namespace ZongziTEK_Blackboard_Sticker
                 ThemeManager.SetRequestedTheme(window, ElementTheme.Light);
                 ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Light.xaml", UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+
+                if (ToggleButtonLock.IsChecked.Value) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+
                 Settings.Look.IsLightTheme = true;
 
                 if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White) inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
@@ -1600,6 +1611,9 @@ namespace ZongziTEK_Blackboard_Sticker
                 ThemeManager.SetRequestedTheme(window, ElementTheme.Dark);
                 ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Dark.xaml", UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+
+                if (ToggleButtonLock.IsChecked.Value) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+
                 Settings.Look.IsLightTheme = false;
 
                 if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black) inkCanvas.DefaultDrawingAttributes.Color = Colors.White;

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using Windows.Gaming.XboxLive;
 
 namespace ZongziTEK_Blackboard_Sticker
 {

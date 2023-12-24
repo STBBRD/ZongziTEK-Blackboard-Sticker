@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ZongziTEK_Blackboard_Sticker.Resources;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace ZongziTEK_Blackboard_Sticker
 {

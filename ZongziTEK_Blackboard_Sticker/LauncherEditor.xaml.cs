@@ -1,4 +1,5 @@
-﻿using IWshRuntimeLibrary;
+﻿using iNKORE.UI.WPF.Modern.Controls;
+using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Drawing = System.Drawing;
 using File = System.IO.File;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -86,7 +88,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     };
 
                     //按钮里面的布局
-                    ModernWpf.Controls.SimpleStackPanel ContentStackPanel = new()
+                    SimpleStackPanel ContentStackPanel = new()
                     {
                         Spacing = 8,
                         Margin = new(8, 8, 8, 8),
@@ -129,9 +131,9 @@ namespace ZongziTEK_Blackboard_Sticker
                         Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))
                     };
 
-                    ModernWpf.Controls.SymbolIcon DeleteIcon = new()
+                    SymbolIcon DeleteIcon = new()
                     {
-                        Symbol = ModernWpf.Controls.Symbol.Delete
+                        Symbol = Symbol.Delete
                     };
 
                     Viewbox DeleteIconViewbox = new()
@@ -175,7 +177,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (MessageBox.Show("确认删除吗", "编辑启动台", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"LauncherLinks\";
-                string filePath = LinkPath + ((TextBlock)((ModernWpf.Controls.SimpleStackPanel)((Grid)((Button)sender).Parent).Children[0]).Children[2]).Text + ".lnk";
+                string filePath = LinkPath + ((TextBlock)((SimpleStackPanel)((Grid)((Button)sender).Parent).Children[0]).Children[2]).Text + ".lnk";
                 try
                 {
                     File.Delete(filePath);

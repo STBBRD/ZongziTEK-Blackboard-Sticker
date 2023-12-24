@@ -3,32 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Resources"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 启动台编辑器" Height="450" Width="800" MinHeight="450" MinWidth="800"
-        ui:WindowHelper.UseModernWindowStyle="True"
-        ui:ThemeManager.RequestedTheme="Light"
-        Background="#fff3f3f3" WindowStartupLocation="CenterScreen">
+        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False" ui:ThemeManager.RequestedTheme="Light"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock Text="编辑启动台" Margin="24,12,24,12" FontSize="32"/>
-        <ui:ProgressBar Name="ListProgressBar" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
+        <ui:ProgressRing Name="ListProgressBar" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
         <ScrollViewer Name="ListScrollViewer" Margin="24,64,24,64" PanningMode="VerticalOnly">
-            <local:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
+            <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
         </ScrollViewer>
-        <local:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
-            <Button Content="刷新列表" Width="80" Click="ButtonRefresh_Click"/>
-            <Button Content="新建" Width="80" Click="ButtonNew_Click"/>
-        </local:SimpleStackPanel>
+        <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32" Spacing="8" Orientation="Horizontal" >
+            <Button Content="刷新" Width="80" Click="ButtonRefresh_Click" VerticalAlignment="Stretch"/>
+            <Button Content="新建" Width="80" Click="ButtonNew_Click" VerticalAlignment="Stretch"/>
+        </ui:SimpleStackPanel>
 
         <Border Name="BorderNew" Background="#fff3f3f3" Visibility="Collapsed">
             <Grid>
-                <local:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
+                <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                     <TextBlock Text="新建项" FontSize="32"/>
                     <TextBlock Text="实验性功能，部分文件添加后可能不会显示在启动台中" Foreground="Gray"/>
-                </local:SimpleStackPanel>
+                </ui:SimpleStackPanel>
                 <ScrollViewer Margin="24,84,24,64" PanningMode="VerticalOnly">
-                    <local:SimpleStackPanel Spacing="8">
+                    <ui:SimpleStackPanel Spacing="8">
                         <TextBlock Text="文件路径" FontSize="16"/>
                         <Grid Name="GridDataLocation">
                             <Grid.ColumnDefinitions>
@@ -41,12 +40,12 @@
 
                         <TextBlock Text="名称" FontSize="16"/>
                         <TextBox Name="TextBoxLinkName"/>
-                    </local:SimpleStackPanel>
+                    </ui:SimpleStackPanel>
                 </ScrollViewer>
-                <local:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
+                <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
                     <Button Name="ButtonCancelNew" Content="取消" Width="80" Click="ButtonCancelNew_Click"/>
-                    <Button Name="ButtonSaveNew" Content="保存" Background="#ff0078d7" Width="80" Foreground="White" Click="ButtonSaveNew_Click"/>
-                </local:SimpleStackPanel>
+                    <Button Name="ButtonSaveNew" Content="保存" Style="{StaticResource AccentButtonStyle}" Width="80" Click="ButtonSaveNew_Click"/>
+                </ui:SimpleStackPanel>
             </Grid>
         </Border>
     </Grid>

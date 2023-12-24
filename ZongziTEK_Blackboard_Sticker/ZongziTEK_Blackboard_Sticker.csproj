@@ -82,11 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Resources\SimpleStackPanel.cs" />
-    <Compile Include="Resources\TimetableEditorItem.xaml.cs">
+    <Compile Include="Resources\Controls\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\TimeTextBox.cs" />
+    <Compile Include="Resources\Controls\TimeTextBox.cs" />
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
@@ -94,7 +93,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\TimetableEditorItem.xaml">
+    <Page Include="Resources\Controls\TimetableEditorItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,8 +184,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ModernWpfUI">
-      <Version>0.9.6</Version>
+    <PackageReference Include="iNKORE.UI.WPF.Modern">
+      <Version>0.9.24.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
