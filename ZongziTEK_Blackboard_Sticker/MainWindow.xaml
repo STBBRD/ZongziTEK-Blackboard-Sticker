@@ -68,14 +68,14 @@
                 <Grid>
                     <Button Name="penButton" Click="penButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                             Width="32" Height="32" Padding="0"
-                            HorizontalAlignment="Right">
+                            HorizontalAlignment="Right" Visibility="{Binding Visibility, ElementName=eraserButton}">
                         <ui:SymbolIcon Symbol="Edit" FontSize="20"/>
                     </Button>
-                    <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
+                    <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
                             Background="{Binding Background, ElementName=buttonExplorer}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
                         <ui:SimpleStackPanel Margin="16" Spacing="12">
                             <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
-                            <Border Name="borderShowColor" Height="8" CornerRadius="4" Background="White"/>
+                            <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
                             <colorpicker:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
                             <Grid Height="75">
                                 <Grid.RowDefinitions>
@@ -86,24 +86,26 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="{DynamicResource ForegroundColor}"/>
-                                <Button Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF"/>
-                                <Button Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00"/>
-                                <Button Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF"/>
+                                <Button Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="{DynamicResource ForegroundColor}" BorderThickness="0"/>
+                                <Button Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF" BorderThickness="0"/>
+                                <Button Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00" BorderThickness="0"/>
+                                <Button Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF" BorderThickness="0"/>
                             </Grid>
                             <Button x:Name="btnCloseColorPicker" Content="关闭" HorizontalAlignment="Stretch" Click="btnCloseColorPicker_Click"/>
                         </ui:SimpleStackPanel>
                     </Border>
                 </Grid>
-                <Button Name="eraserButton" Click="eraserButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}" Width="32" Height="32" Padding="0">
+                <Button Name="eraserButton" Click="eraserButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                        Width="32" Height="32" Padding="0">
                     <Label Content="&#xe75c;" FontFamily="Segoe Fluent Icons" FontSize="20"/>
                 </Button>
-                <Button Name="clearButton" Click="clearButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}" Width="32" Height="32" Padding="0">
+                <Button Name="clearButton" Click="clearButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                        Width="32" Height="32" Padding="0" Visibility="{Binding Visibility, ElementName=eraserButton}">
                     <ui:SymbolIcon Symbol="Delete" FontSize="20"/>
                     <ui:FlyoutService.Flyout>
                         <ui:Flyout>
-                            <ui:SimpleStackPanel Spacing="12">
-                                <TextBlock TextWrapping="Wrap" Text="此操作将清除小黑板上的所有内容，且不可恢复。确定继续吗？" FontWeight="Bold"/>
+                            <ui:SimpleStackPanel Spacing="8">
+                                <TextBlock TextWrapping="Wrap" Text="此操作将清除小黑板上的所有内容，且不可恢复。确定继续吗？"/>
                                 <Button Content="确定" Click="btnClearOK_Click"/>
                             </ui:SimpleStackPanel>
                         </ui:Flyout>

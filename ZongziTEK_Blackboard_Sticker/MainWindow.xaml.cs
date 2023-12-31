@@ -134,64 +134,41 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Blackboard
         private void penButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Settings.Blackboard.isLocked)
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
             {
-                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
-                {
-                    //if (!confirmingClear)
-                    //{
-                        if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
-                        else borderColorPicker.Visibility = Visibility.Collapsed;
-                    //}
-                }
-                else
-                {
-                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                }
+                //if (!confirmingClear)
+                //{
+                if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
+                else borderColorPicker.Visibility = Visibility.Collapsed;
+                //}
             }
             else
             {
-                HighlightLockState();
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             }
         }
 
         private void eraserButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Settings.Blackboard.isLocked)
-            {
-                borderColorPicker.Visibility = Visibility.Collapsed;
-                inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-            }
-            else
-            {
-                HighlightLockState();
-            }
+            borderColorPicker.Visibility = Visibility.Collapsed;
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
         }
 
         //bool confirmingClear = false;
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Settings.Blackboard.isLocked)
-            {
-                borderColorPicker.Visibility = Visibility.Collapsed;
-                //borderClearConfirm.Visibility = Visibility.Visible;
+            borderColorPicker.Visibility = Visibility.Collapsed;
 
-                //confirmingClear = true;
-
-                //touchGrid.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                HighlightLockState();
-            }
+            //borderClearConfirm.Visibility = Visibility.Visible;
+            //confirmingClear = true;
+            //touchGrid.Visibility = Visibility.Collapsed;
         }
 
         private void btnClearCancel_Click(object sender, RoutedEventArgs e)
         {
             //borderClearConfirm.Visibility = Visibility.Collapsed;
             //touchGrid.Visibility = Visibility.Visible;
-
             //confirmingClear = false;
         }
 
@@ -202,7 +179,7 @@ namespace ZongziTEK_Blackboard_Sticker
             inkCanvas.Strokes.Clear();
 
             Flyout flyout = FlyoutService.GetFlyout(clearButton) as Flyout;
-            if(flyout != null) flyout.Hide();
+            if (flyout != null) flyout.Hide();
 
             string path;
 
@@ -273,12 +250,16 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 //if (confirmingClear)
                 //{
-                    btnClearCancel_Click(null, null);
+                btnClearCancel_Click(null, null);
                 //}
 
                 BorderLockBlackboard.Visibility = Visibility.Visible;
 
                 if (Settings.Look.IsLightTheme) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+
+                eraserButton.Visibility = Visibility.Collapsed;
+                borderColorPicker.Visibility = Visibility.Collapsed;
+
             }
             else
             {
@@ -288,6 +269,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 eraserButton_Click(null, null);
                 penButton_Click(null, null);
+
+                eraserButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -302,8 +285,6 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isHighlightingLockState)
             {
                 isHighlightingLockState = true;
-
-                Style originalStyle = new ToggleButton { Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)), BorderThickness = new Thickness(0) }.Style;
 
                 if (Settings.Look.IsLightTheme)
                 {
@@ -335,6 +316,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 isHighlightingLockState = false;
+                CheckIsBlackboardLocked();
             }
         }
 
@@ -1597,7 +1579,12 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 Settings.Look.IsLightTheme = true;
 
-                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White) inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
+                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
+                {
+                    inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
+                    squarePicker_ColorChanged(null, null);
+                }
+
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
                     if (stroke.DrawingAttributes.Color == Colors.White)
@@ -1616,12 +1603,16 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 Settings.Look.IsLightTheme = false;
 
-                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black) inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
+                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
+                {
+                    inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
+                }
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
                     if (stroke.DrawingAttributes.Color == Colors.Black)
                     {
                         stroke.DrawingAttributes.Color = Colors.White;
+                        squarePicker_ColorChanged(null, null);
                     }
                 }
             }

@@ -20,13 +20,13 @@
             <Button Content="新建" Width="80" Click="ButtonNew_Click" VerticalAlignment="Stretch"/>
         </ui:SimpleStackPanel>
 
-        <Border Name="BorderNew" Background="#fff3f3f3" Visibility="Collapsed">
+        <Border Name="BorderNew" Background="#ffF1F3F9" Visibility="Collapsed">
             <Grid>
                 <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                     <TextBlock Text="新建项" FontSize="32"/>
-                    <TextBlock Text="实验性功能，部分文件添加后可能不会显示在启动台中" Foreground="Gray"/>
+                    <ui:InfoBar Title="实验性功能" Message="已知问题：某些文件无法添加，或添加后不在启动台中显示" IsOpen="True" IsClosable="False"/>
                 </ui:SimpleStackPanel>
-                <ScrollViewer Margin="24,84,24,64" PanningMode="VerticalOnly">
+                <ScrollViewer Margin="24,128,24,64" PanningMode="VerticalOnly">
                     <ui:SimpleStackPanel Spacing="8">
                         <TextBlock Text="文件路径" FontSize="16"/>
                         <Grid Name="GridDataLocation">
