@@ -794,10 +794,6 @@ namespace ZongziTEK_Blackboard_Sticker
         public static Curriculums Curriculums = new Curriculums();
         public static string curriculumsFileName = "Curriculums.json";
 
-        private void textBlockCurriculum_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetSomeLayout();
-        }
         private void SaveCurriculum()
         {
             Curriculums.Monday.Curriculums = textBoxMonday.Text;
@@ -883,7 +879,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                stackPanelCurriculum.Visibility = Visibility.Collapsed;
+                ScrollViewerShowingCurriculum.Visibility = Visibility.Collapsed;
                 editCurriculumButton.Visibility = Visibility.Collapsed;
 
                 saveCurriculumButton.Visibility = Visibility.Visible;
@@ -895,7 +891,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             SaveCurriculum();
 
-            stackPanelCurriculum.Visibility = Visibility.Visible;
+            ScrollViewerShowingCurriculum.Visibility = Visibility.Visible;
             editCurriculumButton.Visibility = Visibility.Visible;
 
             saveCurriculumButton.Visibility = Visibility.Collapsed;
@@ -1182,8 +1178,6 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 MessageBox.Show("加载启动台时出现错误：\r\n" + e.Message);
             }
-
-            SetSomeLayout();
         }
 
         private void LinkButton_Click(object sender, RoutedEventArgs e)
@@ -1202,11 +1196,6 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             catch (Exception)
             { }
-        }
-
-        private void ScrollViewerLauncher_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetSomeLayout();
         }
 
         #endregion
@@ -1619,7 +1608,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void SetSomeLayout()
         {
-            if (!isSettingsLoaded) return;
+            /*if (!isSettingsLoaded) return;
 
             double height = RowMain.ActualHeight - ScrollViewerLauncher.ActualHeight - 32;
             try
@@ -1635,7 +1624,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 ScrollViewerShowingCurriculum.Height = height - textBlockTime.ActualHeight - 32;
 
             }
-            catch { }
+            catch { }*/
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)

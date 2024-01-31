@@ -35,10 +35,11 @@
 
                 <!--看板-->
                 <Border Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
-                    <TextBlock x:Name="textBlockTime" TextAlignment="Center" FontSize="40" Foreground="{DynamicResource ForegroundColor}"                           
-                           Text="--:--:--"
-                           Margin="8" FontFamily="Resources\#Digital-7 Mono"/>
+                    <Grid>
+                        <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="12,8"/>
+                    </Grid>
                 </Border>
+
                 <!--小黑板-->
                 <Border Grid.RowSpan="3" Grid.Row="1" Background="{DynamicResource WindowBackgroundColor}" Margin="8,0,0,8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
@@ -125,7 +126,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <ui:ProgressRing Name="ProgressBarLauncher" Grid.Row="0" VerticalAlignment="Bottom" IsIndeterminate="True" Margin="20" Visibility="Collapsed"/>
-                        <ScrollViewer Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Margin="8" VerticalAlignment="Bottom" MaxHeight="216" SizeChanged="ScrollViewerLauncher_SizeChanged">
+                        <ScrollViewer Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Margin="8" VerticalAlignment="Bottom" MaxHeight="216">
                             <ui:SimpleStackPanel x:Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
                                 <Button Name="buttonExplorer" HorizontalAlignment="Stretch" Height="36" Click="buttonExplorer_Click" HorizontalContentAlignment="Left" Background="#00000000" BorderThickness="0">
                                     <ui:SimpleStackPanel Spacing="8" Margin="0" Orientation="Horizontal">
@@ -160,13 +161,11 @@
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel x:Name="stackPanelCurriculum" VerticalAlignment="Top">
-                            <ScrollViewer Name="ScrollViewerShowingCurriculum" PanningMode="VerticalOnly" Margin="8">
-                                <TextBlock x:Name="textBlockCurriculum" TextWrapping="Wrap"
+                        <ScrollViewer Name="ScrollViewerShowingCurriculum" PanningMode="VerticalOnly" Margin="8">
+                            <TextBlock x:Name="textBlockCurriculum" TextWrapping="Wrap"
                                     Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
-                                    FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center" SizeChanged="textBlockCurriculum_SizeChanged"/>
-                            </ScrollViewer>
-                        </StackPanel>
+                                    FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
+                        </ScrollViewer>
                         <ScrollViewer x:Name="scrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">
                             <ui:SimpleStackPanel Spacing="8" Margin="24">
                                 <TextBlock Text="编辑课程表" FontSize="36" Foreground="{DynamicResource ForegroundColor}"/>
@@ -227,7 +226,7 @@
                         </ui:SimpleStackPanel>
                     </Grid>
                 </Border>
-                
+
                 <!--设置-->
                 <Border x:Name="borderSettingsPanel" Grid.RowSpan="4" Grid.ColumnSpan="2" CornerRadius="8" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                     <Grid Margin="48">
