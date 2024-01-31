@@ -4,4 +4,5 @@
     <SolidColorBrush x:Key="InkCanvasBackgroundColor" Color="#55FFFFFF"/>
     <SolidColorBrush x:Key="OtherPanelsBackgroundColor" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="#0F000000"/>
 </ResourceDictionary>

@@ -118,16 +118,16 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid.SetColumn(MainGrid, 0);
-            borderLeftToolBar.Visibility = Visibility.Collapsed;
-            borderRightToolBar.Visibility = Visibility.Visible;
+            Grid.SetColumn(BorderMain, 0);
+            iconSwitchLeft.Visibility = Visibility.Collapsed;
+            iconSwitchRight.Visibility = Visibility.Visible;
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid.SetColumn(MainGrid, 1);
-            borderRightToolBar.Visibility = Visibility.Collapsed;
-            borderLeftToolBar.Visibility = Visibility.Visible;
+            Grid.SetColumn(BorderMain, 1);
+            iconSwitchRight.Visibility = Visibility.Collapsed;
+            iconSwitchLeft.Visibility = Visibility.Visible;
         }
         #endregion
 
@@ -885,7 +885,6 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 stackPanelCurriculum.Visibility = Visibility.Collapsed;
                 editCurriculumButton.Visibility = Visibility.Collapsed;
-                StackPanelLauncher.Visibility = Visibility.Collapsed;
 
                 saveCurriculumButton.Visibility = Visibility.Visible;
                 scrollViewerCurriculum.Visibility = Visibility.Visible;
@@ -898,7 +897,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
             stackPanelCurriculum.Visibility = Visibility.Visible;
             editCurriculumButton.Visibility = Visibility.Visible;
-            StackPanelLauncher.Visibility = Visibility.Visible;
 
             saveCurriculumButton.Visibility = Visibility.Collapsed;
             scrollViewerCurriculum.Visibility = Visibility.Collapsed;
@@ -1124,22 +1122,24 @@ namespace ZongziTEK_Blackboard_Sticker
                     Button LinkButton = new()
                     {
                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                        Height = 48,
-                        HorizontalContentAlignment = HorizontalAlignment.Left
+                        Height = 36,
+                        HorizontalContentAlignment = HorizontalAlignment.Left,
+                        Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)),
+                        BorderThickness = new Thickness(0)
                     };
 
                     //按钮里面的布局
                     SimpleStackPanel ContentStackPanel = new()
                     {
                         Spacing = 8,
-                        Margin = new(8, 8, 8, 8),
                         Orientation = Orientation.Horizontal
                     };
 
                     //图标
                     Image image = new()
                     {
-                        Height = 19
+                        Height = 19,
+                        VerticalAlignment = VerticalAlignment.Center
                     };
                     BitmapSource bitmapSource = System.Windows.Interop.Imaging.
                         CreateBitmapSourceFromHBitmap(file.Value.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
@@ -1154,7 +1154,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
                     TextBlock textBlockLinkName = new()
                     {
-                        Text = Path.GetFileName(file.Key).Remove(Path.GetFileName(file.Key).LastIndexOf("."), 4)
+                        Text = Path.GetFileName(file.Key).Remove(Path.GetFileName(file.Key).LastIndexOf("."), 4),
+                        VerticalAlignment = VerticalAlignment.Center
                     };
 
                     //开始组装按钮
@@ -1581,8 +1582,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
                 {
-                    inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
-                    squarePicker_ColorChanged(null, null);
+                    btnWhite_Click(null, null);
                 }
 
                 foreach (Stroke stroke in inkCanvas.Strokes)
@@ -1611,8 +1611,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     if (stroke.DrawingAttributes.Color == Colors.Black)
                     {
-                        stroke.DrawingAttributes.Color = Colors.White;
-                        squarePicker_ColorChanged(null, null);
+                        btnWhite_Click(null, null);
                     }
                 }
             }
