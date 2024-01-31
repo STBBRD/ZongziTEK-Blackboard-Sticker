@@ -37,11 +37,11 @@
                 <Border Height="72" Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Name="ColumnClock" Width="auto"/>
+                            <ColumnDefinition Name="ColumnInfoBoard"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="16,8" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="textBlockTime" FontSize="50" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="16,0" TextAlignment="Center" VerticalAlignment="Center"/>
                         <ui:Frame Grid.Column="1" Name="FrameInfo">
                             <ui:Frame.ContentTransitions>
                                 <ui:TransitionCollection>
@@ -83,7 +83,7 @@
                                             <ui:SymbolIcon Symbol="Edit" FontSize="20"/>
                                         </Button>
                                         <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
-                                                Background="{Binding Background, ElementName=buttonExplorer}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
+                                                Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
                                             <ui:SimpleStackPanel Margin="16" Spacing="12">
                                                 <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                                 <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
@@ -258,6 +258,7 @@
                                         <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                         <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"
                                                      IsEnabled="{Binding IsOn, Converter={StaticResource InverseBooleanConverter}, ElementName=ToggleSwitchThemeAuto}"/>
+                                        <ui:ToggleSwitch Name="ToggleSwitchLiteMode" Header="使用简约模式" OnContent="是" OffContent="否" Toggled="ToggleSwitchLiteMode_Toggled"/>
                                     </ui:SimpleStackPanel>
                                 </GroupBox>
                                 <GroupBox Header="存储" Foreground="{DynamicResource ForegroundColor}">

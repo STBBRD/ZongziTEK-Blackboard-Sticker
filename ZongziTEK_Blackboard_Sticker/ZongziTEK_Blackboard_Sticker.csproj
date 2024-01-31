@@ -85,6 +85,9 @@
     <Compile Include="Pages\CountdownPage.xaml.cs">
       <DependentUpon>CountdownPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\DatePage.xaml.cs">
+      <DependentUpon>DatePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WeatherPage.xaml.cs">
       <DependentUpon>WeatherPage.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CountdownPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

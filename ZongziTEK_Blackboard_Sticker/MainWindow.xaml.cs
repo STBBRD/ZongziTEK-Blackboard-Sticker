@@ -79,7 +79,7 @@ namespace ZongziTEK_Blackboard_Sticker
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
 
-            FrameInfo.Navigate(new Uri("Pages/WeatherPage.xaml", UriKind.Relative));
+            FrameInfo.Navigate(frameInfoPages[0]);
             frameInfoNavigationTimer = new DispatcherTimer();
             frameInfoNavigationTimer.Tick += FrameInfoNavigationTimer_Tick;
             frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(5);
@@ -973,7 +973,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void CheckTimetable(object sender, EventArgs e)
         {
             timetableTimer.Stop();
-            
+
             List<Lesson> today = Timetable.Monday;
             string day = DateTime.Today.DayOfWeek.ToString();
             if (!ToggleSwitchTempTimetable.IsOn)
@@ -1378,6 +1378,31 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveSettings();
         }
 
+        private void ToggleSwitchLiteMode_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            if (ToggleSwitchLiteMode.IsOn)
+            {
+                BorderMain.Width = ColumnLauncher.ActualWidth;
+                BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                iconSwitchRight_MouseDown(null, null);
+                iconSwitchLeft.Visibility = Visibility.Collapsed;
+
+                ColumnCanvas.Width = new GridLength(0);
+                ColumnInfoBoard.Width = new GridLength(0);
+                ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                BorderMain.ClearValue(WidthProperty);
+                BorderMain.ClearValue(HorizontalAlignmentProperty);
+                iconSwitchLeft.Visibility = Visibility.Visible;
+
+                ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                ColumnClock.Width = GridLength.Auto;
+            }
+        }
         #endregion
 
         private void LoadSettings()
@@ -1709,6 +1734,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region InfoBoard
         private List<Uri> frameInfoPages = new List<Uri>
         {
+            new Uri("Pages/DatePage.xaml",UriKind.Relative),
             new Uri("Pages/WeatherPage.xaml", UriKind.Relative),
             new Uri("Pages/CountdownPage.xaml", UriKind.Relative)
         };
