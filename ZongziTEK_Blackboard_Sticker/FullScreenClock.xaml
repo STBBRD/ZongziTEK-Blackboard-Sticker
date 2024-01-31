@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="FullScreenClock" Height="450" Width="800" Top="0" Left="0" Margin="0,0,2,0"
+        Title="ZongziTEK 黑板贴 - 全屏时钟" Height="450" Width="800" Top="0" Left="0" Margin="0,0,2,0"
         ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
     <Grid Background="Black" MouseDown="Grid_MouseDown">
         <Grid>

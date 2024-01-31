@@ -34,9 +34,22 @@
                 </Grid.ColumnDefinitions>
 
                 <!--看板-->
-                <Border Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <Border Height="72" Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
-                        <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="12,8"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="16,8" VerticalAlignment="Center"/>
+                        <ui:Frame Grid.Column="1" Name="FrameInfo">
+                            <ui:Frame.ContentTransitions>
+                                <ui:TransitionCollection>
+                                    <ui:NavigationThemeTransition/>
+                                </ui:TransitionCollection>
+                            </ui:Frame.ContentTransitions>
+                        </ui:Frame>
+                        <Border Name="BorderSwitchFrameInfoPage" Grid.Column="1" Background="#00000000" MouseDown="BorderSwitchFrameInfoPage_MouseDown"/>
                     </Grid>
                 </Border>
 

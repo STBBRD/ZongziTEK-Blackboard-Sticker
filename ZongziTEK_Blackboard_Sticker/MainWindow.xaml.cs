@@ -25,6 +25,9 @@ using System.Windows.Controls.Primitives;
 using ZongziTEK_Blackboard_Sticker.Helpers;
 using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
+using Page = System.Windows.Controls.Page;
+using ZongziTEK_Blackboard_Sticker.Pages;
+using System.Collections;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -39,6 +42,8 @@ namespace ZongziTEK_Blackboard_Sticker
         public MainWindow()
         {
             InitializeComponent();
+
+            //小黑板 1
             drawingAttributes = new DrawingAttributes();
             inkCanvas.DefaultDrawingAttributes = drawingAttributes;
             drawingAttributes.Color = Colors.White;
@@ -46,14 +51,15 @@ namespace ZongziTEK_Blackboard_Sticker
             drawingAttributes.Height = 1.75;
             drawingAttributes.StylusTip = StylusTip.Ellipse;
             drawingAttributes.FitToCurve = true;
-            //drawingAttributes.IgnorePressure = true;
+            squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
+            //窗体
             Height = System.Windows.SystemParameters.WorkArea.Height;
             Width = System.Windows.SystemParameters.WorkArea.Width;
             Top = 0;
             Left = 0;
 
-            textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            //加载文件
             LoadSettings();
             isSettingsLoaded = true;
             LoadStrokes();
@@ -66,23 +72,32 @@ namespace ZongziTEK_Blackboard_Sticker
                 });
             });
 
+            //看板
+            textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
             clockTimer = new DispatcherTimer();
-            clockTimer.Tick += new EventHandler(Clock);
+            clockTimer.Tick += Clock;
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
 
+            FrameInfo.Navigate(new Uri("Pages/WeatherPage.xaml", UriKind.Relative));
+            frameInfoNavigationTimer = new DispatcherTimer();
+            frameInfoNavigationTimer.Tick += FrameInfoNavigationTimer_Tick;
+            frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(5);
+            frameInfoNavigationTimer.Start();
+
+            //课程表
             timetableTimer = new DispatcherTimer();
-            timetableTimer.Tick += new EventHandler(CheckTimetable);
+            timetableTimer.Tick += CheckTimetable;
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
             timetableTimer.Start();
 
             TimetableEditor.EditorButtonUseCurriculum_Click += EditorButtonSettingUseCurriculum;
 
-            squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
-
+            //颜色主题
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
 
+            //小黑板 2
             CheckIsBlackboardLocked();
         }
         #region Window
@@ -951,10 +966,14 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Temp);
             }
+
+            lessonIndex = -1;
         }
         private int lessonIndex = -1;
         private void CheckTimetable(object sender, EventArgs e)
         {
+            timetableTimer.Stop();
+            
             List<Lesson> today = Timetable.Monday;
             string day = DateTime.Today.DayOfWeek.ToString();
             if (!ToggleSwitchTempTimetable.IsOn)
@@ -1016,6 +1035,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     if (currentTime < lesson.EndTime) break;
                 }
             }
+
+            timetableTimer.Start();
         }
 
         private void ShowClassBeginPreNotification(List<Lesson> today, int index)
@@ -1682,6 +1703,36 @@ namespace ZongziTEK_Blackboard_Sticker
                 Process.Start(startInfo);
             }
             catch { }
+        }
+        #endregion
+
+        #region InfoBoard
+        private List<Uri> frameInfoPages = new List<Uri>
+        {
+            new Uri("Pages/WeatherPage.xaml", UriKind.Relative),
+            new Uri("Pages/CountdownPage.xaml", UriKind.Relative)
+        };
+        private int frameInfoPageIndex = 0;
+        private DispatcherTimer frameInfoNavigationTimer;
+        private void BorderSwitchFrameInfoPage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SwitchFrameInfoPage();
+        }
+
+        private void FrameInfoNavigationTimer_Tick(object sender, EventArgs e)
+        {
+            SwitchFrameInfoPage();
+        }
+
+        private void SwitchFrameInfoPage()
+        {
+            frameInfoNavigationTimer.Stop();
+
+            frameInfoPageIndex++;
+            if (frameInfoPageIndex >= frameInfoPages.Count) frameInfoPageIndex = 0;
+            FrameInfo.Navigate(frameInfoPages[frameInfoPageIndex]);
+
+            frameInfoNavigationTimer.Start();
         }
         #endregion
     }

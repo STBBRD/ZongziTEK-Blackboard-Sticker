@@ -82,6 +82,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\CountdownPage.xaml.cs">
+      <DependentUpon>CountdownPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WeatherPage.xaml.cs">
+      <DependentUpon>WeatherPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Controls\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
@@ -90,6 +96,14 @@
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
     <Page Include="LauncherEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CountdownPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WeatherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
