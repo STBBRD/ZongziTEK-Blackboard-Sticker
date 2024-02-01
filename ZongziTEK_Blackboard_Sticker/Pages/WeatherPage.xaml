@@ -10,7 +10,7 @@
 
     <Grid Margin="16,8" HorizontalAlignment="Right">
         <Viewbox>
-            <TextBlock Text="🌤晴  12℃~20℃  当前 15℃"/>
+            <Label Content="🌤晴  12℃~20℃  当前 15℃"/>
         </Viewbox>
     </Grid>
 </Page>

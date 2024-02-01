@@ -19,26 +19,27 @@ namespace ZongziTEK_Blackboard_Sticker
 
     public class Storage
     {
-        public bool isFilesSavingWithProgram { get; set; } = true;
-        public string dataPath { get; set; } = "D:\\ZongziTEK_Blackboard_Sticker_Data";
+        public bool IsFilesSavingWithProgram { get; set; } = true;
+        public string DataPath { get; set; } = "D:\\ZongziTEK_Blackboard_Sticker_Data";
     }
 
     public class Look
     {
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
+        public bool UseLiteMode { get; set; } = false;
     }
 
     public class TimetableSettings
     {
-        public bool isTimetableEnabled { get; set; } = true;
-        public bool isTimetableNotificationEnabled { get; set; } = true;
-        public bool useDefaultBNSPath = true;
+        public bool IsTimetableEnabled { get; set; } = true;
+        public bool IsTimetableNotificationEnabled { get; set; } = true;
+        public bool UseDefaultBNSPath = true;
         public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
     }
 
     public class Blackboard
     {
-        public bool isLocked { get; set; } = false;
+        public bool IsLocked { get; set; } = false;
     }
 }

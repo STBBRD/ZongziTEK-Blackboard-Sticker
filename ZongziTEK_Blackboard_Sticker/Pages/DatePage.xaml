@@ -12,8 +12,8 @@
     <Grid Margin="16,8" HorizontalAlignment="Right">
         <Viewbox>
             <ui:SimpleStackPanel Spacing="4">
-                <TextBlock Text="2024 年 1 月 31 日" FontSize="32" HorizontalAlignment="Right"/>
-                <TextBlock Text="星期三" FontSize="32" HorizontalAlignment="Right"/>
+                <Label Content="2024 年 1 月 31 日" FontSize="32" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor}"/>
+                <Label Content="星期三" FontSize="32" HorizontalAlignment="Right" Foreground="{DynamicResource ForegroundColor}"/>
             </ui:SimpleStackPanel>
         </Viewbox>
     </Grid>

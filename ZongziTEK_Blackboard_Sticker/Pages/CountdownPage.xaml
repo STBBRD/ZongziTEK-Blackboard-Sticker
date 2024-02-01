@@ -12,9 +12,9 @@
     <Grid Margin="16,8" HorizontalAlignment="Right">
         <Viewbox>
             <ui:SimpleStackPanel Spacing="4" Orientation="Horizontal">
-                <TextBlock Text="距离期末考试还有"/>
-                <TextBlock Name="TextBlockNumber" Text="10" VerticalAlignment="Center"/>
-                <TextBlock Text="天"/>
+                <Label Content="距离期末考试还有"/>
+                <Label Name="TextBlockNumber" Content="10" VerticalAlignment="Center"/>
+                <Label Content="天"/>
             </ui:SimpleStackPanel>
         </Viewbox>
     </Grid>

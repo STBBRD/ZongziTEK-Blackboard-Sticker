@@ -61,7 +61,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
             //加载文件
             LoadSettings();
-            isSettingsLoaded = true;
             LoadStrokes();
             LoadTimetableorCurriculum();
             Task.Run(() =>
@@ -105,6 +104,11 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             WindowState = WindowState.Normal;
             WindowsHelper.SetBottom(window);
+        }
+
+        private void window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SwitchLookMode();
         }
 
         private void window_Activated(object sender, EventArgs e)
@@ -198,13 +202,13 @@ namespace ZongziTEK_Blackboard_Sticker
 
             string path;
 
-            if (Settings.Storage.isFilesSavingWithProgram)
+            if (Settings.Storage.IsFilesSavingWithProgram)
             {
                 path = System.AppDomain.CurrentDomain.BaseDirectory;
             }
             else
             {
-                path = Settings.Storage.dataPath;
+                path = Settings.Storage.DataPath;
             }
 
             if (!path.EndsWith("\\") || !path.EndsWith("/"))
@@ -253,7 +257,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (!isSettingsLoaded) return;
 
-            Settings.Blackboard.isLocked = ToggleButtonLock.IsChecked.Value;
+            Settings.Blackboard.IsLocked = ToggleButtonLock.IsChecked.Value;
             CheckIsBlackboardLocked();
 
             SaveSettings();
@@ -261,7 +265,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void CheckIsBlackboardLocked()
         {
-            if (Settings.Blackboard.isLocked)
+            if (Settings.Blackboard.IsLocked)
             {
                 //if (confirmingClear)
                 //{
@@ -785,7 +789,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Timetable & Curriculum
         private void LoadTimetableorCurriculum()
         {
-            if (Settings.TimetableSettings.isTimetableEnabled)
+            if (Settings.TimetableSettings.IsTimetableEnabled)
             {
                 LoadTimetable();
             }
@@ -887,7 +891,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void editCurriculumButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Settings.TimetableSettings.isTimetableEnabled)
+            if (Settings.TimetableSettings.IsTimetableEnabled)
             {
                 new TimetableEditor().ShowDialog();
                 LoadTimetableorCurriculum();
@@ -1041,7 +1045,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ShowClassBeginPreNotification(List<Lesson> today, int index)
         {
-            if (Settings.TimetableSettings.isTimetableNotificationEnabled)
+            if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
                 int nextLessonIndex = index + 1;
 
@@ -1057,7 +1061,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ShowClassOverNotification(List<Lesson> today, int index)
         {
-            if (Settings.TimetableSettings.isTimetableNotificationEnabled)
+            if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
                 int nextLessonIndex = index + 1;
 
@@ -1072,7 +1076,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ShowLastClassOverNotification()
         {
-            if (Settings.TimetableSettings.isTimetableNotificationEnabled)
+            if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
                 ShowNotificationBNS("课堂结束", "这是最后一节课", 3, false);
             }
@@ -1325,13 +1329,13 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isSettingsLoaded) return;
             if (ToggleSwitchDataLocation.IsOn)
             {
-                Settings.Storage.isFilesSavingWithProgram = true;
+                Settings.Storage.IsFilesSavingWithProgram = true;
                 GridDataLocation.Visibility = Visibility.Collapsed;
                 SaveSettings();
             }
             else
             {
-                Settings.Storage.isFilesSavingWithProgram = false;
+                Settings.Storage.IsFilesSavingWithProgram = false;
                 GridDataLocation.Visibility = Visibility.Visible;
                 SaveSettings();
             }
@@ -1339,7 +1343,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void TextBoxDataLocation_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.Storage.dataPath = TextBoxDataLocation.Text;
+            Settings.Storage.DataPath = TextBoxDataLocation.Text;
             SaveSettings();
         }
         private void ButtonDataLocation_Click(object sender, RoutedEventArgs e)
@@ -1351,7 +1355,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.isTimetableEnabled = ToggleSwitchUseTimetable.IsOn;
+            Settings.TimetableSettings.IsTimetableEnabled = ToggleSwitchUseTimetable.IsOn;
             LoadTimetableorCurriculum();
             SaveSettings();
         }
@@ -1359,14 +1363,14 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ToggleSwitchTimetableNotification_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.isTimetableNotificationEnabled = ToggleSwitchTimetableNotification.IsOn;
+            Settings.TimetableSettings.IsTimetableNotificationEnabled = ToggleSwitchTimetableNotification.IsOn;
             SaveSettings();
         }
 
         private void ToggleSwitchUseDefaultBNSPath_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.useDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
+            Settings.TimetableSettings.UseDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
             TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
             SaveSettings();
         }
@@ -1381,27 +1385,9 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ToggleSwitchLiteMode_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            if (ToggleSwitchLiteMode.IsOn)
-            {
-                BorderMain.Width = ColumnLauncher.ActualWidth;
-                BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                iconSwitchRight_MouseDown(null, null);
-                iconSwitchLeft.Visibility = Visibility.Collapsed;
-
-                ColumnCanvas.Width = new GridLength(0);
-                ColumnInfoBoard.Width = new GridLength(0);
-                ColumnClock.Width = new GridLength(1, GridUnitType.Star);
-            }
-            else
-            {
-                BorderMain.ClearValue(WidthProperty);
-                BorderMain.ClearValue(HorizontalAlignmentProperty);
-                iconSwitchLeft.Visibility = Visibility.Visible;
-
-                ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
-                ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
-                ColumnClock.Width = GridLength.Auto;
-            }
+            SwitchLookMode();
+            Settings.Look.UseLiteMode = ToggleSwitchLiteMode.IsOn;
+            SaveSettings();
         }
         #endregion
 
@@ -1426,7 +1412,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 ToggleSwitchRunAtStartup.IsOn = true;
             }
 
-            if (Settings.Storage.isFilesSavingWithProgram)
+            if (Settings.Storage.IsFilesSavingWithProgram)
             {
                 ToggleSwitchDataLocation.IsOn = true;
                 GridDataLocation.Visibility = Visibility.Collapsed;
@@ -1448,19 +1434,23 @@ namespace ZongziTEK_Blackboard_Sticker
                 SetTheme("Dark");
             }
 
+            ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
+
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
 
-            TextBoxDataLocation.Text = Settings.Storage.dataPath;
+            TextBoxDataLocation.Text = Settings.Storage.DataPath;
 
-            ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.isTimetableEnabled;
+            ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
 
-            ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.isTimetableNotificationEnabled;
+            ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
 
-            ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.useDefaultBNSPath;
+            ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
 
             TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
 
-            ToggleButtonLock.IsChecked = Settings.Blackboard.isLocked;
+            ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
+
+            isSettingsLoaded = true;
         }
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";
@@ -1582,13 +1572,13 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             string path;
 
-            if (Settings.Storage.isFilesSavingWithProgram)
+            if (Settings.Storage.IsFilesSavingWithProgram)
             {
                 path = System.AppDomain.CurrentDomain.BaseDirectory;
             }
             else
             {
-                path = Settings.Storage.dataPath;
+                path = Settings.Storage.DataPath;
                 if (!path.EndsWith("\\") || !path.EndsWith("/"))
                 {
                     path += "\\";
@@ -1652,27 +1642,6 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private void SetSomeLayout()
-        {
-            /*if (!isSettingsLoaded) return;
-
-            double height = RowMain.ActualHeight - ScrollViewerLauncher.ActualHeight - 32;
-            try
-            {
-                if (height > 0)
-                {
-                    stackPanelCurriculum.MaxHeight = height;
-                }
-                else
-                {
-                    stackPanelCurriculum.MaxHeight = 0;
-                }
-                ScrollViewerShowingCurriculum.Height = height - textBlockTime.ActualHeight - 32;
-
-            }
-            catch { }*/
-        }
-
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
@@ -1728,6 +1697,35 @@ namespace ZongziTEK_Blackboard_Sticker
                 Process.Start(startInfo);
             }
             catch { }
+        }
+
+        private void SwitchLookMode()
+        {
+            if (ToggleSwitchLiteMode.IsOn)
+            {
+                BorderMain.Width = ColumnLauncher.ActualWidth;
+                BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                iconSwitchRight_MouseDown(null, null);
+                iconSwitchLeft.Visibility = Visibility.Collapsed;
+
+                ColumnCanvas.Width = new GridLength(0);
+                ColumnInfoBoard.Width = new GridLength(0);
+                ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+
+                frameInfoNavigationTimer.Stop();
+            }
+            else
+            {
+                BorderMain.ClearValue(WidthProperty);
+                BorderMain.ClearValue(HorizontalAlignmentProperty);
+                iconSwitchLeft.Visibility = Visibility.Visible;
+
+                ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                ColumnClock.Width = GridLength.Auto;
+
+                frameInfoNavigationTimer.Start();
+            }
         }
         #endregion
 
