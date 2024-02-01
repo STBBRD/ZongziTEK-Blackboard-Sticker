@@ -174,8 +174,8 @@
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ScrollViewer Name="ScrollViewerShowingCurriculum" PanningMode="VerticalOnly" Margin="8">
-                            <TextBlock x:Name="textBlockCurriculum" TextWrapping="Wrap"
+                        <ScrollViewer Name="ScrollViewerShowingCurriculum" PanningMode="VerticalOnly">
+                            <TextBlock x:Name="textBlockCurriculum" TextWrapping="Wrap" Margin="16"
                                     Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                                     FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
                         </ScrollViewer>
@@ -287,6 +287,19 @@
                                         <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>
                                     </ui:SimpleStackPanel>
                                 </GroupBox>
+                                <GroupBox Header="信息看板" Foreground="{DynamicResource ForegroundColor}">
+                                    <ui:SimpleStackPanel Spacing="12">
+                                        <ui:SimpleStackPanel Spacing="4">
+                                            <CheckBox Content="日期" IsChecked="True"/>
+                                            <CheckBox Content="天气" IsChecked="True"/>
+                                            <CheckBox Name="CheckBoxCountdown" Content="倒数日" IsChecked="True"/>
+                                        </ui:SimpleStackPanel>
+                                        <TextBox Name="TextBoxCountdownName" ui:ControlHelper.Header="倒数日名称" TextChanged="TextBoxCountdownName_TextChanged"/>
+                                        <DatePicker Name="DatePickerCountdownDate" ui:ControlHelper.PlaceholderText="选择一个日期" ui:ControlHelper.Header="倒数日日期" SelectedDateChanged="DatePickerCountdownDate_SelectedDateChanged"/>
+                                        <Slider Name="SliderCountdownWarnDays" ui:ControlHelper.Header="倒数日警告阈值" ui:ControlHelper.PlaceholderText="与倒数日距离小于此阈值时，数字将变红" Minimum="1" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SliderCountdownWarnDays_ValueChanged" TickPlacement="Both"/>
+                                        <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderCountdownWarnDays}"/>
+                                    </ui:SimpleStackPanel>
+                                </GroupBox>
                                 <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">
                                     <ui:SimpleStackPanel Spacing="12">
                                         <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
@@ -307,7 +320,7 @@
                         </Grid>
                     </Grid>
                 </Border>
-                
+
                 <!--其它-->
                 <Border x:Name="borderFirstOpening" CornerRadius="8" Grid.RowSpan="4" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                     <Grid Margin="48">

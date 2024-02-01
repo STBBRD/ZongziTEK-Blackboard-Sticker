@@ -15,6 +15,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public TimetableSettings TimetableSettings { get; set; } = new TimetableSettings();
 
         public Blackboard Blackboard { get; set; } = new Blackboard();
+        public InfoBoard InfoBoard { get; set; } = new InfoBoard();
     }
 
     public class Storage
@@ -41,5 +42,12 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Blackboard
     {
         public bool IsLocked { get; set; } = false;
+    }
+
+    public class InfoBoard
+    {
+        public string CountdownName { get; set; } = "高考";
+        public DateTime CountdownDate { get; set; } = DateTime.Parse("2025/6/7");
+        public int CountdownWarnDays { get; set; } = 30;
     }
 }

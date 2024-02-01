@@ -1389,6 +1389,27 @@ namespace ZongziTEK_Blackboard_Sticker
             Settings.Look.UseLiteMode = ToggleSwitchLiteMode.IsOn;
             SaveSettings();
         }
+
+        private void TextBoxCountdownName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            Settings.InfoBoard.CountdownName = TextBoxCountdownName.Text;
+            SaveSettings();
+        }
+
+        private void DatePickerCountdownDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            if (DatePickerCountdownDate.SelectedDate != null) Settings.InfoBoard.CountdownDate = DatePickerCountdownDate.SelectedDate.Value;
+            SaveSettings();
+        }
+
+        private void SliderCountdownWarnDays_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isSettingsLoaded) return;
+            Settings.InfoBoard.CountdownWarnDays = (int)SliderCountdownWarnDays.Value;
+            SaveSettings();
+        }
         #endregion
 
         private void LoadSettings()
@@ -1435,20 +1456,20 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
-
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
 
             TextBoxDataLocation.Text = Settings.Storage.DataPath;
 
             ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
-
             ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
-
             ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
-
             TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
+
+            TextBoxCountdownName.Text = Settings.InfoBoard.CountdownName;
+            DatePickerCountdownDate.SelectedDate = Settings.InfoBoard.CountdownDate;
+            SliderCountdownWarnDays.Value = Settings.InfoBoard.CountdownWarnDays;
 
             isSettingsLoaded = true;
         }
