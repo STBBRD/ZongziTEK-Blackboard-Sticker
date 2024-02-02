@@ -128,7 +128,9 @@ namespace ZongziTEK_Blackboard_Sticker
                         HorizontalAlignment = HorizontalAlignment.Right,
                         Width = 36,
                         Height = 36,
-                        Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))
+                        Background = Brushes.Transparent,
+                        Padding = new Thickness(0),
+                        BorderThickness = new Thickness(0),
                     };
 
                     SymbolIcon DeleteIcon = new()
@@ -136,12 +138,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         Symbol = Symbol.Delete
                     };
 
-                    Viewbox DeleteIconViewbox = new()
-                    {
-                        Child = DeleteIcon
-                    };
-
-                    DeleteButton.Content = DeleteIconViewbox;
+                    DeleteButton.Content = DeleteIcon;
 
 
                     //开始组装按钮

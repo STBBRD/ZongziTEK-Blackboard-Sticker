@@ -91,10 +91,10 @@
     <Compile Include="Pages\WeatherPage.xaml.cs">
       <DependentUpon>WeatherPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Controls\TimetableEditorItem.xaml.cs">
+    <Compile Include="Controls\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Controls\TimeTextBox.cs" />
+    <Compile Include="Controls\TimeTextBox.cs" />
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
@@ -114,7 +114,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Controls\TimetableEditorItem.xaml">
+    <Page Include="Controls\TimetableEditorItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

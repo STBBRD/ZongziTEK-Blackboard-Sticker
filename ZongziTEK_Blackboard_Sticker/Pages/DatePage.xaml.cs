@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
 {
@@ -23,6 +24,21 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         public DatePage()
         {
             InitializeComponent();
+
+            Timer_Tick(null, null);
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private DispatcherTimer timer;
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            LabelDate.Content = DateTime.Now.ToString("yyyy 年 M 月 d 日");
+            LabelDayOfWeek.Content = DateTime.Now.ToString("dddd");
         }
     }
 }
