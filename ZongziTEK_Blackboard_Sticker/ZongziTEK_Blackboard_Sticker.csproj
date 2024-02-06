@@ -76,6 +76,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ZongziTEK Weather API">
+      <HintPath>Helpers\ZongziTEK Weather API\ZongziTEK Weather API.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

@@ -34,14 +34,16 @@
                 </Grid.ColumnDefinitions>
 
                 <!--看板-->
-                <Border Height="72" Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <Border Height="60" Grid.ColumnSpan="2" Background="{DynamicResource WindowBackgroundColor}" Margin="8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Name="ColumnClock" Width="auto"/>
                             <ColumnDefinition Name="ColumnInfoBoard"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="textBlockTime" FontSize="50" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" Margin="16,0" TextAlignment="Center" VerticalAlignment="Center"/>
+                        <Viewbox Margin="16,4">
+                            <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" TextAlignment="Center" VerticalAlignment="Center"/>
+                        </Viewbox>
                         <ui:Frame Grid.Column="1" Name="FrameInfo">
                             <ui:Frame.ContentTransitions>
                                 <ui:TransitionCollection>

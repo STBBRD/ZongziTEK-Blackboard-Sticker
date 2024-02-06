@@ -81,7 +81,7 @@ namespace ZongziTEK_Blackboard_Sticker
             FrameInfo.Navigate(frameInfoPages[0]);
             frameInfoNavigationTimer = new DispatcherTimer();
             frameInfoNavigationTimer.Tick += FrameInfoNavigationTimer_Tick;
-            frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(5);
+            frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(4);
             frameInfoNavigationTimer.Start();
 
             //课程表
@@ -382,7 +382,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
             }
             SaveStrokes();
-        }*/
+        }*/ 
 
         private List<int> dec = new List<int>(); //记录触摸设备ID
         Point centerPoint; //中心点
