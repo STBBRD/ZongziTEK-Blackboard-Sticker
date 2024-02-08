@@ -54,10 +54,7 @@ namespace ZongziTEK_Blackboard_Sticker
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
             //窗体
-            Height = System.Windows.SystemParameters.WorkArea.Height;
-            Width = System.Windows.SystemParameters.WorkArea.Width;
-            Top = 0;
-            Left = 0;
+            SetWindowMaximized();
 
             //加载文件
             LoadSettings();
@@ -132,6 +129,25 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                 }
             }
+        }
+
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+
+            //处理 DPI 变化
+            if (MessageBox.Show("检测到系统 DPI 变化，为确保黑板贴显示正常，需要重启黑板贴。\r\n是否立即重启黑板贴？", "ZongziTEK 黑板贴", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                btnRestart_Click(null, null);
+            }
+        }
+
+        private void SetWindowMaximized()
+        {
+            Height = System.Windows.SystemParameters.WorkArea.Height;
+            Width = System.Windows.SystemParameters.WorkArea.Width;
+            Top = 0;
+            Left = 0;
         }
 
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)

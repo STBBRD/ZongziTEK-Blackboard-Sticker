@@ -11,7 +11,7 @@
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
         Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True" Loaded="window_Loaded"
-        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop" Activated="window_Activated" 
+        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop" Activated="window_Activated"
         ui:ThemeManager.RequestedTheme="Light">
 
     <Grid>
@@ -334,6 +334,7 @@
                             <ui:SimpleStackPanel Spacing="16">
                                 <TextBlock FontSize="32" Text="初次使用,请查看以下常用设置项" Foreground="{DynamicResource ForegroundColor}"/>
                                 <ui:ToggleSwitch Header="开机时运行" OnContent="开" OffContent="关" IsOn="{Binding IsOn, ElementName=ToggleSwitchRunAtStartup}"/>
+                                <TextBox ui:ControlHelper.Header="天气城市" Text="{Binding Text, ElementName=TextBoxWeatherCity}"/>
                             </ui:SimpleStackPanel>
                         </ScrollViewer>
                         <Grid VerticalAlignment="Bottom">
