@@ -150,6 +150,12 @@ namespace ZongziTEK_Blackboard_Sticker
             Left = 0;
         }
 
+        private void SetWindowScaleTransform(double Multiplier)
+        {
+            windowScale.ScaleX = Multiplier;
+            windowScale.ScaleY = Multiplier;
+        }
+
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Grid.SetColumn(BorderMain, 0);
@@ -1315,6 +1321,17 @@ namespace ZongziTEK_Blackboard_Sticker
                 StartAutomaticallyDel("ZongziTEK_Blackboard_Sticker");
             }
         }
+
+        private void SliderWindowScale_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            SetWindowScaleTransform(SliderWindowScale.Value);
+
+            if (!isSettingsLoaded) return;
+
+            Settings.Look.windowScaleMultiplier = SliderWindowScale.Value;
+            SaveSettings();
+        }
+
         private void ToggleSwitchTheme_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1549,6 +1566,9 @@ namespace ZongziTEK_Blackboard_Sticker
                 ToggleSwitchTheme.IsOn = false;
                 SetTheme("Dark");
             }
+
+            SliderWindowScale.Value = Settings.Look.windowScaleMultiplier; 
+            SetWindowScaleTransform(SliderWindowScale.Value);
 
             ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;

@@ -26,6 +26,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
     public class Look
     {
+        public double windowScaleMultiplier { get; set; } = 1;
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
         public bool UseLiteMode { get; set; } = false;
