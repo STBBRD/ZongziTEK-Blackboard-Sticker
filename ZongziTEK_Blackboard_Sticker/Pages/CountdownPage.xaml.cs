@@ -36,17 +36,19 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         private void Timer_Tick(object sender, EventArgs e)
         {
             TimeSpan timeSpan = MainWindow.Settings.InfoBoard.CountdownDate - DateTime.Now;
+            string countdownName = MainWindow.Settings.InfoBoard.CountdownName;
+            if (MainWindow.Settings.InfoBoard.CountdownName.Length == 0) countdownName = "倒数日";
             if (timeSpan.Days < 0)
             {
                 LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));
-                LabelName.Content = MainWindow.Settings.InfoBoard.CountdownName + "已开始";
+                LabelName.Content = countdownName + "已开始";
                 timeSpan = -timeSpan;
             }
             else
             {
-                if(timeSpan.Days<MainWindow.Settings.InfoBoard.CountdownWarnDays) LabelDays.Foreground = Brushes.Red;
+                if (timeSpan.Days < MainWindow.Settings.InfoBoard.CountdownWarnDays) LabelDays.Foreground = Brushes.Red;
                 else LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));
-                LabelName.Content = "距离" + MainWindow.Settings.InfoBoard.CountdownName + "还有";
+                LabelName.Content = "距离" + countdownName + "还有";
             }
             LabelDays.Content = timeSpan.Days;
             LabelDaysDetail.Content = (timeSpan.TotalDays - timeSpan.Days).ToString(".000");

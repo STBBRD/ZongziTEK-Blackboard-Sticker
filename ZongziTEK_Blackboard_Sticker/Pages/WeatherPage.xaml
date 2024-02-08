@@ -8,9 +8,18 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="WeatherPage">
 
-    <Grid Margin="16,8" HorizontalAlignment="Right">
-        <Viewbox>
-            <Label Content="🌤晴  12℃~20℃  当前 15℃"/>
+    <Grid HorizontalAlignment="Right">
+        <Viewbox Margin="16,8">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Label Name="LabelCity" FontSize="14" Content="北京市 东城区" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                        <Label Name="LabelWeatherInfo" FontSize="40" Content="晴 20℃" HorizontalAlignment="Right" Margin="0,14,0,0"/>
+                    </Grid>
+                    <Image Name="ImageWeather" Height="58" Width="58" Source="../Resources/WeatherIcons/Sunny.png" Margin="12,0,0,0"/>
+                </StackPanel>
+                
+            </Grid>
         </Viewbox>
     </Grid>
 </Page>

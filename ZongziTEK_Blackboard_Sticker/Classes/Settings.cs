@@ -46,8 +46,14 @@ namespace ZongziTEK_Blackboard_Sticker
 
     public class InfoBoard
     {
+        public bool isCountdownPageEnabled { get; set; } = true;
+        public bool isDatePageEnabled { get; set; } = true;
+        public bool isWeatherPageEnabled { get; set; } = true;
+        public bool isWeatherForecastPageEnabled { get; set; } = true;
         public string CountdownName { get; set; } = "高考";
         public DateTime CountdownDate { get; set; } = DateTime.Parse("2025/6/7");
         public int CountdownWarnDays { get; set; } = 30;
+
+        public string WeatherCity { get; set; } = "北京";
     }
 }

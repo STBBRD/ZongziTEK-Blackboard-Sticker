@@ -91,6 +91,9 @@
     <Compile Include="Pages\DatePage.xaml.cs">
       <DependentUpon>DatePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\WeatherForecastPage.xaml.cs">
+      <DependentUpon>WeatherForecastPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WeatherPage.xaml.cs">
       <DependentUpon>WeatherPage.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WeatherForecastPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +238,14 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WeatherIcons\Cloudy.png" />
+    <Resource Include="Resources\WeatherIcons\MostCloudy.png" />
+    <Resource Include="Resources\WeatherIcons\Rainy.png" />
+    <Resource Include="Resources\WeatherIcons\Snowy.png" />
+    <Resource Include="Resources\WeatherIcons\Sunny.png" />
+    <Resource Include="Resources\WeatherIcons\Thundery.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
