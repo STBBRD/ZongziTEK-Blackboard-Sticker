@@ -245,7 +245,7 @@
                     </Grid>
                 </Border>
 
-                
+
                 <!--其它-->
                 <Border x:Name="borderFirstOpening" CornerRadius="8" Grid.RowSpan="4" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                     <Grid Margin="48">
@@ -271,7 +271,7 @@
                 </Border>
             </Grid>
         </Border>
-        
+
         <!--设置-->
         <Border Name="borderSettingsPanel" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
             <Grid Margin="48">
@@ -343,7 +343,9 @@
                         <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">
                             <ui:SimpleStackPanel Spacing="12">
                                 <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
-                                     <Bold>开发者:</Bold> ZongziTEK
+                                    <Bold>开发者：</Bold>ZongziTEK
+                                    <LineBreak/>
+                                    <Bold>贡献者：</Bold>Puran Lai
                                 </TextBlock>
                                 <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
                                     <Bold>开源地址:</Bold>
