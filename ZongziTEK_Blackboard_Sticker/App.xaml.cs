@@ -3,6 +3,8 @@ using System.Reflection;
 using System;
 using System.Windows;
 using System.Windows.Data;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
+using AutoUpdaterDotNET;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -25,9 +27,17 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (!ret)
             {
-                MessageBox.Show("已有一个黑板贴正在运行");
+                MessageBox.Show("已有一个黑板贴正在运行", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
+
+            // Auto Updater
+            AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("AutoUpdater.json");
+            AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdate.xml");
+            AutoUpdater.ApplicationExitEvent += () =>
+            {
+                Environment.Exit(0);
+            };
         }
     }
 

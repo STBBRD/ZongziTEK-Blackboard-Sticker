@@ -215,8 +215,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Autoupdater.NET.Official">
+      <Version>1.8.4</Version>
+    </PackageReference>
     <PackageReference Include="iNKORE.UI.WPF.Modern">
-      <Version>0.9.24.1</Version>
+      <Version>0.9.26.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>

@@ -28,6 +28,7 @@ using iNKORE.UI.WPF.Modern.Controls;
 using Page = System.Windows.Controls.Page;
 using ZongziTEK_Blackboard_Sticker.Pages;
 using System.Collections;
+using System.Reflection;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -94,6 +95,10 @@ namespace ZongziTEK_Blackboard_Sticker
 
             //小黑板 2
             CheckIsBlackboardLocked();
+
+            //显示版本号
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            TextBlockVersion.Text = version.ToString();
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
