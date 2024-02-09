@@ -13,9 +13,9 @@ namespace ZongziTEK_Blackboard_Sticker
         public Storage Storage { get; set; } = new Storage();
         public Look Look { get; set; } = new Look();
         public TimetableSettings TimetableSettings { get; set; } = new TimetableSettings();
-
         public Blackboard Blackboard { get; set; } = new Blackboard();
         public InfoBoard InfoBoard { get; set; } = new InfoBoard();
+        public Automation Automation { get; set; } = new Automation();
     }
 
     public class Storage
@@ -26,7 +26,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
     public class Look
     {
-        public double windowScaleMultiplier { get; set; } = 1;
+        public double WindowScaleMultiplier { get; set; } = 1;
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
         public bool UseLiteMode { get; set; } = false;
@@ -55,5 +55,10 @@ namespace ZongziTEK_Blackboard_Sticker
         public DateTime CountdownDate { get; set; } = DateTime.Parse("2025/6/7");
         public int CountdownWarnDays { get; set; } = 30;
         public string WeatherCity { get; set; } = "北京";
+    }
+
+    public class Automation
+    {
+        public bool IsAutoHideHugoAssistantEnabled { get; set; } = false;
     }
 }

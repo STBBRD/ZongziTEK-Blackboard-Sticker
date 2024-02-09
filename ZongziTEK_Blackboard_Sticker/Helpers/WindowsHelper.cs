@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -11,6 +12,7 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
 {
     public static class WindowsHelper
     {
+        // Set Sticker Bottom
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
@@ -23,6 +25,59 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         {
             IntPtr hWnd = new WindowInteropHelper(window).Handle;
             SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+        }
+
+        // Hide SeewoServiceAssistant
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private const int SW_MINIMIZE = 6;
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        public static bool MinimizeSeewoServiceAssistant()
+        {
+            // 获取屏幕宽度
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+
+            // 查找进程
+            foreach (var process in Process.GetProcessesByName("SeewoServiceAssistant"))
+            {
+                IntPtr windowHandle = FindWindow("Chrome_WidgetWin_0", "希沃管家");
+
+                if (windowHandle != IntPtr.Zero)
+                {
+                    // 获取窗口大小
+                    if (GetWindowRect(windowHandle, out RECT rect))
+                    {
+                        int windowWidth = rect.Right - rect.Left;
+
+                        // 判断窗口宽度是否小于屏幕大小的三分之一
+                        if (windowWidth < screenWidth / 3)
+                        {
+                            // 最小化窗口
+                            ShowWindow(windowHandle, SW_MINIMIZE);
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -11,23 +11,17 @@ using System.Windows.Controls;
 using Drawing = System.Drawing;
 using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Data;
 using System.Windows.Input.StylusPlugIns;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 using File = System.IO.File;
 using IWshRuntimeLibrary;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
 using ZongziTEK_Blackboard_Sticker.Helpers;
 using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
-using Page = System.Windows.Controls.Page;
-using ZongziTEK_Blackboard_Sticker.Pages;
-using System.Collections;
 using System.Reflection;
 
 namespace ZongziTEK_Blackboard_Sticker
@@ -72,7 +66,7 @@ namespace ZongziTEK_Blackboard_Sticker
             //看板
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
             clockTimer = new DispatcherTimer();
-            clockTimer.Tick += Clock;
+            clockTimer.Tick += ClockTimer_Tick;
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             clockTimer.Start();
 
@@ -99,6 +93,10 @@ namespace ZongziTEK_Blackboard_Sticker
             //显示版本号
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             TextBlockVersion.Text = version.ToString();
+
+            //隐藏管家助手
+            timerHideSeewoServiceAssistant.Tick += TimerHideSeewoServiceAssistant_Tick;
+            timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
         }
         #region Window
         private void window_StateChanged(object sender, EventArgs e)
@@ -1111,7 +1109,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Clock
-        private void Clock(object sender, EventArgs e)
+        private void ClockTimer_Tick(object sender, EventArgs e)
         {
             textBlockTime.Text = DateTime.Now.ToString("HH:mm:ss");
         }
@@ -1333,7 +1331,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (!isSettingsLoaded) return;
 
-            Settings.Look.windowScaleMultiplier = SliderWindowScale.Value;
+            Settings.Look.WindowScaleMultiplier = SliderWindowScale.Value;
             SaveSettings();
         }
 
@@ -1527,6 +1525,19 @@ namespace ZongziTEK_Blackboard_Sticker
             Settings.InfoBoard.WeatherCity = TextBoxWeatherCity.Text;
             SaveSettings();
         }
+
+        private void ToggleSwitchAutoHideSeewoHugoAssistant_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Automation.IsAutoHideHugoAssistantEnabled = ToggleSwitchAutoHideSeewoHugoAssistant.IsOn;
+            SaveSettings();
+
+            if (Settings.Automation.IsAutoHideHugoAssistantEnabled && isSeewoServiceAssistantHided == false)
+                timerHideSeewoServiceAssistant.Start();
+            else
+                timerHideSeewoServiceAssistant.Stop();
+        }
         #endregion
 
         private void LoadSettings()
@@ -1572,7 +1583,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 SetTheme("Dark");
             }
 
-            SliderWindowScale.Value = Settings.Look.windowScaleMultiplier; 
+            SliderWindowScale.Value = Settings.Look.WindowScaleMultiplier;
             SetWindowScaleTransform(SliderWindowScale.Value);
 
             ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
@@ -1595,6 +1606,9 @@ namespace ZongziTEK_Blackboard_Sticker
             TextBoxCountdownName.Text = Settings.InfoBoard.CountdownName;
             DatePickerCountdownDate.SelectedDate = Settings.InfoBoard.CountdownDate;
             SliderCountdownWarnDays.Value = Settings.InfoBoard.CountdownWarnDays;
+
+            ToggleSwitchAutoHideSeewoHugoAssistant.IsOn = Settings.Automation.IsAutoHideHugoAssistantEnabled;
+            if (Settings.Automation.IsAutoHideHugoAssistantEnabled) timerHideSeewoServiceAssistant.Start();
 
             isSettingsLoaded = true;
         }
@@ -1710,6 +1724,20 @@ namespace ZongziTEK_Blackboard_Sticker
             catch { }
             return light;
         }
+
+        #region AutoHideSeewoServiceAssistant
+        private DispatcherTimer timerHideSeewoServiceAssistant = new DispatcherTimer();
+        private bool isSeewoServiceAssistantHided = false;
+        private void TimerHideSeewoServiceAssistant_Tick(object sender, EventArgs e)
+        {
+            if (WindowsHelper.MinimizeSeewoServiceAssistant())
+            {
+                timerHideSeewoServiceAssistant.Stop();
+                isSeewoServiceAssistantHided = true;
+            }
+        }
+        #endregion
+
         #endregion
 
         #region InfoBoard

@@ -340,6 +340,14 @@
                                 <TextBox Name="TextBoxWeatherCity" ui:ControlHelper.Header="天气城市" TextChanged="TextBoxWeatherCity_TextChanged"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
+                        <GroupBox Header="自动" Foreground="{DynamicResource ForegroundColor}">
+                            <ui:SimpleStackPanel Spacing="12">
+                                <ui:ToggleSwitch Name="ToggleSwitchAutoHideSeewoHugoAssistant" Header="自动隐藏 “希沃管家助手”"
+                                                 IsOn="False" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoHideSeewoHugoAssistant_Toggled"/>
+                                <TextBlock Text="希沃管家助手，是希沃管家在桌面上显示的用于快捷启动应用的部件，会遮挡 ZongziTEK 黑板贴的界面。开启此开关后，希沃管家助手将被隐藏，希沃管家（集控）功能不受影响。此功能在部分情况下可能无效。"
+                                               TextWrapping="Wrap" Opacity="0.75"/>
+                            </ui:SimpleStackPanel>
+                        </GroupBox>
                         <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
