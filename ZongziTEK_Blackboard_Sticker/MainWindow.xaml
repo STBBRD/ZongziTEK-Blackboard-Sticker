@@ -75,7 +75,12 @@
                            StrokeCollected="inkCanvas_StrokeCollected" StrokeErased="inkCanvas_StrokeErased"
                            IsManipulationEnabled="True" Background="{x:Null}"/>
                         </Grid>
-                        <Border Name="BorderLockBlackboard" Background="#00000000" Visibility="Collapsed" MouseDown="BorderLockBlackboard_MouseDown"/>
+                        <Border Name="BorderLockBlackboard" Background="#00000000" Visibility="Collapsed" MouseDown="BorderLockBlackboard_MouseDown">
+                            <ui:SimpleStackPanel Name="StackPanelHighlightBlackboardLockState" Visibility="Collapsed" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="已锁定" FontSize="64" HorizontalAlignment="Center"/>
+                                <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="请点击工具栏中图标解锁" FontSize="14" Opacity="0.8" HorizontalAlignment="Center"/>
+                            </ui:SimpleStackPanel>
+                        </Border>
 
                         <Border Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>

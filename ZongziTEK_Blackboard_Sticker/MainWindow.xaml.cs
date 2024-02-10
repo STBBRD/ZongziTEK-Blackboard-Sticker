@@ -329,6 +329,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 isHighlightingLockState = true;
 
+                StackPanelHighlightBlackboardLockState.Visibility = Visibility.Visible;
                 if (Settings.Look.IsLightTheme)
                 {
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
@@ -357,6 +358,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                 }
+                StackPanelHighlightBlackboardLockState.Visibility = Visibility.Collapsed;
 
                 isHighlightingLockState = false;
                 CheckIsBlackboardLocked();
