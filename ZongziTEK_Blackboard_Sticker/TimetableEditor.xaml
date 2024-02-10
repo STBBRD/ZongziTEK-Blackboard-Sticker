@@ -57,7 +57,7 @@
             </ComboBox>
             <Button Name="ButtonInsertLesson" HorizontalAlignment="Center" Width="160" Click="ButtonInsertLesson_Click" VerticalAlignment="Stretch">
                 <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:SymbolIcon Symbol="Add"/>
+                    <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Add}"/>
                     <Label Content="新建课程"/>
                 </ui:SimpleStackPanel>
             </Button>

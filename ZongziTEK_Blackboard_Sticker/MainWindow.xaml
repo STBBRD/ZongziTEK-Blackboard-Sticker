@@ -90,7 +90,7 @@
                                         <Button Name="penButton" Click="penButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                                 Width="32" Height="32" Padding="0"
                                                 HorizontalAlignment="Right" Visibility="{Binding Visibility, ElementName=eraserButton}">
-                                            <ui:SymbolIcon Symbol="Edit" FontSize="20"/>
+                                            <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Edit}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                         </Button>
                                         <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
                                                 Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
@@ -118,11 +118,11 @@
                                     </Grid>
                                     <Button Name="eraserButton" Click="eraserButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                             Width="32" Height="32" Padding="0">
-                                        <Label Content="&#xe75c;" FontFamily="Segoe Fluent Icons" FontSize="20"/>
+                                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.EraseTool}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                     </Button>
                                     <Button Name="clearButton" Click="clearButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                             Width="32" Height="32" Padding="0" Visibility="{Binding Visibility, ElementName=eraserButton}">
-                                        <ui:SymbolIcon Symbol="Delete" FontSize="20"/>
+                                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Delete}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                         <ui:FlyoutService.Flyout>
                                             <ui:Flyout>
                                                 <ui:SimpleStackPanel Spacing="8">
@@ -133,7 +133,7 @@
                                         </ui:FlyoutService.Flyout>
                                     </Button>
                                     <ToggleButton Name="ToggleButtonLock" BorderThickness="0" Width="32" Height="32" Padding="0" Background="#00000000" Click="ToggleButtonLock_Click">
-                                        <Label Content="&#xe72e;" FontFamily="Segoe Fluent Icons" FontSize="20" Foreground="{Binding Foreground, ElementName=ToggleButtonLock}"/>
+                                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Lock}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20" Foreground="{Binding Foreground, ElementName=ToggleButtonLock}"/>
                                     </ToggleButton>
                                 </ui:SimpleStackPanel>
                             </Grid>
@@ -165,7 +165,7 @@
                                 <Label Content="启动台" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <Button BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                             Width="32" Height="32" Padding="0" HorizontalAlignment="Right" Margin="8,0">
-                                    <ui:SymbolIcon Symbol="More" FontSize="20"/>
+                                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                     <ui:FlyoutService.Flyout>
                                         <ui:MenuFlyout>
                                             <MenuItem Header="编辑" Click="ButtonEditLauncher_Click"/>
@@ -222,11 +222,11 @@
                             <Grid>
                                 <Label Content="课程表" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <Button x:Name="saveCurriculumButton" Click="saveCurriculumButton_Click" Width="32" Height="32" Padding="0" Background="#00000000" BorderThickness="0" HorizontalAlignment="Right" Margin="8,0" Visibility="Collapsed">
-                                    <ui:SymbolIcon Symbol="Save" FontSize="20"/>
+                                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Save}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                 </Button>
                                 <Button Name="editCurriculumButton" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                             Width="32" Height="32" Padding="0" HorizontalAlignment="Right" Margin="8,0">
-                                    <ui:SymbolIcon Symbol="More" FontSize="20"/>
+                                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                     <ui:FlyoutService.Flyout>
                                         <ui:MenuFlyout>
                                             <MenuItem Header="编辑" Click="editCurriculumButton_Click"/>
@@ -242,10 +242,10 @@
                 <Border Grid.Row="3" Grid.Column="1" Height="40" Margin="8,0,8,8" CornerRadius="8" VerticalAlignment="Bottom" Background="{DynamicResource WindowBackgroundColor}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
                         <ui:SimpleStackPanel Margin="8,0" Spacing="8" Opacity="0.75" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <ui:SymbolIcon FontSize="20" Foreground="{DynamicResource ForegroundColor}" Height="22" Width="22" Symbol="Clock" MouseDown="iconShowBigClock_MouseDown"/>
-                            <Label Name="iconSwitchLeft" Content="&#xe76b;" FontFamily="Segoe Fluent Icons" Height="22" Width="22" FontSize="22" MouseDown="iconSwitchLeft_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
-                            <Label Name="iconSwitchRight" Visibility="Collapsed" Content="&#xe76c;" FontFamily="Segoe Fluent Icons" FontSize="22" Width="22" Height="22" MouseDown="iconSwitchRight_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
-                            <ui:SymbolIcon FontSize="20" Foreground="{DynamicResource ForegroundColor}" Height="22" Width="22" Symbol="Setting" MouseDown="iconShowSettingsPanel_MouseDown"/>
+                            <ui:FontIcon FontSize="20" Height="22" Width="22" Glyph="&#xe121;" FontFamily="{StaticResource SegoeFluentIcons}" MouseDown="iconShowBigClock_MouseDown" Margin="1,1,-1,-1" Foreground="{DynamicResource ForegroundColor}"/>
+                            <ui:FontIcon Name="iconSwitchLeft" Glyph="&#xe76b;" FontFamily="{StaticResource SegoeFluentIcons}" Height="22" Width="22" FontSize="22" MouseDown="iconSwitchLeft_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
+                            <ui:FontIcon Name="iconSwitchRight" Visibility="Collapsed" Glyph="&#xe76c;" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="22" Width="22" Height="22" MouseDown="iconSwitchRight_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
+                            <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20" Height="22" Width="22" Glyph="{x:Static ui:SegoeIcons.Settings}" MouseDown="iconShowSettingsPanel_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                         </ui:SimpleStackPanel>
                     </Grid>
                 </Border>

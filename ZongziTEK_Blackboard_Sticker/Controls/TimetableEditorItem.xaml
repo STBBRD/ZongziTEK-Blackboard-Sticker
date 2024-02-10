@@ -38,7 +38,7 @@
                                Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="EndTimeTextBox_TextChanged"/>
-            <ui:SymbolIcon Grid.Column="3" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" Symbol="Delete" MouseUp="SymbolIconDelete_MouseUp"/>
+            <ui:FontIcon Grid.Column="3" Glyph="{x:Static ui:SegoeIcons.Delete}" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" FontFamily="{StaticResource SegoeFluentIcons}" MouseUp="SymbolIconDelete_MouseUp"/>
         </Grid>
     </Border>
 </UserControl>

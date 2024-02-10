@@ -11,6 +11,7 @@
                 <ui:XamlControlsResources/>
                 <!-- Other merged dictionaries here -->
                 <ResourceDictionary Source="Style/Light.xaml"/>
+                <ResourceDictionary Source="Resources/FontsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <!-- Other app resources here -->
