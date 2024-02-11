@@ -46,4 +46,9 @@
 
 ![Dark Screenshot](https://i.postimg.cc/brKZqTgf/Dark.png)
 深色主题
+
+<br>
+
+![LiteMode Screenshot](https://i.postimg.cc/vBc4VB0z/LiteMode.png)
+简约模式
 </div>
