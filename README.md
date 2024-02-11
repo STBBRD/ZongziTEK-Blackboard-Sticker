@@ -35,3 +35,15 @@
 - 天气预报页面：显示未来哪几天会下雨
 ### 其它
 - 无需担心黑板贴被“管家助手”遮挡，开启“自动隐藏‘管家助手’”功能后，“管家助手”将被隐藏
+
+## 屏幕截图
+<div align="center">
+  
+![Light Screenshot](https://i.postimg.cc/PfC89pfQ/Light.png)
+浅色主题
+
+<br>
+
+![Dark Screenshot](https://i.postimg.cc/brKZqTgf/Dark.png)
+深色主题
+</div>
