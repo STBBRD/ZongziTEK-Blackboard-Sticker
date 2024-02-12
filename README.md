@@ -1,7 +1,6 @@
 <div align="center">
 
 [![LOGO](https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker/blob/master/ZongziTEK_Blackboard_Sticker/黑板贴.png?raw=true "LOGO")](# "LOGO")
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSTBBRD%2FZongziTEK-Blackboard-Sticker.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSTBBRD%2FZongziTEK-Blackboard-Sticker?ref=badge_shield)
 
 # ZongziTEK 黑板贴
 
