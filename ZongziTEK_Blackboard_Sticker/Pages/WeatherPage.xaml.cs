@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ZongziTEK_Weather_API;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
@@ -27,6 +28,21 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             InitializeComponent();
 
+            Timer_Tick(null,null);
+
+            timer.Interval = TimeSpan.FromHours(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private DispatcherTimer timer = new DispatcherTimer();
+
+        private string liveWeatherFilePath = "Weather/LiveWeather.json";
+
+        private LiveWeather liveWeather = new LiveWeather();
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
             if (!new DirectoryInfo("Weather/").Exists)
             {
                 try { new DirectoryInfo("Weather/").Create(); }
@@ -65,10 +81,6 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
             ShowLiveWeather();
         }
-
-        private string liveWeatherFilePath = "Weather/LiveWeather.json";
-
-        private LiveWeather liveWeather = new LiveWeather();
 
         private void UpdateLiveWeather()
         {

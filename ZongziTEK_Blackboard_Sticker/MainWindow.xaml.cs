@@ -1761,6 +1761,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             frameInfoNavigationTimer.Stop();
 
+            FrameInfo.NavigationService.RemoveBackEntry();
             frameInfoPageIndex++;
             if (frameInfoPageIndex >= frameInfoPages.Count) frameInfoPageIndex = 0;
             FrameInfo.Navigate(frameInfoPages[frameInfoPageIndex]);
@@ -1858,13 +1859,13 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
                 {
-                    inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
+                    btnWhite_Click(null, null);
                 }
                 foreach (Stroke stroke in inkCanvas.Strokes)
                 {
                     if (stroke.DrawingAttributes.Color == Colors.Black)
                     {
-                        btnWhite_Click(null, null);
+                        stroke.DrawingAttributes.Color = Colors.White;
                     }
                 }
             }
