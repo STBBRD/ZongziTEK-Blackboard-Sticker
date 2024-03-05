@@ -29,6 +29,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            Unloaded += Page_Unloaded;
         }
 
         private DispatcherTimer timer;
@@ -52,6 +54,13 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             }
             LabelDays.Content = timeSpan.Days;
             LabelDaysDetail.Content = (timeSpan.TotalDays - timeSpan.Days).ToString(".000");
+        }
+
+        private void Page_Unloaded(object sender, EventArgs e)
+        {
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
+            Unloaded -= Page_Unloaded;
         }
     }
 }

@@ -31,6 +31,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            Unloaded += Page_Unloaded;
         }
 
         private DispatcherTimer timer;
@@ -39,6 +41,13 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             LabelDate.Content = DateTime.Now.ToString("yyyy 年 M 月 d 日");
             LabelDayOfWeek.Content = DateTime.Now.ToString("dddd");
+        }
+
+        private void Page_Unloaded(object sender, EventArgs e)
+        {
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
+            Unloaded -= Page_Unloaded;
         }
     }
 }

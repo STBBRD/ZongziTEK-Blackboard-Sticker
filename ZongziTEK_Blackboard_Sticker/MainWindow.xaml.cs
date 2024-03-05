@@ -1762,6 +1762,7 @@ namespace ZongziTEK_Blackboard_Sticker
             frameInfoNavigationTimer.Stop();
 
             FrameInfo.NavigationService.RemoveBackEntry();
+
             frameInfoPageIndex++;
             if (frameInfoPageIndex >= frameInfoPages.Count) frameInfoPageIndex = 0;
             FrameInfo.Navigate(frameInfoPages[frameInfoPageIndex]);

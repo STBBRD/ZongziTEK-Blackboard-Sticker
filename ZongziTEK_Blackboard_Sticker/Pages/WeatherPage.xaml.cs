@@ -33,6 +33,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             timer.Interval = TimeSpan.FromHours(1);
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            Unloaded += Page_Unloaded;
         }
 
         private DispatcherTimer timer = new DispatcherTimer();
@@ -129,6 +131,13 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 LabelCity.Content = "天气";
                 ImageWeather.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void Page_Unloaded(object sender, EventArgs e)
+        {
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
+            Unloaded -= Page_Unloaded;
         }
     }
 }
