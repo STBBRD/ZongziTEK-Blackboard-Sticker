@@ -87,12 +87,12 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 }
                 else
                 {
-                    LabelWeatherForecast.Content = "未来 " + castWeathers.Count + " 天不会下雨";
+                    LabelWeatherForecast.Content = "未来 " + (castWeathers.Count - 1) + " 天不会下雨";
                 }
             }
             else
             {
-                LabelWeatherForecast.Content="暂无未来天气信息";
+                LabelWeatherForecast.Content = "暂无未来天气信息";
             }
         }
 
@@ -119,7 +119,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 case 6:
                     weekstring = "周六";
                     break;
-                case 0:
+                case 7:
                     weekstring = "周日";
                     break;
             }
