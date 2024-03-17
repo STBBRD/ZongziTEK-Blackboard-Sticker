@@ -49,10 +49,28 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
             public int Bottom;
         }
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDC(IntPtr hwnd);
+
+        [DllImport("gdi32.dll")]
+        public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+        private const int DESKTOP_HORZRES = 118;
+        private const int DESKTOP_VERTRES = 117;
+
+        public static Size GetScreenResolution()
+        {
+            IntPtr hdc = GetDC(IntPtr.Zero);
+            int width = GetDeviceCaps(hdc, DESKTOP_HORZRES);
+            int height = GetDeviceCaps(hdc, DESKTOP_VERTRES);
+
+            return new Size(width, height);
+        }
+
         public static bool MinimizeSeewoServiceAssistant()
         {
             // 获取屏幕宽度
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenWidth = GetScreenResolution().Width;
 
             // 查找进程
             foreach (var process in Process.GetProcessesByName("SeewoServiceAssistant"))
