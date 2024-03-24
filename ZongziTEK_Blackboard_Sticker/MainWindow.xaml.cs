@@ -1109,13 +1109,33 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 // 在界面中高亮当前课程或下一节课
-                if (isInClass) //上课时，高亮当前课程
-                {
+                int lessonToHighlightIndex = -1; // lessonToHighlightIndex 为 -1 时，不高亮任何课程
+                SolidColorBrush noHighlightBrush = (SolidColorBrush)FindResource("ForegroundColor");
+                SolidColorBrush highlightBrush = new SolidColorBrush(Color.FromRgb(0, 120, 212));
 
+                if (isInClass) // 上课时，高亮当前课程
+                {
+                    lessonToHighlightIndex = lessonIndex;
                 }
-                else if (lessonIndex + 1 < today.Count) // 在课间，高亮下一节课
+                else if (lessonIndex + 1 < today.Count) // 在第一节课前或课间，高亮下一节课
                 {
+                    lessonToHighlightIndex = lessonIndex + 1;
+                }
+                else // 最后一节课下课后，不高亮任何课程
+                {
+                    lessonToHighlightIndex = -1;
+                }
 
+                foreach (TextBlock textBlock in StackPanelShowTimetable.Children)
+                {
+                    if (StackPanelShowTimetable.Children.IndexOf(textBlock) == lessonToHighlightIndex) // 高亮要高亮的课程
+                    {
+                        textBlock.Foreground = highlightBrush;
+                    }
+                    else // 取消高亮不要高亮的课程
+                    {
+                        textBlock.Foreground = noHighlightBrush;
+                    }
                 }
             }
 
