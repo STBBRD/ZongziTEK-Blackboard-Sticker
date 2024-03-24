@@ -818,10 +818,14 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.TimetableSettings.IsTimetableEnabled)
             {
                 LoadTimetable();
+                textBlockCurriculum.Visibility = Visibility.Collapsed;
+                StackPanelShowTimetable.Visibility = Visibility.Visible;
             }
             else
             {
                 LoadCurriculum();
+                textBlockCurriculum.Visibility = Visibility.Visible;
+                StackPanelShowTimetable.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -924,7 +928,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                ScrollViewerShowingCurriculum.Visibility = Visibility.Collapsed;
+                ScrollViewerShowCurriculum.Visibility = Visibility.Collapsed;
                 editCurriculumButton.Visibility = Visibility.Collapsed;
 
                 saveCurriculumButton.Visibility = Visibility.Visible;
@@ -936,7 +940,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             SaveCurriculum();
 
-            ScrollViewerShowingCurriculum.Visibility = Visibility.Visible;
+            ScrollViewerShowCurriculum.Visibility = Visibility.Visible;
             editCurriculumButton.Visibility = Visibility.Visible;
 
             saveCurriculumButton.Visibility = Visibility.Collapsed;
@@ -964,42 +968,58 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             string day = DateTime.Today.DayOfWeek.ToString();
+            List<Lesson> timetableToday = new List<Lesson>();
 
             if (!ToggleSwitchTempTimetable.IsOn)
             {
                 switch (day)
                 {
                     case "Monday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Monday);
+                        timetableToday = Timetable.Monday;
                         break;
                     case "Tuesday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Tuesday);
+                        timetableToday = Timetable.Tuesday;
                         break;
                     case "Wednesday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Wednesday);
+                        timetableToday = Timetable.Wednesday;
                         break;
                     case "Thursday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Thursday);
+                        timetableToday = Timetable.Thursday;
                         break;
                     case "Friday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Friday);
+                        timetableToday = Timetable.Friday;
                         break;
                     case "Saturday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Saturday);
+                        timetableToday = Timetable.Saturday;
                         break;
                     case "Sunday":
-                        textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Sunday);
+                        timetableToday = Timetable.Sunday;
                         break;
                 }
             }
             else
             {
-                textBlockCurriculum.Text = Timetable.ToCurriculums(Timetable.Temp);
+                timetableToday = Timetable.Temp;
+            }
+
+            StackPanelShowTimetable.Children.Clear();
+            foreach (Lesson lesson in timetableToday)
+            {
+                TextBlock textBlock = new TextBlock()
+                {
+                    FontSize = 28,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
+                    Text = lesson.Subject
+                };
+
+                StackPanelShowTimetable.Children.Add(textBlock);
             }
 
             lessonIndex = -1;
         }
-        private int lessonIndex = -1;
+        private int lessonIndex = -1; // 第几节课
+        private bool isInClass = false; // 是否是上课时段
         private void CheckTimetable(object sender, EventArgs e)
         {
             timetableTimer.Stop();
@@ -1042,27 +1062,60 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (today != null)
             {
-                for (int i = 0; i < today.Count; i++)
+                // 获取上课状态 lessonIndex 和 isInClass
+                foreach (var lesson in today)
                 {
-                    Lesson lesson = today[i];
-                    if (currentTime >= lesson.StartTime)
+                    if (currentTime >= lesson.StartTime) // 在这节课开始后
                     {
-                        lessonIndex = i;
-                        if (currentTime == lesson.EndTime)
+                        if (today.IndexOf(lesson) + 1 < today.Count) // 不是最后一节课
                         {
-                            if (lessonIndex + 1 < today.Count) ShowClassOverNotification(today, lessonIndex);
-                            else ShowLastClassOverNotification();
+                            if (currentTime < today[today.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
+                            {
+                                lessonIndex = today.IndexOf(lesson);
+                                isInClass = currentTime < lesson.EndTime;
+                                break;
+                            }
+                        }
+                        else // 是最后一节课
+                        {
+                            lessonIndex = today.Count - 1;
+                            isInClass = currentTime < lesson.EndTime;
                             break;
                         }
                     }
-                    if (lessonIndex + 1 < today.Count)
+                    else if (today.IndexOf(lesson) == 0) // 在第一节课开始前
                     {
-                        if (currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10))
-                        {
-                            if (lessonIndex + 1 < today.Count) ShowClassBeginPreNotification(today, lessonIndex);
-                        }
+                        lessonIndex = -1;
+                        isInClass = false;
+                        break;
                     }
-                    if (currentTime < lesson.EndTime) break;
+                }
+
+                // 弹出上下课提醒
+                if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
+                {
+                    if (lessonIndex != -1 && currentTime == today[lessonIndex].EndTime) // 下课时
+                    {
+                        if (lessonIndex + 1 < today.Count) // 不是最后一节课
+                        {
+                            ShowClassOverNotification(today, lessonIndex);
+                        }
+                        else ShowLastClassOverNotification();
+                    }
+                    if (lessonIndex + 1 < today.Count && !isInClass && currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10)) // 有下一节课，在下一节课开始的数秒前
+                    {
+                        ShowClassBeginPreNotification(today, lessonIndex);
+                    }
+                }
+
+                // 在界面中高亮当前课程或下一节课
+                if (isInClass) //上课时，高亮当前课程
+                {
+
+                }
+                else if (lessonIndex + 1 < today.Count) // 在课间，高亮下一节课
+                {
+
                 }
             }
 
@@ -1104,7 +1157,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
-                ShowNotificationBNS("课堂结束", "这是最后一节课", 3, false);
+                ShowNotificationBNS("课堂结束", "", 3, false);
             }
         }
         #endregion
