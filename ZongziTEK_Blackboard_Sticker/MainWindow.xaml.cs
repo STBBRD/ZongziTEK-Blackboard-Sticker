@@ -2042,6 +2042,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     startInfo.FileName = Settings.TimetableSettings.BNSPath + "\\bns.exe";
                 }*/
                 if (GetBNSPath() != null) startInfo.FileName = GetBNSPath();
+                else return;
 
                 startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
                 if (isBottom) startInfo.Arguments += " -bottom";
