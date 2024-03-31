@@ -296,7 +296,7 @@
                         <GroupBox Header="外观" Foreground="{DynamicResource ForegroundColor}">
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:SimpleStackPanel Spacing="4">
-                                    <Slider Name="SliderWindowScale" ui:ControlHelper.Header="界面缩放" Minimum="0.5" Maximum="1.5" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="1" PreviewMouseUp="SliderWindowScale_MouseUp" TickPlacement="Both" HorizontalAlignment="Left" Width="200"/>
+                                    <Slider Name="SliderWindowScale" ui:ControlHelper.Header="界面缩放" Minimum="0.5" Maximum="1.5" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="1" PreviewMouseUp="SliderWindowScale_MouseUp" TickPlacement="Both" HorizontalAlignment="Left" Width="400"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderWindowScale}"/>
                                 </ui:SimpleStackPanel>
                                 <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
@@ -325,10 +325,31 @@
                                 <TextBlock Text="开启上面的开关后，将使用带时间信息的课程表，并且出现上下课提醒功能。关闭上面的开关后，课程表就是文本信息，方便编辑，但没有上下课提醒。&#10;注意：如果需要使用上下课提醒，请下载 黑板通知服务 (https://github.com/STBBRD/Blackboard-Notification-Service)"
                                                TextWrapping="Wrap" Opacity="0.75"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchTimetableNotification" Header="启用上下课提醒" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchTimetableNotification_Toggled" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseTimetable}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="TextBlockBNSStatus" Opacity="0.75" Text="黑板通知服务" VerticalAlignment="Center"/>
+                                    <ui:HyperlinkButton Name="ButtonRefreshBNSStatus" HorizontalContentAlignment="Left" Padding="0" Margin="4,0,0,0" VerticalAlignment="Center" Click="ButtonRefreshBNSStatus_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontSize="12" FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Refresh}"/>
+                                            <TextBlock FontSize="12" Margin="4,0,0,0" Text="重新检测"/>
+                                        </StackPanel>
+                                    </ui:HyperlinkButton>
+                                </StackPanel>
                                 <ui:ToggleSwitch Name="ToggleSwitchTempTimetable" Header="展示临时课表" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchTempTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                <!--<ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="黑板通知服务路径" FontSize="14"/>
-                                <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>
+                                <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>-->
+                                <ui:SimpleStackPanel Spacing="4">
+                                    <Slider Name="SliderBeginNotificationTime" ui:ControlHelper.Header="课前通知持续时间（秒）" Minimum="3" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" Value="4" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
+                                    <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderBeginNotificationTime}"/>
+                                </ui:SimpleStackPanel>
+                                <ui:SimpleStackPanel Spacing="4">
+                                    <Slider Name="SliderBeginNotificationPreTime" ui:ControlHelper.Header="课前通知提前时间（秒）" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True" Value="10" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderBeginNotificationPreTime_ValueChanged"/>
+                                    <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderBeginNotificationPreTime}"/>
+                                </ui:SimpleStackPanel>
+                                <ui:SimpleStackPanel Spacing="4">
+                                    <Slider Name="SliderOverNotificationTime" ui:ControlHelper.Header="下课通知持续时间（秒）" Minimum="3" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" Value="4" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderOverNotificationTime_ValueChanged"/>
+                                    <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderOverNotificationTime}"/>
+                                </ui:SimpleStackPanel>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="信息看板" Foreground="{DynamicResource ForegroundColor}">

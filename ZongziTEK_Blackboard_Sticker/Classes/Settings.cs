@@ -16,6 +16,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public Blackboard Blackboard { get; set; } = new Blackboard();
         public InfoBoard InfoBoard { get; set; } = new InfoBoard();
         public Automation Automation { get; set; } = new Automation();
+        public Update Update { get; set; } = new Update();
     }
 
     public class Storage
@@ -36,8 +37,11 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public bool IsTimetableEnabled { get; set; } = true;
         public bool IsTimetableNotificationEnabled { get; set; } = true;
-        public bool UseDefaultBNSPath = true;
-        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
+        /*public bool UseDefaultBNSPath { get; set; } = true;
+        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";*/
+        public double BeginNotificationTime { get; set; } = 4;
+        public double BeginNotificationPreTime { get; set; } = 10;
+        public double OverNotificationTime { get; set; } = 4;
     }
 
     public class Blackboard
@@ -60,5 +64,11 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Automation
     {
         public bool IsAutoHideHugoAssistantEnabled { get; set; } = false;
+    }
+
+    public class Update
+    {
+        public bool IsUpdateAutomatic { get; set; } = true;
+        public int UpdateChannel { get; set; } = 0; // 0 代表 Release 频道，1 代表 Preview 频道，暂未完成
     }
 }

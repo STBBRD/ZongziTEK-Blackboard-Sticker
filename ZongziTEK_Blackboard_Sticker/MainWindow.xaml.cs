@@ -1060,7 +1060,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
 
-            if (today != null)
+            if (today != null && today.Count != 0)
             {
                 // 获取上课状态 lessonIndex 和 isInClass
                 foreach (var lesson in today)
@@ -1102,7 +1102,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         }
                         else ShowLastClassOverNotification();
                     }
-                    if (lessonIndex + 1 < today.Count && !isInClass && currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(10)) // 有下一节课，在下一节课开始的数秒前
+                    if (lessonIndex + 1 < today.Count && !isInClass && currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
                     {
                         ShowClassBeginPreNotification(today, lessonIndex);
                     }
@@ -1154,7 +1154,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 string title = today[nextLessonIndex].Subject + "课 即将开始";
                 string subtitle = "此课程将从 " + startTimeString + " 开始，到 " + endTimeString + " 结束";
 
-                ShowNotificationBNS(title, subtitle, 3, false);
+                ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.BeginNotificationTime, false);
             }
         }
 
@@ -1169,7 +1169,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 string title = "下一节 " + today[nextLessonIndex].Subject + "课";
                 string subtitle = "课堂结束，下一节课将于 " + startTimeString + " 开始";
 
-                ShowNotificationBNS(title, subtitle, 3, false);
+                ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.OverNotificationTime, false);
             }
         }
 
@@ -1177,7 +1177,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
-                ShowNotificationBNS("课堂结束", "", 3, false);
+                ShowNotificationBNS("课堂结束", "", Settings.TimetableSettings.OverNotificationTime, false);
             }
         }
         #endregion
@@ -1333,6 +1333,8 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             if (borderSettingsPanel.Visibility == Visibility.Collapsed) borderSettingsPanel.Visibility = Visibility.Visible;
             else btnHideSettingsPanel_Click(null, null);
+
+            ButtonRefreshBNSStatus_Click(null, null);
         }
         private void btnHideSettingsPanel_Click(object sender, RoutedEventArgs e)
         {
@@ -1477,18 +1479,59 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveSettings();
         }
 
-        private void ToggleSwitchUseDefaultBNSPath_Toggled(object sender, RoutedEventArgs e)
+        /*private void ToggleSwitchUseDefaultBNSPath_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.UseDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
-            TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
+            //Settings.TimetableSettings.UseDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
+            //TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
             SaveSettings();
         }
 
         private void TextBoxBNSPath_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.BNSPath = TextBoxBNSPath.Text;
+            //Settings.TimetableSettings.BNSPath = TextBoxBNSPath.Text;
+            SaveSettings();
+        }*/
+
+        private void ButtonRefreshBNSStatus_Click(object sender, RoutedEventArgs e)
+        {
+            if (GetBNSPath() == null)
+            {
+                TextBlockBNSStatus.Text = "未检测到黑板通知服务，上下课提醒将不会出现";
+                ButtonRefreshBNSStatus.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TextBlockBNSStatus.Text = "黑板通知服务正常";
+                ButtonRefreshBNSStatus.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SliderBeginNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isSettingsLoaded) return;
+
+            SliderBeginNotificationPreTime.Minimum = SliderBeginNotificationTime.Value;
+            SliderBeginNotificationPreTime.Maximum = SliderBeginNotificationTime.Value + 20;
+
+            Settings.TimetableSettings.BeginNotificationTime = SliderBeginNotificationTime.Value;
+            SaveSettings();
+        }
+
+        private void SliderBeginNotificationPreTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.TimetableSettings.BeginNotificationPreTime = SliderBeginNotificationPreTime.Value;
+            SaveSettings();
+        }
+
+        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.TimetableSettings.OverNotificationTime = SliderOverNotificationTime.Value;
             SaveSettings();
         }
 
@@ -1668,8 +1711,13 @@ namespace ZongziTEK_Blackboard_Sticker
 
             ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
             ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
-            ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
-            TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
+            //ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
+            //TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
+            SliderBeginNotificationTime.Value = Settings.TimetableSettings.BeginNotificationTime;
+            SliderBeginNotificationPreTime.Minimum = SliderBeginNotificationTime.Value;
+            SliderBeginNotificationPreTime.Maximum = SliderBeginNotificationTime.Value + 20;
+            SliderBeginNotificationPreTime.Value = Settings.TimetableSettings.BeginNotificationPreTime;
+            SliderOverNotificationTime.Value = Settings.TimetableSettings.OverNotificationTime;
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
 
@@ -1959,7 +2007,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 shortcut.TargetPath = System.Windows.Forms.Application.ExecutablePath;
                 shortcut.WorkingDirectory = System.Environment.CurrentDirectory;
                 shortcut.WindowStyle = 1;
-                shortcut.Description = exeName + "_Ink";
+                shortcut.Description = exeName + "_link";
                 shortcut.Save();
                 return true;
             }
@@ -1978,21 +2026,22 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
 
-        private void ShowNotificationBNS(string title, string subtitle, int time, bool isBottom)
+        private void ShowNotificationBNS(string title, string subtitle, double time, bool isBottom)
         {
             string timeString = time.ToString();
 
             try
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
-                if (Settings.TimetableSettings.BNSPath.EndsWith("\\"))
+                /*&if (Settings.TimetableSettings.BNSPath.EndsWith("\\"))
                 {
                     startInfo.FileName = Settings.TimetableSettings.BNSPath + "bns.exe";
                 }
                 else
                 {
                     startInfo.FileName = Settings.TimetableSettings.BNSPath + "\\bns.exe";
-                }
+                }*/
+                if (GetBNSPath() != null) startInfo.FileName = GetBNSPath();
 
                 startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
                 if (isBottom) startInfo.Arguments += " -bottom";
@@ -2000,6 +2049,26 @@ namespace ZongziTEK_Blackboard_Sticker
                 Process.Start(startInfo);
             }
             catch { }
+        }
+
+        public static string GetBNSPath()
+        {
+            string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\{92ECD1B1-7ACD-4523-836F-D1F98FB9AF39}_is1";
+            string valueName = "InstallLocation";
+
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(valueName);
+                    if (value != null)
+                    {
+                        return value.ToString() + "bns.exe";
+                    }
+                }
+            }
+
+            return null;
         }
 
         private void SwitchLookMode()
