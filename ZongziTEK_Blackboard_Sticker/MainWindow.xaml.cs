@@ -23,6 +23,7 @@ using ZongziTEK_Blackboard_Sticker.Helpers;
 using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Reflection;
+using AutoUpdaterDotNET;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -38,7 +39,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             InitializeComponent();
 
-            //小黑板 1
+            // 小黑板 1
             drawingAttributes = new DrawingAttributes();
             inkCanvas.DefaultDrawingAttributes = drawingAttributes;
             drawingAttributes.Color = Colors.White;
@@ -48,10 +49,13 @@ namespace ZongziTEK_Blackboard_Sticker
             drawingAttributes.FitToCurve = true;
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
 
-            //窗体
+            // 窗体
             SetWindowMaximized();
 
-            //加载文件
+            windowTimer.Tick += windowTimer_Tick;
+            windowTimer.Start();
+
+            // 加载文件
             LoadSettings();
             LoadStrokes();
             LoadTimetableorCurriculum();
@@ -63,7 +67,10 @@ namespace ZongziTEK_Blackboard_Sticker
                 });
             });
 
-            //看板
+            // 检查更新
+            if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
+
+            // 看板
             textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += ClockTimer_Tick;
@@ -75,7 +82,7 @@ namespace ZongziTEK_Blackboard_Sticker
             frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(4);
             frameInfoNavigationTimer.Start();
 
-            //课程表
+            // 课程表
             timetableTimer = new DispatcherTimer();
             timetableTimer.Tick += CheckTimetable;
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
@@ -83,18 +90,18 @@ namespace ZongziTEK_Blackboard_Sticker
 
             TimetableEditor.EditorButtonUseCurriculum_Click += EditorButtonSettingUseCurriculum;
 
-            //颜色主题
+            // 颜色主题
             Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
 
-            //小黑板 2
+            // 小黑板 2
             CheckIsBlackboardLocked();
 
-            //显示版本号
+            // 显示版本号
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             TextBlockVersion.Text = version.ToString();
 
-            //隐藏管家助手
+            // 隐藏管家助手
             timerHideSeewoServiceAssistant.Tick += TimerHideSeewoServiceAssistant_Tick;
             timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
         }
@@ -171,6 +178,16 @@ namespace ZongziTEK_Blackboard_Sticker
             Grid.SetColumn(BorderMain, 1);
             iconSwitchRight.Visibility = Visibility.Collapsed;
             iconSwitchLeft.Visibility = Visibility.Visible;
+        }
+
+        private DispatcherTimer windowTimer = new DispatcherTimer()
+        {
+            Interval = new TimeSpan(0, 0, 0, 0, 500)
+        };
+
+        private void windowTimer_Tick(object sender, EventArgs e)
+        {
+            WindowsHelper.SetBottom(window);
         }
         #endregion
 
@@ -884,6 +901,8 @@ namespace ZongziTEK_Blackboard_Sticker
             textBoxSunday.Text = Curriculums.Sunday.Curriculums;
             textBoxTempCurriculums.Text = Curriculums.Temp.Curriculums;
 
+            textBlockCurriculum.FontSize = Settings.TimetableSettings.FontSize;
+
             string day = DateTime.Today.DayOfWeek.ToString();
 
             if (!ToggleSwitchTempTimetable.IsOn)
@@ -1007,7 +1026,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 TextBlock textBlock = new TextBlock()
                 {
-                    FontSize = 28,
+                    FontSize = Settings.TimetableSettings.FontSize,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
                     Text = lesson.Subject
@@ -1494,6 +1513,16 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveSettings();
         }*/
 
+        private void SliderTimetableFontSize_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.TimetableSettings.FontSize = SliderTimetableFontSize.Value;
+            SaveSettings();
+
+            LoadTimetableorCurriculum();
+        }
+
         private void ButtonRefreshBNSStatus_Click(object sender, RoutedEventArgs e)
         {
             if (GetBNSPath() == null)
@@ -1656,6 +1685,19 @@ namespace ZongziTEK_Blackboard_Sticker
             else
                 timerHideSeewoServiceAssistant.Stop();
         }
+
+        private void ToggleSwitchAutoUpdate_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Update.IsUpdateAutomatic = ToggleSwitchAutoUpdate.IsOn;
+            SaveSettings();
+
+            if (Settings.Update.IsUpdateAutomatic)
+            {
+                CheckUpdate();
+            }
+        }
         #endregion
 
         private void LoadSettings()
@@ -1713,6 +1755,7 @@ namespace ZongziTEK_Blackboard_Sticker
             ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
             //ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
             //TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
+            SliderTimetableFontSize.Value = Settings.TimetableSettings.FontSize;
             SliderBeginNotificationTime.Value = Settings.TimetableSettings.BeginNotificationTime;
             SliderBeginNotificationPreTime.Minimum = SliderBeginNotificationTime.Value;
             SliderBeginNotificationPreTime.Maximum = SliderBeginNotificationTime.Value + 20;
@@ -1732,6 +1775,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
             ToggleSwitchAutoHideSeewoHugoAssistant.IsOn = Settings.Automation.IsAutoHideHugoAssistantEnabled;
             if (Settings.Automation.IsAutoHideHugoAssistantEnabled) timerHideSeewoServiceAssistant.Start();
+
+            ToggleSwitchAutoUpdate.IsOn = Settings.Update.IsUpdateAutomatic;
 
             isSettingsLoaded = true;
         }
@@ -2100,6 +2145,24 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 frameInfoNavigationTimer.Start();
             }
+        }
+
+        private void CheckUpdate()
+        {
+            AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("AutoUpdater.json");
+            switch (Settings.Update.UpdateChannel)
+            {
+                case 0: // Release 频道
+                    AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdate.xml");
+                    break;
+                case 1: // Preview 频道
+                    AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdatepreview.xml");
+                    break;
+            }
+            AutoUpdater.ApplicationExitEvent += () =>
+            {
+                Environment.Exit(0);
+            };
         }
         #endregion
     }

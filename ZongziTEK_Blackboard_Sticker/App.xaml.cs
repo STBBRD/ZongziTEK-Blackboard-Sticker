@@ -30,14 +30,6 @@ namespace ZongziTEK_Blackboard_Sticker
                 MessageBox.Show("已有一个黑板贴正在运行", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
-
-            // Auto Updater
-            AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("AutoUpdater.json");
-            AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdate.xml");
-            AutoUpdater.ApplicationExitEvent += () =>
-            {
-                Environment.Exit(0);
-            };
         }
     }
 

@@ -39,6 +39,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public bool IsTimetableNotificationEnabled { get; set; } = true;
         /*public bool UseDefaultBNSPath { get; set; } = true;
         public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";*/
+        public double FontSize { get; set; } = 24;
         public double BeginNotificationTime { get; set; } = 4;
         public double BeginNotificationPreTime { get; set; } = 10;
         public double OverNotificationTime { get; set; } = 4;
@@ -69,6 +70,6 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Update
     {
         public bool IsUpdateAutomatic { get; set; } = true;
-        public int UpdateChannel { get; set; } = 0; // 0 代表 Release 频道，1 代表 Preview 频道，暂未完成
+        public int UpdateChannel { get; set; } = 0; // 0 代表 Release 频道，1 代表 Preview 频道
     }
 }
