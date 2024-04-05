@@ -1191,7 +1191,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 // 在界面中高亮当前课程或下一节课
                 int lessonToHighlightIndex = -1; // lessonToHighlightIndex 为 -1 时，不高亮任何课程
                 SolidColorBrush noHighlightBrush = (SolidColorBrush)FindResource("ForegroundColor");
-                SolidColorBrush highlightBrush = new SolidColorBrush(Color.FromRgb(0, 120, 212));
+                SolidColorBrush highlightBrush = (SolidColorBrush)FindResource(ThemeKeys.SystemControlBackgroundAccentBrushKey);
 
                 if (isInClass) // 上课时，高亮当前课程
                 {
