@@ -27,7 +27,7 @@ namespace ZongziTEK_Blackboard_Sticker
             InitializeComponent();
 
             ComboBoxDay.SelectedIndex = 7;
-            ChangeComboBoxDaySelectedIndexToday();
+            AutoSelectTimetableToEdit();
         }
 
         #region Window & Controls
@@ -174,32 +174,34 @@ namespace ZongziTEK_Blackboard_Sticker
             return Timetable.Monday;
         }
 
-        private void ChangeComboBoxDaySelectedIndexToday()
+        private void AutoSelectTimetableToEdit()
         {
 
-            string day = DateTime.Today.DayOfWeek.ToString();
-            switch (day)
+            switch (MainWindow.timetableToShow_index)
             {
-                case "Monday":
+                case 1: // 周一
                     ComboBoxDay.SelectedIndex = 0;
                     break;
-                case "Tuesday":
+                case 2: // 周二
                     ComboBoxDay.SelectedIndex = 1;
                     break;
-                case "Wednesday":
+                case 3: // 周三
                     ComboBoxDay.SelectedIndex = 2;
                     break;
-                case "Thursday":
+                case 4: // 周四
                     ComboBoxDay.SelectedIndex = 3;
                     break;
-                case "Friday":
+                case 5: // 周五
                     ComboBoxDay.SelectedIndex = 4;
                     break;
-                case "Saturday":
+                case 6: // 周六
                     ComboBoxDay.SelectedIndex = 5;
                     break;
-                case "Sunday":
+                case 0: // 周日
                     ComboBoxDay.SelectedIndex = 6;
+                    break;
+                case 7: // 临时
+                    ComboBoxDay.SelectedIndex = 7;
                     break;
             }
         }

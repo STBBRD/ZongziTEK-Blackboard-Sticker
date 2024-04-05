@@ -79,7 +79,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 {
                     if (castWeather.week != today && (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨")))
                     {
-                        rainDays += TransferDayOfWeek(castWeather.week) + "、";
+                        rainDays += TransformDayOfWeek(castWeather.week) + "、";
                     }
                 }
                 if (rainDays.Length > 0)
@@ -98,7 +98,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             }
         }
 
-        private string TransferDayOfWeek(int week)
+        private string TransformDayOfWeek(int week)
         {
             string weekstring = "";
             switch (week)

@@ -11,7 +11,7 @@
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
         Icon="/黑板贴.png" WindowStyle="None" AllowsTransparency="True" Closing="window_Closing" AllowDrop="True" Loaded="window_Loaded"
-        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop"
+        DragEnter="window_DragEnter" DragLeave="window_DragLeave" Drop="window_Drop" Activated="window_Activated" StateChanged="window_StateChanged"
         ui:ThemeManager.RequestedTheme="Light">
 
     <Grid>
@@ -232,15 +232,15 @@
                                     <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                     <ui:FlyoutService.Flyout>
                                         <ui:MenuFlyout>
-                                            <MenuItem Header="选择要展示的课表">
-                                                <MenuItem IsCheckable="True" Header="周一"/>
-                                                <MenuItem IsCheckable="True" Header="周二"/>
-                                                <MenuItem IsCheckable="True" Header="周三"/>
-                                                <MenuItem IsCheckable="True" Header="周四"/>
-                                                <MenuItem IsCheckable="True" Header="周五"/>
-                                                <MenuItem IsCheckable="True" Header="周六"/>
-                                                <MenuItem IsCheckable="True" Header="周日"/>
-                                                <MenuItem IsCheckable="True" Header="临时"/>
+                                            <MenuItem Name="MenuChooseTimetableToShow" Header="选择要展示的课表">
+                                                <MenuItem Name="MenuItemShowMondayTimetable" IsCheckable="True" Header="周一" Click="MenuItemShowMondayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowTuesdayTimetable" IsCheckable="True" Header="周二" Click="MenuItemShowTuesdayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowWednesdayTimetable" IsCheckable="True" Header="周三" Click="MenuItemShowWednesdayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowThursdayTimetable" IsCheckable="True" Header="周四" Click="MenuItemShowThursdayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowFridayTimetable" IsCheckable="True" Header="周五" Click="MenuItemShowFridayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowSaturdayTimetable" IsCheckable="True" Header="周六" Click="MenuItemShowSaturdayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowSundayTimetable" IsCheckable="True" Header="周日" Click="MenuItemShowSundayTimetable_Click"/>
+                                                <MenuItem Name="MenuItemShowTempTimetable" IsCheckable="True" Header="临时" Click="MenuItemShowTempTimetable_Click"/>
                                             </MenuItem>
                                             <MenuItem Header="编辑" Click="editCurriculumButton_Click"/>
                                         </ui:MenuFlyout>
@@ -348,7 +348,7 @@
                                     <Slider Name="SliderBeginNotificationTime" ui:ControlHelper.Header="课前通知持续时间（秒）" Minimum="3" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" Value="4" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderBeginNotificationTime}"/>
                                 </ui:SimpleStackPanel>
-                                <ui:ToggleSwitch Name="ToggleSwitchTempTimetable" Header="展示临时课表" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchTempTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                <!--<ui:ToggleSwitch Name="ToggleSwitchTempTimetable" Header="展示临时课表" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchTempTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>-->
                                 <!--<ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="黑板通知服务路径" FontSize="14"/>
                                 <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>-->

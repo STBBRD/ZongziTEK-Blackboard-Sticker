@@ -52,8 +52,8 @@ namespace ZongziTEK_Blackboard_Sticker
             // 窗体
             SetWindowMaximized();
 
-            windowTimer.Tick += windowTimer_Tick;
-            windowTimer.Start();
+            /*windowTimer.Tick += windowTimer_Tick; // 强力置底，可能导致界面闪烁，故注释
+            windowTimer.Start();*/
 
             // 加载文件
             LoadSettings();
@@ -180,7 +180,7 @@ namespace ZongziTEK_Blackboard_Sticker
             iconSwitchLeft.Visibility = Visibility.Visible;
         }
 
-        private DispatcherTimer windowTimer = new DispatcherTimer()
+        /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁，故注释
         {
             Interval = new TimeSpan(0, 0, 0, 0, 500)
         };
@@ -188,7 +188,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void windowTimer_Tick(object sender, EventArgs e)
         {
             WindowsHelper.SetBottom(window);
-        }
+        }*/
         #endregion
 
         #region Blackboard
@@ -830,6 +830,9 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Timetable & Curriculum
+
+        public static int timetableToShow_index = (int)DateTime.Today.DayOfWeek;
+
         private void LoadTimetableorCurriculum()
         {
             if (Settings.TimetableSettings.IsTimetableEnabled)
@@ -844,6 +847,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 textBlockCurriculum.Visibility = Visibility.Visible;
                 StackPanelShowTimetable.Visibility = Visibility.Collapsed;
             }
+            CheckTimetableMenuItems();
         }
 
         private void EditorButtonSettingUseCurriculum()
@@ -851,9 +855,93 @@ namespace ZongziTEK_Blackboard_Sticker
             ToggleSwitchUseTimetable.IsOn = false;
         }
 
-        private void ToggleSwitchTempTimetable_Toggled(object sender, RoutedEventArgs e)
+        /*private void ToggleSwitchTempTimetable_Toggled(object sender, RoutedEventArgs e)
         {
             LoadTimetableorCurriculum();
+        }*/
+
+        private void MenuItemShowMondayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 1;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowTuesdayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 2;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowWednesdayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 3;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowThursdayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 4;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowFridayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 5;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowSaturdayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 6;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowSundayTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 0;
+            LoadTimetableorCurriculum();
+        }
+
+        private void MenuItemShowTempTimetable_Click(object sender, RoutedEventArgs e)
+        {
+            timetableToShow_index = 7;
+            LoadTimetableorCurriculum();
+        }
+
+        private void CheckTimetableMenuItems() // 通过菜单项的 IsChecked 状态来告知用户正在展示哪个课表
+        {
+            foreach (MenuItem menuItem in MenuChooseTimetableToShow.Items)
+            {
+                menuItem.IsChecked = false;
+            }
+
+            switch (timetableToShow_index)
+            {
+                case 1: // 周一
+                    MenuItemShowMondayTimetable.IsChecked = true;
+                    break;
+                case 2: // 周二
+                    MenuItemShowTuesdayTimetable.IsChecked = true;
+                    break;
+                case 3: // 周三
+                    MenuItemShowWednesdayTimetable.IsChecked = true;
+                    break;
+                case 4: // 周四
+                    MenuItemShowThursdayTimetable.IsChecked = true;
+                    break;
+                case 5: // 周五
+                    MenuItemShowFridayTimetable.IsChecked = true;
+                    break;
+                case 6: // 周六
+                    MenuItemShowSaturdayTimetable.IsChecked = true;
+                    break;
+                case 0: // 周日
+                    MenuItemShowSundayTimetable.IsChecked = true;
+                    break;
+                case 7: // 临时
+                    MenuItemShowTempTimetable.IsChecked = true;
+                    break;
+            }
         }
 
         #region Curriculum
@@ -903,38 +991,32 @@ namespace ZongziTEK_Blackboard_Sticker
 
             textBlockCurriculum.FontSize = Settings.TimetableSettings.FontSize;
 
-            string day = DateTime.Today.DayOfWeek.ToString();
-
-            if (!ToggleSwitchTempTimetable.IsOn)
+            switch (timetableToShow_index)
             {
-                switch (day)
-                {
-                    case "Monday":
-                        textBlockCurriculum.Text = Curriculums.Monday.Curriculums;
-                        break;
-                    case "Tuesday":
-                        textBlockCurriculum.Text = Curriculums.Tuesday.Curriculums;
-                        break;
-                    case "Wednesday":
-                        textBlockCurriculum.Text = Curriculums.Wednesday.Curriculums;
-                        break;
-                    case "Thursday":
-                        textBlockCurriculum.Text = Curriculums.Thursday.Curriculums;
-                        break;
-                    case "Friday":
-                        textBlockCurriculum.Text = Curriculums.Friday.Curriculums;
-                        break;
-                    case "Saturday":
-                        textBlockCurriculum.Text = Curriculums.Saturday.Curriculums;
-                        break;
-                    case "Sunday":
-                        textBlockCurriculum.Text = Curriculums.Sunday.Curriculums;
-                        break;
-                }
-            }
-            else
-            {
-                textBlockCurriculum.Text = Curriculums.Temp.Curriculums;
+                case 1: // 周一
+                    textBlockCurriculum.Text = Curriculums.Monday.Curriculums;
+                    break;
+                case 2: // 周二
+                    textBlockCurriculum.Text = Curriculums.Tuesday.Curriculums;
+                    break;
+                case 3: // 周三
+                    textBlockCurriculum.Text = Curriculums.Wednesday.Curriculums;
+                    break;
+                case 4: // 周四
+                    textBlockCurriculum.Text = Curriculums.Thursday.Curriculums;
+                    break;
+                case 5: // 周五
+                    textBlockCurriculum.Text = Curriculums.Friday.Curriculums;
+                    break;
+                case 6: // 周六
+                    textBlockCurriculum.Text = Curriculums.Saturday.Curriculums;
+                    break;
+                case 0: // 周日
+                    textBlockCurriculum.Text = Curriculums.Sunday.Curriculums;
+                    break;
+                case 7: // 临时
+                    textBlockCurriculum.Text = Curriculums.Temp.Curriculums;
+                    break;
             }
         }
 
@@ -973,6 +1055,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public static Timetable Timetable = new Timetable();
         public static string timetableFileName = "Timetable.json";
         private DispatcherTimer timetableTimer;
+        List<Lesson> timetableToShow = new List<Lesson>();
 
         private void LoadTimetable()
         {
@@ -987,122 +1070,100 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             string day = DateTime.Today.DayOfWeek.ToString();
-            List<Lesson> timetableToday = new List<Lesson>();
 
-            if (!ToggleSwitchTempTimetable.IsOn)
+            switch (timetableToShow_index)
             {
-                switch (day)
-                {
-                    case "Monday":
-                        timetableToday = Timetable.Monday;
-                        break;
-                    case "Tuesday":
-                        timetableToday = Timetable.Tuesday;
-                        break;
-                    case "Wednesday":
-                        timetableToday = Timetable.Wednesday;
-                        break;
-                    case "Thursday":
-                        timetableToday = Timetable.Thursday;
-                        break;
-                    case "Friday":
-                        timetableToday = Timetable.Friday;
-                        break;
-                    case "Saturday":
-                        timetableToday = Timetable.Saturday;
-                        break;
-                    case "Sunday":
-                        timetableToday = Timetable.Sunday;
-                        break;
-                }
-            }
-            else
-            {
-                timetableToday = Timetable.Temp;
+                case 1: // 周一
+                    timetableToShow = Timetable.Monday;
+                    break;
+                case 2: // 周二
+                    timetableToShow = Timetable.Tuesday;
+                    break;
+                case 3: // 周三
+                    timetableToShow = Timetable.Wednesday;
+                    break;
+                case 4: // 周四
+                    timetableToShow = Timetable.Thursday;
+                    break;
+                case 5: // 周五
+                    timetableToShow = Timetable.Friday;
+                    break;
+                case 6: // 周六
+                    timetableToShow = Timetable.Saturday;
+                    break;
+                case 0: // 周日
+                    timetableToShow = Timetable.Sunday;
+                    break;
+                case 7: // 临时
+                    timetableToShow = Timetable.Temp;
+                    break;
             }
 
             StackPanelShowTimetable.Children.Clear();
-            foreach (Lesson lesson in timetableToday)
+            if (timetableToShow.Count == 0)
             {
                 TextBlock textBlock = new TextBlock()
                 {
                     FontSize = Settings.TimetableSettings.FontSize,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
-                    Text = lesson.Subject
+                    Text = "无课程"
                 };
 
                 StackPanelShowTimetable.Children.Add(textBlock);
             }
+            else
+            {
+                foreach (Lesson lesson in timetableToShow)
+                {
+                    TextBlock textBlock = new TextBlock()
+                    {
+                        FontSize = Settings.TimetableSettings.FontSize,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
+                        Text = lesson.Subject
+                    };
+
+                    StackPanelShowTimetable.Children.Add(textBlock);
+                }
+            }
 
             lessonIndex = -1;
         }
+
         private int lessonIndex = -1; // 第几节课
         private bool isInClass = false; // 是否是上课时段
+
         private void CheckTimetable(object sender, EventArgs e)
         {
             timetableTimer.Stop();
 
-            List<Lesson> today = Timetable.Monday;
-            string day = DateTime.Today.DayOfWeek.ToString();
-            if (!ToggleSwitchTempTimetable.IsOn)
-            {
-                switch (day)
-                {
-                    case "Monday":
-                        today = Timetable.Monday;
-                        break;
-                    case "Tuesday":
-                        today = Timetable.Tuesday;
-                        break;
-                    case "Wednesday":
-                        today = Timetable.Wednesday;
-                        break;
-                    case "Thursday":
-                        today = Timetable.Thursday;
-                        break;
-                    case "Friday":
-                        today = Timetable.Friday;
-                        break;
-                    case "Saturday":
-                        today = Timetable.Saturday;
-                        break;
-                    case "Sunday":
-                        today = Timetable.Sunday;
-                        break;
-                }
-            }
-            else
-            {
-                today = Timetable.Temp;
-            }
-
             TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
 
-            if (today != null && today.Count != 0)
+            if (timetableToShow != null && timetableToShow.Count != 0)
             {
                 // 获取上课状态 lessonIndex 和 isInClass
-                foreach (var lesson in today)
+                foreach (var lesson in timetableToShow)
                 {
                     if (currentTime >= lesson.StartTime) // 在这节课开始后
                     {
-                        if (today.IndexOf(lesson) + 1 < today.Count) // 不是最后一节课
+                        if (timetableToShow.IndexOf(lesson) + 1 < timetableToShow.Count) // 不是最后一节课
                         {
-                            if (currentTime < today[today.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
+                            if (currentTime < timetableToShow[timetableToShow.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
                             {
-                                lessonIndex = today.IndexOf(lesson);
+                                lessonIndex = timetableToShow.IndexOf(lesson);
                                 isInClass = currentTime < lesson.EndTime;
                                 break;
                             }
                         }
                         else // 是最后一节课
                         {
-                            lessonIndex = today.Count - 1;
+                            lessonIndex = timetableToShow.Count - 1;
                             isInClass = currentTime < lesson.EndTime;
                             break;
                         }
                     }
-                    else if (today.IndexOf(lesson) == 0) // 在第一节课开始前
+                    else if (timetableToShow.IndexOf(lesson) == 0) // 在第一节课开始前
                     {
                         lessonIndex = -1;
                         isInClass = false;
@@ -1113,17 +1174,17 @@ namespace ZongziTEK_Blackboard_Sticker
                 // 弹出上下课提醒
                 if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
                 {
-                    if (lessonIndex != -1 && currentTime == today[lessonIndex].EndTime) // 下课时
+                    if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].EndTime) // 下课时
                     {
-                        if (lessonIndex + 1 < today.Count) // 不是最后一节课
+                        if (lessonIndex + 1 < timetableToShow.Count) // 不是最后一节课
                         {
-                            ShowClassOverNotification(today, lessonIndex);
+                            ShowClassOverNotification(timetableToShow, lessonIndex);
                         }
                         else ShowLastClassOverNotification();
                     }
-                    if (lessonIndex + 1 < today.Count && !isInClass && currentTime == today[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
+                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
                     {
-                        ShowClassBeginPreNotification(today, lessonIndex);
+                        ShowClassBeginPreNotification(timetableToShow, lessonIndex);
                     }
                 }
 
@@ -1136,7 +1197,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     lessonToHighlightIndex = lessonIndex;
                 }
-                else if (lessonIndex + 1 < today.Count) // 在第一节课前或课间，高亮下一节课
+                else if (lessonIndex + 1 < timetableToShow.Count) // 在第一节课前或课间，高亮下一节课
                 {
                     lessonToHighlightIndex = lessonIndex + 1;
                 }
