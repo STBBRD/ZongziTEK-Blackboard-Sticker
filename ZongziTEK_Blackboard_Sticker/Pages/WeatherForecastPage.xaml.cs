@@ -73,9 +73,11 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             if (castWeathers.Count != 0)
             {
                 string rainDays = "";
+                int today = (int)DateTime.Now.DayOfWeek;
+                if (today == 0) today = 7;
                 foreach (var castWeather in castWeathers)
                 {
-                    if (castWeather.week != (int)DateTime.Now.DayOfWeek && (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨")))
+                    if (castWeather.week != today && (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨")))
                     {
                         rainDays += TransferDayOfWeek(castWeather.week) + "、";
                     }

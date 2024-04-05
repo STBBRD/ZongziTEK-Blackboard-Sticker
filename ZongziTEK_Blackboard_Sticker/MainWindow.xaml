@@ -232,6 +232,16 @@
                                     <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}" FontSize="20"/>
                                     <ui:FlyoutService.Flyout>
                                         <ui:MenuFlyout>
+                                            <MenuItem Header="选择要展示的课表">
+                                                <MenuItem IsCheckable="True" Header="周一"/>
+                                                <MenuItem IsCheckable="True" Header="周二"/>
+                                                <MenuItem IsCheckable="True" Header="周三"/>
+                                                <MenuItem IsCheckable="True" Header="周四"/>
+                                                <MenuItem IsCheckable="True" Header="周五"/>
+                                                <MenuItem IsCheckable="True" Header="周六"/>
+                                                <MenuItem IsCheckable="True" Header="周日"/>
+                                                <MenuItem IsCheckable="True" Header="临时"/>
+                                            </MenuItem>
                                             <MenuItem Header="编辑" Click="editCurriculumButton_Click"/>
                                         </ui:MenuFlyout>
                                     </ui:FlyoutService.Flyout>
