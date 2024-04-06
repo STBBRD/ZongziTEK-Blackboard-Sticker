@@ -39,7 +39,7 @@
                     <TextBlock Grid.Column="2" Text="结束时间" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
-            <ScrollViewer PanningMode="VerticalOnly" Grid.Row="2">
+            <ScrollViewer Name="ScrollViewerTimetable" PanningMode="VerticalOnly" Grid.Row="2" PreviewMouseWheel="ScrollViewerTimetable_PreviewMouseWheel">
                 <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
                 </ui:SimpleStackPanel>
             </ScrollViewer>

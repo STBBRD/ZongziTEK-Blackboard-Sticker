@@ -134,6 +134,12 @@ namespace ZongziTEK_Blackboard_Sticker
             GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false));
             ListStackPanel.Children.Add(item);
         }
+
+        private void ScrollViewerTimetable_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0) ScrollViewerTimetable.LineUp();
+            else ScrollViewerTimetable.LineDown();
+        }
         #endregion
 
         #region Load & Save
