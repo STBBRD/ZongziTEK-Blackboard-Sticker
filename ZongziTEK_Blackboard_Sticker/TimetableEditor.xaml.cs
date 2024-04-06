@@ -100,7 +100,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 try
                 {
                     Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime), changedItem.IsSplitBelow);
-                    GetSelectedDay()[index] = lesson; 
+                    GetSelectedDay()[index] = lesson;
                     if (lesson.IsSplitBelow)
                     {
                         changedItem.Margin = new Thickness(0, 0, 0, 8);
@@ -153,13 +153,37 @@ namespace ZongziTEK_Blackboard_Sticker
                 };
                 if (lesson.IsSplitBelow)
                 {
-                    item.Margin = new Thickness(0,0,0,8);
+                    item.Margin = new Thickness(0, 0, 0, 8);
                 }
                 item.LessonInfoChanged += Item_LessonInfoChanged;
                 item.LessonDeleting += Item_LessonDeleting;
                 ListStackPanel.Children.Add(item);
             }
         }
+        #endregion
+
+        #region ClipBoard
+        private List<Lesson> ClipBoard = new List<Lesson>();
+
+        private void ButtonCopy_Click(object sender, RoutedEventArgs e)
+        {
+            ClipBoard = GetSelectedDay().ToList();
+            ButtonPaste.Visibility = Visibility.Visible;
+        }
+
+        private void ButtonPaste_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("这里原有的课程将被覆盖", "确定要粘贴吗？", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                GetSelectedDay().Clear();
+                foreach (Lesson lesson in ClipBoard)
+                {
+                    GetSelectedDay().Add(lesson);
+                }
+                LoadTimetable();
+            }
+        }
+
         #endregion
 
         #region Other Functions

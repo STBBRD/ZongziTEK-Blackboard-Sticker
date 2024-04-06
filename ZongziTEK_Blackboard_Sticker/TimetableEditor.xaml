@@ -45,16 +45,24 @@
             </ScrollViewer>
         </Grid>
         <Grid VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32">
-            <ComboBox Name="ComboBoxDay" Width="120" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
-                <ComboBoxItem Content="周一"/>
-                <ComboBoxItem Content="周二"/>
-                <ComboBoxItem Content="周三"/>
-                <ComboBoxItem Content="周四"/>
-                <ComboBoxItem Content="周五"/>
-                <ComboBoxItem Content="周六"/>
-                <ComboBoxItem Content="周日"/>
-                <ComboBoxItem Content="临时"/>
-            </ComboBox>
+            <ui:SimpleStackPanel Spacing="8" Orientation="Horizontal">
+                <ComboBox Name="ComboBoxDay" Width="100" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
+                    <ComboBoxItem Content="周一"/>
+                    <ComboBoxItem Content="周二"/>
+                    <ComboBoxItem Content="周三"/>
+                    <ComboBoxItem Content="周四"/>
+                    <ComboBoxItem Content="周五"/>
+                    <ComboBoxItem Content="周六"/>
+                    <ComboBoxItem Content="周日"/>
+                    <ComboBoxItem Content="临时"/>
+                </ComboBox>
+                <Button Name="ButtonCopy" Width="32" Height="32" Padding="0" Click="ButtonCopy_Click">
+                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Copy}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                </Button>
+                <Button Name="ButtonPaste" Visibility="Collapsed" Width="32" Height="32" Padding="0" Click="ButtonPaste_Click">
+                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Paste}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                </Button>
+            </ui:SimpleStackPanel>
             <Button Name="ButtonInsertLesson" HorizontalAlignment="Center" Width="160" Click="ButtonInsertLesson_Click" VerticalAlignment="Stretch">
                 <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                     <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Add}"/>
