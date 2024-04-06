@@ -30,7 +30,9 @@ namespace ZongziTEK_Blackboard_Sticker
         public double WindowScaleMultiplier { get; set; } = 1;
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
-        public bool UseLiteMode { get; set; } = false;
+        //public bool UseLiteMode { get; set; } = false;
+        //public bool IsLiteModeWithInfoBoard { get; set; } = false;
+        public int LookMode { get; set; } = 0; // 0 代表默认模式，1 代表顶部为时钟的简约模式，2 代表顶部为信息看板的简约模式
     }
 
     public class TimetableSettings

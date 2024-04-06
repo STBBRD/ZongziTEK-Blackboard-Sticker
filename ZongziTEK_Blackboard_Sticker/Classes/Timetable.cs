@@ -42,12 +42,14 @@ namespace ZongziTEK_Blackboard_Sticker
         public string Subject { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public bool IsSplitBelow { get; set; } = false;
 
-        public Lesson(string subject, TimeSpan startTime, TimeSpan endTime)
+        public Lesson(string subject, TimeSpan startTime, TimeSpan endTime, bool isSplitBelow)
         {
             Subject = subject;
             StartTime = startTime;
             EndTime = endTime;
+            IsSplitBelow = isSplitBelow;
         }
     }
 }

@@ -37,6 +37,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public event EventHandler LessonInfoChanged;
         public event EventHandler LessonDeleting;
 
+        #region Properties
         public static readonly DependencyProperty SubjectProperty =
         DependencyProperty.Register("Subject", typeof(string), typeof(TimetableEditorItem));
 
@@ -64,6 +65,17 @@ namespace ZongziTEK_Blackboard_Sticker
             set { SetValue(EndTimeProperty, value); }
         }
 
+        public static readonly DependencyProperty IsSplitBelowProperty =
+            DependencyProperty.Register("IsSplitBelow", typeof(bool), typeof(TimetableEditorItem));
+
+        public bool IsSplitBelow
+        {
+            get { return (bool)GetValue(IsSplitBelowProperty); }
+            set { SetValue(IsSplitBelowProperty, value); }
+        }
+        #endregion
+
+        #region TextBlockHint
         private void TextBoxSubject_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBlockHintSubject.Visibility = Visibility.Hidden;
@@ -71,12 +83,14 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void TextBoxSubject_LostFocus(object sender, RoutedEventArgs e)
         {
-            if(TextBoxSubject.Text == "")
+            if (TextBoxSubject.Text == "")
             {
                 TextBlockHintSubject.Visibility = Visibility.Visible;
             }
         }
+        #endregion
 
+        #region Events
         private void OnLessonInfoChanged()
         {
             EventHandler handler = LessonInfoChanged;
@@ -88,6 +102,9 @@ namespace ZongziTEK_Blackboard_Sticker
             EventHandler handler = LessonDeleting;
             handler?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
+
+        #region Controls
 
         private void TextBoxSubject_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -115,9 +132,21 @@ namespace ZongziTEK_Blackboard_Sticker
             OnLessonInfoChanged();
         }
 
-        private void SymbolIconDelete_MouseUp(object sender, MouseButtonEventArgs e)
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
             OnLessonDeleting();
         }
+
+        private void MenuItemSplit_Click(object sender, RoutedEventArgs e)
+        {
+            IsSplitBelow = MenuItemSplit.IsChecked;
+            OnLessonInfoChanged();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            MenuItemSplit.IsChecked = IsSplitBelow;
+        }
+        #endregion
     }
 }

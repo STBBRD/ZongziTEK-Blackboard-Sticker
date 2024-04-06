@@ -6,7 +6,7 @@
              xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
              xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="local:TimeTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="ui:TextBoxHelper.IsDeleteButtonVisible" Value="False" />
@@ -38,7 +38,20 @@
                                Text="{Binding EndTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="EndTimeTextBox_TextChanged"/>
-            <ui:FontIcon Grid.Column="3" Glyph="{x:Static ui:SegoeIcons.Delete}" HorizontalAlignment="Right" Margin="16,8" Opacity="0.5" FontFamily="{StaticResource SegoeFluentIcons}" MouseUp="SymbolIconDelete_MouseUp"/>
+            <Button Grid.Column="3" Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="16,8" Opacity="0.75">
+                <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                <ui:FlyoutService.Flyout>
+                    <ui:MenuFlyout>
+                        <MenuItem Name="MenuItemSplit" Header="在这节课后添加空隙" IsCheckable="True" Click="MenuItemSplit_Click"/>
+                        <Separator/>
+                        <MenuItem Header="删除" Click="MenuItemDelete_Click">
+                            <MenuItem.Icon>
+                                <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Delete}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ui:MenuFlyout>
+                </ui:FlyoutService.Flyout>
+            </Button>
         </Grid>
     </Border>
 </UserControl>

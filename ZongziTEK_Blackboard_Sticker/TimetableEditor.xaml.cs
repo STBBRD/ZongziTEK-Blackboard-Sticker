@@ -99,8 +99,16 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 try
                 {
-                    Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime));
-                    GetSelectedDay()[index] = lesson;
+                    Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime), changedItem.IsSplitBelow);
+                    GetSelectedDay()[index] = lesson; 
+                    if (lesson.IsSplitBelow)
+                    {
+                        changedItem.Margin = new Thickness(0, 0, 0, 8);
+                    }
+                    else
+                    {
+                        changedItem.Margin = new Thickness(0);
+                    }
                 }
                 catch { }
             }
@@ -123,7 +131,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TimetableEditorItem item = new TimetableEditorItem();
             item.LessonInfoChanged += Item_LessonInfoChanged;
             item.LessonDeleting += Item_LessonDeleting;
-            GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0)));
+            GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false));
             ListStackPanel.Children.Add(item);
         }
         #endregion
@@ -140,8 +148,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     Subject = lesson.Subject,
                     StartTime = lesson.StartTime.ToString(@"hh\:mm"),
-                    EndTime = lesson.EndTime.ToString(@"hh\:mm")
+                    EndTime = lesson.EndTime.ToString(@"hh\:mm"),
+                    IsSplitBelow = lesson.IsSplitBelow
                 };
+                if (lesson.IsSplitBelow)
+                {
+                    item.Margin = new Thickness(0,0,0,8);
+                }
                 item.LessonInfoChanged += Item_LessonInfoChanged;
                 item.LessonDeleting += Item_LessonDeleting;
                 ListStackPanel.Children.Add(item);

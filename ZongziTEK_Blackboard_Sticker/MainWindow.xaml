@@ -312,7 +312,14 @@
                                 <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"
                                                      IsEnabled="{Binding IsOn, Converter={StaticResource InverseBooleanConverter}, ElementName=ToggleSwitchThemeAuto}"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchLiteMode" Header="使用简约模式" OnContent="是" OffContent="否" Toggled="ToggleSwitchLiteMode_Toggled"/>
+                                <!--<ui:ToggleSwitch Name="ToggleSwitchLiteMode" Header="使用简约模式" OnContent="是" OffContent="否" Toggled="ToggleSwitchLiteMode_Toggled"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchLiteModeWithInfoBoard" Header="在简约模式中展示信息看板" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchLiteModeWithInfoBoard_Toggled"/>-->
+                                <ComboBox ui:ControlHelper.Header="显示模式" Name="ComboBoxLookMode" SelectionChanged="ComboBoxLookMode_SelectionChanged">
+                                    <ComboBoxItem>默认</ComboBoxItem>
+                                    <ComboBoxItem>简约（顶部为时钟）</ComboBoxItem>
+                                    <ComboBoxItem>简约（顶部为看板）</ComboBoxItem>
+                                </ComboBox>
+                                <TextBlock Text="此设置项可以选择要显示的内容，如需隐藏小黑板，请设置为简约模式" TextWrapping="Wrap" Opacity="0.75"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="存储" Foreground="{DynamicResource ForegroundColor}">

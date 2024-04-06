@@ -1123,6 +1123,10 @@ namespace ZongziTEK_Blackboard_Sticker
                         Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
                         Text = lesson.Subject
                     };
+                    if(lesson.IsSplitBelow)
+                    {
+                        textBlock.Margin = new Thickness(0, 0, 0, 8);
+                    }
 
                     StackPanelShowTimetable.Children.Add(textBlock);
                 }
@@ -1516,6 +1520,42 @@ namespace ZongziTEK_Blackboard_Sticker
             SaveSettings();
         }
 
+        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.TimetableSettings.OverNotificationTime = SliderOverNotificationTime.Value;
+            SaveSettings();
+        }
+
+        /*private void ToggleSwitchLiteMode_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+            SwitchLookMode();
+            Settings.Look.UseLiteMode = ToggleSwitchLiteMode.IsOn;
+            SaveSettings();
+        }
+
+        private void ToggleSwitchLiteModeWithInfoBoard_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Look.IsLiteModeWithInfoBoard = ToggleSwitchLiteModeWithInfoBoard.IsOn;
+            SaveSettings();
+
+            SwitchLookMode();
+        }*/
+
+        private void ComboBoxLookMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Look.LookMode = ComboBoxLookMode.SelectedIndex;
+            SaveSettings();
+
+            SwitchLookMode();
+        }
+
         private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1614,22 +1654,6 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isSettingsLoaded) return;
 
             Settings.TimetableSettings.BeginNotificationPreTime = SliderBeginNotificationPreTime.Value;
-            SaveSettings();
-        }
-
-        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.TimetableSettings.OverNotificationTime = SliderOverNotificationTime.Value;
-            SaveSettings();
-        }
-
-        private void ToggleSwitchLiteMode_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            SwitchLookMode();
-            Settings.Look.UseLiteMode = ToggleSwitchLiteMode.IsOn;
             SaveSettings();
         }
 
@@ -1807,7 +1831,9 @@ namespace ZongziTEK_Blackboard_Sticker
             SliderWindowScale.Value = Settings.Look.WindowScaleMultiplier;
             SetWindowScaleTransform(SliderWindowScale.Value);
 
-            ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
+            //ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
+            //ToggleSwitchLiteModeWithInfoBoard.IsOn = Settings.Look.IsLiteModeWithInfoBoard;
+            ComboBoxLookMode.SelectedIndex = Settings.Look.LookMode;
             ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
 
             TextBoxDataLocation.Text = Settings.Storage.DataPath;
@@ -2180,31 +2206,46 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void SwitchLookMode()
         {
-            if (ToggleSwitchLiteMode.IsOn)
+            switch(Settings.Look.LookMode)
             {
-                BorderMain.Width = ColumnLauncher.ActualWidth;
-                BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                iconSwitchRight_MouseDown(null, null);
-                iconSwitchLeft.Visibility = Visibility.Collapsed;
+                case 0: // 默认
+                    BorderMain.ClearValue(WidthProperty);
+                    BorderMain.ClearValue(HorizontalAlignmentProperty);
+                    iconSwitchLeft.Visibility = Visibility.Visible;
 
-                ColumnCanvas.Width = new GridLength(0);
-                ColumnInfoBoard.Width = new GridLength(0);
-                ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnClock.Width = GridLength.Auto;
 
-                frameInfoNavigationTimer.Stop();
-                FrameInfo.Navigate(frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
-            }
-            else
-            {
-                BorderMain.ClearValue(WidthProperty);
-                BorderMain.ClearValue(HorizontalAlignmentProperty);
-                iconSwitchLeft.Visibility = Visibility.Visible;
+                    frameInfoNavigationTimer.Start();
+                    break;
 
-                ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
-                ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
-                ColumnClock.Width = GridLength.Auto;
+                case 1: // 简约（顶部为时钟）
+                    BorderMain.Width = ColumnLauncher.ActualWidth;
+                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    iconSwitchRight_MouseDown(null, null);
+                    iconSwitchLeft.Visibility = Visibility.Collapsed;
 
-                frameInfoNavigationTimer.Start();
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnInfoBoard.Width = new GridLength(0);
+                    ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+
+                    frameInfoNavigationTimer.Stop();
+                    FrameInfo.Navigate(frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+                    break;
+
+                case 2: // 简约（顶部为看板）
+                    BorderMain.Width = ColumnLauncher.ActualWidth;
+                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    iconSwitchRight_MouseDown(null, null);
+                    iconSwitchLeft.Visibility = Visibility.Collapsed;
+
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnClock.Width = new GridLength(0);
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+
+                    frameInfoNavigationTimer.Start();
+                    break;
             }
         }
 
