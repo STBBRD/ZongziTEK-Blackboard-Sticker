@@ -109,7 +109,8 @@ namespace ZongziTEK_Blackboard_Sticker
         private void window_StateChanged(object sender, EventArgs e)
         {
             WindowState = WindowState.Normal;
-            WindowsHelper.SetBottom(window);
+
+            if (Settings.Automation.IsBottomMost) WindowsHelper.SetBottom(window);
         }
 
         private void window_Loaded(object sender, RoutedEventArgs e)
@@ -119,7 +120,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void window_Activated(object sender, EventArgs e)
         {
-            WindowsHelper.SetBottom(window);
+            if (Settings.Automation.IsBottomMost) WindowsHelper.SetBottom(window);
         }
 
         public static bool CloseIsFromButton = false;
@@ -1033,7 +1034,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 editCurriculumButton.Visibility = Visibility.Collapsed;
 
                 saveCurriculumButton.Visibility = Visibility.Visible;
-                scrollViewerCurriculum.Visibility = Visibility.Visible;
+                ScrollViewerCurriculum.Visibility = Visibility.Visible;
             }
         }
 
@@ -1045,7 +1046,7 @@ namespace ZongziTEK_Blackboard_Sticker
             editCurriculumButton.Visibility = Visibility.Visible;
 
             saveCurriculumButton.Visibility = Visibility.Collapsed;
-            scrollViewerCurriculum.Visibility = Visibility.Collapsed;
+            ScrollViewerCurriculum.Visibility = Visibility.Collapsed;
 
             LoadTimetableorCurriculum();
         }
@@ -1123,7 +1124,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
                         Text = lesson.Subject
                     };
-                    if(lesson.IsSplitBelow)
+                    if (lesson.IsSplitBelow)
                     {
                         textBlock.Margin = new Thickness(0, 0, 0, 8);
                     }
@@ -1402,8 +1403,39 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 Process.Start(@"C:\Windows\System32\explorer.exe", "/s,");
             }
-            catch (Exception)
-            { }
+            catch (Exception) { }
+        }
+        private void ButtonReloadLauncher_Click(object sender, RoutedEventArgs e)
+        {
+            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
+            ProgressBarLauncher.Visibility = Visibility.Visible;
+
+            Button buttonExplorerBackup = buttonExplorer;
+
+            StackPanelLauncher.Children.Clear();
+
+            Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    StackPanelLauncher.Children.Add(buttonExplorerBackup);
+                }));
+            });
+
+            Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    LoadLauncher();
+                });
+            });
+            btnHideSettingsPanel_Click(null, null);
+        }
+
+        private void ButtonEditLauncher_Click(object sender, RoutedEventArgs e)
+        {
+            new LauncherEditor().ShowDialog();
+            ButtonReloadLauncher_Click(null, null);
         }
 
         #endregion
@@ -1440,38 +1472,6 @@ namespace ZongziTEK_Blackboard_Sticker
             CloseIsFromButton = true;
             System.Windows.Application.Current.Shutdown();
         }
-        private void ButtonReloadLauncher_Click(object sender, RoutedEventArgs e)
-        {
-            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
-            ProgressBarLauncher.Visibility = Visibility.Visible;
-
-            Button buttonExplorerBackup = buttonExplorer;
-
-            StackPanelLauncher.Children.Clear();
-
-            Task.Run(() =>
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    StackPanelLauncher.Children.Add(buttonExplorerBackup);
-                }));
-            });
-
-            Task.Run(() =>
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    LoadLauncher();
-                });
-            });
-            btnHideSettingsPanel_Click(null, null);
-        }
-
-        private void ButtonEditLauncher_Click(object sender, RoutedEventArgs e)
-        {
-            new LauncherEditor().ShowDialog();
-            ButtonReloadLauncher_Click(null, null);
-        }
 
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
         {
@@ -1483,6 +1483,26 @@ namespace ZongziTEK_Blackboard_Sticker
             else
             {
                 StartAutomaticallyDel("ZongziTEK_Blackboard_Sticker");
+            }
+        }
+
+        private void ToggleSwitchBottomMost_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isSettingsLoaded) return;
+
+            Settings.Automation.IsBottomMost = ToggleSwitchBottomMost.IsOn;
+            SaveSettings();
+
+            if (!ToggleSwitchBottomMost.IsOn)
+            {
+                if (MessageBox.Show("需要重新启动黑板贴来使此设置生效\n确定要重新启动黑板贴吗", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    btnRestart_Click(null, null);
+                }
+                else
+                {
+                    ToggleSwitchBottomMost.IsOn = true;
+                }
             }
         }
 
@@ -1827,6 +1847,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 ToggleSwitchTheme.IsOn = false;
                 SetTheme("Dark");
             }
+
+            ToggleSwitchBottomMost.IsOn = Settings.Automation.IsBottomMost;
 
             SliderWindowScale.Value = Settings.Look.WindowScaleMultiplier;
             SetWindowScaleTransform(SliderWindowScale.Value);
@@ -2206,7 +2228,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void SwitchLookMode()
         {
-            switch(Settings.Look.LookMode)
+            switch (Settings.Look.LookMode)
             {
                 case 0: // 默认
                     BorderMain.ClearValue(WidthProperty);

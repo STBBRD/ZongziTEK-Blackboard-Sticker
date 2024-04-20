@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
@@ -40,7 +41,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isCloseWithoutWarning)
             {
                 e.Cancel = true;
-                if (MessageBox.Show("确定直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     e.Cancel = false;
                 }
@@ -174,20 +175,47 @@ namespace ZongziTEK_Blackboard_Sticker
         private void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
             ClipBoard = GetSelectedDay().ToList();
-            ButtonPaste.Visibility = Visibility.Visible;
+
+            if (ButtonCopy.ActualWidth > 32)
+            {
+                LabelCopy.Visibility = Visibility.Collapsed;
+                DoubleAnimation buttonCopyAnimation = new DoubleAnimation()
+                {
+                    From = ButtonCopy.ActualWidth,
+                    To = 32,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                };
+                ButtonCopy.BeginAnimation(WidthProperty, buttonCopyAnimation);
+
+                DoubleAnimation buttonPasteAnimation = new DoubleAnimation()
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                };
+                ButtonPaste.Visibility = Visibility.Visible;
+                ButtonPaste.BeginAnimation(OpacityProperty, buttonPasteAnimation);
+            }
         }
 
         private void ButtonPaste_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("这里原有的课程将被覆盖", "确定要粘贴吗？", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (GetSelectedDay().Count > 0)
             {
-                GetSelectedDay().Clear();
-                foreach (Lesson lesson in ClipBoard)
+                if (MessageBox.Show("这里原有的课程将被覆盖", "确定要粘贴吗？", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
                 {
-                    GetSelectedDay().Add(lesson);
+                    return;
                 }
-                LoadTimetable();
             }
+
+            GetSelectedDay().Clear();
+            foreach (Lesson lesson in ClipBoard)
+            {
+                GetSelectedDay().Add(lesson);
+            }
+            LoadTimetable();
         }
 
         #endregion

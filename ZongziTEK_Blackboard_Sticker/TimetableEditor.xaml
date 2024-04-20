@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 课程表编辑器" Height="600" Width="800" MinHeight="450" MinWidth="800"
-        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False" ui:ThemeManager.RequestedTheme="Light"
+        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False"
         Closing="Window_Closing" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid VerticalAlignment="Top" Margin="24,12,24,12">
@@ -26,7 +26,7 @@
                 <TextBlock Text="课表" FontSize="16"/>
                 <TextBlock Name="TextBlockHintTempTimetable" Text="，如需展示临时课表，请在课程表菜单中选择" FontSize="16" Visibility="Collapsed"/>
             </StackPanel>
-            <Border Height="48" Background="#FFFBFBFB" CornerRadius="2" BorderBrush="#FFE1E6EA" BorderThickness="1" Grid.Row="1">
+            <Border Height="48" Background="{DynamicResource CardBorderBackgroundColor}" CornerRadius="2" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -39,10 +39,10 @@
                     <TextBlock Grid.Column="2" Text="结束时间" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
-            <ScrollViewer Name="ScrollViewerTimetable" PanningMode="VerticalOnly" Grid.Row="2" PreviewMouseWheel="ScrollViewerTimetable_PreviewMouseWheel">
+            <ui:ScrollViewerEx Name="ScrollViewerTimetable" PanningMode="VerticalOnly" Grid.Row="2" PreviewMouseWheel="ScrollViewerTimetable_PreviewMouseWheel">
                 <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
                 </ui:SimpleStackPanel>
-            </ScrollViewer>
+            </ui:ScrollViewerEx>
         </Grid>
         <Grid VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32">
             <ui:SimpleStackPanel Spacing="8" Orientation="Horizontal">
@@ -56,8 +56,11 @@
                     <ComboBoxItem Content="周日"/>
                     <ComboBoxItem Content="临时"/>
                 </ComboBox>
-                <Button Name="ButtonCopy" Width="32" Height="32" Padding="0" Click="ButtonCopy_Click">
-                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Copy}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                <Button Name="ButtonCopy" Width="84" Height="32" Padding="0" Click="ButtonCopy_Click">
+                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Left">
+                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Copy}" FontFamily="{StaticResource SegoeFluentIcons}" HorizontalAlignment="Left"/>
+                        <Label Name="LabelCopy" Content="复制"/>
+                    </ui:SimpleStackPanel>
                 </Button>
                 <Button Name="ButtonPaste" Visibility="Collapsed" Width="32" Height="32" Padding="0" Click="ButtonPaste_Click">
                     <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Paste}" FontFamily="{StaticResource SegoeFluentIcons}"/>

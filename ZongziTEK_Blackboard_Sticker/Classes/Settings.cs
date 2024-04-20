@@ -67,6 +67,7 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Automation
     {
         public bool IsAutoHideHugoAssistantEnabled { get; set; } = false;
+        public bool IsBottomMost { get; set; } = true;
     }
 
     public class Update

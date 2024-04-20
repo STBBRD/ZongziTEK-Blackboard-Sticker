@@ -149,7 +149,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <ui:ProgressRing Name="ProgressBarLauncher" Grid.Row="0" VerticalAlignment="Bottom" IsIndeterminate="True" Margin="20" Visibility="Collapsed"/>
-                        <ScrollViewer Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Margin="8" VerticalAlignment="Bottom" MaxHeight="216">
+                        <ui:ScrollViewerEx Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Margin="8" VerticalAlignment="Bottom" MaxHeight="216">
                             <ui:SimpleStackPanel x:Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
                                 <Button Name="buttonExplorer" HorizontalAlignment="Stretch" Height="36" Click="buttonExplorer_Click" HorizontalContentAlignment="Left" Background="#00000000" BorderThickness="0">
                                     <ui:SimpleStackPanel Spacing="8" Margin="0" Orientation="Horizontal">
@@ -158,7 +158,7 @@
                                     </ui:SimpleStackPanel>
                                 </Button>
                             </ui:SimpleStackPanel>
-                        </ScrollViewer>
+                        </ui:ScrollViewerEx>
 
                         <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
@@ -184,15 +184,15 @@
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ScrollViewer Name="ScrollViewerShowCurriculum" PanningMode="VerticalOnly">
+                        <ui:ScrollViewerEx Name="ScrollViewerShowCurriculum" PanningMode="VerticalOnly">
                             <Grid Margin="16">
                                 <TextBlock Visibility="Collapsed" Name="textBlockCurriculum" TextWrapping="Wrap"
                                     Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                                     FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
                                 <ui:SimpleStackPanel Name="StackPanelShowTimetable"/>
                             </Grid>
-                        </ScrollViewer>
-                        <ScrollViewer x:Name="scrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">
+                        </ui:ScrollViewerEx>
+                        <ui:ScrollViewerEx x:Name="ScrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">
                             <ui:SimpleStackPanel Spacing="8" Margin="24">
                                 <TextBlock Text="编辑课程表" FontSize="36" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="在文本框内输入课程，可回车换行，建议一行一节课" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
@@ -220,7 +220,7 @@
                                 <TextBlock Text="临时" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBox x:Name="textBoxTempCurriculums" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
                             </ui:SimpleStackPanel>
-                        </ScrollViewer>
+                        </ui:ScrollViewerEx>
                         <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Label Content="课程表" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
@@ -267,13 +267,13 @@
                 <!--其它-->
                 <Border x:Name="borderFirstOpening" CornerRadius="8" Grid.RowSpan="4" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                     <Grid Margin="48">
-                        <ScrollViewer PanningMode="VerticalOnly">
+                        <ui:ScrollViewerEx PanningMode="VerticalOnly">
                             <ui:SimpleStackPanel Spacing="16">
                                 <TextBlock FontSize="32" Text="初次使用,请查看以下常用设置项" Foreground="{DynamicResource ForegroundColor}"/>
                                 <ui:ToggleSwitch Header="开机时运行" OnContent="开" OffContent="关" IsOn="{Binding IsOn, ElementName=ToggleSwitchRunAtStartup}"/>
                                 <TextBox ui:ControlHelper.Header="天气城市" Text="{Binding Text, ElementName=TextBoxWeatherCity}"/>
                             </ui:SimpleStackPanel>
-                        </ScrollViewer>
+                        </ui:ScrollViewerEx>
                         <Grid VerticalAlignment="Bottom">
                             <Button x:Name="btnCloseFirstOpening" HorizontalAlignment="Right" Content="完成" Width="120" Click="btnCloseFirstOpening_Click" Foreground="{DynamicResource ForegroundColor}"/>
                         </Grid>
@@ -294,13 +294,14 @@
         <Border Name="borderSettingsPanel" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
             <Grid Margin="48">
                 <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
-                <ScrollViewer PanningMode="VerticalOnly" Margin="12,64,12,64">
+                <ui:ScrollViewerEx PanningMode="VerticalOnly" Margin="12,64,12,64">
                     <ui:SimpleStackPanel Spacing="16">
                         <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
                             <ui:SimpleStackPanel Spacing="12">
                                 <Button x:Name="btnRestart" Content="重新启动黑板贴" Width="240" Click="btnRestart_Click" 
                                             Foreground="{DynamicResource ForegroundColor}"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchRunAtStartup_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchBottomMost" Header="将黑板贴置于底层" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchBottomMost_Toggled"  Foreground="{DynamicResource ForegroundColor}"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="外观" Foreground="{DynamicResource ForegroundColor}">
@@ -426,7 +427,7 @@
                             </ui:SimpleStackPanel>
                         </GroupBox>
                     </ui:SimpleStackPanel>
-                </ScrollViewer>
+                </ui:ScrollViewerEx>
                 <Grid VerticalAlignment="Bottom">
                     <Button x:Name="btnHideSettingsPanel" Click="btnHideSettingsPanel_Click" HorizontalAlignment="Right" Content="关闭" Width="120" Foreground="{DynamicResource ForegroundColor}"/>
                 </Grid>

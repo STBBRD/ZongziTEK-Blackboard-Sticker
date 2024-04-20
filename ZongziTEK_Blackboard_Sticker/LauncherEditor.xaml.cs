@@ -85,7 +85,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         HorizontalContentAlignment = HorizontalAlignment.Stretch,
                         Height = 48,
-                        Background = new SolidColorBrush(Color.FromArgb(255, 251, 251, 251))
+                        //Background = new SolidColorBrush(Color.FromArgb(255, 251, 251, 251))
                     };
 
                     //按钮里面的布局

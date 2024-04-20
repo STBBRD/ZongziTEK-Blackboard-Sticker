@@ -7,26 +7,26 @@
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 启动台编辑器" Height="450" Width="800" MinHeight="450" MinWidth="800"
-        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False" ui:ThemeManager.RequestedTheme="Light"
+        ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock Text="编辑启动台" Margin="24,12,24,12" FontSize="32"/>
         <ui:ProgressRing Name="ListProgressBar" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
-        <ScrollViewer Name="ListScrollViewer" Margin="24,64,24,64" PanningMode="VerticalOnly">
+        <ui:ScrollViewerEx Name="ListScrollViewer" Margin="24,64,24,64" PanningMode="VerticalOnly">
             <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
-        </ScrollViewer>
+        </ui:ScrollViewerEx>
         <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32" Spacing="8" Orientation="Horizontal" >
             <Button Content="刷新" Width="80" Click="ButtonRefresh_Click" VerticalAlignment="Stretch"/>
             <Button Content="新建" Width="80" Click="ButtonNew_Click" VerticalAlignment="Stretch"/>
         </ui:SimpleStackPanel>
 
-        <Border Name="BorderNew" Background="#ffF1F3F9" Visibility="Collapsed">
+        <Border Name="BorderNew" Background="{DynamicResource CardBorderBackgroundColor}" Visibility="Collapsed">
             <Grid>
                 <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                     <TextBlock Text="新建项" FontSize="32"/>
                     <ui:InfoBar Title="实验性功能" Message="已知问题：某些文件无法添加，或添加后不在启动台中显示" IsOpen="True" IsClosable="False"/>
                 </ui:SimpleStackPanel>
-                <ScrollViewer Margin="24,128,24,64" PanningMode="VerticalOnly">
+                <ui:ScrollViewerEx Margin="24,128,24,64" PanningMode="VerticalOnly">
                     <ui:SimpleStackPanel Spacing="8">
                         <TextBlock Text="文件路径" FontSize="16"/>
                         <Grid Name="GridDataLocation">
@@ -41,7 +41,7 @@
                         <TextBlock Text="名称" FontSize="16"/>
                         <TextBox Name="TextBoxLinkName"/>
                     </ui:SimpleStackPanel>
-                </ScrollViewer>
+                </ui:ScrollViewerEx>
                 <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
                     <Button Name="ButtonCancelNew" Content="取消" Width="80" Click="ButtonCancelNew_Click"/>
                     <Button Name="ButtonSaveNew" Content="保存" Style="{StaticResource AccentButtonStyle}" Width="80" Click="ButtonSaveNew_Click"/>

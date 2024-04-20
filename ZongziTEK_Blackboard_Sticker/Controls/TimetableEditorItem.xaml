@@ -13,8 +13,8 @@
         </Style>
     </UserControl.Resources>
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="48"
-            Background="#FFFBFBFB" 
-            CornerRadius="2" BorderBrush="#FFE1E6EA" BorderThickness="1">
+            Background="{DynamicResource CardBorderBackgroundColor}" 
+            CornerRadius="2" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

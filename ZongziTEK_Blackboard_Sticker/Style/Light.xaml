@@ -5,4 +5,6 @@
     <SolidColorBrush x:Key="OtherPanelsBackgroundColor" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
     <SolidColorBrush x:Key="BorderBrush" Color="#0F000000"/>
+    <SolidColorBrush x:Key="CardBorderBackgroundColor" Color="#FBFBFB"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E1E6EA"/>
 </ResourceDictionary>
