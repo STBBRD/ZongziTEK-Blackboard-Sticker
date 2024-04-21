@@ -25,10 +25,10 @@
             <Grid Grid.Column="0" Margin="8,6">
                 <TextBlock x:Name="TextBlockHintSubject" Text="在此输入课程名称" Foreground="#CC000000" FontSize="14" 
                            TextAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox x:Name="TextBoxSubject" BorderThickness="0" 
+                <TextBox x:Name="TextBoxSubject" BorderThickness="0"
                          Text="{Binding Subject, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                          TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
-                         GotFocus="TextBoxSubject_GotFocus" LostFocus="TextBoxSubject_LostFocus" TextChanged="TextBoxSubject_TextChanged"/>
+                         TextChanged="TextBoxSubject_TextChanged" GotFocus="TextBoxSubject_GotFocus" LostFocus="TextBoxSubject_LostFocus"/>
             </Grid>
             <local:TimeTextBox x:Name="StartTimeTextBox" BorderThickness="0" Grid.Column="1" Margin="8,6" 
                                Text="{Binding StartTime, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -42,7 +42,7 @@
                 <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}"/>
                 <ui:FlyoutService.Flyout>
                     <ui:MenuFlyout>
-                        <MenuItem Name="MenuItemSplit" Header="在这节课后添加空隙" IsCheckable="True" Click="MenuItemSplit_Click"/>
+                        <MenuItem Name="MenuItemSplit" Header="在这节课下方添加空隙" IsCheckable="True" Click="MenuItemSplit_Click"/>
                         <Separator/>
                         <MenuItem Header="删除" Click="MenuItemDelete_Click">
                             <MenuItem.Icon>

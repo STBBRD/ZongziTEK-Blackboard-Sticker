@@ -91,7 +91,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TimetableEditor.EditorButtonUseCurriculum_Click += EditorButtonSettingUseCurriculum;
 
             // 颜色主题
-            Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SystemEvents_UserPreferenceChanged(null, null);
 
             // 小黑板 2

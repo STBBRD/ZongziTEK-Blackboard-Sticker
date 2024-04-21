@@ -1,6 +1,7 @@
 ﻿using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
 using IWshRuntimeLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,6 +38,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     LoadList();
                 });
             });
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
         private async void LoadList()
@@ -80,26 +82,29 @@ namespace ZongziTEK_Blackboard_Sticker
                 foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
                 {
                     //列表项
-                    Button LinkButton = new()
+                    Border BorderItem = new()
                     {
                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                        HorizontalContentAlignment = HorizontalAlignment.Stretch,
                         Height = 48,
-                        //Background = new SolidColorBrush(Color.FromArgb(255, 251, 251, 251))
+                        Background = (Brush)FindResource(ThemeKeys.CardBackgroundFillColorDefaultBrushKey),
+                        CornerRadius = new CornerRadius(2),
+                        BorderBrush = (Brush)FindResource("BorderBrush"),
+                        BorderThickness = new Thickness(1)
                     };
 
                     //按钮里面的布局
                     SimpleStackPanel ContentStackPanel = new()
                     {
                         Spacing = 8,
-                        Margin = new(8, 8, 8, 8),
                         Orientation = Orientation.Horizontal,
-                        HorizontalAlignment = HorizontalAlignment.Left
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Center
                     };
 
                     Grid ContentGrid = new()
                     {
-                        HorizontalAlignment = HorizontalAlignment.Stretch
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        Margin = new(16, 8, 16, 8)
                     };
 
                     //图标
@@ -127,11 +132,12 @@ namespace ZongziTEK_Blackboard_Sticker
                     Button DeleteButton = new()
                     {
                         HorizontalAlignment = HorizontalAlignment.Right,
-                        Width = 36,
-                        Height = 36,
+                        Width = 28,
+                        Height = 28,
                         Background = Brushes.Transparent,
                         Padding = new Thickness(0),
                         BorderThickness = new Thickness(0),
+                        Margin = new(0, 0, -6, 0)
                     };
 
                     FontIcon DeleteIcon = new()
@@ -147,7 +153,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     ContentStackPanel.Children.Add(image);
                     ContentStackPanel.Children.Add(textBlockFileName);
                     ContentStackPanel.Children.Add(textBlockLinkName);
-                    LinkButton.Content = ContentGrid;
+                    BorderItem.Child = ContentGrid;
                     ContentGrid.Children.Add(ContentStackPanel);
                     ContentGrid.Children.Add(DeleteButton);
                     DeleteButton.Click += DeleteButton_Click;
@@ -157,7 +163,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            ListStackPanel.Children.Add(LinkButton);
+                            ListStackPanel.Children.Add(BorderItem);
                         }));
                     });
                 }
@@ -253,6 +259,11 @@ namespace ZongziTEK_Blackboard_Sticker
                 TextBoxLinkName.Text = Path.GetFileNameWithoutExtension(TextBoxFilePath.Text);
             }
             catch (Exception) { }
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            ButtonRefresh_Click(null, null);
         }
     }
 }

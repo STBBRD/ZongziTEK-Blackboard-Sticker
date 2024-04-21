@@ -41,7 +41,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isCloseWithoutWarning)
             {
                 e.Cancel = true;
-                if (MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (!isEdited || MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     e.Cancel = false;
                 }
@@ -68,7 +68,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonUseCurriculum_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("是否保存当前含时间信息的课程表内容", "ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (isEdited || MessageBox.Show("是否保存当前含时间信息的课程表内容", "ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 ButtonSave_Click(null, null);
             }
@@ -113,6 +113,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
                 catch { }
             }
+
+            isEdited = true;
         }
 
         private void Item_LessonDeleting(object sender, EventArgs e)
@@ -125,6 +127,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 ListStackPanel.Children.RemoveAt(index);
                 GetSelectedDay().RemoveAt(index);
             }
+
+            isEdited = true;
         }
 
         private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
@@ -134,6 +138,8 @@ namespace ZongziTEK_Blackboard_Sticker
             item.LessonDeleting += Item_LessonDeleting;
             GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false));
             ListStackPanel.Children.Add(item);
+
+            isEdited = true;
         }
 
         private void ScrollViewerTimetable_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -144,7 +150,8 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Load & Save
-        Timetable Timetable = MainWindow.Timetable;
+        private Timetable Timetable = MainWindow.Timetable;
+        private bool isEdited = false;
 
         private void LoadTimetable()
         {
@@ -165,6 +172,15 @@ namespace ZongziTEK_Blackboard_Sticker
                 item.LessonInfoChanged += Item_LessonInfoChanged;
                 item.LessonDeleting += Item_LessonDeleting;
                 ListStackPanel.Children.Add(item);
+            }
+
+            if (GetSelectedDay().Count == 0)
+            {
+                ButtonCopy.IsEnabled = false;
+            }
+            else
+            {
+                ButtonCopy.IsEnabled = true;
             }
         }
         #endregion

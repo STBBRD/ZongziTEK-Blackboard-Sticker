@@ -36,6 +36,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public event EventHandler LessonInfoChanged;
         public event EventHandler LessonDeleting;
+        private bool isLoaded = false;
 
         #region Properties
         public static readonly DependencyProperty SubjectProperty =
@@ -116,18 +117,25 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 TextBlockHintSubject.Visibility = Visibility.Hidden;
             }
+
+            if (!isLoaded) return;
+
             Subject = TextBoxSubject.Text;
             OnLessonInfoChanged();
         }
 
         private void StartTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!isLoaded) return;
+
             StartTime = StartTimeTextBox.Text;
             OnLessonInfoChanged();
         }
 
         private void EndTimeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!isLoaded) return;
+
             EndTime = EndTimeTextBox.Text;
             OnLessonInfoChanged();
         }
@@ -146,6 +154,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             MenuItemSplit.IsChecked = IsSplitBelow;
+            isLoaded = true;
         }
         #endregion
     }
