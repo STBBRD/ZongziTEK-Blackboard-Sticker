@@ -129,6 +129,8 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             isEdited = true;
+
+            SetButtonCopyIsEnabled();
         }
 
         private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
@@ -140,6 +142,8 @@ namespace ZongziTEK_Blackboard_Sticker
             ListStackPanel.Children.Add(item);
 
             isEdited = true;
+
+            SetButtonCopyIsEnabled();
         }
 
         private void ScrollViewerTimetable_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -174,14 +178,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 ListStackPanel.Children.Add(item);
             }
 
-            if (GetSelectedDay().Count == 0)
-            {
-                ButtonCopy.IsEnabled = false;
-            }
-            else
-            {
-                ButtonCopy.IsEnabled = true;
-            }
+            SetButtonCopyIsEnabled();
         }
         #endregion
 
@@ -290,6 +287,18 @@ namespace ZongziTEK_Blackboard_Sticker
                 case 7: // 临时
                     ComboBoxDay.SelectedIndex = 7;
                     break;
+            }
+        }
+
+        private void SetButtonCopyIsEnabled()
+        {
+            if (GetSelectedDay().Count == 0)
+            {
+                ButtonCopy.IsEnabled = false;
+            }
+            else
+            {
+                ButtonCopy.IsEnabled = true;
             }
         }
         #endregion

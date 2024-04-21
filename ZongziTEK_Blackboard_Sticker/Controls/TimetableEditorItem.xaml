@@ -23,8 +23,8 @@
                 <ColumnDefinition Width="48"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Margin="8,6">
-                <TextBlock x:Name="TextBlockHintSubject" Text="在此输入课程名称" Foreground="#CC000000" FontSize="14" 
-                           TextAlignment="Center" VerticalAlignment="Center"/>
+                <Label x:Name="TextBlockHintSubject" Content="在此处输入课程名称" Opacity="0.4" FontSize="14" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBox x:Name="TextBoxSubject" BorderThickness="0"
                          Text="{Binding Subject, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                          TextAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}"
