@@ -26,7 +26,7 @@
                 <TextBlock Text="课表" FontSize="16"/>
                 <TextBlock Name="TextBlockHintTempTimetable" Text="，如需展示临时课表，请在课程表菜单中选择" FontSize="16" Visibility="Collapsed"/>
             </StackPanel>
-            <Border Height="48" Background="{DynamicResource CardBorderBackgroundColor}" CornerRadius="2" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Grid.Row="1">
+            <Border Height="48" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" CornerRadius="2" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

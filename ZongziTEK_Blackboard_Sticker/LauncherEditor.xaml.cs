@@ -204,11 +204,12 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             TextBoxFilePath.Text = "";
             TextBoxLinkName.Text = "";
-            BorderNew.Visibility = Visibility.Visible;
+            GridInsert.Visibility = Visibility.Visible;
+            GridHome.Visibility = Visibility.Collapsed;
         }
         private void ButtonCancelNew_Click(object sender, RoutedEventArgs e)
         {
-            BorderNew.Visibility = Visibility.Collapsed;
+            HideInsertPanel();
         }
 
         private void ButtonSaveNew_Click(object sender, RoutedEventArgs e)
@@ -221,10 +222,16 @@ namespace ZongziTEK_Blackboard_Sticker
                 shortcut.WorkingDirectory = Path.GetFullPath(TextBoxFilePath.Text);
                 shortcut.Description = "ZongziTEK";
                 shortcut.Save();
-                BorderNew.Visibility = Visibility.Collapsed;
+                HideInsertPanel();
                 ButtonRefresh_Click(null, null);
             }
             catch (Exception ex) { MessageBox.Show("新建项时出现错误：\r\n" + ex.Message); }
+        }
+
+        private void HideInsertPanel()
+        {
+            GridInsert.Visibility = Visibility.Collapsed;
+            GridHome.Visibility = Visibility.Visible;
         }
 
         private void ButtonBrowsePath_Click(object sender, RoutedEventArgs e)

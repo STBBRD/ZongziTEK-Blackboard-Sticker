@@ -2,9 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="WindowBackgroundColor" Color="#99121212"/>
     <SolidColorBrush x:Key="InkCanvasBackgroundColor" Color="#55000000"/>
-    <SolidColorBrush x:Key="OtherPanelsBackgroundColor" Color="#FF222222"/>
+    <SolidColorBrush x:Key="OtherPanelsBackgroundColor" Color="#FF222222"/> 
     <SolidColorBrush x:Key="ForegroundColor" Color="White"/>
     <SolidColorBrush x:Key="BorderBrush" Color="#12FFFFFF"/>
-    <SolidColorBrush x:Key="CardBorderBackgroundColor" Color="#262b3c"/>
-    <SolidColorBrush x:Key="CardBorderBrush" Color="#2b2b2b"/>
 </ResourceDictionary>
