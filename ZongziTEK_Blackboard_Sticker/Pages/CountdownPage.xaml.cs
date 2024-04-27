@@ -43,7 +43,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             if (timeSpan.TotalDays < 0)
             {
                 LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));
-                LabelName.Content = countdownName + "已开始";
+                LabelName.Content = "距离" + countdownName + "开始已过去";
                 timeSpan = -timeSpan;
             }
             else
@@ -53,7 +53,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 LabelName.Content = "距离" + countdownName + "还有";
             }
             LabelDays.Content = timeSpan.Days;
-            LabelDaysDetail.Content = (timeSpan.TotalDays - timeSpan.Days).ToString(".000");
+            LabelDaysDetail.Content = "." + Math.Truncate((timeSpan.TotalDays - timeSpan.Days) * 1000).ToString("000");
         }
 
         private void Page_Unloaded(object sender, EventArgs e)
