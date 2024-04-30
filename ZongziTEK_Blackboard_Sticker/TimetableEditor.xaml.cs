@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +28,6 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             InitializeComponent();
 
-            ComboBoxDay.SelectedIndex = 7;
             AutoSelectTimetableToEdit();
         }
 
@@ -41,7 +41,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (!isCloseWithoutWarning)
             {
                 e.Cancel = true;
-                if (!isEdited || MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (!isEdited || MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "关闭而不保存", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     e.Cancel = false;
                 }
@@ -78,16 +78,35 @@ namespace ZongziTEK_Blackboard_Sticker
             Close();
         }
 
-        private void ComboBoxDay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ComboBoxDay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadTimetable();
             if (ComboBoxDay.SelectedIndex == 7)
             {
-                TextBlockHintTempTimetable.Visibility = Visibility.Visible;
+                InfoBarTempTimetable.IsOpen = true;
+
+                DoubleAnimation heightAnimation = new()
+                {
+                    From = 0,
+                    To = 50,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                };
+                InfoBarTempTimetable.BeginAnimation(HeightProperty, heightAnimation);
             }
-            else
+            else if (InfoBarTempTimetable.IsOpen)
             {
-                TextBlockHintTempTimetable.Visibility = Visibility.Collapsed;
+                DoubleAnimation heightAnimation = new()
+                {
+                    From = 50,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+                };
+                InfoBarTempTimetable.BeginAnimation(HeightProperty, heightAnimation);
+
+                await Task.Delay(500);
+                InfoBarTempTimetable.IsOpen = false;
             }
         }
 
@@ -157,9 +176,12 @@ namespace ZongziTEK_Blackboard_Sticker
         private Timetable Timetable = MainWindow.Timetable;
         private bool isEdited = false;
 
-        private void LoadTimetable()
+        private async void LoadTimetable()
         {
             ListStackPanel.Children.Clear();
+
+            ScrollViewerTimetable.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+
             foreach (Lesson lesson in GetSelectedDay())
             {
                 TimetableEditorItem item = new TimetableEditorItem()
@@ -176,7 +198,32 @@ namespace ZongziTEK_Blackboard_Sticker
                 item.LessonInfoChanged += Item_LessonInfoChanged;
                 item.LessonDeleting += Item_LessonDeleting;
                 ListStackPanel.Children.Add(item);
+
+                if (MainWindow.Settings.Look.IsAnimationEnhanced)
+                {
+                    DoubleAnimation opacityAnimation = new()
+                    {
+                        From = 0,
+                        To = 1,
+                        Duration = TimeSpan.FromMilliseconds(500),
+                        EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    };
+                    item.BeginAnimation(OpacityProperty, opacityAnimation);
+
+                    ThicknessAnimation marginAnimation = new()
+                    {
+                        From = new Thickness(0, 24, 0, item.Margin.Bottom),
+                        To = new Thickness(0, 0, 0, item.Margin.Bottom),
+                        Duration = TimeSpan.FromMilliseconds(500),
+                        EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    };
+                    item.BeginAnimation(MarginProperty, marginAnimation);
+
+                    await Task.Delay(25);
+                }
             }
+
+            ScrollViewerTimetable.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
             SetButtonCopyIsEnabled();
         }
@@ -185,31 +232,42 @@ namespace ZongziTEK_Blackboard_Sticker
         #region ClipBoard
         private List<Lesson> ClipBoard = new List<Lesson>();
 
-        private void ButtonCopy_Click(object sender, RoutedEventArgs e)
+        private async void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
             ClipBoard = GetSelectedDay().ToList();
 
             if (ButtonCopy.ActualWidth > 32)
             {
-                LabelCopy.Visibility = Visibility.Collapsed;
-                DoubleAnimation buttonCopyAnimation = new DoubleAnimation()
+                DoubleAnimation buttonCopyAnimation = new()
                 {
                     From = ButtonCopy.ActualWidth,
                     To = 32,
                     Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
                 };
                 ButtonCopy.BeginAnimation(WidthProperty, buttonCopyAnimation);
 
-                DoubleAnimation buttonPasteAnimation = new DoubleAnimation()
+                ThicknessAnimation buttonCopyPaddingAnimation = new()
+                {
+                    From = new Thickness(10, 0, 10, 0),
+                    To = new Thickness(7, 0, 0, 0),
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
+                };
+                ButtonCopy.BeginAnimation(PaddingProperty, buttonCopyPaddingAnimation);
+
+                DoubleAnimation buttonPasteAnimation = new()
                 {
                     From = 0,
                     To = 1,
                     Duration = TimeSpan.FromMilliseconds(500),
-                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
                 };
                 ButtonPaste.Visibility = Visibility.Visible;
                 ButtonPaste.BeginAnimation(OpacityProperty, buttonPasteAnimation);
+
+                await Task.Delay(500);
+                LabelCopy.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -299,6 +357,58 @@ namespace ZongziTEK_Blackboard_Sticker
             else
             {
                 ButtonCopy.IsEnabled = true;
+            }
+        }
+        #endregion
+
+        #region Import & Export
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new()
+            {
+                Title = "导出课程表",
+                FileName = "Timetable.json",
+                Filter = "JSON 课程表文件 (*.json)|*.json"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string text = JsonConvert.SerializeObject(Timetable, Formatting.Indented);
+                try
+                {
+                    File.WriteAllText(saveFileDialog.FileName, text);
+                }
+                catch { }
+            }
+        }
+
+        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "导入课程表",
+                FileName = "Timetable.json",
+                Filter = "JSON 课程表文件 (*.json)|*.json|所有文件 (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    try
+                    {
+                        if (MessageBox.Show("这里原有的课程将被覆盖", "确定要导入吗？", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        {
+                            string text = File.ReadAllText(openFileDialog.FileName);
+                            Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                            LoadTimetable();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
         }
         #endregion

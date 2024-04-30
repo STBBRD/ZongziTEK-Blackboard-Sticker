@@ -15,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Drawing = System.Drawing;
@@ -158,14 +159,31 @@ namespace ZongziTEK_Blackboard_Sticker
                     ContentGrid.Children.Add(DeleteButton);
                     DeleteButton.Click += DeleteButton_Click;
 
-                    //往启动台里面添加按钮
-                    await Task.Run(() =>
+                    //往编辑器里面添加按钮
+                    ListStackPanel.Children.Add(BorderItem);
+
+                    if (MainWindow.Settings.Look.IsAnimationEnhanced)
                     {
-                        Dispatcher.BeginInvoke(new Action(() =>
+                        DoubleAnimation opacityAnimation = new()
                         {
-                            ListStackPanel.Children.Add(BorderItem);
-                        }));
-                    });
+                            From = 0,
+                            To = 1,
+                            Duration = TimeSpan.FromMilliseconds(500),
+                            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                        };
+                        BorderItem.BeginAnimation(OpacityProperty, opacityAnimation);
+
+                        ThicknessAnimation marginAnimation = new()
+                        {
+                            From = new Thickness(0, 24, 0, BorderItem.Margin.Bottom),
+                            To = new Thickness(0, 0, 0, BorderItem.Margin.Bottom),
+                            Duration = TimeSpan.FromMilliseconds(500),
+                            EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                        };
+                        BorderItem.BeginAnimation(MarginProperty, marginAnimation);
+
+                        await Task.Delay(25);
+                    }
                 }
 
                 ListScrollViewer.Visibility = Visibility.Visible;

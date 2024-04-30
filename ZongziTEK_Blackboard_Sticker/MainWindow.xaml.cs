@@ -24,6 +24,7 @@ using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Reflection;
 using AutoUpdaterDotNET;
+using System.Windows.Media.Animation;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -116,6 +117,19 @@ namespace ZongziTEK_Blackboard_Sticker
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
             SwitchLookMode();
+
+            if (Settings.Look.IsAnimationEnhanced)
+            {
+                DoubleAnimation windowAnimation = new DoubleAnimation()
+                {
+                    From = window.ActualWidth,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(1000),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+                };
+
+                window.BeginAnimation(LeftProperty, windowAnimation);
+            }
         }
 
         private void window_Activated(object sender, EventArgs e)
