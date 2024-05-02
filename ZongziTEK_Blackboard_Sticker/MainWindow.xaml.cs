@@ -2000,7 +2000,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private bool IsSystemThemeLight()
         {
-            bool light = false;
+            bool light = true;
             try
             {
                 RegistryKey registryKey = Registry.CurrentUser;

@@ -29,6 +29,24 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(750),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            BeginAnimation(OpacityProperty, opacityAnimation);
+
+            ThicknessAnimation clockMarginAnimation = new()
+            {
+                From = new Thickness(24),
+                To = new Thickness(100),
+                Duration = TimeSpan.FromMilliseconds(750),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            ViewboxClock.BeginAnimation(MarginProperty, clockMarginAnimation);
+
             textBlockBigClock.Text = DateTime.Now.ToString(("HH:mm:ss"));
 
             clockTimer = new DispatcherTimer();

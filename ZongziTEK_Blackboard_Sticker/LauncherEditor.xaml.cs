@@ -88,7 +88,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         Height = 48,
                         Background = (Brush)FindResource(ThemeKeys.CardBackgroundFillColorDefaultBrushKey),
-                        CornerRadius = new CornerRadius(2),
+                        CornerRadius = new CornerRadius(4),
                         BorderBrush = (Brush)FindResource("BorderBrush"),
                         BorderThickness = new Thickness(1)
                     };
@@ -228,8 +228,27 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             TextBoxFilePath.Text = "";
             TextBoxLinkName.Text = "";
-            GridInsert.Visibility = Visibility.Visible;
             GridHome.Visibility = Visibility.Collapsed;
+
+            ThicknessAnimation gridInsertMarginAnimation = new()
+            {
+                From = new Thickness(-48),
+                To = new Thickness(0),
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            GridInsert.BeginAnimation(MarginProperty, gridInsertMarginAnimation);
+
+            DoubleAnimation gridInsertOpacityAnimation = new()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            GridInsert.BeginAnimation(OpacityProperty, gridInsertOpacityAnimation);
+
+            GridInsert.Visibility = Visibility.Visible;
         }
         private void ButtonCancelNew_Click(object sender, RoutedEventArgs e)
         {

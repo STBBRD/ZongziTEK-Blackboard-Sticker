@@ -14,7 +14,7 @@
     </UserControl.Resources>
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="48"
             Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
-            CornerRadius="2" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+            CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

@@ -6,29 +6,33 @@
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴 - 课程表编辑器" Height="600" Width="800" MinHeight="450" MinWidth="800"
+        Title="ZongziTEK 黑板贴 - 编辑课程表" Height="600" Width="800" MinHeight="450" MinWidth="800"
         ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False"
+        ui:TitleBar.Height="48" ui:TitleBar.IsIconVisible="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
         Closing="Window_Closing" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid VerticalAlignment="Top" Margin="24,12,24,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <!--<Grid VerticalAlignment="Top" Margin="24,12,24,12">
             <TextBlock Text="编辑课程表" FontSize="32"/>
             <Button Name="ButtonUseCurriculum" Height="32" Content="切换为旧版课程表 ( 无时间 )" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ButtonUseCurriculum_Click"/>
+        </Grid>-->
+        <Grid Name="GridTitleBar" Grid.Row="0">
+            <Image Source="黑板贴.png" SnapsToDevicePixels="True" Width="16" HorizontalAlignment="Left" Margin="16,8"/>
+            <Label Margin="44,8" Content="ZongziTEK 黑板贴 - 编辑课程表" FontSize="12" VerticalAlignment="Center"/>
         </Grid>
-        <Grid Margin="24,64,24,64">
+        <Grid Grid.Row="2" Margin="16,8,16,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ui:SimpleStackPanel Grid.Row="0" Spacing="8">
-                <StackPanel Orientation="Horizontal" Height="21" Opacity="0.8">
-                    <TextBlock Text="当前编辑的是: " FontSize="16"/>
-                    <TextBlock FontSize="16" Text="{Binding SelectedItem.Content, ElementName=ComboBoxDay}"/>
-                    <TextBlock Text="课表" FontSize="16"/>
-                </StackPanel>
-                <ui:InfoBar Name="InfoBarTempTimetable" Title="提示" Message="如需展示临时课表，请在课程表菜单中选择" IsClosable="False"/>
-            </ui:SimpleStackPanel>
-            <Border Height="48" Margin="0,8" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" CornerRadius="2" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Grid.Row="1">
+            <ui:InfoBar Name="InfoBarTempTimetable" Grid.Row="0" Title="提示" Message="如需展示临时课表，请在课程表菜单中选择" IsClosable="False"/>
+            <Border Height="48" Margin="0,8" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -46,49 +50,61 @@
                 </ui:SimpleStackPanel>
             </ui:ScrollViewerEx>
         </Grid>
-        <Grid VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32">
-            <ui:SimpleStackPanel Spacing="8" Orientation="Horizontal">
-                <ComboBox Name="ComboBoxDay" Width="100" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
-                    <ComboBoxItem Content="周一"/>
-                    <ComboBoxItem Content="周二"/>
-                    <ComboBoxItem Content="周三"/>
-                    <ComboBoxItem Content="周四"/>
-                    <ComboBoxItem Content="周五"/>
-                    <ComboBoxItem Content="周六"/>
-                    <ComboBoxItem Content="周日"/>
-                    <ComboBoxItem Content="临时"/>
-                </ComboBox>
-                <Button Name="ButtonCopy" Width="144" Height="32" Padding="10,0" Click="ButtonCopy_Click" HorizontalContentAlignment="Left">
-                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Copy}" FontFamily="{StaticResource SegoeFluentIcons}"/>
-                        <Label Name="LabelCopy" Content="复制该天的课表"/>
-                    </ui:SimpleStackPanel>
-                </Button>
-                <Button Name="ButtonPaste" Visibility="Collapsed" Width="32" Height="32" Padding="0" Click="ButtonPaste_Click">
-                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Paste}" FontFamily="{StaticResource SegoeFluentIcons}"/>
-                </Button>
-            </ui:SimpleStackPanel>
-            <Button Name="ButtonInsertLesson" HorizontalAlignment="Center" Width="120" Click="ButtonInsertLesson_Click" VerticalAlignment="Stretch">
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
-                    <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Add}"/>
-                    <Label Content="新建课程"/>
+
+        <Border Grid.Row="1" Height="52" Margin="16,4,16,0" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}">
+            <Grid Margin="16,8">
+                <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <ComboBox Name="ComboBoxDay" Width="100" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
+                        <ComboBoxItem Content="周一"/>
+                        <ComboBoxItem Content="周二"/>
+                        <ComboBoxItem Content="周三"/>
+                        <ComboBoxItem Content="周四"/>
+                        <ComboBoxItem Content="周五"/>
+                        <ComboBoxItem Content="周六"/>
+                        <ComboBoxItem Content="周日"/>
+                        <ComboBoxItem Content="临时"/>
+                    </ComboBox>
+                    <Button Name="ButtonCopy" BorderThickness="0" Background="#00000000" Width="144" Height="32" Padding="10,0" Click="ButtonCopy_Click" HorizontalContentAlignment="Left">
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                            <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Copy}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                            <Label Name="LabelCopy" Content="复制该天的课表"/>
+                        </ui:SimpleStackPanel>
+                    </Button>
+                    <Button Name="ButtonPaste" BorderThickness="0" Background="#00000000" Width="0" Height="32" Padding="0" Click="ButtonPaste_Click">
+                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Paste}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                    </Button>
+
+                    <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
+
+                    <Button Name="ButtonInsertLesson" BorderThickness="0" Background="#00000000" HorizontalAlignment="Center" Width="120" Height="32" Click="ButtonInsertLesson_Click">
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                            <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Add}"/>
+                            <Label Content="新建课程"/>
+                        </ui:SimpleStackPanel>
+                    </Button>
+
+                    <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
+
+                    <Button Content="关闭" Visibility="Collapsed" Width="80" Click="ButtonClose_Click" VerticalAlignment="Stretch"/>
+                    <Button Name="ButtonExport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonExport_Click">
+                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.ExportMirrored}"/>
+                    </Button>
+                    <Button Name="ButtonImport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonImport_Click">
+                        <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Import}"/>
+                    </Button>
                 </ui:SimpleStackPanel>
-            </Button>
-            <ui:SimpleStackPanel HorizontalAlignment="Right" Spacing="8" Orientation="Horizontal">
-                <Button Content="关闭" Visibility="Collapsed" Width="80" Click="ButtonClose_Click" VerticalAlignment="Stretch"/>
-                <Button Name="ButtonExport" Width="32" Height="32" Padding="0" Click="ButtonExport_Click">
-                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.ExportMirrored}"/>
-                </Button>
-                <Button Name="ButtonImport" Width="32" Height="32" Padding="0" Click="ButtonImport_Click">
-                    <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Import}"/>
-                </Button>
-                <Button Style="{StaticResource AccentButtonStyle}" Click="ButtonSave_Click" VerticalAlignment="Stretch">
+                <Button Style="{StaticResource AccentButtonStyle}" Height="32" HorizontalAlignment="Right" Click="ButtonSave_Click">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                         <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Save}"/>
                         <TextBlock Text="保存并关闭"/>
                     </ui:SimpleStackPanel>
                 </Button>
-            </ui:SimpleStackPanel>
-        </Grid>
+            </Grid>
+        </Border>
+        <ui:SimpleStackPanel Grid.Row="3" Margin="14,0" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.6">
+            <TextBlock Name="TextBlockLessonCount" Foreground="{DynamicResource ForegroundColor}" FontSize="12"/>
+            <TextBlock Foreground="{DynamicResource ForegroundColor}" Text=" 节课" FontSize="12"/>
+        </ui:SimpleStackPanel>
     </Grid>
 </Window>

@@ -6,11 +6,22 @@
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴 - 启动台编辑器" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Title="ZongziTEK 黑板贴 - 编辑启动台" Height="450" Width="800" MinHeight="450" MinWidth="800"
         ui:WindowHelper.SystemBackdropType="Mica" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.FixMaximizedWindow="False"
+        ui:TitleBar.Height="36" ui:TitleBar.ExtendViewIntoTitleBar="True"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid Name="GridHome">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="GridTitleBar" Grid.Row="0">
+            <Image Source="黑板贴.png" SnapsToDevicePixels="True" Width="16" HorizontalAlignment="Left" Margin="16,8"/>
+            <Label Margin="44,8" Content="ZongziTEK 黑板贴 - 编辑启动台" FontSize="12" VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Grid Name="GridHome" Grid.Row="1">
             <TextBlock Text="编辑启动台" Margin="24,12,24,12" FontSize="32"/>
             <ui:ProgressRing Name="ListProgressBar" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
             <ui:ScrollViewerEx Name="ListScrollViewer" Margin="24,64,24,64" PanningMode="VerticalOnly">
@@ -22,7 +33,7 @@
             </ui:SimpleStackPanel>
         </Grid>
 
-        <Grid Name="GridInsert" Visibility="Collapsed">
+        <Grid Name="GridInsert" Visibility="Collapsed" Grid.Row="1">
             <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                 <TextBlock Text="新建项" FontSize="32"/>
                 <ui:InfoBar Title="实验性功能" Message="已知问题：某些文件无法添加，或添加后不在启动台中显示" IsOpen="True" IsClosable="False"/>

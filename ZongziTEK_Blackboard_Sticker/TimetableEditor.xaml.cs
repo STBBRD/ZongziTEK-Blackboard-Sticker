@@ -150,6 +150,7 @@ namespace ZongziTEK_Blackboard_Sticker
             isEdited = true;
 
             SetButtonCopyIsEnabled();
+            TextBlockLessonCount.Text = GetSelectedDay().Count.ToString();
         }
 
         private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
@@ -163,6 +164,7 @@ namespace ZongziTEK_Blackboard_Sticker
             isEdited = true;
 
             SetButtonCopyIsEnabled();
+            TextBlockLessonCount.Text = GetSelectedDay().Count.ToString();
         }
 
         private void ScrollViewerTimetable_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -178,9 +180,12 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private async void LoadTimetable()
         {
+            TextBlockLessonCount.Text = GetSelectedDay().Count.ToString();
+
             ListStackPanel.Children.Clear();
 
             ScrollViewerTimetable.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            ScrollViewerTimetable.ScrollToTop();
 
             foreach (Lesson lesson in GetSelectedDay())
             {
@@ -238,14 +243,14 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (ButtonCopy.ActualWidth > 32)
             {
-                DoubleAnimation buttonCopyAnimation = new()
+                DoubleAnimation buttonCopyWidthAnimation = new()
                 {
                     From = ButtonCopy.ActualWidth,
                     To = 32,
                     Duration = TimeSpan.FromMilliseconds(500),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
                 };
-                ButtonCopy.BeginAnimation(WidthProperty, buttonCopyAnimation);
+                ButtonCopy.BeginAnimation(WidthProperty, buttonCopyWidthAnimation);
 
                 ThicknessAnimation buttonCopyPaddingAnimation = new()
                 {
@@ -256,15 +261,24 @@ namespace ZongziTEK_Blackboard_Sticker
                 };
                 ButtonCopy.BeginAnimation(PaddingProperty, buttonCopyPaddingAnimation);
 
-                DoubleAnimation buttonPasteAnimation = new()
+                DoubleAnimation buttonPasteWidthAnimation = new()
+                {
+                    From = 0,
+                    To = 32,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
+                };
+                ButtonPaste.BeginAnimation(WidthProperty, buttonPasteWidthAnimation);
+                ButtonPaste.Visibility = Visibility.Visible;
+
+                DoubleAnimation buttonPasteOpacityAnimation = new()
                 {
                     From = 0,
                     To = 1,
                     Duration = TimeSpan.FromMilliseconds(500),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
                 };
-                ButtonPaste.Visibility = Visibility.Visible;
-                ButtonPaste.BeginAnimation(OpacityProperty, buttonPasteAnimation);
+                ButtonPaste.BeginAnimation(OpacityProperty, buttonPasteOpacityAnimation);
 
                 await Task.Delay(500);
                 LabelCopy.Visibility = Visibility.Collapsed;

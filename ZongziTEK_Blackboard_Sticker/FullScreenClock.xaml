@@ -9,7 +9,7 @@
         ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
     <Grid Background="Black" MouseDown="Grid_MouseDown">
         <Grid>
-            <Viewbox Margin="100">
+            <Viewbox Name="ViewboxClock" Margin="100">
                 <TextBlock x:Name="textBlockBigClock" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Resources\#Digital-7 Mono" Text="--:--:--"
                        x:FieldModifier="public"/>
