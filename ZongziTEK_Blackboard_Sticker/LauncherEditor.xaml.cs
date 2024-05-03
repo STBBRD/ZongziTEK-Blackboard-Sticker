@@ -42,10 +42,12 @@ namespace ZongziTEK_Blackboard_Sticker
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
+        private bool isAnimationDisabledOnce = false;
+
         private async void LoadList()
         {
-            ListScrollViewer.Visibility = Visibility.Collapsed;
-            ListProgressBar.Visibility = Visibility.Visible;
+            //ListScrollViewer.Visibility = Visibility.Collapsed;
+            //ListProgressBar.Visibility = Visibility.Visible;
 
             Dictionary<string, Drawing.Bitmap> fileInfo = new();
             string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"\LauncherLinks\";
@@ -82,7 +84,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 foreach (KeyValuePair<string, Drawing.Bitmap> file in fileInfo)
                 {
-                    //列表项
+                    // 列表项
                     Border BorderItem = new()
                     {
                         HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -93,7 +95,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         BorderThickness = new Thickness(1)
                     };
 
-                    //按钮里面的布局
+                    // 按钮里面的布局
                     SimpleStackPanel ContentStackPanel = new()
                     {
                         Spacing = 8,
@@ -108,7 +110,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         Margin = new(16, 8, 16, 8)
                     };
 
-                    //图标
+                    // 图标
                     Image image = new()
                     {
                         Height = 19
@@ -117,7 +119,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         CreateBitmapSourceFromHBitmap(file.Value.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     image.Source = bitmapSource;
 
-                    //名字
+                    // 名字
                     TextBlock textBlockFileName = new()
                     {
                         Text = Path.GetFileName(file.Key),
@@ -129,7 +131,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         Text = Path.GetFileName(file.Key).Remove(Path.GetFileName(file.Key).LastIndexOf("."), 4)
                     };
 
-                    //删除按钮
+                    // 删除按钮
                     Button DeleteButton = new()
                     {
                         HorizontalAlignment = HorizontalAlignment.Right,
@@ -150,7 +152,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     DeleteButton.Content = DeleteIcon;
 
 
-                    //开始组装按钮
+                    // 开始组装按钮
                     ContentStackPanel.Children.Add(image);
                     ContentStackPanel.Children.Add(textBlockFileName);
                     ContentStackPanel.Children.Add(textBlockLinkName);
@@ -159,10 +161,10 @@ namespace ZongziTEK_Blackboard_Sticker
                     ContentGrid.Children.Add(DeleteButton);
                     DeleteButton.Click += DeleteButton_Click;
 
-                    //往编辑器里面添加按钮
+                    // 往编辑器里面添加按钮
                     ListStackPanel.Children.Add(BorderItem);
 
-                    if (MainWindow.Settings.Look.IsAnimationEnhanced)
+                    if (!isAnimationDisabledOnce && MainWindow.Settings.Look.IsAnimationEnhanced)
                     {
                         DoubleAnimation opacityAnimation = new()
                         {
@@ -187,12 +189,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 ListScrollViewer.Visibility = Visibility.Visible;
-                ListProgressBar.Visibility = Visibility.Collapsed;
+                //ListProgressBar.Visibility = Visibility.Collapsed;
             }
             catch (Exception e)
             {
                 MessageBox.Show("加载列表时出现错误：\r\n" + e.Message);
             }
+            isAnimationDisabledOnce = false;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -204,6 +207,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 try
                 {
                     File.Delete(filePath);
+                    isAnimationDisabledOnce = true;
                     ButtonRefresh_Click(null, null);
                 }
                 catch (Exception ex) { MessageBox.Show("删除该项时出现错误：\r\n" + ex.Message); }
@@ -228,7 +232,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             TextBoxFilePath.Text = "";
             TextBoxLinkName.Text = "";
-            GridHome.Visibility = Visibility.Collapsed;
+            ListScrollViewer.Visibility = Visibility.Collapsed;
 
             ThicknessAnimation gridInsertMarginAnimation = new()
             {
@@ -274,7 +278,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void HideInsertPanel()
         {
             GridInsert.Visibility = Visibility.Collapsed;
-            GridHome.Visibility = Visibility.Visible;
+            ListScrollViewer.Visibility = Visibility.Visible;
         }
 
         private void ButtonBrowsePath_Click(object sender, RoutedEventArgs e)
@@ -300,6 +304,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
+            isAnimationDisabledOnce = true;
             ButtonRefresh_Click(null, null);
         }
     }

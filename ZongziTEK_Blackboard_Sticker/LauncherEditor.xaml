@@ -13,27 +13,41 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
+            <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
 
         <Grid Name="GridTitleBar" Grid.Row="0">
             <Image Source="黑板贴.png" SnapsToDevicePixels="True" Width="16" HorizontalAlignment="Left" Margin="16,8"/>
             <Label Margin="44,8" Content="ZongziTEK 黑板贴 - 编辑启动台" FontSize="12" VerticalAlignment="Center"/>
-        </Grid>
-        
-        <Grid Name="GridHome" Grid.Row="1">
-            <TextBlock Text="编辑启动台" Margin="24,12,24,12" FontSize="32"/>
-            <ui:ProgressRing Name="ListProgressBar" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
-            <ui:ScrollViewerEx Name="ListScrollViewer" Margin="24,64,24,64" PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
-            </ui:ScrollViewerEx>
-            <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Height="32" Spacing="8" Orientation="Horizontal" >
-                <Button Content="刷新" Width="80" Click="ButtonRefresh_Click" VerticalAlignment="Stretch"/>
-                <Button Content="新建" Width="80" Click="ButtonNew_Click" VerticalAlignment="Stretch"/>
-            </ui:SimpleStackPanel>
+            <!--<ui:ProgressBar Name="ListProgressBar" IsIndeterminate="True" VerticalAlignment="Bottom" Visibility="Collapsed"/>-->
         </Grid>
 
-        <Grid Name="GridInsert" Visibility="Collapsed" Grid.Row="1">
+        <Border Grid.Row="1" Height="52" Margin="16,4,16,8" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
+                Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" Visibility="{Binding Visibility, ElementName=ListScrollViewer}">
+            <Grid Margin="16,8">
+                <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <Button Width="32" Height="32" Padding="0" BorderThickness="0" Background="#00000000" Click="ButtonRefresh_Click">
+                        <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Refresh}"/>
+                    </Button>
+
+                    <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
+
+                    <Button Height="32" Padding="8,0" BorderThickness="0" Background="#00000000" Click="ButtonNew_Click">
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                            <ui:FontIcon FontFamily="{StaticResource SegoeFluentIcons}" Glyph="{x:Static ui:SegoeIcons.Add}"/>
+                            <Label Content="新建启动台项"/>
+                        </ui:SimpleStackPanel>
+                    </Button>
+                </ui:SimpleStackPanel>
+            </Grid>
+        </Border>
+        <ui:ScrollViewerEx Name="ListScrollViewer" Grid.Row="2" Margin="16,8,16,0" PanningMode="VerticalOnly">
+            <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
+        </ui:ScrollViewerEx>
+
+        <Grid Name="GridInsert" Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="3">
             <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                 <TextBlock Text="新建项" FontSize="32"/>
                 <ui:InfoBar Title="实验性功能" Message="已知问题：某些文件无法添加，或添加后不在启动台中显示" IsOpen="True" IsClosable="False"/>
