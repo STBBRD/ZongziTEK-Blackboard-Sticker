@@ -2011,6 +2011,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     keyValue = (int)themeKey.GetValue("SystemUsesLightTheme");
                 }
                 if (keyValue == 1) light = true;
+                else light = false;
             }
             catch { }
             return light;

@@ -102,9 +102,11 @@
                 </Button>
             </Grid>
         </Border>
-        <ui:SimpleStackPanel Grid.Row="3" Margin="14,0" VerticalAlignment="Center" Orientation="Horizontal" Opacity="0.6">
-            <TextBlock Name="TextBlockLessonCount" Foreground="{DynamicResource ForegroundColor}" FontSize="12"/>
-            <TextBlock Foreground="{DynamicResource ForegroundColor}" Text=" 节课" FontSize="12"/>
-        </ui:SimpleStackPanel>
+        <Label Grid.Row="3" Margin="14,0" VerticalAlignment="Center" Opacity="0.6">
+            <ui:SimpleStackPanel Orientation="Horizontal">
+                <TextBlock Name="TextBlockLessonCount" FontSize="12"/>
+                <TextBlock Text=" 节课" FontSize="12"/>
+            </ui:SimpleStackPanel>
+        </Label>
     </Grid>
 </Window>
