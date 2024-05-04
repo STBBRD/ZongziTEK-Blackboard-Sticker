@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 全屏时钟" Height="450" Width="800" Top="0" Left="0" Margin="0,0,2,0"
-        ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
+        ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded" AllowsTransparency="True">
     <Grid Background="Black" MouseDown="Grid_MouseDown">
         <Grid>
             <Viewbox Name="ViewboxClock" Margin="100">

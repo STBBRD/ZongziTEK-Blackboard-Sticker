@@ -119,8 +119,27 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private void BorderCloseBigClock_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void BorderCloseBigClock_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+            };
+            BeginAnimation(OpacityProperty, opacityAnimation);
+
+            ThicknessAnimation clockMarginAnimation = new()
+            {
+                From = new Thickness(100),
+                To = new Thickness(-48),
+                Duration = TimeSpan.FromMilliseconds(400),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+            };
+            ViewboxClock.BeginAnimation(MarginProperty, clockMarginAnimation);
+
+            await Task.Delay(500);
             Close();
         }
     }

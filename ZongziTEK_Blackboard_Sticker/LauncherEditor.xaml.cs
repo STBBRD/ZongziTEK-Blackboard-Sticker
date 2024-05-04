@@ -236,7 +236,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             ThicknessAnimation gridInsertMarginAnimation = new()
             {
-                From = new Thickness(-48),
+                From = new Thickness(0, 72, 0, -72),
                 To = new Thickness(0),
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
