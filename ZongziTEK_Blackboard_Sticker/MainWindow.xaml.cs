@@ -22,9 +22,11 @@ using System.Threading.Tasks;
 using ZongziTEK_Blackboard_Sticker.Helpers;
 using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
+using Page = iNKORE.UI.WPF.Modern.Controls.Page;
 using System.Reflection;
 using AutoUpdaterDotNET;
 using System.Windows.Media.Animation;
+using ZongziTEK_Blackboard_Sticker.Pages;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -2033,7 +2035,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region InfoBoard
-        private List<Uri> frameInfoPages = new List<Uri>();
+        private List<Type> frameInfoPages = new();
         private int frameInfoPageIndex = 0;
         private DispatcherTimer frameInfoNavigationTimer = new DispatcherTimer();
 
@@ -2064,10 +2066,10 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             frameInfoPages.Clear();
 
-            if (Settings.InfoBoard.isDatePageEnabled) frameInfoPages.Add(new Uri("Pages/DatePage.xaml", UriKind.Relative));
-            if (Settings.InfoBoard.isCountdownPageEnabled) frameInfoPages.Add(new Uri("Pages/CountdownPage.xaml", UriKind.Relative));
-            if (Settings.InfoBoard.isWeatherPageEnabled) frameInfoPages.Add(new Uri("Pages/WeatherPage.xaml", UriKind.Relative));
-            if (Settings.InfoBoard.isWeatherForecastPageEnabled) frameInfoPages.Add(new Uri("Pages/WeatherForecastPage.xaml", UriKind.Relative));
+            if (Settings.InfoBoard.isDatePageEnabled) frameInfoPages.Add(typeof(DatePage));
+            if (Settings.InfoBoard.isCountdownPageEnabled) frameInfoPages.Add(typeof(CountdownPage));
+            if (Settings.InfoBoard.isWeatherPageEnabled) frameInfoPages.Add(typeof(WeatherPage));
+            if (Settings.InfoBoard.isWeatherForecastPageEnabled) frameInfoPages.Add(typeof(WeatherForecastPage));
 
             if (frameInfoPages.Count == 0)
             {

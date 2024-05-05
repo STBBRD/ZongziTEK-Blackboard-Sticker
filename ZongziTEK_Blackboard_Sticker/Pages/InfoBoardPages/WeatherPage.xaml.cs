@@ -98,7 +98,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 LabelCity.Content = liveWeather.province + " " + liveWeather.city;
 
                 //加载天气图标
-                string imagePath = "../Resources/WeatherIcons/";
+                string imagePath = "../../Resources/WeatherIcons/";
                 if (liveWeather.weather.Contains("雷"))
                 {
                     imagePath += "Thundery.png";

@@ -1,0 +1,41 @@
+﻿<Window x:Class="ZongziTEK_Blackboard_Sticker.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
+        mc:Ignorable="d"
+        Title="ZongziTEK 黑板贴 - 初始化设置" Height="450" Width="800"
+        ui:WindowHelper.FixMaximizedWindow="False" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.SystemBackdropType="Mica" 
+        ui:TitleBar.Height="36" ui:TitleBar.ExtendViewIntoTitleBar="True" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Name="GridTitleBar" Grid.Row="0">
+            <Image Source="黑板贴.png" SnapsToDevicePixels="True" Width="16" HorizontalAlignment="Left" Margin="16,8"/>
+            <Label Margin="44,8" Content="ZongziTEK 黑板贴 - 初始化设置" FontSize="12" VerticalAlignment="Center"/>
+        </Grid>
+        
+        <ui:NavigationView Name="NavigationViewRoot" Grid.Row="1" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionChanged="NavigationViewRoot_SelectionChanged">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="欢迎"/>
+                <ui:NavigationViewItem Content="行为"/>
+                <ui:NavigationViewItem Content="显示模式"/>
+                <ui:NavigationViewItem Content="信息看板"/>
+                <ui:NavigationViewItem Content="开始使用"/>
+            </ui:NavigationView.MenuItems>
+            <ui:Frame Name="FrameRoot">
+                <ui:Frame.ContentTransitions>
+                    <ui:TransitionCollection>
+                        <ui:NavigationThemeTransition>
+                            <ui:SlideNavigationTransitionInfo x:Name="FrameTransitionEffect"/>
+                        </ui:NavigationThemeTransition>
+                    </ui:TransitionCollection>
+                </ui:Frame.ContentTransitions>
+            </ui:Frame>
+        </ui:NavigationView>
+    </Grid>
+</Window>

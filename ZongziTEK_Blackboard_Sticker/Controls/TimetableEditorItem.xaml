@@ -39,14 +39,14 @@
                                VerticalContentAlignment="Center" Background="{x:Null}"
                                TextChanged="EndTimeTextBox_TextChanged"/>
             <Button Grid.Column="3" Padding="0" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="16,8" Opacity="0.75">
-                <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.More}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.MoreHorizontal_20_Regular}"/>
                 <ui:FlyoutService.Flyout>
                     <ui:MenuFlyout>
                         <MenuItem Name="MenuItemSplit" Header="在这节课下方添加空隙" IsCheckable="True" Click="MenuItemSplit_Click"/>
                         <Separator/>
                         <MenuItem Header="删除" Click="MenuItemDelete_Click">
                             <MenuItem.Icon>
-                                <ui:FontIcon Glyph="{x:Static ui:SegoeIcons.Delete}" FontFamily="{StaticResource SegoeFluentIcons}"/>
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Delete_20_Regular}"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </ui:MenuFlyout>

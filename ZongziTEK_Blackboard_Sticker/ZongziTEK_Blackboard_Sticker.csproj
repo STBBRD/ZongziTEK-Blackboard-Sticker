@@ -85,42 +85,84 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Pages\CountdownPage.xaml.cs">
+    <Compile Include="Pages\InfoBoardPages\CountdownPage.xaml.cs">
       <DependentUpon>CountdownPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\DatePage.xaml.cs">
+    <Compile Include="Pages\InfoBoardPages\DatePage.xaml.cs">
       <DependentUpon>DatePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\WeatherForecastPage.xaml.cs">
+    <Compile Include="Pages\InfoBoardPages\WeatherForecastPage.xaml.cs">
       <DependentUpon>WeatherForecastPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\WeatherPage.xaml.cs">
+    <Compile Include="Pages\InfoBoardPages\WeatherPage.xaml.cs">
       <DependentUpon>WeatherPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TimetableEditorItem.xaml.cs">
       <DependentUpon>TimetableEditorItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TimeTextBox.cs" />
+    <Compile Include="Pages\SettingsPages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\AutomationSettingsPage.xaml.cs">
+      <DependentUpon>AutomationSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\BehaviorSettingsPage.xaml.cs">
+      <DependentUpon>BehaviorSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\InfoBoardSettingsPage.xaml.cs">
+      <DependentUpon>InfoBoardSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\LookSettingsPage.xaml.cs">
+      <DependentUpon>LookSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\StorageSettingsPage.xaml.cs">
+      <DependentUpon>StorageSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\TimetableSettingsPage.xaml.cs">
+      <DependentUpon>TimetableSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WelcomePages\WelcomePage0.xaml.cs">
+      <DependentUpon>WelcomePage0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WelcomePages\WelcomePage1.xaml.cs">
+      <DependentUpon>WelcomePage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WelcomePages\WelcomePage2.xaml.cs">
+      <DependentUpon>WelcomePage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WelcomePages\WelcomePage3.xaml.cs">
+      <DependentUpon>WelcomePage3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WelcomePages\WelcomePage4.xaml.cs">
+      <DependentUpon>WelcomePage4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WelcomeWindow.xaml.cs">
+      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="LauncherEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\CountdownPage.xaml">
+    <Page Include="Pages\InfoBoardPages\CountdownPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\DatePage.xaml">
+    <Page Include="Pages\InfoBoardPages\DatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\WeatherForecastPage.xaml">
+    <Page Include="Pages\InfoBoardPages\WeatherForecastPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\WeatherPage.xaml">
+    <Page Include="Pages\InfoBoardPages\WeatherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,7 +170,55 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\FontsDictionary.xaml">
+    <Page Include="Pages\SettingsPages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\AutomationSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\BehaviorSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\InfoBoardSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\LookSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\StorageSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\TimetableSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePages\WelcomePage0.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePages\WelcomePage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePages\WelcomePage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePages\WelcomePage3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WelcomePages\WelcomePage4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,6 +261,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WelcomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -195,7 +289,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\SegoeIcons.ttf" />
     <Resource Include="Resources\digital-7-mono-italic-2.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +314,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autoupdater.NET.Official">
-      <Version>1.8.4</Version>
+      <Version>1.8.5</Version>
+    </PackageReference>
+    <PackageReference Include="iNKORE.UI.WPF">
+      <Version>1.2.4</Version>
     </PackageReference>
     <PackageReference Include="iNKORE.UI.WPF.Modern">
-      <Version>0.9.26.1</Version>
+      <Version>0.9.28</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
@@ -255,5 +351,6 @@
     <Resource Include="Resources\WeatherIcons\Sunny.png" />
     <Resource Include="Resources\WeatherIcons\Thundery.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

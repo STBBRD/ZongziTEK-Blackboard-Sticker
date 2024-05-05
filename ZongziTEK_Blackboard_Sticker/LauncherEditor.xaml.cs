@@ -1,4 +1,5 @@
 ﻿using iNKORE.UI.WPF.Modern;
+using iNKORE.UI.WPF.Modern.Common.IconKeys;
 using iNKORE.UI.WPF.Modern.Controls;
 using IWshRuntimeLibrary;
 using Microsoft.Win32;
@@ -145,8 +146,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                     FontIcon DeleteIcon = new()
                     {
-                        Glyph = SegoeIcons.Delete,
-                        FontFamily = (FontFamily)Application.Current.Resources["SegoeFluentIcons"]
+                        Icon = FluentSystemIcons.Delete_20_Regular
                     };
 
                     DeleteButton.Content = DeleteIcon;
