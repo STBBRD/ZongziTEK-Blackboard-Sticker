@@ -1239,6 +1239,13 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                 }
             }
+            else if (StackPanelShowTimetable.Children.Count > 0)
+            {
+                foreach (TextBlock textBlock in StackPanelShowTimetable.Children)
+                {
+                    textBlock.Foreground = (SolidColorBrush)FindResource("ForegroundColor");
+                }
+            }
 
             timetableTimer.Start();
         }

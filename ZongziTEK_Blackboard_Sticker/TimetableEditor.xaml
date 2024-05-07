@@ -88,7 +88,7 @@
 
                     <Button Content="关闭" Visibility="Collapsed" Width="80" Click="ButtonClose_Click" VerticalAlignment="Stretch"/>
                     <Button Name="ButtonExport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonExport_Click">
-                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowExport_20_Regular}"/>
+                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowExportRtl_20_Regular}"/>
                     </Button>
                     <Button Name="ButtonImport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonImport_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowImport_20_Regular}"/>
