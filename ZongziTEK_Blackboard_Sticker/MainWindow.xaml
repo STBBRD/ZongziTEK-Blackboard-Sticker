@@ -300,6 +300,8 @@
                             <ui:SimpleStackPanel Spacing="12">
                                 <Button x:Name="btnRestart" Content="重新启动黑板贴" Width="240" Click="btnRestart_Click" 
                                             Foreground="{DynamicResource ForegroundColor}"/>
+                                <Button Name="ButtonClose" Content="关闭黑板贴" Width="240" Click="ButtonClose_Click" 
+                                            Foreground="{DynamicResource ForegroundColor}"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchRunAtStartup_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchBottomMost" Header="将黑板贴置于底层" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchBottomMost_Toggled"  Foreground="{DynamicResource ForegroundColor}"/>
                             </ui:SimpleStackPanel>

@@ -27,6 +27,7 @@ using System.Reflection;
 using AutoUpdaterDotNET;
 using System.Windows.Media.Animation;
 using ZongziTEK_Blackboard_Sticker.Pages;
+using System.Windows.Interop;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -109,6 +110,14 @@ namespace ZongziTEK_Blackboard_Sticker
             timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
         }
         #region Window
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            var hwnd = new WindowInteropHelper(this).Handle;
+            WindowsHelper.SetWindowStyleToolWindow(hwnd);
+        }
+
         private void window_StateChanged(object sender, EventArgs e)
         {
             WindowState = WindowState.Normal;
@@ -1494,6 +1503,11 @@ namespace ZongziTEK_Blackboard_Sticker
 
             CloseIsFromButton = true;
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)

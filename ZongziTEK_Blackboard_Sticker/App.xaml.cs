@@ -25,7 +25,7 @@ namespace ZongziTEK_Blackboard_Sticker
             bool ret;
             mutex = new System.Threading.Mutex(true, "ZongziTEK_Blackboard_Sticker", out ret);
 
-            if (!ret)
+            if (!ret && !e.Args.Contains("-m"))
             {
                 MessageBox.Show("已有一个黑板贴正在运行", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);

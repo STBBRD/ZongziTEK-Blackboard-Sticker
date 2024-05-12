@@ -12,22 +12,24 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
 {
     public static class WindowsHelper
     {
-        // Set Sticker Bottom
+        #region SetWindowPos
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         private const UInt32 SWP_NOSIZE = 0x0001;
         private const UInt32 SWP_NOMOVE = 0x0002;
         private const UInt32 SWP_NOACTIVATE = 0x0010;
+        private const UInt32 SWP_SHOWWINDOW = 0x0040;
         private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         public static void SetBottom(Window window)
         {
             IntPtr hWnd = new WindowInteropHelper(window).Handle;
-            SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+            SetWindowPos(hWnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
         }
+        #endregion
 
-        // Hide SeewoServiceAssistant
+        #region Hide SeewoServiceAssistant
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -97,5 +99,22 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
 
             return false;
         }
+        #endregion
+
+        #region SetWindowStyle
+        [DllImport("user32.dll")]
+        static extern int GetWindowLong(IntPtr hwnd, int index);
+
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+        public const int WS_EX_TOOLWINDOW = 0x00000080;
+
+        public static void SetWindowStyleToolWindow(IntPtr hwnd)
+        {
+            var extendedStyle = GetWindowLong(hwnd, -20);
+            SetWindowLong(hwnd, -20, extendedStyle | WS_EX_TOOLWINDOW);
+        }
+        #endregion
     }
 }
