@@ -1477,10 +1477,23 @@ namespace ZongziTEK_Blackboard_Sticker
             btnHideSettingsPanel_Click(null, null);
         }
 
+        private bool isLauncherEditorOpen = false;
+
         private void ButtonEditLauncher_Click(object sender, RoutedEventArgs e)
         {
-            new LauncherEditor().ShowDialog();
+            if (!isLauncherEditorOpen)
+            {
+                LauncherEditor launcherEditor = new();
+                launcherEditor.Closed += LauncherEditor_Closed;
+                isLauncherEditorOpen = true;
+                launcherEditor.Show();
+            }
+        }
+
+        private void LauncherEditor_Closed(object sender, EventArgs e)
+        {
             ButtonReloadLauncher_Click(null, null);
+            isLauncherEditorOpen = false;
         }
 
         #endregion
