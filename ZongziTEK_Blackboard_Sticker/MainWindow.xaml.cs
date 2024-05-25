@@ -1046,12 +1046,19 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private bool isTimetableEditorOpen = false;
+
         private void editCurriculumButton_Click(object sender, RoutedEventArgs e)
         {
             if (Settings.TimetableSettings.IsTimetableEnabled)
             {
-                new TimetableEditor().ShowDialog();
-                LoadTimetableorCurriculum();
+                if (!isTimetableEditorOpen)
+                {
+                    TimetableEditor timetableEditor = new();
+                    timetableEditor.Closed += TimetableEditor_Closed;
+                    isTimetableEditorOpen = true;
+                    timetableEditor.Show();
+                }
             }
             else
             {
@@ -1061,6 +1068,12 @@ namespace ZongziTEK_Blackboard_Sticker
                 saveCurriculumButton.Visibility = Visibility.Visible;
                 ScrollViewerCurriculum.Visibility = Visibility.Visible;
             }
+        }
+
+        private void TimetableEditor_Closed(object sender, EventArgs e)
+        {
+            LoadTimetableorCurriculum();
+            isTimetableEditorOpen = false;
         }
 
         private void saveCurriculumButton_Click(object sender, RoutedEventArgs e)

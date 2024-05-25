@@ -130,7 +130,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         changedItem.Margin = new Thickness(0);
                     }
                 }
-                catch { }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
 
             isEdited = true;
@@ -155,7 +155,13 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonInsertLesson_Click(object sender, RoutedEventArgs e)
         {
-            TimetableEditorItem item = new TimetableEditorItem();
+            TimetableEditorItem item = new TimetableEditorItem()
+            {
+                Subject = "",
+                StartTime = "00:00",
+                EndTime = "00:00",
+                IsSplitBelow = false
+            };
             item.LessonInfoChanged += Item_LessonInfoChanged;
             item.LessonDeleting += Item_LessonDeleting;
             GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false));
