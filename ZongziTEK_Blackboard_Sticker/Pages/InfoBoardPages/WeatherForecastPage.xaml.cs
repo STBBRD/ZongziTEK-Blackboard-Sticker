@@ -68,6 +68,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             File.WriteAllText(castWeatherFilePath, JsonConvert.SerializeObject(castWeathers, Formatting.Indented));
         }
 
+        private bool isTodayRainy = false;
+
         private void ShowCastWeathers()
         {
             if (castWeathers.Count != 0)
@@ -77,9 +79,16 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 if (today == 0) today = 7;
                 foreach (var castWeather in castWeathers)
                 {
-                    if (castWeather.week != today && (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨")))
+                    if (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨"))
                     {
-                        rainDays += TransformDayOfWeek(castWeather.week) + "、";
+                        if (castWeather.week == today)
+                        {
+                            isTodayRainy = true;
+                        }
+                        else
+                        {
+                            rainDays += TransformDayOfWeek(castWeather.week) + "、";
+                        }
                     }
                 }
                 if (rainDays.Length > 0)
@@ -91,6 +100,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 {
                     LabelWeatherForecast.Content = "未来 " + (castWeathers.Count - 1) + " 天不会下雨";
                 }
+                if (isTodayRainy) LabelWeatherForecast.Content = "今天有雨，" + LabelWeatherForecast.Content;
             }
             else
             {
