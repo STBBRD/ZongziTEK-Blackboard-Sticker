@@ -39,17 +39,19 @@ namespace ZongziTEK_Blackboard_Sticker
 
     public class Lesson
     {
-        public string Subject { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public string Subject { get; set; } = "";
+        public TimeSpan StartTime { get; set; } = new TimeSpan();
+        public TimeSpan EndTime { get; set; } = new TimeSpan();
         public bool IsSplitBelow { get; set; } = false;
+        public bool IsStrongClassOverNotificationEnabled { get; set; } = false;
 
-        public Lesson(string subject, TimeSpan startTime, TimeSpan endTime, bool isSplitBelow)
+        public Lesson(string subject, TimeSpan startTime, TimeSpan endTime, bool isSplitBelow, bool isStrongClassOverNotificationEnabled)
         {
             Subject = subject;
             StartTime = startTime;
             EndTime = endTime;
             IsSplitBelow = isSplitBelow;
+            IsStrongClassOverNotificationEnabled = isStrongClassOverNotificationEnabled;
         }
     }
 }

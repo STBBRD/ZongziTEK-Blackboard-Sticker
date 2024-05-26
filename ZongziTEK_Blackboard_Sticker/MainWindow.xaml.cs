@@ -1223,7 +1223,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         {
                             ShowClassOverNotification(timetableToShow, lessonIndex);
                         }
-                        else ShowLastClassOverNotification();
+                        else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
                     }
                     if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
                     {
@@ -1299,15 +1299,30 @@ namespace ZongziTEK_Blackboard_Sticker
                 string title = "下一节 " + today[nextLessonIndex].Subject + "课";
                 string subtitle = "课堂结束，下一节课将于 " + startTimeString + " 开始";
 
-                ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.OverNotificationTime, false);
+                if (!today[index].IsStrongClassOverNotificationEnabled)
+                {
+                    ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.OverNotificationTime, false);
+                }
+                else
+                {
+                    title = "下一节是 " + today[nextLessonIndex].Subject + "课";
+                    new StrongNotificationWindow(title, subtitle).Show();
+                }
             }
         }
 
-        private void ShowLastClassOverNotification()
+        private void ShowLastClassOverNotification(bool isStrongNotificationEnabled)
         {
             if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
-                ShowNotificationBNS("课堂结束", "", Settings.TimetableSettings.OverNotificationTime, false);
+                if (!isStrongNotificationEnabled)
+                {
+                    ShowNotificationBNS("课堂结束", "", Settings.TimetableSettings.OverNotificationTime, false);
+                }
+                else
+                {
+                    new StrongNotificationWindow("课堂结束", "").Show();
+                }
             }
         }
         #endregion

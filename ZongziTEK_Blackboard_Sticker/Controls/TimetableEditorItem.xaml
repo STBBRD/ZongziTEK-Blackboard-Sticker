@@ -42,7 +42,16 @@
                 <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.MoreHorizontal_20_Regular}"/>
                 <ui:FlyoutService.Flyout>
                     <ui:MenuFlyout>
-                        <MenuItem Name="MenuItemSplit" Header="在这节课下方添加空隙" IsCheckable="True" Click="MenuItemSplit_Click"/>
+                        <MenuItem x:Name="MenuItemSplit" Header="在这节课下方添加空隙" IsCheckable="True" Click="MenuItemSplit_Click">
+                            <MenuItem.Icon>
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.SplitHorizontal_20_Regular}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="MenuItemStrongNotification" Header="启用强下课提醒" IsCheckable="True" Click="MenuItemStrongNotification_Click">
+                            <MenuItem.Icon>
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Alert_20_Regular}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <Separator/>
                         <MenuItem Header="删除" Click="MenuItemDelete_Click">
                             <MenuItem.Icon>

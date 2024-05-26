@@ -119,7 +119,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 try
                 {
-                    Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime), changedItem.IsSplitBelow);
+                    Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime), changedItem.IsSplitBelow, changedItem.IsStrongClassOverNotificationEnabled);
                     GetSelectedDay()[index] = lesson;
                     if (lesson.IsSplitBelow)
                     {
@@ -160,11 +160,12 @@ namespace ZongziTEK_Blackboard_Sticker
                 Subject = "",
                 StartTime = "00:00",
                 EndTime = "00:00",
-                IsSplitBelow = false
+                IsSplitBelow = false,
+                IsStrongClassOverNotificationEnabled = false
             };
             item.LessonInfoChanged += Item_LessonInfoChanged;
             item.LessonDeleting += Item_LessonDeleting;
-            GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false));
+            GetSelectedDay().Add(new Lesson("", new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 0), false, false));
             ListStackPanel.Children.Add(item);
 
             isEdited = true;
@@ -200,7 +201,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     Subject = lesson.Subject,
                     StartTime = lesson.StartTime.ToString(@"hh\:mm"),
                     EndTime = lesson.EndTime.ToString(@"hh\:mm"),
-                    IsSplitBelow = lesson.IsSplitBelow
+                    IsSplitBelow = lesson.IsSplitBelow,
+                    IsStrongClassOverNotificationEnabled = lesson.IsStrongClassOverNotificationEnabled
                 };
                 if (lesson.IsSplitBelow)
                 {

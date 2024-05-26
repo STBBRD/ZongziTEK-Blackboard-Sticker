@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,15 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             get { return (bool)GetValue(IsSplitBelowProperty); }
             set { SetValue(IsSplitBelowProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsStrongClassOverNotificationEnabledProperty =
+            DependencyProperty.Register("IsStrongClassOverNotificationEnabled", typeof(bool), typeof(TimetableEditorItem));
+
+        public bool IsStrongClassOverNotificationEnabled
+        {
+            get { return (bool)GetValue(IsStrongClassOverNotificationEnabledProperty); }
+            set { SetValue(IsStrongClassOverNotificationEnabledProperty, value); }
         }
         #endregion
 
@@ -151,9 +161,16 @@ namespace ZongziTEK_Blackboard_Sticker
             OnLessonInfoChanged();
         }
 
+        private void MenuItemStrongNotification_Click(object sender, RoutedEventArgs e)
+        {
+            IsStrongClassOverNotificationEnabled = MenuItemStrongNotification.IsChecked;
+            OnLessonInfoChanged();
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             MenuItemSplit.IsChecked = IsSplitBelow;
+            MenuItemStrongNotification.IsChecked = IsStrongClassOverNotificationEnabled;
             isLoaded = true;
         }
         #endregion
