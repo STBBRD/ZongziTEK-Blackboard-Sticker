@@ -12,7 +12,7 @@
             <Setter Property="ui:TextBoxHelper.IsDeleteButtonVisible" Value="False" />
         </Style>
     </UserControl.Resources>
-    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="48"
+    <Border HorizontalAlignment="Stretch" Height="48"
             Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
             CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
         <Grid>

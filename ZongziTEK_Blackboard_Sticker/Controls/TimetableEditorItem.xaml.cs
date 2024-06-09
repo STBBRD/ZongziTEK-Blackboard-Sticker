@@ -41,7 +41,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #region Properties
         public static readonly DependencyProperty SubjectProperty =
-        DependencyProperty.Register("Subject", typeof(string), typeof(TimetableEditorItem));
+        DependencyProperty.Register("Subject", typeof(string), typeof(TimetableEditorItem), new PropertyMetadata(""));
 
         public string Subject
         {
@@ -50,7 +50,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         public static readonly DependencyProperty StartTimeProperty =
-            DependencyProperty.Register("StartTime", typeof(string), typeof(TimetableEditorItem));
+            DependencyProperty.Register("StartTime", typeof(string), typeof(TimetableEditorItem), new PropertyMetadata("00:00"));
 
         public string StartTime
         {
@@ -59,7 +59,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         public static readonly DependencyProperty EndTimeProperty =
-            DependencyProperty.Register("EndTime", typeof(string), typeof(TimetableEditorItem));
+            DependencyProperty.Register("EndTime", typeof(string), typeof(TimetableEditorItem), new PropertyMetadata("00:00"));
 
         public string EndTime
         {
@@ -68,7 +68,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         public static readonly DependencyProperty IsSplitBelowProperty =
-            DependencyProperty.Register("IsSplitBelow", typeof(bool), typeof(TimetableEditorItem));
+            DependencyProperty.Register("IsSplitBelow", typeof(bool), typeof(TimetableEditorItem), new PropertyMetadata(false));
 
         public bool IsSplitBelow
         {
@@ -77,7 +77,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         public static readonly DependencyProperty IsStrongClassOverNotificationEnabledProperty =
-            DependencyProperty.Register("IsStrongClassOverNotificationEnabled", typeof(bool), typeof(TimetableEditorItem));
+            DependencyProperty.Register("IsStrongClassOverNotificationEnabled", typeof(bool), typeof(TimetableEditorItem), new PropertyMetadata(false));
 
         public bool IsStrongClassOverNotificationEnabled
         {

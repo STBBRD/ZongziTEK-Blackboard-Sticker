@@ -3,12 +3,20 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BehaviorSettingsPage">
 
     <Grid>
-        <Rectangle Fill="Yellow"/>
+        <ui:ScrollViewerEx>
+            <ui:SimpleStackPanel Spacing="8" Margin="24">
+                <card:ToggleSwitchCard/>
+                <card:ComboBoxCard/>
+                <card:TextBoxCard/>
+                <card:SliderCard/>
+            </ui:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Page>
