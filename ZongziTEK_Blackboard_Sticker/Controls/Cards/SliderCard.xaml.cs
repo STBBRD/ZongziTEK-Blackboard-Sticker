@@ -56,5 +56,45 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(FontIconData), typeof(SliderCard), new PropertyMetadata(FluentSystemIcons.EmojiLaugh_20_Regular));
+
+        public double Value
+        {
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(double), typeof(SliderCard), new PropertyMetadata((double)0));
+
+        public double Minimum
+        {
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Minimum.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register("Minimum", typeof(double), typeof(SliderCard), new PropertyMetadata((double)0));
+
+        public double Maximum
+        {
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register("Maximum", typeof(double), typeof(SliderCard), new PropertyMetadata((double)1));
+
+        public double TickFrequency
+        {
+            get { return (double)GetValue(TickFrequencyProperty); }
+            set { SetValue(TickFrequencyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TickFrequency.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TickFrequencyProperty =
+            DependencyProperty.Register("TickFrequency", typeof(double), typeof(SliderCard), new PropertyMetadata(0.1));
     }
 }

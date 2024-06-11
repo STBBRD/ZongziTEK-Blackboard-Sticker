@@ -56,5 +56,15 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(FontIconData), typeof(TextBoxCard), new PropertyMetadata(FluentSystemIcons.EmojiLaugh_20_Regular));
+
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register("Text", typeof(string), typeof(TextBoxCard), new PropertyMetadata(""));
     }
 }

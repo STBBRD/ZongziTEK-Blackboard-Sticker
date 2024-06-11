@@ -21,7 +21,7 @@
                 <TextBlock Foreground="{DynamicResource ForegroundColor}" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TextBoxCard}, Mode=FindAncestor}, Path=Header}"/>
                 <TextBlock Foreground="{DynamicResource ForegroundColor}" Opacity="0.75" FontSize="12" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TextBoxCard}, Mode=FindAncestor}, Path=Tip}"/>
             </ui:SimpleStackPanel>
-            <TextBox Grid.Column="2" VerticalAlignment="Center" Margin="12,0" Width="200" Height="32"/>
+            <TextBox Grid.Column="2" VerticalAlignment="Center" Margin="12,0" Width="200" Height="32" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TextBoxCard},Mode=FindAncestor},Path=Text}"/>
         </Grid>
     </Border>
 </UserControl>

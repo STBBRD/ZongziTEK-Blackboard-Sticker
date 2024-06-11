@@ -29,7 +29,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="32"/>
                             </Grid.ColumnDefinitions>
-                            <Slider x:Name="MainSlider" Grid.Column="0" Minimum="0.5" Maximum="1.5" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="1" VerticalAlignment="Center"/>
+                            <Slider x:Name="MainSlider" Grid.Column="0" Minimum="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Minimum}" Maximum="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Maximum}" TickFrequency="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=TickFrequency}" IsSnapToTickEnabled="True" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Value}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" Text="{Binding Path=Value,Source={x:Reference Name=MainSlider}}" Foreground="{DynamicResource ForegroundColor}" VerticalAlignment="Center" Margin="12,0,0,0"/>
                         </Grid>
                     </ui:Flyout>
