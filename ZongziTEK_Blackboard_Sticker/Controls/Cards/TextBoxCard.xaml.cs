@@ -66,5 +66,21 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(TextBoxCard), new PropertyMetadata(""));
+
+        
+        // TextChanged Event
+        public static readonly RoutedEvent TextChangedEvent = EventManager.RegisterRoutedEvent("TextChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextBoxCard));
+
+        public event RoutedEventHandler TextChanged
+        {
+            add { AddHandler(TextChangedEvent, value); }
+            remove { RemoveHandler(TextChangedEvent, value); }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(TextChangedEvent, this);
+            RaiseEvent(routedEventArgs);
+        }
     }
 }

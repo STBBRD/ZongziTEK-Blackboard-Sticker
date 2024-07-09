@@ -3,12 +3,29 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="InfoBoardSettingsPage">
 
     <Grid>
-        <Rectangle Fill="Green"/>
+        <ui:NavigationView Name="NavigationViewRoot" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionChanged="NavigationViewRoot_SelectionChanged">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="通用"/>
+                <ui:NavigationViewItem Content="倒数日"/>
+                <ui:NavigationViewItem Content="天气"/>
+            </ui:NavigationView.MenuItems>
+            <ui:Frame Name="FrameRoot">
+                <ui:Frame.ContentTransitions>
+                    <ui:TransitionCollection>
+                        <ui:NavigationThemeTransition>
+                            <ui:SlideNavigationTransitionInfo x:Name="FrameTransitionEffect"/>
+                        </ui:NavigationThemeTransition>
+                    </ui:TransitionCollection>
+                </ui:Frame.ContentTransitions>
+            </ui:Frame>
+        </ui:NavigationView>
     </Grid>
 </Page>

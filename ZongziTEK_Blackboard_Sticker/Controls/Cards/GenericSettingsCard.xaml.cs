@@ -17,11 +17,11 @@ using System.Windows.Shapes;
 namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
 {
     /// <summary>
-    /// ComboBoxCard.xaml 的交互逻辑
+    /// GenericSettingsCard.xaml 的交互逻辑
     /// </summary>
-    public partial class ComboBoxCard : UserControl
+    public partial class GenericSettingsCard : UserControl
     {
-        public ComboBoxCard()
+        public GenericSettingsCard()
         {
             InitializeComponent();
         }
@@ -34,7 +34,7 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
 
         // Using a DependencyProperty as the backing store for Header.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(ComboBoxCard), new PropertyMetadata(""));
+            DependencyProperty.Register("Header", typeof(string), typeof(GenericSettingsCard), new PropertyMetadata(""));
 
 
         public string Tip
@@ -45,7 +45,7 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
 
         // Using a DependencyProperty as the backing store for Tip.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TipProperty =
-            DependencyProperty.Register("Tip", typeof(string), typeof(ComboBoxCard), new PropertyMetadata(""));
+            DependencyProperty.Register("Tip", typeof(string), typeof(GenericSettingsCard), new PropertyMetadata(""));
 
         public FontIconData Icon
         {
@@ -55,6 +55,16 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
 
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(FontIconData), typeof(ComboBoxCard), new PropertyMetadata(FluentSystemIcons.EmojiLaugh_20_Regular));
+            DependencyProperty.Register("Icon", typeof(FontIconData), typeof(GenericSettingsCard), new PropertyMetadata(FluentSystemIcons.EmojiLaugh_20_Regular));
+
+        public UIElement CardContent
+        {
+            get { return (UIElement)GetValue(CardContentProperty); }
+            set { SetValue(CardContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CardContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardContentProperty =
+            DependencyProperty.Register("CardContent", typeof(UIElement), typeof(GenericSettingsCard));
     }
 }

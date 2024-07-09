@@ -3,12 +3,25 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TimetableSettingsPage">
 
     <Grid>
-        <Rectangle Fill="Purple"/>
+        <ui:ScrollViewerEx>
+            <ui:SimpleStackPanel Spacing="8" Margin="24">
+                <Label FontSize="24" Content="课程表" Margin="12,8" FontWeight="Bold"/>
+                <card:ToggleSwitchCard x:Name="ToggleSwitchUseTimetable" Icon="{x:Static ui:FluentSystemIcons.Timeline_20_Regular}" Header="使用带时间信息的课程表" Tip="关闭后，课程表将变为纯文本，失去一切与时间有关的功能" OnContent="启用" OffContent="禁用"/>
+                <ui:SimpleStackPanel Spacing="8" Visibility="{Binding ElementName=ToggleSwitchUseTimetable, Path=IsOn, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.Alert_20_Regular}" Header="上下课提醒" OnContent="启用" OffContent="禁用"/>
+                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ArrowEnter_20_Regular}" Header="课前通知持续时间（秒）" Minimum="20" Maximum="180" TickFrequency="2.5"/>
+                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.PersonRunning_20_Regular}" Header="下课通知持续时间（秒）" Minimum="4" Maximum="60" TickFrequency="1"/>
+                </ui:SimpleStackPanel>
+                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.TextFontSize_20_Regular}" Header="课程表字号" Minimum="18" Maximum="40" TickFrequency="1"/>
+            </ui:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Page>

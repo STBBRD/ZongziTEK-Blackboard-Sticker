@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,7 +24,15 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
     {
         public AboutPage()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            TextBlockVersion.Text = version.ToString();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
         }
     }
 }

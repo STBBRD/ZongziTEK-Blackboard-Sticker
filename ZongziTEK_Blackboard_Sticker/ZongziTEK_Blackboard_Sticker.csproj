@@ -86,8 +86,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\Cards\ComboBoxCard.xaml.cs">
-      <DependentUpon>ComboBoxCard.xaml</DependentUpon>
+    <Compile Include="Controls\Cards\GenericSettingsCard.xaml.cs">
+      <DependentUpon>GenericSettingsCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Cards\SliderCard.xaml.cs">
       <DependentUpon>SliderCard.xaml</DependentUpon>
@@ -126,6 +126,15 @@
     <Compile Include="Pages\SettingsPages\InfoBoardSettingsPage.xaml.cs">
       <DependentUpon>InfoBoardSettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPages\InfoBoardSettingsPages\CountdownSettingsPage.xaml.cs">
+      <DependentUpon>CountdownSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\InfoBoardSettingsPages\InfoBoardGenericSettingsPage.xaml.cs">
+      <DependentUpon>InfoBoardGenericSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\InfoBoardSettingsPages\WeatherSettingsPage.xaml.cs">
+      <DependentUpon>WeatherSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPages\LookSettingsPage.xaml.cs">
       <DependentUpon>LookSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -162,7 +171,7 @@
     <Compile Include="WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Cards\ComboBoxCard.xaml">
+    <Page Include="Controls\Cards\GenericSettingsCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,6 +224,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\InfoBoardSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\InfoBoardSettingsPages\CountdownSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\InfoBoardSettingsPages\InfoBoardGenericSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\InfoBoardSettingsPages\WeatherSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

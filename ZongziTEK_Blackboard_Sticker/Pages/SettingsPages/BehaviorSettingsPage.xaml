@@ -12,10 +12,20 @@
     <Grid>
         <ui:ScrollViewerEx>
             <ui:SimpleStackPanel Spacing="8" Margin="24">
-                <card:ToggleSwitchCard/>
-                <card:ComboBoxCard/>
-                <card:TextBoxCard/>
-                <card:SliderCard/>
+                <Label FontSize="24" Content="行为" Margin="12,8" FontWeight="Bold"/>
+                <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.ArrowExit_20_Regular}" Header="关闭或重新启动黑板贴">
+                    <card:GenericSettingsCard.CardContent>
+                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                            <Button>
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowExit_20_Regular}"/>
+                            </Button>
+                            <Button>
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}"/>
+                            </Button>
+                        </ui:SimpleStackPanel>
+                    </card:GenericSettingsCard.CardContent>
+                </card:GenericSettingsCard>
+                <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.Rocket_20_Regular}" Header="开机时运行" OnContent="启用" OffContent="禁用"/>
             </ui:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>

@@ -3,12 +3,37 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LookSettingsPage">
 
     <Grid>
-        <Rectangle Fill="Aqua"/>
+        <ui:ScrollViewerEx>
+            <ui:SimpleStackPanel Spacing="8" Margin="24">
+                <Label FontSize="24" Content="外观" Margin="12,8" FontWeight="Bold"/>
+                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ScaleFit_20_Regular}" Header="界面缩放" Tip="当黑板贴的界面过大或过小时，需要调节此设置项"/>
+                <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.PaintBrush_20_Regular}" Header="颜色主题">
+                    <card:GenericSettingsCard.CardContent>
+                        <ComboBox Width="180" SelectedIndex="0">
+                            <ComboBoxItem>跟随系统（默认）</ComboBoxItem>
+                            <ComboBoxItem>浅色</ComboBoxItem>
+                            <ComboBoxItem>深色</ComboBoxItem>
+                        </ComboBox>
+                    </card:GenericSettingsCard.CardContent>
+                </card:GenericSettingsCard>
+                <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.ContentViewGallery_20_Regular}" Header="显示模式" Tip="此设置项决定要显示的内容，如需隐藏小黑板，请设置为简约模式">
+                    <card:GenericSettingsCard.CardContent>
+                        <ComboBox Width="180" SelectedIndex="0">
+                            <ComboBoxItem>完整（默认）</ComboBoxItem>
+                            <ComboBoxItem>简约（顶部为时钟）</ComboBoxItem>
+                            <ComboBoxItem>简约（顶部为看板）</ComboBoxItem>
+                        </ComboBox>
+                    </card:GenericSettingsCard.CardContent>
+                </card:GenericSettingsCard>
+            </ui:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Page>

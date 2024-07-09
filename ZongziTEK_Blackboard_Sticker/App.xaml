@@ -13,6 +13,9 @@
                 <ResourceDictionary Source="Style/Light.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <local:TextEmptyToCollapsedConverter x:Key="TextEmptyToCollapsedConverter"/>
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
             <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>

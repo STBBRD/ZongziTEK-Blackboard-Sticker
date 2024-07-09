@@ -3,12 +3,37 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StorageSettingsPage">
 
     <Grid>
-        <Rectangle Fill="Blue"/>
+        <ui:ScrollViewerEx>
+            <ui:SimpleStackPanel Spacing="8" Margin="24">
+                <Label FontSize="24" Content="存储" Margin="12,8" FontWeight="Bold"/>
+                <card:ToggleSwitchCard x:Name="ToggleSwitchIsFilesSavingWithProgram" Icon="{x:Static ui:FluentSystemIcons.Attach_20_Regular}" Header="将数据与本程序保存在同一位置" OnContent="启用" OffContent="禁用"/>
+                <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.Storage_20_Regular}" Header="数据保存位置" Visibility="{Binding ElementName=ToggleSwitchIsFilesSavingWithProgram, Path=IsOn, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                    <card:GenericSettingsCard.CardContent>
+                        <Button Grid.Column="2" Height="32" Content="调整该项设置" Background="Transparent" Foreground="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonBackgroundKey}}" BorderThickness="0">
+                            <ui:FlyoutService.Flyout>
+                                <ui:Flyout>
+                                    <Grid Width="420">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Margin="0,0,8,0"/>
+                                        <Button Grid.Column="1" Content="浏览"/>
+                                    </Grid>
+                                </ui:Flyout>
+                            </ui:FlyoutService.Flyout>
+                        </Button>
+                    </card:GenericSettingsCard.CardContent>
+                </card:GenericSettingsCard>
+            </ui:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Page>

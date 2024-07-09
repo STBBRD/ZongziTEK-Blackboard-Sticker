@@ -91,5 +91,21 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(FontIconData), typeof(ToggleSwitchCard), new PropertyMetadata(FluentSystemIcons.EmojiLaugh_20_Regular));
+
+
+        // Toggled Event
+        public static readonly RoutedEvent ToggledEvent = EventManager.RegisterRoutedEvent("Toggled", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToggleSwitchCard));
+
+        public event RoutedEventHandler Toggled
+        {
+            add { AddHandler(ToggledEvent, value); }
+            remove { RemoveHandler(ToggledEvent, value); }
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(ToggledEvent, this);
+            RaiseEvent(routedEventArgs);
+        }
     }
 }

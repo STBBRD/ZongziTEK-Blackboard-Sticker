@@ -26,6 +26,24 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
             InitializeComponent();
         }
 
+        bool isLoaded = false;
+
+        private void SliderCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainSlider.Minimum = Minimum;
+            MainSlider.Maximum = Maximum;
+            MainSlider.TickFrequency = TickFrequency;
+            MainSlider.Value = Value;
+
+            isLoaded = true;
+        }
+
+        public void SetValue(double value)
+        {
+            Value = value;
+            MainSlider.Value = value;
+        }
+
         public string Header
         {
             get { return (string)GetValue(HeaderProperty); }
@@ -96,5 +114,25 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
         // Using a DependencyProperty as the backing store for TickFrequency.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TickFrequencyProperty =
             DependencyProperty.Register("TickFrequency", typeof(double), typeof(SliderCard), new PropertyMetadata(0.1));
+
+
+        // ValueChanged Event
+        public static readonly RoutedEvent ValueChangedEvent = EventManager.RegisterRoutedEvent("ValueChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SliderCard));
+
+        public event RoutedEventHandler ValueChanged
+        {
+            add { AddHandler(ValueChangedEvent, value); }
+            remove { RemoveHandler(ValueChangedEvent, value); }
+        }
+
+        private void MainSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            
+            Value = MainSlider.Value;
+
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(ValueChangedEvent, this);
+            RaiseEvent(routedEventArgs);
+        }
     }
 }
