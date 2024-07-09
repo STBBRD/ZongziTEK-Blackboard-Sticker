@@ -161,6 +161,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         if (MessageBox.Show("是否取消关闭 ZongziTEK 黑板贴 ？", "ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Error) != MessageBoxResult.Yes)
                         {
                             e.Cancel = false;
+                            Application.Current.Shutdown();
                         }
                     }
                 }
@@ -174,7 +175,7 @@ namespace ZongziTEK_Blackboard_Sticker
             //处理 DPI 变化
             if (MessageBox.Show("检测到系统 DPI 变化，为确保黑板贴显示正常，需要重启黑板贴。\r\n是否立即重启黑板贴？", "ZongziTEK 黑板贴", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                btnRestart_Click(null, null);
+                Restart();
             }
         }
 
@@ -1517,14 +1518,28 @@ namespace ZongziTEK_Blackboard_Sticker
 
         #region Panel Show & Hide
 
+        private bool isSettingsWindowOpen = false;
 
         private void iconShowSettingsPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (borderSettingsPanel.Visibility == Visibility.Collapsed) borderSettingsPanel.Visibility = Visibility.Visible;
+            /*if (borderSettingsPanel.Visibility == Visibility.Collapsed) borderSettingsPanel.Visibility = Visibility.Visible;
             else btnHideSettingsPanel_Click(null, null);
 
-            ButtonRefreshBNSStatus_Click(null, null);
+            ButtonRefreshBNSStatus_Click(null, null);*/
+            if (!isSettingsWindowOpen)
+            {
+                SettingsWindow settingsWindow = new();
+                settingsWindow.Closed += SettingsWindow_Closed;
+                settingsWindow.Show();
+                isSettingsWindowOpen = true;
+            }
         }
+
+        private void SettingsWindow_Closed(object sender, EventArgs e)
+        {
+            isSettingsWindowOpen = false;
+        }
+
         private void btnHideSettingsPanel_Click(object sender, RoutedEventArgs e)
         {
             borderSettingsPanel.Visibility = Visibility.Collapsed;
@@ -1537,33 +1552,6 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Settings Panel
-
-        private void btnRestart_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(System.Windows.Forms.Application.ExecutablePath, "-m");
-
-            CloseIsFromButton = true;
-            System.Windows.Application.Current.Shutdown();
-        }
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            if (ToggleSwitchRunAtStartup.IsOn)
-            {
-                StartAutomaticallyCreate("ZongziTEK_Blackboard_Sticker");
-            }
-            else
-            {
-                StartAutomaticallyDel("ZongziTEK_Blackboard_Sticker");
-            }
-        }
-
         private void ToggleSwitchBottomMost_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1575,7 +1563,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 if (MessageBox.Show("需要重新启动黑板贴来使此设置生效\n确定要重新启动黑板贴吗", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    btnRestart_Click(null, null);
+                    Restart();
                 }
                 else
                 {
@@ -1899,11 +1887,6 @@ namespace ZongziTEK_Blackboard_Sticker
                 borderFirstOpening.Visibility = Visibility.Visible;
             }
 
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\ZongziTEK_Blackboard_Sticker" + ".lnk"))
-            {
-                ToggleSwitchRunAtStartup.IsOn = true;
-            }
-
             if (Settings.Storage.IsFilesSavingWithProgram)
             {
                 ToggleSwitchDataLocation.IsOn = true;
@@ -2151,6 +2134,13 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Other Functions
+        public static void Restart()
+        {
+            Process.Start(System.Windows.Forms.Application.ExecutablePath, "-m");
+
+            CloseIsFromButton = true;
+            System.Windows.Application.Current.Shutdown();
+        }
 
         public static string GetDataPath()
         {
