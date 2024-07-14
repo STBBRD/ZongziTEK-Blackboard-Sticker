@@ -1,4 +1,5 @@
-﻿using iNKORE.UI.WPF.Modern;
+﻿using iNKORE.UI.WPF.Controls;
+using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Common.IconKeys;
 using iNKORE.UI.WPF.Modern.Controls;
 using IWshRuntimeLibrary;

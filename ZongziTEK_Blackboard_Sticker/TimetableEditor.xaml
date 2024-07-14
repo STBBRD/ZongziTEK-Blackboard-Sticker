@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 编辑课程表" Height="600" Width="800" MinHeight="450" MinWidth="800"
@@ -46,15 +46,15 @@
                 </Grid>
             </Border>
             <ui:ScrollViewerEx Name="ScrollViewerTimetable" PanningMode="VerticalOnly" Grid.Row="2" PreviewMouseWheel="ScrollViewerTimetable_PreviewMouseWheel">
-                <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
-                </ui:SimpleStackPanel>
+                <ikw:SimpleStackPanel x:Name="ListStackPanel" Spacing="4">
+                </ikw:SimpleStackPanel>
             </ui:ScrollViewerEx>
         </Grid>
 
         <Border Grid.Row="1" Height="52" Margin="16,4,16,0" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                 Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}">
             <Grid Margin="16,8">
-                <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                <ikw:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
                     <ComboBox Name="ComboBoxDay" Width="100" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
                         <ComboBoxItem Content="周一"/>
                         <ComboBoxItem Content="周二"/>
@@ -66,10 +66,10 @@
                         <ComboBoxItem Content="临时"/>
                     </ComboBox>
                     <Button Name="ButtonCopy" BorderThickness="0" Background="#00000000" Width="144" Height="32" Padding="10,0" Click="ButtonCopy_Click" HorizontalContentAlignment="Left">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                        <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Copy_20_Regular}"/>
                             <Label Name="LabelCopy" Content="复制该天的课表"/>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </Button>
                     <Button Name="ButtonPaste" BorderThickness="0" Background="#00000000" Width="0" Height="32" Padding="0" Click="ButtonPaste_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ClipboardPaste_20_Regular}"/>
@@ -78,10 +78,10 @@
                     <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
 
                     <Button Name="ButtonInsertLesson" BorderThickness="0" Background="#00000000" HorizontalAlignment="Center" Width="120" Height="32" Click="ButtonInsertLesson_Click">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                        <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Add_20_Regular}"/>
                             <Label Content="新建课程"/>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </Button>
 
                     <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
@@ -93,20 +93,20 @@
                     <Button Name="ButtonImport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonImport_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowImport_20_Regular}"/>
                     </Button>
-                </ui:SimpleStackPanel>
+                </ikw:SimpleStackPanel>
                 <Button Style="{StaticResource AccentButtonStyle}" Height="32" HorizontalAlignment="Right" Click="ButtonSave_Click">
-                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                    <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Save_20_Regular}"/>
                         <TextBlock Text="保存并关闭"/>
-                    </ui:SimpleStackPanel>
+                    </ikw:SimpleStackPanel>
                 </Button>
             </Grid>
         </Border>
         <Label Grid.Row="3" Margin="14,0" VerticalAlignment="Center" Opacity="0.6">
-            <ui:SimpleStackPanel Orientation="Horizontal">
+            <ikw:SimpleStackPanel Orientation="Horizontal">
                 <TextBlock Name="TextBlockLessonCount" FontSize="12"/>
                 <TextBlock Text=" 节课" FontSize="12"/>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </Label>
     </Grid>
 </Window>

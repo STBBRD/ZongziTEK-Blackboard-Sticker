@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPages"
       mc:Ignorable="d" 
@@ -12,7 +12,7 @@
 
     <Grid>
         <ui:ScrollViewerEx>
-            <ui:SimpleStackPanel Spacing="8" Margin="24">
+            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="信息看板" Margin="12,8" FontWeight="Bold"/>
                 <Border HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
                         CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0">
@@ -22,7 +22,7 @@
                             <Label Content="选择要显示的信息看板页面"/>
                         </Expander.Header>
 
-                        <ui:SimpleStackPanel Spacing="16">
+                        <ikw:SimpleStackPanel Spacing="16">
                             <Grid>
                                 <Label Content="日期" VerticalAlignment="Center"/>
                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center" MinWidth="0" MinHeight="0"/>
@@ -39,10 +39,10 @@
                                 <Label Content="天气预报" VerticalAlignment="Center"/>
                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center" MinWidth="0" MinHeight="0"/>
                             </Grid>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </Expander>
                 </Border>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
 </Page>

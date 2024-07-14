@@ -28,6 +28,8 @@ using AutoUpdaterDotNET;
 using System.Windows.Media.Animation;
 using ZongziTEK_Blackboard_Sticker.Pages;
 using System.Windows.Interop;
+using iNKORE.UI.WPF.Controls;
+using System.Security.Permissions;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -70,6 +72,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     LoadLauncher();
                 });
             });
+
+            SetTheme();
 
             // 检查更新
             if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
@@ -185,12 +189,6 @@ namespace ZongziTEK_Blackboard_Sticker
             Width = System.Windows.SystemParameters.WorkArea.Width;
             Top = 0;
             Left = 0;
-        }
-
-        private void SetWindowScaleTransform(double Multiplier)
-        {
-            windowScale.ScaleX = Multiplier;
-            windowScale.ScaleY = Multiplier;
         }
 
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
@@ -424,9 +422,6 @@ namespace ZongziTEK_Blackboard_Sticker
                 inkCanvas.Strokes = new StrokeCollection(fileStream);
                 fileStream.Close();
             }
-
-            if (Settings.Look.IsLightTheme) SetTheme("Light");
-            else SetTheme("Dark");
         }
 
         /*private void inkCanvas_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -1552,59 +1547,6 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Settings Panel
-        private void ToggleSwitchBottomMost_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.Automation.IsBottomMost = ToggleSwitchBottomMost.IsOn;
-            SaveSettings();
-
-            if (!ToggleSwitchBottomMost.IsOn)
-            {
-                if (MessageBox.Show("需要重新启动黑板贴来使此设置生效\n确定要重新启动黑板贴吗", "ZongziTEK 黑板贴", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                {
-                    Restart();
-                }
-                else
-                {
-                    ToggleSwitchBottomMost.IsOn = true;
-                }
-            }
-        }
-
-        private void SliderWindowScale_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            SetWindowScaleTransform(SliderWindowScale.Value);
-
-            if (!isSettingsLoaded) return;
-
-            Settings.Look.WindowScaleMultiplier = SliderWindowScale.Value;
-            SaveSettings();
-        }
-
-        private void ToggleSwitchTheme_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            if (ToggleSwitchTheme.IsOn)
-            {
-                //亮
-                SetTheme("Light");
-                SaveSettings();
-            }
-            else
-            {
-                //暗
-                SetTheme("Dark");
-                SaveSettings();
-            }
-        }
-        private void ToggleSwitchThemeAuto_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.Look.IsSwitchThemeAuto = ToggleSwitchThemeAuto.IsOn;
-            SystemEvents_UserPreferenceChanged(null, null);
-            SaveSettings();
-        }
 
         private void SliderOverNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -1631,16 +1573,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
             SwitchLookMode();
         }*/
-
-        private void ComboBoxLookMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.Look.LookMode = ComboBoxLookMode.SelectedIndex;
-            SaveSettings();
-
-            SwitchLookMode();
-        }
 
         private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
         {
@@ -1898,27 +1830,6 @@ namespace ZongziTEK_Blackboard_Sticker
                 GridDataLocation.Visibility = Visibility.Visible;
             }
 
-            if (Settings.Look.IsLightTheme)
-            {
-                ToggleSwitchTheme.IsOn = true;
-                SetTheme("Light");
-            }
-            else
-            {
-                ToggleSwitchTheme.IsOn = false;
-                SetTheme("Dark");
-            }
-
-            ToggleSwitchBottomMost.IsOn = Settings.Automation.IsBottomMost;
-
-            SliderWindowScale.Value = Settings.Look.WindowScaleMultiplier;
-            SetWindowScaleTransform(SliderWindowScale.Value);
-
-            //ToggleSwitchLiteMode.IsOn = Settings.Look.UseLiteMode;
-            //ToggleSwitchLiteModeWithInfoBoard.IsOn = Settings.Look.IsLiteModeWithInfoBoard;
-            ComboBoxLookMode.SelectedIndex = Settings.Look.LookMode;
-            ToggleSwitchThemeAuto.IsOn = Settings.Look.IsSwitchThemeAuto;
-
             TextBoxDataLocation.Text = Settings.Storage.DataPath;
 
             ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
@@ -2039,13 +1950,10 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Check
         private void SystemEvents_UserPreferenceChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
         {
-            if (Settings.Look.IsSwitchThemeAuto)
-            {
-                ToggleSwitchTheme.IsOn = IsSystemThemeLight();
-            }
+            if (Settings.Look.Theme == 0) SetTheme();
         }
 
-        private bool IsSystemThemeLight()
+        public static bool IsSystemThemeLight()
         {
             bool light = true;
             try
@@ -2167,24 +2075,32 @@ namespace ZongziTEK_Blackboard_Sticker
             return path;
         }
 
-        private void SetTheme(string theme)
+        public static void SetWindowScaleTransform(double Multiplier)
         {
-            if (theme == "Light")
+            (Application.Current.MainWindow as MainWindow).windowScale.ScaleX = Multiplier;
+            (Application.Current.MainWindow as MainWindow).windowScale.ScaleY = Multiplier;
+        }
+
+        public static void SetTheme()
+        {
+            MainWindow window = Application.Current.MainWindow as MainWindow;
+
+            if (Settings.Look.Theme == 1 || (Settings.Look.Theme == 0 && IsSystemThemeLight())) // 浅色模式
             {
                 ThemeManager.SetRequestedTheme(window, ElementTheme.Light);
                 ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Light.xaml", UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-                if (ToggleButtonLock.IsChecked.Value) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                if (window.ToggleButtonLock.IsChecked.Value) window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
                 Settings.Look.IsLightTheme = true;
 
-                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
+                if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
                 {
-                    btnWhite_Click(null, null);
+                    window.btnWhite_Click(null, null);
                 }
 
-                foreach (Stroke stroke in inkCanvas.Strokes)
+                foreach (Stroke stroke in window.inkCanvas.Strokes)
                 {
                     if (stroke.DrawingAttributes.Color == Colors.White)
                     {
@@ -2192,21 +2108,21 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                 }
             }
-            else if (theme == "Dark")
+            else if (Settings.Look.Theme == 2 || (Settings.Look.Theme == 0 && (!IsSystemThemeLight()))) // 深色模式
             {
                 ThemeManager.SetRequestedTheme(window, ElementTheme.Dark);
                 ResourceDictionary resourceDictionary = new ResourceDictionary() { Source = new Uri("Style/Dark.xaml", UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-                if (ToggleButtonLock.IsChecked.Value) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                if (window.ToggleButtonLock.IsChecked.Value) window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
 
                 Settings.Look.IsLightTheme = false;
 
-                if (inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
+                if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
                 {
-                    btnWhite_Click(null, null);
+                    window.btnWhite_Click(null, null);
                 }
-                foreach (Stroke stroke in inkCanvas.Strokes)
+                foreach (Stroke stroke in window.inkCanvas.Strokes)
                 {
                     if (stroke.DrawingAttributes.Color == Colors.Black)
                     {
@@ -2295,47 +2211,49 @@ namespace ZongziTEK_Blackboard_Sticker
             return null;
         }
 
-        private void SwitchLookMode()
+        public static void SwitchLookMode()
         {
+            MainWindow window = Application.Current.MainWindow as MainWindow;
+
             switch (Settings.Look.LookMode)
             {
                 case 0: // 默认
-                    BorderMain.ClearValue(WidthProperty);
-                    BorderMain.ClearValue(HorizontalAlignmentProperty);
-                    iconSwitchLeft.Visibility = Visibility.Visible;
+                    window.BorderMain.ClearValue(WidthProperty);
+                    window.BorderMain.ClearValue(HorizontalAlignmentProperty);
+                    window.iconSwitchLeft.Visibility = Visibility.Visible;
 
-                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
-                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
-                    ColumnClock.Width = GridLength.Auto;
+                    window.ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                    window.ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    window.ColumnClock.Width = GridLength.Auto;
 
-                    frameInfoNavigationTimer.Start();
+                    window.frameInfoNavigationTimer.Start();
                     break;
 
                 case 1: // 简约（顶部为时钟）
-                    BorderMain.Width = ColumnLauncher.ActualWidth;
-                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    iconSwitchRight_MouseDown(null, null);
-                    iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    window.BorderMain.Width = window.ColumnLauncher.ActualWidth;
+                    window.BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    window.iconSwitchRight_MouseDown(null, null);
+                    window.iconSwitchLeft.Visibility = Visibility.Collapsed;
 
-                    ColumnCanvas.Width = new GridLength(0);
-                    ColumnInfoBoard.Width = new GridLength(0);
-                    ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+                    window.ColumnCanvas.Width = new GridLength(0);
+                    window.ColumnInfoBoard.Width = new GridLength(0);
+                    window.ColumnClock.Width = new GridLength(1, GridUnitType.Star);
 
-                    frameInfoNavigationTimer.Stop();
-                    FrameInfo.Navigate(frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+                    window.frameInfoNavigationTimer.Stop();
+                    window.FrameInfo.Navigate(window.frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
                     break;
 
                 case 2: // 简约（顶部为看板）
-                    BorderMain.Width = ColumnLauncher.ActualWidth;
-                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    iconSwitchRight_MouseDown(null, null);
-                    iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    window.BorderMain.Width = window.ColumnLauncher.ActualWidth;
+                    window.BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    window.iconSwitchRight_MouseDown(null, null);
+                    window.iconSwitchLeft.Visibility = Visibility.Collapsed;
 
-                    ColumnCanvas.Width = new GridLength(0);
-                    ColumnClock.Width = new GridLength(0);
-                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    window.ColumnCanvas.Width = new GridLength(0);
+                    window.ColumnClock.Width = new GridLength(0);
+                    window.ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
 
-                    frameInfoNavigationTimer.Start();
+                    window.frameInfoNavigationTimer.Start();
                     break;
             }
         }

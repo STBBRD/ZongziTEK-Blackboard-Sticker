@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
@@ -12,12 +12,13 @@
 
     <Grid>
         <ui:ScrollViewerEx>
-            <ui:SimpleStackPanel Spacing="8" Margin="24">
+            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="外观" Margin="12,8" FontWeight="Bold"/>
-                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ScaleFit_20_Regular}" Header="界面缩放" Tip="当黑板贴的界面过大或过小时，需要调节此设置项"/>
+                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ScaleFit_20_Regular}" Header="界面缩放" Tip="当黑板贴的界面过大或过小时，需要调节此设置项" Value="{Binding WindowScaleMultiplier, Mode=TwoWay}" 
+                                 Minimum="0.5" Maximum="2.0" ValueChanged="SliderWindowScaleMultiplier_ValueChanged"/>
                 <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.PaintBrush_20_Regular}" Header="颜色主题">
                     <card:GenericSettingsCard.CardContent>
-                        <ComboBox Width="180" SelectedIndex="0">
+                        <ComboBox Width="180" SelectedIndex="{Binding Theme}" SelectionChanged="ComboBoxTheme_SelectionChanged">
                             <ComboBoxItem>跟随系统（默认）</ComboBoxItem>
                             <ComboBoxItem>浅色</ComboBoxItem>
                             <ComboBoxItem>深色</ComboBoxItem>
@@ -26,14 +27,14 @@
                 </card:GenericSettingsCard>
                 <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.ContentViewGallery_20_Regular}" Header="显示模式" Tip="此设置项决定要显示的内容，如需隐藏小黑板，请设置为简约模式">
                     <card:GenericSettingsCard.CardContent>
-                        <ComboBox Width="180" SelectedIndex="0">
+                        <ComboBox Width="180" SelectedIndex="{Binding LookMode}" SelectionChanged="ComboBoxLookMode_SelectionChanged">
                             <ComboBoxItem>完整（默认）</ComboBoxItem>
                             <ComboBoxItem>简约（顶部为时钟）</ComboBoxItem>
                             <ComboBoxItem>简约（顶部为看板）</ComboBoxItem>
                         </ComboBox>
                     </card:GenericSettingsCard.CardContent>
                 </card:GenericSettingsCard>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
 </Page>

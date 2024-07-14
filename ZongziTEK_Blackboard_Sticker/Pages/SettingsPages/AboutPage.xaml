@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
@@ -12,18 +12,18 @@
 
     <Grid>
         <ui:ScrollViewerEx>
-            <ui:SimpleStackPanel Spacing="8" Margin="24">
+            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="关于" Margin="12,8" FontWeight="Bold"/>
                 <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}" Header="启动时检查更新" OnContent="启用" OffContent="禁用"/>
                 <Border HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
                         CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
-                    <ui:SimpleStackPanel Margin="16" Spacing="12">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                    <ikw:SimpleStackPanel Margin="16" Spacing="12">
+                        <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                             <TextBlock FontSize="14">
                                         <Bold>当前版本:</Bold>
                             </TextBlock>
                             <TextBlock FontSize="14" Text="" Name="TextBlockVersion"/>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                         <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
                                     <Bold>开发者:</Bold> ZongziTEK
                         </TextBlock>
@@ -39,9 +39,9 @@
                         <TextBlock FontSize="14">
                                      <Bold>开源协议:</Bold> GNU General Public License v3.0
                         </TextBlock>
-                    </ui:SimpleStackPanel>
+                    </ikw:SimpleStackPanel>
                 </Border>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
 </Page>

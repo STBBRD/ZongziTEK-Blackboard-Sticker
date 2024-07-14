@@ -30,6 +30,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public double WindowScaleMultiplier { get; set; } = 1;
         public bool IsLightTheme { get; set; } = false;
         public bool IsSwitchThemeAuto { get; set; } = true;
+        public int Theme { get; set;} = 0; // 0 代表自动切换，1 代表浅色，2 代表深色
         public bool IsAnimationEnhanced { get; set; } = true;
         //public bool UseLiteMode { get; set; } = false;
         //public bool IsLiteModeWithInfoBoard { get; set; } = false;

@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPages"
       mc:Ignorable="d" 
@@ -12,10 +12,10 @@
 
     <Grid>
         <ui:ScrollViewerEx>
-            <ui:SimpleStackPanel Spacing="8" Margin="24">
+            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="天气" Margin="12,8" FontWeight="Bold"/>
                 <card:TextBoxCard Icon="{x:Static ui:FluentSystemIcons.Location_20_Regular}" Header="天气城市" Tip="可输入市名或区名，如 “北京” “北京市” “朝阳” ，不可同时输入市名和区名"/>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
 </Page>

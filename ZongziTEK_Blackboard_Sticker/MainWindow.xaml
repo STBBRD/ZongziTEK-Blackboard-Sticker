@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
         Background="#00000000" 
@@ -20,7 +20,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.LayoutTransform>
-            <ScaleTransform x:Name="windowScale" ScaleX="1" ScaleY="1"/>
+            <ScaleTransform x:Name="windowScale" ScaleX="{Binding WindowScaleMultiplier}" ScaleY="{Binding WindowScaleMultiplier}"/>
         </Grid.LayoutTransform>
 
         <Border Name="BorderMain" Grid.Column="1" Margin="8" CornerRadius="8" Background="{DynamicResource WindowBackgroundColor}">
@@ -62,13 +62,13 @@
                 <Border Grid.RowSpan="3" Grid.Row="1" Background="{DynamicResource WindowBackgroundColor}" Margin="8,0,0,8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
                         <Border x:Name="borderClearConfirm" Visibility="Collapsed">
-                            <ui:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ikw:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="确定清除吗" FontSize="32"/>
-                                <ui:SimpleStackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <ikw:SimpleStackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button x:Name="btnClearCancel" Height="32" Foreground="{DynamicResource ForegroundColor}" Content="取消" Click="btnClearCancel_Click"/>
                                     <Button x:Name="btnClearOK" Height="32" Style="{StaticResource AccentButtonStyle}" Content="确定" Click="btnClearOK_Click"/>
-                                </ui:SimpleStackPanel>
-                            </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </Border>
                         <Grid Name="touchGrid" ManipulationStarting="touchGrid_ManipulationStarting" ManipulationDelta="touchGrid_ManipulationDelta" Background="#00000000">
                             <InkCanvas x:Name="inkCanvas" PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp"
@@ -76,16 +76,16 @@
                            IsManipulationEnabled="True" Background="{x:Null}"/>
                         </Grid>
                         <Border Name="BorderLockBlackboard" Background="#00000000" Visibility="Collapsed" MouseDown="BorderLockBlackboard_MouseDown">
-                            <ui:SimpleStackPanel Name="StackPanelHighlightBlackboardLockState" Visibility="Collapsed" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ikw:SimpleStackPanel Name="StackPanelHighlightBlackboardLockState" Visibility="Collapsed" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="已锁定" FontSize="64" HorizontalAlignment="Center"/>
                                 <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="请点击工具栏中图标解锁" FontSize="14" Opacity="0.8" HorizontalAlignment="Center"/>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </Border>
 
                         <Border Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Label Content="小黑板" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
-                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8,0">
+                                <ikw:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8,0">
                                     <Grid>
                                         <Button Name="penButton" Click="penButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                                 Width="32" Height="32" Padding="0"
@@ -94,7 +94,7 @@
                                         </Button>
                                         <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
                                                 Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
-                                            <ui:SimpleStackPanel Margin="16" Spacing="12">
+                                            <ikw:SimpleStackPanel Margin="16" Spacing="12">
                                                 <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                                 <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
                                                 <colorpicker:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
@@ -113,7 +113,7 @@
                                                     <Button Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF" BorderThickness="0"/>
                                                 </Grid>
                                                 <Button x:Name="btnCloseColorPicker" Content="关闭" HorizontalAlignment="Stretch" Click="btnCloseColorPicker_Click"/>
-                                            </ui:SimpleStackPanel>
+                                            </ikw:SimpleStackPanel>
                                         </Border>
                                     </Grid>
                                     <Button Name="eraserButton" Click="eraserButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
@@ -125,17 +125,17 @@
                                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Delete_20_Regular}" FontSize="24"/>
                                         <ui:FlyoutService.Flyout>
                                             <ui:Flyout>
-                                                <ui:SimpleStackPanel Spacing="8">
+                                                <ikw:SimpleStackPanel Spacing="8">
                                                     <TextBlock TextWrapping="Wrap" Text="此操作将清除小黑板上的所有内容，且不可恢复。确定继续吗？"/>
                                                     <Button Content="确定" Click="btnClearOK_Click"/>
-                                                </ui:SimpleStackPanel>
+                                                </ikw:SimpleStackPanel>
                                             </ui:Flyout>
                                         </ui:FlyoutService.Flyout>
                                     </Button>
                                     <ToggleButton Name="ToggleButtonLock" BorderThickness="0" Width="32" Height="32" Padding="0" Background="#00000000" Click="ToggleButtonLock_Click">
                                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.LockClosed_20_Regular}" FontSize="24" Foreground="{Binding Foreground, ElementName=ToggleButtonLock}"/>
                                     </ToggleButton>
-                                </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
                             </Grid>
                         </Border>
                     </Grid>
@@ -150,14 +150,14 @@
                         </Grid.RowDefinitions>
                         <ui:ProgressRing Name="ProgressBarLauncher" Grid.Row="0" VerticalAlignment="Bottom" IsIndeterminate="True" Margin="20" Visibility="Collapsed"/>
                         <ui:ScrollViewerEx Name="ScrollViewerLauncher" PanningMode="VerticalOnly" Grid.Row="0" Margin="8" VerticalAlignment="Bottom" MaxHeight="216">
-                            <ui:SimpleStackPanel x:Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
+                            <ikw:SimpleStackPanel x:Name="StackPanelLauncher" Spacing="8" VerticalAlignment="Bottom">
                                 <Button Name="buttonExplorer" HorizontalAlignment="Stretch" Height="36" Click="buttonExplorer_Click" HorizontalContentAlignment="Left" Background="#00000000" BorderThickness="0">
-                                    <ui:SimpleStackPanel Spacing="8" Margin="0" Orientation="Horizontal">
+                                    <ikw:SimpleStackPanel Spacing="8" Margin="0" Orientation="Horizontal">
                                         <Image Source="Resources/ThisPC.ico" Height="19" VerticalAlignment="Center"/>
                                         <TextBlock Text="此电脑" VerticalAlignment="Center"/>
-                                    </ui:SimpleStackPanel>
+                                    </ikw:SimpleStackPanel>
                                 </Button>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </ui:ScrollViewerEx>
 
                         <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
@@ -189,11 +189,11 @@
                                 <TextBlock Visibility="Collapsed" Name="textBlockCurriculum" TextWrapping="Wrap"
                                     Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
                                     FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
-                                <ui:SimpleStackPanel Name="StackPanelShowTimetable"/>
+                                <ikw:SimpleStackPanel Name="StackPanelShowTimetable"/>
                             </Grid>
                         </ui:ScrollViewerEx>
                         <ui:ScrollViewerEx x:Name="ScrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">
-                            <ui:SimpleStackPanel Spacing="8" Margin="24">
+                            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                                 <TextBlock Text="编辑课程表" FontSize="36" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="在文本框内输入课程，可回车换行，建议一行一节课" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="周一" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
@@ -219,7 +219,7 @@
 
                                 <TextBlock Text="临时" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBox x:Name="textBoxTempCurriculums" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </ui:ScrollViewerEx>
                         <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
@@ -254,12 +254,12 @@
                 <!--功能菜单-->
                 <Border Grid.Row="3" Grid.Column="1" Height="40" Margin="8,0,8,8" CornerRadius="8" VerticalAlignment="Bottom" Background="{DynamicResource WindowBackgroundColor}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
-                        <ui:SimpleStackPanel Margin="8,0" Spacing="8" Opacity="0.75" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <ikw:SimpleStackPanel Margin="8,0" Spacing="8" Opacity="0.75" Orientation="Horizontal" HorizontalAlignment="Right">
                             <ui:FontIcon FontSize="24" Height="22" Width="22" Icon="{x:Static ui:FluentSystemIcons.Clock_20_Regular}" MouseDown="iconShowBigClock_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                             <ui:FontIcon Name="iconSwitchLeft" Icon="{x:Static ui:FluentSystemIcons.ChevronLeft_24_Regular}" Height="22" Width="22" FontSize="24" MouseDown="iconSwitchLeft_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                             <ui:FontIcon Name="iconSwitchRight" Visibility="Collapsed" Icon="{x:Static ui:FluentSystemIcons.ChevronRight_24_Regular}" FontSize="24" Width="22" Height="22" MouseDown="iconSwitchRight_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                             <ui:FontIcon FontSize="24" Height="22" Width="22" Icon="{x:Static ui:FluentSystemIcons.Settings_20_Regular}" MouseDown="iconShowSettingsPanel_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </Grid>
                 </Border>
 
@@ -268,10 +268,10 @@
                 <Border x:Name="borderFirstOpening" CornerRadius="8" Grid.RowSpan="4" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
                     <Grid Margin="48">
                         <ui:ScrollViewerEx PanningMode="VerticalOnly">
-                            <ui:SimpleStackPanel Spacing="16">
+                            <ikw:SimpleStackPanel Spacing="16">
                                 <TextBlock FontSize="32" Text="初次使用,请查看以下常用设置项" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBox ui:ControlHelper.Header="天气城市" Text="{Binding Text, ElementName=TextBoxWeatherCity}"/>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </ui:ScrollViewerEx>
                         <Grid VerticalAlignment="Bottom">
                             <Button x:Name="btnCloseFirstOpening" HorizontalAlignment="Right" Content="完成" Width="120" Click="btnCloseFirstOpening_Click" Foreground="{DynamicResource ForegroundColor}"/>
@@ -279,12 +279,12 @@
                     </Grid>
                 </Border>
                 <Border Name="BorderDragEnter" CornerRadius="8" Background="{DynamicResource OtherPanelsBackgroundColor}" Grid.RowSpan="4" Grid.ColumnSpan="2" Visibility="Collapsed">
-                    <ui:SimpleStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="48">
+                    <ikw:SimpleStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="48">
                         <Viewbox>
                             <TextBlock Name="TextBlockDragHint" Text="松手以将文件添加到桌面" Foreground="{DynamicResource ForegroundColor}"/>
                         </Viewbox>
                         <ui:ProgressRing Name="ProgressBarDragEnter" IsIndeterminate="True" Margin="48" Visibility="Collapsed"/>
-                    </ui:SimpleStackPanel>
+                    </ikw:SimpleStackPanel>
                 </Border>
             </Grid>
         </Border>
@@ -294,33 +294,9 @@
             <Grid Margin="48">
                 <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
                 <ui:ScrollViewerEx PanningMode="VerticalOnly" Margin="12,64,12,64">
-                    <ui:SimpleStackPanel Spacing="16">
-                        <GroupBox Header="行为" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchBottomMost" Header="将黑板贴置于底层" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchBottomMost_Toggled"  Foreground="{DynamicResource ForegroundColor}"/>
-                            </ui:SimpleStackPanel>
-                        </GroupBox>
-                        <GroupBox Header="外观" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:SimpleStackPanel Spacing="4">
-                                    <Slider Name="SliderWindowScale" ui:ControlHelper.Header="界面缩放" Minimum="0.5" Maximum="1.5" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="1" PreviewMouseUp="SliderWindowScale_MouseUp" TickPlacement="Both" HorizontalAlignment="Left" Width="400"/>
-                                    <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderWindowScale}"/>
-                                </ui:SimpleStackPanel>
-                                <ui:ToggleSwitch Name="ToggleSwitchThemeAuto" Header="明暗主题跟随系统" OnContent="开" OffContent="关" Toggled="ToggleSwitchThemeAuto_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchTheme" Header="切换明暗主题" OnContent="亮" OffContent="暗" Toggled="ToggleSwitchTheme_Toggled" Foreground="{DynamicResource ForegroundColor}"
-                                                     IsEnabled="{Binding IsOn, Converter={StaticResource InverseBooleanConverter}, ElementName=ToggleSwitchThemeAuto}"/>
-                                <!--<ui:ToggleSwitch Name="ToggleSwitchLiteMode" Header="使用简约模式" OnContent="是" OffContent="否" Toggled="ToggleSwitchLiteMode_Toggled"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchLiteModeWithInfoBoard" Header="在简约模式中展示信息看板" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchLiteModeWithInfoBoard_Toggled"/>-->
-                                <ComboBox ui:ControlHelper.Header="显示模式" Name="ComboBoxLookMode" SelectionChanged="ComboBoxLookMode_SelectionChanged">
-                                    <ComboBoxItem>默认</ComboBoxItem>
-                                    <ComboBoxItem>简约（顶部为时钟）</ComboBoxItem>
-                                    <ComboBoxItem>简约（顶部为看板）</ComboBoxItem>
-                                </ComboBox>
-                                <TextBlock Text="此设置项可以选择要显示的内容，如需隐藏小黑板，请设置为简约模式" TextWrapping="Wrap" Opacity="0.75"/>
-                            </ui:SimpleStackPanel>
-                        </GroupBox>
+                    <ikw:SimpleStackPanel Spacing="16">
                         <GroupBox Header="存储" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
+                            <ikw:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchDataLocation" Header="将数据与本程序保存在同一位置" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchDataLocation_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="将数据保存在何处" FontSize="14" Visibility="{Binding Visibility, ElementName=GridDataLocation}" Foreground="{DynamicResource ForegroundColor}"/>
                                 <Grid Name="GridDataLocation" Visibility="Collapsed">
@@ -331,10 +307,10 @@
                                     <TextBox Name="TextBoxDataLocation" TextChanged="TextBoxDataLocation_TextChanged" Margin="0,0,16,0" Foreground="{DynamicResource ForegroundColor}"/>
                                     <Button Name="ButtonDataLocation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Content="浏览" Click="ButtonDataLocation_Click" Foreground="{DynamicResource ForegroundColor}"/>
                                 </Grid>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="课程表" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
+                            <ikw:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchUseTimetable" Header="使用带时间信息的课程表" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="开启上面的开关后，将使用带时间信息的课程表，并且出现上下课提醒功能。关闭上面的开关后，课程表就是文本信息，方便编辑，但没有上下课提醒。&#10;注意：如果需要使用上下课提醒，请下载 黑板通知服务 (https://github.com/STBBRD/Blackboard-Notification-Service)"
                                                TextWrapping="Wrap" Opacity="0.75"/>
@@ -348,63 +324,63 @@
                                         </StackPanel>
                                     </ui:HyperlinkButton>
                                 </StackPanel>
-                                <ui:SimpleStackPanel Spacing="4">
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <Slider Name="SliderBeginNotificationTime" ui:ControlHelper.Header="课前通知持续时间（秒）" Minimum="3" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" Value="4" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderBeginNotificationTime}"/>
-                                </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
                                 <!--<ui:ToggleSwitch Name="ToggleSwitchTempTimetable" Header="展示临时课表" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchTempTimetable_Toggled" Foreground="{DynamicResource ForegroundColor}"/>-->
                                 <!--<ui:ToggleSwitch Name="ToggleSwitchUseDefaultBNSPath" Header="使用默认黑板通知服务路径" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchUseDefaultBNSPath_Toggled" Foreground="{DynamicResource ForegroundColor}"/>
                                 <TextBlock Text="黑板通知服务路径" FontSize="14"/>
                                 <TextBox Name="TextBoxBNSPath" TextChanged="TextBoxBNSPath_TextChanged" Foreground="{DynamicResource ForegroundColor}" IsEnabled="{Binding IsOn, ElementName=ToggleSwitchUseDefaultBNSPath,Converter={StaticResource InverseBooleanConverter}}"/>-->
-                                <ui:SimpleStackPanel Spacing="4">
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <Slider Name="SliderTimetableFontSize" ui:ControlHelper.Header="课程表字号" Minimum="16" Maximum="32" TickFrequency="1" IsSnapToTickEnabled="True" Value="24" TickPlacement="Both" HorizontalAlignment="Left" Width="400" PreviewMouseUp="SliderTimetableFontSize_PreviewMouseUp"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderTimetableFontSize}"/>
-                                </ui:SimpleStackPanel>
-                                <ui:SimpleStackPanel Spacing="4">
+                                </ikw:SimpleStackPanel>
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <Slider Name="SliderBeginNotificationPreTime" ui:ControlHelper.Header="课前通知提前时间（秒）" Minimum="6" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True" Value="10" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderBeginNotificationPreTime_ValueChanged"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderBeginNotificationPreTime}"/>
-                                </ui:SimpleStackPanel>
-                                <ui:SimpleStackPanel Spacing="4">
+                                </ikw:SimpleStackPanel>
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <Slider Name="SliderOverNotificationTime" ui:ControlHelper.Header="下课通知持续时间（秒）" Minimum="3" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" Value="4" TickPlacement="Both" HorizontalAlignment="Left" Width="400" ValueChanged="SliderOverNotificationTime_ValueChanged"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderOverNotificationTime}"/>
-                                </ui:SimpleStackPanel>
-                            </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="信息看板" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:SimpleStackPanel Spacing="4">
+                            <ikw:SimpleStackPanel Spacing="12">
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <CheckBox Name="CheckBoxInfoBoardDate" Content="日期" IsChecked="True" Checked="CheckBoxInfoBoardDate_Checked" Unchecked="CheckBoxInfoBoardDate_Unchecked"/>
                                     <CheckBox Name="CheckBoxInfoBoardCountdown" Content="倒数日" IsChecked="True" Checked="CheckBoxInfoBoardCountdown_Checked" Unchecked="CheckBoxInfoBoardCountdown_Unchecked"/>
                                     <CheckBox Name="CheckBoxInfoBoardWeather" Content="实况天气" IsChecked="True" Checked="CheckBoxInfoBoardWeather_Checked" Unchecked="CheckBoxInfoBoardWeather_Unchecked"/>
                                     <CheckBox Name="CheckBoxInfoBoardWeatherForecast" Content="天气预报" IsChecked="True" Checked="CheckBoxInfoBoardWeatherForecast_Checked" Unchecked="CheckBoxInfoBoardWeatherForecast_Unchecked"/>
-                                </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
                                 <TextBox Name="TextBoxCountdownName" ui:ControlHelper.Header="倒数日名称" TextChanged="TextBoxCountdownName_TextChanged"/>
                                 <DatePicker Name="DatePickerCountdownDate" ui:ControlHelper.PlaceholderText="选择一个日期" ui:ControlHelper.Header="倒数日日期" SelectedDateChanged="DatePickerCountdownDate_SelectedDateChanged"/>
-                                <ui:SimpleStackPanel Spacing="4">
+                                <ikw:SimpleStackPanel Spacing="4">
                                     <Slider Name="SliderCountdownWarnDays" ui:ControlHelper.Header="倒数日警告阈值" Minimum="1" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SliderCountdownWarnDays_ValueChanged" TickPlacement="Both" HorizontalAlignment="Left" Width="200"/>
                                     <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderCountdownWarnDays}"/>
-                                </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
                                 <TextBox Name="TextBoxWeatherCity" ui:ControlHelper.Header="天气城市" TextChanged="TextBoxWeatherCity_TextChanged"/>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="自动" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
+                            <ikw:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoHideSeewoHugoAssistant" Header="自动隐藏 “希沃管家助手”"
                                                  IsOn="False" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoHideSeewoHugoAssistant_Toggled"/>
                                 <TextBlock Text="希沃管家助手，是希沃管家在桌面上显示的用于快捷启动应用的部件，会遮挡 ZongziTEK 黑板贴的界面。开启此开关后，希沃管家助手将被隐藏，希沃管家（集控）功能不受影响。此功能在部分情况下可能无效。"
                                                TextWrapping="Wrap" Opacity="0.75"/>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">
-                            <ui:SimpleStackPanel Spacing="12">
+                            <ikw:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoUpdate" Header="自动更新"
                                                  IsOn="True" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchAutoUpdate_Toggled"/>
-                                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                                <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                                     <TextBlock FontSize="14">
                                         <Bold>当前版本:</Bold>
                                     </TextBlock>
                                     <TextBlock FontSize="14" Text="" Name="TextBlockVersion"/>
-                                </ui:SimpleStackPanel>
+                                </ikw:SimpleStackPanel>
                                 <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
                                     <Bold>开发者:</Bold> ZongziTEK
                                 </TextBlock>
@@ -420,9 +396,9 @@
                                 <TextBlock FontSize="14">
                                      <Bold>开源协议:</Bold> GNU General Public License v3.0
                                 </TextBlock>
-                            </ui:SimpleStackPanel>
+                            </ikw:SimpleStackPanel>
                         </GroupBox>
-                    </ui:SimpleStackPanel>
+                    </ikw:SimpleStackPanel>
                 </ui:ScrollViewerEx>
                 <Grid VerticalAlignment="Bottom">
                     <Button x:Name="btnHideSettingsPanel" Click="btnHideSettingsPanel_Click" HorizontalAlignment="Right" Content="关闭" Width="120" Foreground="{DynamicResource ForegroundColor}"/>

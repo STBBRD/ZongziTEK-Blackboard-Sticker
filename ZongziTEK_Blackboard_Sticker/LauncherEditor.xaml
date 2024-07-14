@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 编辑启动台" Height="450" Width="800" MinHeight="450" MinWidth="800"
@@ -27,7 +27,7 @@
         <Border Grid.Row="1" Height="52" Margin="16,4,16,8" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                 Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" Visibility="{Binding Visibility, ElementName=ListScrollViewer}">
             <Grid Margin="16,8">
-                <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                <ikw:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
                     <Button Width="32" Height="32" Padding="0" BorderThickness="0" Background="#00000000" Click="ButtonRefresh_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}"/>
                     </Button>
@@ -35,25 +35,25 @@
                     <Rectangle Opacity="0.1" Width="1" Fill="{DynamicResource ForegroundColor}"/>
 
                     <Button Height="32" Padding="8,0" BorderThickness="0" Background="#00000000" Click="ButtonNew_Click">
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                        <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="8">
                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Add_20_Regular}"/>
                             <Label Content="新建启动台项"/>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </Button>
-                </ui:SimpleStackPanel>
+                </ikw:SimpleStackPanel>
             </Grid>
         </Border>
         <ui:ScrollViewerEx Name="ListScrollViewer" Grid.Row="2" Margin="16,8,16,0" PanningMode="VerticalOnly">
-            <ui:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
+            <ikw:SimpleStackPanel x:Name="ListStackPanel" Spacing="8"/>
         </ui:ScrollViewerEx>
 
         <Grid Name="GridInsert" Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="3">
-            <ui:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
+            <ikw:SimpleStackPanel Margin="24,12,24,12" Spacing="8">
                 <TextBlock Text="新建项" FontSize="32"/>
                 <ui:InfoBar Title="实验性功能" Message="已知问题：某些文件无法添加，或添加后不在启动台中显示" IsOpen="True" IsClosable="False"/>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
             <ui:ScrollViewerEx Margin="24,128,24,64" PanningMode="VerticalOnly">
-                <ui:SimpleStackPanel Spacing="8">
+                <ikw:SimpleStackPanel Spacing="8">
                     <TextBlock Text="文件路径" FontSize="16"/>
                     <Grid Name="GridDataLocation">
                         <Grid.ColumnDefinitions>
@@ -66,12 +66,12 @@
 
                     <TextBlock Text="名称" FontSize="16"/>
                     <TextBox Name="TextBoxLinkName"/>
-                </ui:SimpleStackPanel>
+                </ikw:SimpleStackPanel>
             </ui:ScrollViewerEx>
-            <ui:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
+            <ikw:SimpleStackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="24,12,24,12" Spacing="8" Orientation="Horizontal" >
                 <Button Name="ButtonCancelNew" Content="取消" Width="80" Click="ButtonCancelNew_Click"/>
                 <Button Name="ButtonSaveNew" Content="保存" Style="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}" Width="80" Click="ButtonSaveNew_Click"/>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </Grid>
     </Grid>
 </Window>

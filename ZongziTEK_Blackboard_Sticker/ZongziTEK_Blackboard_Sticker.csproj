@@ -371,13 +371,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autoupdater.NET.Official">
-      <Version>1.8.5</Version>
+      <Version>1.9.1</Version>
     </PackageReference>
     <PackageReference Include="iNKORE.UI.WPF">
-      <Version>1.2.4</Version>
+      <Version>1.2.7.1</Version>
     </PackageReference>
     <PackageReference Include="iNKORE.UI.WPF.Modern">
-      <Version>0.9.28</Version>
+      <Version>0.9.30</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>

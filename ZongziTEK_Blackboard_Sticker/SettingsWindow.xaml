@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 设置" Height="450" Width="800"
@@ -22,7 +22,7 @@
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="行为">
                     <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.PlayCircle_20_Regular}"/>
+                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Accessibility_20_Regular}"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="外观">
@@ -47,7 +47,7 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="自动">
                     <ui:NavigationViewItem.Icon>
-                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Accessibility_20_Regular}"/>
+                        <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.PlayCircle_20_Regular}"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>

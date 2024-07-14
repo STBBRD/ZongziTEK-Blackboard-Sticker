@@ -23,6 +23,26 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         public LookSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.Look;
+        }
+
+        private void ComboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+            MainWindow.SetTheme();            
+        }
+
+        private void ComboBoxLookMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+            MainWindow.SwitchLookMode();
+        }
+
+        private void SliderWindowScaleMultiplier_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+            MainWindow.SetWindowScaleTransform(MainWindow.Settings.Look.WindowScaleMultiplier);
         }
     }
 }

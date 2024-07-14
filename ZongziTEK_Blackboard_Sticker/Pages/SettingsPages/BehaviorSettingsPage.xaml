@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -11,22 +11,22 @@
 
     <Grid>
         <ui:ScrollViewerEx>
-            <ui:SimpleStackPanel Spacing="8" Margin="24">
+            <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="行为" Margin="12,8" FontWeight="Bold"/>
                 <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.ArrowExit_20_Regular}" Header="关闭或重新启动黑板贴">
                     <card:GenericSettingsCard.CardContent>
-                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                        <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                             <Button Click="ButtonClose_Click">
                                 <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowExit_20_Regular}"/>
                             </Button>
                             <Button Click="ButtonRestart_Click">
                                 <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}"/>
                             </Button>
-                        </ui:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
                     </card:GenericSettingsCard.CardContent>
                 </card:GenericSettingsCard>
                 <card:ToggleSwitchCard x:Name="ToggleSwitchRunOnStartup" Icon="{x:Static ui:FluentSystemIcons.Rocket_20_Regular}" Header="开机时运行" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchRunOnStartup_Toggled"/>
-            </ui:SimpleStackPanel>
+            </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
 </Page>
