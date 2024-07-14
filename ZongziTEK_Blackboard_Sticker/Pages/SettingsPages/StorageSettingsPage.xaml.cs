@@ -23,6 +23,26 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         public StorageSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.Storage;
+        }
+
+        private void ToggleSwitchIsFilesSavingWithProgram_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void TextBoxDataPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            MainWindow.Settings.Storage.DataPath = TextBoxDataPath.Text;            
+            MainWindow.SaveSettings();
+        }
+
+        private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            folderBrowser.ShowDialog();
+            TextBoxDataPath.Text = folderBrowser.SelectedPath;
         }
     }
 }

@@ -14,25 +14,31 @@
         <ui:ScrollViewerEx>
             <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="存储" Margin="12,8" FontWeight="Bold"/>
-                <card:ToggleSwitchCard x:Name="ToggleSwitchIsFilesSavingWithProgram" Icon="{x:Static ui:FluentSystemIcons.Attach_20_Regular}" Header="将数据与本程序保存在同一位置" OnContent="启用" OffContent="禁用"/>
-                <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.Storage_20_Regular}" Header="数据保存位置" Visibility="{Binding ElementName=ToggleSwitchIsFilesSavingWithProgram, Path=IsOn, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                    <card:GenericSettingsCard.CardContent>
-                        <Button Grid.Column="2" Height="32" Content="调整该项设置" Background="Transparent" Foreground="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonBackgroundKey}}" BorderThickness="0">
-                            <ui:FlyoutService.Flyout>
-                                <ui:Flyout>
-                                    <Grid Width="420">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Margin="0,0,8,0"/>
-                                        <Button Grid.Column="1" Content="浏览"/>
-                                    </Grid>
-                                </ui:Flyout>
-                            </ui:FlyoutService.Flyout>
-                        </Button>
-                    </card:GenericSettingsCard.CardContent>
-                </card:GenericSettingsCard>
+                <card:ToggleSwitchCard x:Name="ToggleSwitchIsFilesSavingWithProgram" Icon="{x:Static ui:FluentSystemIcons.Attach_20_Regular}" Header="将数据与本程序保存在同一位置"
+                                       OnContent="是" OffContent="否" IsOn="{Binding IsFilesSavingWithProgram, Mode=TwoWay}"
+                                       Toggled="ToggleSwitchIsFilesSavingWithProgram_Toggled"/>
+                <Border HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
+                        CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0">
+                    <Expander x:Name="CodeExpander" Grid.Row="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ui:ControlHelper.CornerRadius="4" 
+                              Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Style="{DynamicResource {x:Static ui:ThemeKeys.ExpanderCardStyleKey}}" IsExpanded="True" 
+                              Visibility="{Binding ElementName=ToggleSwitchIsFilesSavingWithProgram, Path=IsOn, Converter={StaticResource InverseBoolToVisibilityConverter}}" MinHeight="68">
+                        <Expander.Header>
+                            <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="14">
+                                <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Storage_20_Regular}" FontSize="20" Margin="-2,0,0,0"/>
+                                <Label Content="数据保存位置" VerticalContentAlignment="Center"/>
+                            </ikw:SimpleStackPanel>
+                        </Expander.Header>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TextBoxDataPath" Grid.Column="0" Margin="0,0,8,0" Text="{Binding DataPath, Mode=TwoWay}" TextChanged="TextBoxDataPath_TextChanged"/>
+                            <Button Grid.Column="1" Content="浏览" Click="ButtonBrowse_Click"/>
+                        </Grid>
+                    </Expander>
+                </Border>
             </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>

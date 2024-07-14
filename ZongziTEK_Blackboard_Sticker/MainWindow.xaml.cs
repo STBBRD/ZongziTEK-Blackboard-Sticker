@@ -1574,34 +1574,6 @@ namespace ZongziTEK_Blackboard_Sticker
             SwitchLookMode();
         }*/
 
-        private void ToggleSwitchDataLocation_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            if (ToggleSwitchDataLocation.IsOn)
-            {
-                Settings.Storage.IsFilesSavingWithProgram = true;
-                GridDataLocation.Visibility = Visibility.Collapsed;
-                SaveSettings();
-            }
-            else
-            {
-                Settings.Storage.IsFilesSavingWithProgram = false;
-                GridDataLocation.Visibility = Visibility.Visible;
-                SaveSettings();
-            }
-        }
-        private void TextBoxDataLocation_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.Storage.DataPath = TextBoxDataLocation.Text;
-            SaveSettings();
-        }
-        private void ButtonDataLocation_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowser.ShowDialog();
-            TextBoxDataLocation.Text = folderBrowser.SelectedPath;
-        }
         private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1817,20 +1789,7 @@ namespace ZongziTEK_Blackboard_Sticker
             else
             {
                 borderFirstOpening.Visibility = Visibility.Visible;
-            }
-
-            if (Settings.Storage.IsFilesSavingWithProgram)
-            {
-                ToggleSwitchDataLocation.IsOn = true;
-                GridDataLocation.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                ToggleSwitchDataLocation.IsOn = false;
-                GridDataLocation.Visibility = Visibility.Visible;
-            }
-
-            TextBoxDataLocation.Text = Settings.Storage.DataPath;
+            }            
 
             ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
             ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
