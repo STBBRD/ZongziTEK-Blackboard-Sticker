@@ -28,7 +28,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             InitializeComponent();
 
-            Timer_Tick(null,null);
+            Timer_Tick(null, null);
 
             timer.Interval = TimeSpan.FromHours(1);
             timer.Tick += Timer_Tick;
@@ -43,45 +43,53 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
         private LiveWeather liveWeather = new LiveWeather();
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
-            if (!new DirectoryInfo("Weather/").Exists)
+            timer.Stop();
+            await Task.Run(() =>
             {
-                try { new DirectoryInfo("Weather/").Create(); }
-                catch { }
-            }
-
-            if (File.Exists(liveWeatherFilePath))
-            {
-                DateTime liveWeatherFetchTime = new FileInfo(liveWeatherFilePath).LastWriteTime;
-                if (DateTime.Now - liveWeatherFetchTime > TimeSpan.FromHours(1))
+                if (!new DirectoryInfo("Weather/").Exists)
                 {
-                    UpdateLiveWeather();
+                    try { new DirectoryInfo("Weather/").Create(); }
+                    catch { }
+                }
+
+                if (File.Exists(liveWeatherFilePath))
+                {
+                    DateTime liveWeatherFetchTime = new FileInfo(liveWeatherFilePath).LastWriteTime;
+                    if (DateTime.Now - liveWeatherFetchTime > TimeSpan.FromHours(1))
+                    {
+                        UpdateLiveWeather();
+                    }
+                    else
+                    {
+                        liveWeather = JsonConvert.DeserializeObject<LiveWeather>(File.ReadAllText(liveWeatherFilePath));
+
+                        if (liveWeather.adcode != Weather.GetCityCode(MainWindow.Settings.InfoBoard.WeatherCity))
+                        {
+                            UpdateLiveWeather();
+                            if (File.Exists("Weather/CastWeather.json"))
+                            {
+                                File.Delete("Weather/CastWeather.json");
+                            }
+                        }
+                        else if (liveWeather.isError)
+                        {
+                            UpdateLiveWeather();
+                        }
+                    }
                 }
                 else
                 {
-                    liveWeather = JsonConvert.DeserializeObject<LiveWeather>(File.ReadAllText(liveWeatherFilePath));
-
-                    if (liveWeather.adcode != Weather.GetCityCode(MainWindow.Settings.InfoBoard.WeatherCity))
-                    {
-                        UpdateLiveWeather();
-                        if (File.Exists("Weather/CastWeather.json"))
-                        {
-                            File.Delete("Weather/CastWeather.json");
-                        }
-                    }
-                    else if (liveWeather.isError)
-                    {
-                        UpdateLiveWeather();
-                    }
+                    UpdateLiveWeather();
                 }
-            }
-            else
-            {
-                UpdateLiveWeather();
-            }
 
-            ShowLiveWeather();
+                Dispatcher.BeginInvoke(() =>
+                {
+                    ShowLiveWeather();
+                });
+            });
+            timer.Start();
         }
 
         private void UpdateLiveWeather()
