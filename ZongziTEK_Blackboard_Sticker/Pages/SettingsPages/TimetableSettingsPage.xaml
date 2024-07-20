@@ -14,13 +14,19 @@
         <ui:ScrollViewerEx>
             <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="课程表" Margin="12,8" FontWeight="Bold"/>
-                <card:ToggleSwitchCard x:Name="ToggleSwitchUseTimetable" Icon="{x:Static ui:FluentSystemIcons.Timeline_20_Regular}" Header="使用带时间信息的课程表" Tip="关闭后，课程表将变为纯文本，失去一切与时间有关的功能" OnContent="启用" OffContent="禁用"/>
+                <card:ToggleSwitchCard x:Name="ToggleSwitchUseTimetable" Icon="{x:Static ui:FluentSystemIcons.Timeline_20_Regular}"
+                                       Header="使用带时间信息的课程表" Tip="关闭后，课程表将变为纯文本，失去一切与时间有关的功能" OnContent="启用" OffContent="禁用"
+                                       IsOn="{Binding IsTimetableEnabled, Mode=TwoWay}" Toggled="ToggleSwitchUseTimetable_Toggled"/>
                 <ikw:SimpleStackPanel Spacing="8" Visibility="{Binding ElementName=ToggleSwitchUseTimetable, Path=IsOn, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.Alert_20_Regular}" Header="上下课提醒" OnContent="启用" OffContent="禁用"/>
-                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ArrowEnter_20_Regular}" Header="课前通知持续时间（秒）" Minimum="20" Maximum="180" TickFrequency="2.5"/>
-                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.PersonRunning_20_Regular}" Header="下课通知持续时间（秒）" Minimum="4" Maximum="60" TickFrequency="1"/>
+                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.Alert_20_Regular}" Header="上下课提醒" OnContent="启用" OffContent="禁用"
+                                           IsOn="{Binding IsTimetableNotificationEnabled, Mode=TwoWay}" Toggled="ToggleSwitchIsTimetableNotificationEnabled_Toggled"/>
+                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ArrowEnter_20_Regular}" Header="课前通知持续时间（秒）" Minimum="20" Maximum="180" TickFrequency="2.5"
+                                     Value="{Binding BeginNotificationTime, Mode=TwoWay}" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
+                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.PersonRunning_20_Regular}" Header="下课通知持续时间（秒）" Minimum="4" Maximum="60" TickFrequency="1"
+                                     Value="{Binding OverNotificationTime, Mode=TwoWay}" ValueChanged="SliderOverNotificationTime_ValueChanged"/>
                 </ikw:SimpleStackPanel>
-                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.TextFontSize_20_Regular}" Header="课程表字号" Minimum="18" Maximum="40" TickFrequency="1"/>
+                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.TextFontSize_20_Regular}" Header="课程表字号" Minimum="18" Maximum="40" TickFrequency="1"
+                                 Value="{Binding FontSize, Mode=TwoWay}" ValueChanged="SliderFontSize_ValueChanged"/>
             </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>

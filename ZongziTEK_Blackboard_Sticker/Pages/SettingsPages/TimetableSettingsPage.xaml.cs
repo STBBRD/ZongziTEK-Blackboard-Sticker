@@ -23,6 +23,37 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         public TimetableSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.TimetableSettings;
+        }
+
+        private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+
+            (Application.Current.MainWindow as MainWindow).LoadTimetableOrCurriculum();
+        }
+
+        private void ToggleSwitchIsTimetableNotificationEnabled_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void SliderBeginNotificationTime_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void SliderFontSize_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+
+            (Application.Current.MainWindow as MainWindow).LoadTimetableOrCurriculum();
         }
     }
 }

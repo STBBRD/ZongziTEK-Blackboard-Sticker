@@ -44,6 +44,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = Settings;
 
             // 小黑板 1
             drawingAttributes = new DrawingAttributes();
@@ -64,7 +65,7 @@ namespace ZongziTEK_Blackboard_Sticker
             // 加载文件
             LoadSettings();
             LoadStrokes();
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
             Task.Run(() =>
             {
                 Dispatcher.BeginInvoke(() =>
@@ -91,12 +92,12 @@ namespace ZongziTEK_Blackboard_Sticker
             frameInfoNavigationTimer.Start();
 
             // 课程表
+            lastTimetableFontSize = Settings.TimetableSettings.FontSize;
+
             timetableTimer = new DispatcherTimer();
             timetableTimer.Tick += CheckTimetable;
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
             timetableTimer.Start();
-
-            TimetableEditor.EditorButtonUseCurriculum_Click += EditorButtonSettingUseCurriculum;
 
             // 颜色主题
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
@@ -340,7 +341,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 BorderLockBlackboard.Visibility = Visibility.Visible;
 
-                if (Settings.Look.IsLightTheme) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
+                if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
                 eraserButton.Visibility = Visibility.Collapsed;
                 borderColorPicker.Visibility = Visibility.Collapsed;
@@ -350,7 +351,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 BorderLockBlackboard.Visibility = Visibility.Collapsed;
 
-                if (Settings.Look.IsLightTheme) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
+                if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
 
                 eraserButton_Click(null, null);
                 penButton_Click(null, null);
@@ -372,7 +373,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 isHighlightingLockState = true;
 
                 StackPanelHighlightBlackboardLockState.Visibility = Visibility.Visible;
-                if (Settings.Look.IsLightTheme)
+                if (GetIsLightTheme())
                 {
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                     await Task.Delay(200);
@@ -855,7 +856,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public static int timetableToShow_index = (int)DateTime.Today.DayOfWeek;
 
-        private void LoadTimetableorCurriculum()
+        public void LoadTimetableOrCurriculum()
         {
             if (Settings.TimetableSettings.IsTimetableEnabled)
             {
@@ -872,62 +873,52 @@ namespace ZongziTEK_Blackboard_Sticker
             CheckTimetableMenuItems();
         }
 
-        private void EditorButtonSettingUseCurriculum()
-        {
-            ToggleSwitchUseTimetable.IsOn = false;
-        }
-
-        /*private void ToggleSwitchTempTimetable_Toggled(object sender, RoutedEventArgs e)
-        {
-            LoadTimetableorCurriculum();
-        }*/
-
         private void MenuItemShowMondayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 1;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowTuesdayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 2;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowWednesdayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 3;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowThursdayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 4;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowFridayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 5;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowSaturdayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 6;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowSundayTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 0;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void MenuItemShowTempTimetable_Click(object sender, RoutedEventArgs e)
         {
             timetableToShow_index = 7;
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
 
         private void CheckTimetableMenuItems() // 通过菜单项的 IsChecked 状态来告知用户正在展示哪个课表
@@ -1068,7 +1059,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void TimetableEditor_Closed(object sender, EventArgs e)
         {
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
             isTimetableEditorOpen = false;
         }
 
@@ -1082,7 +1073,7 @@ namespace ZongziTEK_Blackboard_Sticker
             saveCurriculumButton.Visibility = Visibility.Collapsed;
             ScrollViewerCurriculum.Visibility = Visibility.Collapsed;
 
-            LoadTimetableorCurriculum();
+            LoadTimetableOrCurriculum();
         }
         #endregion
 
@@ -1172,6 +1163,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private int lessonIndex = -1; // 第几节课
         private bool isInClass = false; // 是否是上课时段
+        private double lastTimetableFontSize;
 
         private void CheckTimetable(object sender, EventArgs e)
         {
@@ -1547,106 +1539,6 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Settings Panel
-
-        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.TimetableSettings.OverNotificationTime = SliderOverNotificationTime.Value;
-            SaveSettings();
-        }
-
-        /*private void ToggleSwitchLiteMode_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            SwitchLookMode();
-            Settings.Look.UseLiteMode = ToggleSwitchLiteMode.IsOn;
-            SaveSettings();
-        }
-
-        private void ToggleSwitchLiteModeWithInfoBoard_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.Look.IsLiteModeWithInfoBoard = ToggleSwitchLiteModeWithInfoBoard.IsOn;
-            SaveSettings();
-
-            SwitchLookMode();
-        }*/
-
-        private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.IsTimetableEnabled = ToggleSwitchUseTimetable.IsOn;
-            LoadTimetableorCurriculum();
-            SaveSettings();
-        }
-
-        private void ToggleSwitchTimetableNotification_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.TimetableSettings.IsTimetableNotificationEnabled = ToggleSwitchTimetableNotification.IsOn;
-            SaveSettings();
-        }
-
-        /*private void ToggleSwitchUseDefaultBNSPath_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            //Settings.TimetableSettings.UseDefaultBNSPath = ToggleSwitchUseDefaultBNSPath.IsOn;
-            //TextBoxBNSPath.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";
-            SaveSettings();
-        }
-
-        private void TextBoxBNSPath_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            //Settings.TimetableSettings.BNSPath = TextBoxBNSPath.Text;
-            SaveSettings();
-        }*/
-
-        private void SliderTimetableFontSize_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.TimetableSettings.FontSize = SliderTimetableFontSize.Value;
-            SaveSettings();
-
-            LoadTimetableorCurriculum();
-        }
-
-        private void ButtonRefreshBNSStatus_Click(object sender, RoutedEventArgs e)
-        {
-            if (GetBNSPath() == null)
-            {
-                TextBlockBNSStatus.Text = "未检测到黑板通知服务，上下课提醒将不会出现";
-                ButtonRefreshBNSStatus.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                TextBlockBNSStatus.Text = "黑板通知服务正常";
-                ButtonRefreshBNSStatus.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void SliderBeginNotificationTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!isSettingsLoaded) return;
-
-            SliderBeginNotificationPreTime.Minimum = SliderBeginNotificationTime.Value;
-            SliderBeginNotificationPreTime.Maximum = SliderBeginNotificationTime.Value + 20;
-
-            Settings.TimetableSettings.BeginNotificationTime = SliderBeginNotificationTime.Value;
-            SaveSettings();
-        }
-
-        private void SliderBeginNotificationPreTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.TimetableSettings.BeginNotificationPreTime = SliderBeginNotificationPreTime.Value;
-            SaveSettings();
-        }
-
         private void TextBoxCountdownName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1774,7 +1666,6 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
         #endregion
-
         private void LoadSettings()
         {
             if (File.Exists(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + settingsFileName))
@@ -1789,18 +1680,7 @@ namespace ZongziTEK_Blackboard_Sticker
             else
             {
                 borderFirstOpening.Visibility = Visibility.Visible;
-            }            
-
-            ToggleSwitchUseTimetable.IsOn = Settings.TimetableSettings.IsTimetableEnabled;
-            ToggleSwitchTimetableNotification.IsOn = Settings.TimetableSettings.IsTimetableNotificationEnabled;
-            //ToggleSwitchUseDefaultBNSPath.IsOn = Settings.TimetableSettings.UseDefaultBNSPath;
-            //TextBoxBNSPath.Text = Settings.TimetableSettings.BNSPath;
-            SliderTimetableFontSize.Value = Settings.TimetableSettings.FontSize;
-            SliderBeginNotificationTime.Value = Settings.TimetableSettings.BeginNotificationTime;
-            SliderBeginNotificationPreTime.Minimum = SliderBeginNotificationTime.Value;
-            SliderBeginNotificationPreTime.Maximum = SliderBeginNotificationTime.Value + 20;
-            SliderBeginNotificationPreTime.Value = Settings.TimetableSettings.BeginNotificationPreTime;
-            SliderOverNotificationTime.Value = Settings.TimetableSettings.OverNotificationTime;
+            }
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
 
@@ -2052,7 +1932,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (window.ToggleButtonLock.IsChecked.Value) window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
-                Settings.Look.IsLightTheme = true;
 
                 if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
                 {
@@ -2075,7 +1954,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (window.ToggleButtonLock.IsChecked.Value) window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else window.ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
 
-                Settings.Look.IsLightTheme = false;
 
                 if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
                 {
@@ -2215,6 +2093,12 @@ namespace ZongziTEK_Blackboard_Sticker
                     window.frameInfoNavigationTimer.Start();
                     break;
             }
+        }
+
+        private bool GetIsLightTheme()
+        {
+            if (Settings.Look.Theme == 1 || (Settings.Look.Theme == 0 && IsSystemThemeLight())) return true;
+            else return false;
         }
 
         private void CheckUpdate()
