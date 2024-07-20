@@ -27,35 +27,41 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             InitializeComponent();
 
-            if (!new DirectoryInfo("Weather/").Exists)
+            Task.Run(() =>
             {
-                try { new DirectoryInfo("Weather/").Create(); }
-                catch { }
-            }
-
-            if (File.Exists(castWeatherFilePath))
-            {
-                DateTime castWeatherFetchTime = new FileInfo(castWeatherFilePath).LastWriteTime;
-                if (castWeatherFetchTime.Date != DateTime.Today)
+                if (!new DirectoryInfo("Weather/").Exists)
                 {
-                    UpdateCastWeathers();
+                    try { new DirectoryInfo("Weather/").Create(); }
+                    catch { }
                 }
-                else
-                {
-                    castWeathers = JsonConvert.DeserializeObject<List<CastWeather>>(File.ReadAllText(castWeatherFilePath));
 
-                    if (castWeathers.Count == 0)
+                if (File.Exists(castWeatherFilePath))
+                {
+                    DateTime castWeatherFetchTime = new FileInfo(castWeatherFilePath).LastWriteTime;
+                    if (castWeatherFetchTime.Date != DateTime.Today)
                     {
                         UpdateCastWeathers();
                     }
-                }
-            }
-            else
-            {
-                UpdateCastWeathers();
-            }
+                    else
+                    {
+                        castWeathers = JsonConvert.DeserializeObject<List<CastWeather>>(File.ReadAllText(castWeatherFilePath));
 
-            ShowCastWeathers();
+                        if (castWeathers.Count == 0)
+                        {
+                            UpdateCastWeathers();
+                        }
+                    }
+                }
+                else
+                {
+                    UpdateCastWeathers();
+                }
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    ShowCastWeathers();
+                });
+            });
         }
 
         private string castWeatherFilePath = "Weather/CastWeather.json";
