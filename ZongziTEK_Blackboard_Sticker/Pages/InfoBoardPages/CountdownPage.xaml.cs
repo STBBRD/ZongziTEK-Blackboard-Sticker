@@ -39,7 +39,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             TimeSpan timeSpan = MainWindow.Settings.InfoBoard.CountdownDate - DateTime.Now;
             string countdownName = MainWindow.Settings.InfoBoard.CountdownName;
-            if (MainWindow.Settings.InfoBoard.CountdownName.Length == 0) countdownName = "倒数日";
+            if (MainWindow.Settings.InfoBoard.CountdownName != null && MainWindow.Settings.InfoBoard.CountdownName.Length == 0) countdownName = "倒数日";
             if (timeSpan.TotalDays < 0)
             {
                 LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));

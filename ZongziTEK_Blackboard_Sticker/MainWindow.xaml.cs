@@ -91,9 +91,6 @@ namespace ZongziTEK_Blackboard_Sticker
             frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(4);
             frameInfoNavigationTimer.Start();
 
-            // 课程表
-            lastTimetableFontSize = Settings.TimetableSettings.FontSize;
-
             timetableTimer = new DispatcherTimer();
             timetableTimer.Tick += CheckTimetable;
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
@@ -1163,7 +1160,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private int lessonIndex = -1; // 第几节课
         private bool isInClass = false; // 是否是上课时段
-        private double lastTimetableFontSize;
 
         private void CheckTimetable(object sender, EventArgs e)
         {
@@ -1539,107 +1535,6 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Settings Panel
-        private void TextBoxCountdownName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.InfoBoard.CountdownName = TextBoxCountdownName.Text;
-            SaveSettings();
-        }
-
-        private void DatePickerCountdownDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-            if (DatePickerCountdownDate.SelectedDate != null) Settings.InfoBoard.CountdownDate = DatePickerCountdownDate.SelectedDate.Value;
-            SaveSettings();
-        }
-
-        private void SliderCountdownWarnDays_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!isSettingsLoaded) return;
-            Settings.InfoBoard.CountdownWarnDays = (int)SliderCountdownWarnDays.Value;
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardDate_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isDatePageEnabled = true;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardCountdown_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isCountdownPageEnabled = true;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardWeather_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isWeatherPageEnabled = true;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardWeatherForecast_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isWeatherForecastPageEnabled = true;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardDate_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isDatePageEnabled = false;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardCountdown_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isCountdownPageEnabled = false;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardWeather_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isWeatherPageEnabled = false;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void CheckBoxInfoBoardWeatherForecast_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.isWeatherForecastPageEnabled = false;
-            LoadFrameInfoPagesList();
-            SaveSettings();
-        }
-
-        private void TextBoxWeatherCity_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.InfoBoard.WeatherCity = TextBoxWeatherCity.Text;
-            SaveSettings();
-        }
-
         private void ToggleSwitchAutoHideSeewoHugoAssistant_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isSettingsLoaded) return;
@@ -1683,15 +1578,6 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
-
-            CheckBoxInfoBoardDate.IsChecked = Settings.InfoBoard.isDatePageEnabled;
-            CheckBoxInfoBoardCountdown.IsChecked = Settings.InfoBoard.isCountdownPageEnabled;
-            CheckBoxInfoBoardWeather.IsChecked = Settings.InfoBoard.isWeatherPageEnabled;
-            CheckBoxInfoBoardWeatherForecast.IsChecked = Settings.InfoBoard.isWeatherForecastPageEnabled;
-            TextBoxWeatherCity.Text = Settings.InfoBoard.WeatherCity;
-            TextBoxCountdownName.Text = Settings.InfoBoard.CountdownName;
-            DatePickerCountdownDate.SelectedDate = Settings.InfoBoard.CountdownDate;
-            SliderCountdownWarnDays.Value = Settings.InfoBoard.CountdownWarnDays;
 
             ToggleSwitchAutoHideSeewoHugoAssistant.IsOn = Settings.Automation.IsAutoHideHugoAssistantEnabled;
             if (Settings.Automation.IsAutoHideHugoAssistantEnabled) timerHideSeewoServiceAssistant.Start();
@@ -1827,7 +1713,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region InfoBoard
-        private List<Type> frameInfoPages = new();
+        public List<Type> frameInfoPages = new();
         private int frameInfoPageIndex = 0;
         private DispatcherTimer frameInfoNavigationTimer = new DispatcherTimer();
 
@@ -1841,8 +1727,10 @@ namespace ZongziTEK_Blackboard_Sticker
             SwitchFrameInfoPage();
         }
 
-        private void SwitchFrameInfoPage()
+        public void SwitchFrameInfoPage()
         {
+            if (frameInfoPages.Count == 0) return;
+
             frameInfoNavigationTimer.Stop();
 
             FrameInfo.NavigationService.RemoveBackEntry();
@@ -1851,10 +1739,10 @@ namespace ZongziTEK_Blackboard_Sticker
             if (frameInfoPageIndex >= frameInfoPages.Count) frameInfoPageIndex = 0;
             FrameInfo.Navigate(frameInfoPages[frameInfoPageIndex]);
 
-            frameInfoNavigationTimer.Start();
+            if (frameInfoPages.Count > 1) frameInfoNavigationTimer.Start();
         }
 
-        private void LoadFrameInfoPagesList()
+        public void LoadFrameInfoPagesList()
         {
             frameInfoPages.Clear();
 
@@ -1863,12 +1751,10 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.InfoBoard.isWeatherPageEnabled) frameInfoPages.Add(typeof(WeatherPage));
             if (Settings.InfoBoard.isWeatherForecastPageEnabled) frameInfoPages.Add(typeof(WeatherForecastPage));
 
-            if (frameInfoPages.Count == 0)
-            {
-                CheckBoxInfoBoardDate.IsChecked = true;
-                return;
-            }
+            if (frameInfoPages.Count == 0) return;
+
             FrameInfo.Navigate(frameInfoPages[0]);
+
             if (frameInfoPages.Count == 1)
             {
                 frameInfoNavigationTimer.Stop();

@@ -295,23 +295,6 @@
                 <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
                 <ui:ScrollViewerEx PanningMode="VerticalOnly" Margin="12,64,12,64">
                     <ikw:SimpleStackPanel Spacing="16">
-                        <GroupBox Header="信息看板" Foreground="{DynamicResource ForegroundColor}">
-                            <ikw:SimpleStackPanel Spacing="12">
-                                <ikw:SimpleStackPanel Spacing="4">
-                                    <CheckBox Name="CheckBoxInfoBoardDate" Content="日期" IsChecked="True" Checked="CheckBoxInfoBoardDate_Checked" Unchecked="CheckBoxInfoBoardDate_Unchecked"/>
-                                    <CheckBox Name="CheckBoxInfoBoardCountdown" Content="倒数日" IsChecked="True" Checked="CheckBoxInfoBoardCountdown_Checked" Unchecked="CheckBoxInfoBoardCountdown_Unchecked"/>
-                                    <CheckBox Name="CheckBoxInfoBoardWeather" Content="实况天气" IsChecked="True" Checked="CheckBoxInfoBoardWeather_Checked" Unchecked="CheckBoxInfoBoardWeather_Unchecked"/>
-                                    <CheckBox Name="CheckBoxInfoBoardWeatherForecast" Content="天气预报" IsChecked="True" Checked="CheckBoxInfoBoardWeatherForecast_Checked" Unchecked="CheckBoxInfoBoardWeatherForecast_Unchecked"/>
-                                </ikw:SimpleStackPanel>
-                                <TextBox Name="TextBoxCountdownName" ui:ControlHelper.Header="倒数日名称" TextChanged="TextBoxCountdownName_TextChanged"/>
-                                <DatePicker Name="DatePickerCountdownDate" ui:ControlHelper.PlaceholderText="选择一个日期" ui:ControlHelper.Header="倒数日日期" SelectedDateChanged="DatePickerCountdownDate_SelectedDateChanged"/>
-                                <ikw:SimpleStackPanel Spacing="4">
-                                    <Slider Name="SliderCountdownWarnDays" ui:ControlHelper.Header="倒数日警告阈值" Minimum="1" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="SliderCountdownWarnDays_ValueChanged" TickPlacement="Both" HorizontalAlignment="Left" Width="200"/>
-                                    <TextBlock FontSize="14" Text="{Binding Value, ElementName=SliderCountdownWarnDays}"/>
-                                </ikw:SimpleStackPanel>
-                                <TextBox Name="TextBoxWeatherCity" ui:ControlHelper.Header="天气城市" TextChanged="TextBoxWeatherCity_TextChanged"/>
-                            </ikw:SimpleStackPanel>
-                        </GroupBox>
                         <GroupBox Header="自动" Foreground="{DynamicResource ForegroundColor}">
                             <ikw:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoHideSeewoHugoAssistant" Header="自动隐藏 “希沃管家助手”"

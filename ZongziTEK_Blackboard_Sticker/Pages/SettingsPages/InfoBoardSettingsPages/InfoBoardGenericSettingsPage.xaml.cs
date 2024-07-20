@@ -23,6 +23,42 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPage
         public InfoBoardGenericSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.InfoBoard;
+
+            CheckBoxes = new List<CheckBox>
+            {
+                CheckBoxDate,
+                CheckBoxCountdown,
+                CheckBoxLiveWeather,
+                CheckBoxCastWeather
+            };
+        }
+
+        private List<CheckBox> CheckBoxes = new List<CheckBox>();
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+
+            bool HasNoCheckBoxSelected = true;
+
+            foreach (CheckBox checkBox in CheckBoxes)
+            {
+                if (checkBox.IsChecked == true)
+                {
+                    HasNoCheckBoxSelected = false;
+                    break;
+                }
+            }
+
+            if (HasNoCheckBoxSelected)
+            {
+                CheckBoxDate.IsChecked = true;
+                return;
+            }
+
+            (Application.Current.MainWindow as MainWindow).LoadFrameInfoPagesList();
         }
     }
 }

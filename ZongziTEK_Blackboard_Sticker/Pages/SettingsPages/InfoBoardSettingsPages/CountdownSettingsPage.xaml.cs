@@ -23,6 +23,23 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPage
         public CountdownSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.InfoBoard;
+        }
+
+        private void TextBoxName_TextChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void SliderWarnThreshold_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
         }
     }
 }

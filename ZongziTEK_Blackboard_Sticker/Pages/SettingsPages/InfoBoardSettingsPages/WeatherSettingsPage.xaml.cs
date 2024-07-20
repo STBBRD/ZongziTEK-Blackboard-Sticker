@@ -23,6 +23,22 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPage
         public WeatherSettingsPage()
         {
             InitializeComponent();
+
+            DataContext = MainWindow.Settings.InfoBoard;
+            LastCity = MainWindow.Settings.InfoBoard.WeatherCity.ToString();
+        }
+
+        private string LastCity;
+
+        private void TextBoxCity_TextChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+
+            if (MainWindow.Settings.InfoBoard.WeatherCity != LastCity)
+            {
+                (Application.Current.MainWindow as MainWindow).SwitchFrameInfoPage();
+                LastCity = MainWindow.Settings.InfoBoard.WeatherCity;
+            }
         }
     }
 }
