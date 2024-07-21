@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800" Loaded="SliderCard_Loaded">
     <Border HorizontalAlignment="Stretch" Height="68"
             Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
-            CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+            CornerRadius="4" BorderBrush="{DynamicResource {x:Static ui:ThemeKeys.CardStrokeColorDefaultBrushKey}}" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
@@ -18,8 +18,8 @@
             </Grid.ColumnDefinitions>
             <ui:FontIcon Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Icon}" FontSize="20"/>
             <ikw:SimpleStackPanel Spacing="2" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock Foreground="{DynamicResource ForegroundColor}" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Header}"/>
-                <TextBlock Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource TextEmptyToCollapsedConverter}}" Foreground="{DynamicResource ForegroundColor}" Opacity="0.75" FontSize="12" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Tip}"/>
+                <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Header}"/>
+                <TextBlock Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource TextEmptyToCollapsedConverter}}" Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" Opacity="0.75" FontSize="12" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SliderCard}, Mode=FindAncestor}, Path=Tip}"/>
             </ikw:SimpleStackPanel>
             <Button Grid.Column="2" Margin="12,0" Height="32" Content="调整该项设置" Background="Transparent" Foreground="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonBackgroundKey}}" BorderThickness="0">
                 <ui:FlyoutService.Flyout>
@@ -30,7 +30,7 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <Slider x:Name="MainSlider" Grid.Column="0" ValueChanged="MainSlider_ValueChanged" IsSnapToTickEnabled="True" VerticalAlignment="Center" TickPlacement="Both" AutoToolTipPlacement="None"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Path=Value,Source={x:Reference Name=MainSlider}}" Foreground="{DynamicResource ForegroundColor}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="12,0,0,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Path=Value,Source={x:Reference Name=MainSlider}}" Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="12,0,0,0"/>
                         </Grid>
                     </ui:Flyout>
                 </ui:FlyoutService.Flyout>
