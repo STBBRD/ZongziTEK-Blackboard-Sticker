@@ -24,8 +24,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
     {
         public AboutPage()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
+            DataContext = MainWindow.Settings.Update;
+
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             TextBlockVersion.Text = version.ToString();
         }
@@ -33,6 +35,16 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker");
+        }
+
+        private void ToggleSwitchAutoUpdate_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+
+            if (MainWindow.Settings.Update.IsUpdateAutomatic)
+            {
+                MainWindow.CheckUpdate();
+            }
         }
     }
 }

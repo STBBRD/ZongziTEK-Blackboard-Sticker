@@ -103,10 +103,6 @@ namespace ZongziTEK_Blackboard_Sticker
             // 小黑板 2
             CheckIsBlackboardLocked();
 
-            // 显示版本号
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            TextBlockVersion.Text = version.ToString();
-
             // 隐藏管家助手
             timerHideSeewoServiceAssistant.Tick += TimerHideSeewoServiceAssistant_Tick;
             timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
@@ -1473,7 +1469,6 @@ namespace ZongziTEK_Blackboard_Sticker
                     LoadLauncher();
                 });
             });
-            btnHideSettingsPanel_Click(null, null);
         }
 
         private bool isLauncherEditorOpen = false;
@@ -1523,42 +1518,10 @@ namespace ZongziTEK_Blackboard_Sticker
             isSettingsWindowOpen = false;
         }
 
-        private void btnHideSettingsPanel_Click(object sender, RoutedEventArgs e)
-        {
-            borderSettingsPanel.Visibility = Visibility.Collapsed;
-        }
         private void btnCloseFirstOpening_Click(object sender, RoutedEventArgs e)
         {
             borderFirstOpening.Visibility = Visibility.Collapsed;
             SaveSettings();
-        }
-        #endregion
-
-        #region Settings Panel
-        private void ToggleSwitchAutoHideSeewoHugoAssistant_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.Automation.IsAutoHideHugoAssistantEnabled = ToggleSwitchAutoHideSeewoHugoAssistant.IsOn;
-            SaveSettings();
-
-            if (Settings.Automation.IsAutoHideHugoAssistantEnabled && isSeewoServiceAssistantHided == false)
-                timerHideSeewoServiceAssistant.Start();
-            else
-                timerHideSeewoServiceAssistant.Stop();
-        }
-
-        private void ToggleSwitchAutoUpdate_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isSettingsLoaded) return;
-
-            Settings.Update.IsUpdateAutomatic = ToggleSwitchAutoUpdate.IsOn;
-            SaveSettings();
-
-            if (Settings.Update.IsUpdateAutomatic)
-            {
-                CheckUpdate();
-            }
         }
         #endregion
         private void LoadSettings()
@@ -1579,10 +1542,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
 
-            ToggleSwitchAutoHideSeewoHugoAssistant.IsOn = Settings.Automation.IsAutoHideHugoAssistantEnabled;
             if (Settings.Automation.IsAutoHideHugoAssistantEnabled) timerHideSeewoServiceAssistant.Start();
-
-            ToggleSwitchAutoUpdate.IsOn = Settings.Update.IsUpdateAutomatic;
 
             isSettingsLoaded = true;
         }
@@ -1698,8 +1658,8 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         #region AutoHideSeewoServiceAssistant
-        private DispatcherTimer timerHideSeewoServiceAssistant = new DispatcherTimer();
-        private bool isSeewoServiceAssistantHided = false;
+        public DispatcherTimer timerHideSeewoServiceAssistant = new DispatcherTimer();
+        public static bool isSeewoServiceAssistantHided = false;
         private void TimerHideSeewoServiceAssistant_Tick(object sender, EventArgs e)
         {
             if (WindowsHelper.MinimizeSeewoServiceAssistant())
@@ -1987,7 +1947,7 @@ namespace ZongziTEK_Blackboard_Sticker
             else return false;
         }
 
-        private void CheckUpdate()
+        public static void CheckUpdate()
         {
             AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("AutoUpdater.json");
             switch (Settings.Update.UpdateChannel)

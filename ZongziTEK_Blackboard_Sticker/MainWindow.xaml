@@ -288,54 +288,5 @@
                 </Border>
             </Grid>
         </Border>
-
-        <!--设置-->
-        <Border Name="borderSettingsPanel" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
-            <Grid Margin="48">
-                <TextBlock Text="设置" Foreground="{DynamicResource ForegroundColor}" FontSize="32"/>
-                <ui:ScrollViewerEx PanningMode="VerticalOnly" Margin="12,64,12,64">
-                    <ikw:SimpleStackPanel Spacing="16">
-                        <GroupBox Header="自动" Foreground="{DynamicResource ForegroundColor}">
-                            <ikw:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchAutoHideSeewoHugoAssistant" Header="自动隐藏 “希沃管家助手”"
-                                                 IsOn="False" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoHideSeewoHugoAssistant_Toggled"/>
-                                <TextBlock Text="希沃管家助手，是希沃管家在桌面上显示的用于快捷启动应用的部件，会遮挡 ZongziTEK 黑板贴的界面。开启此开关后，希沃管家助手将被隐藏，希沃管家（集控）功能不受影响。此功能在部分情况下可能无效。"
-                                               TextWrapping="Wrap" Opacity="0.75"/>
-                            </ikw:SimpleStackPanel>
-                        </GroupBox>
-                        <GroupBox Header="关于" Foreground="{DynamicResource ForegroundColor}">
-                            <ikw:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchAutoUpdate" Header="自动更新"
-                                                 IsOn="True" OnContent="启用" OffContent="禁用" Toggled="ToggleSwitchAutoUpdate_Toggled"/>
-                                <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="4">
-                                    <TextBlock FontSize="14">
-                                        <Bold>当前版本:</Bold>
-                                    </TextBlock>
-                                    <TextBlock FontSize="14" Text="" Name="TextBlockVersion"/>
-                                </ikw:SimpleStackPanel>
-                                <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
-                                    <Bold>开发者:</Bold> ZongziTEK
-                                </TextBlock>
-                                <TextBlock FontSize="14">
-                                    <Bold>贡献者:</Bold> Puran Lai
-                                </TextBlock>
-                                <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
-                                    <Bold>开源地址:</Bold>
-                                    <Hyperlink Click="Hyperlink_Click">
-                                           <TextBlock Text="https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker"></TextBlock>
-                                    </Hyperlink>
-                                </TextBlock>
-                                <TextBlock FontSize="14">
-                                     <Bold>开源协议:</Bold> GNU General Public License v3.0
-                                </TextBlock>
-                            </ikw:SimpleStackPanel>
-                        </GroupBox>
-                    </ikw:SimpleStackPanel>
-                </ui:ScrollViewerEx>
-                <Grid VerticalAlignment="Bottom">
-                    <Button x:Name="btnHideSettingsPanel" Click="btnHideSettingsPanel_Click" HorizontalAlignment="Right" Content="关闭" Width="120" Foreground="{DynamicResource ForegroundColor}"/>
-                </Grid>
-            </Grid>
-        </Border>
     </Grid>
 </Window>
