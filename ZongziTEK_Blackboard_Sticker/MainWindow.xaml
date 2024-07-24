@@ -82,7 +82,7 @@
                             </ikw:SimpleStackPanel>
                         </Border>
 
-                        <Border Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        <Border Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Label Content="小黑板" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <ikw:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8,0">
@@ -93,7 +93,7 @@
                                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Edit_20_Regular}" FontSize="24"/>
                                         </Button>
                                         <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
-                                                Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
+                                                Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
                                             <ikw:SimpleStackPanel Margin="16" Spacing="12">
                                                 <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                                 <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
@@ -160,7 +160,7 @@
                             </ikw:SimpleStackPanel>
                         </ui:ScrollViewerEx>
 
-                        <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Label Content="启动台" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <Button BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
@@ -221,7 +221,7 @@
                                 <TextBox x:Name="textBoxTempCurriculums" AcceptsReturn="True" TextWrapping="Wrap" FontSize="16" Foreground="{DynamicResource ForegroundColor}"/>
                             </ikw:SimpleStackPanel>
                         </ui:ScrollViewerEx>
-                        <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{Binding Background, ElementName=btnHideSettingsPanel}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        <Border Grid.Row="1" Height="40" Margin="8" CornerRadius="4" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Label Content="课程表" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <Button x:Name="saveCurriculumButton" Click="saveCurriculumButton_Click" Width="32" Height="32" Padding="0" Background="#00000000" BorderThickness="0" HorizontalAlignment="Right" Margin="8,0" Visibility="Collapsed">
@@ -258,26 +258,13 @@
                             <ui:FontIcon FontSize="24" Height="22" Width="22" Icon="{x:Static ui:FluentSystemIcons.Clock_20_Regular}" MouseDown="iconShowBigClock_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                             <ui:FontIcon Name="iconSwitchLeft" Icon="{x:Static ui:FluentSystemIcons.ChevronLeft_24_Regular}" Height="22" Width="22" FontSize="24" MouseDown="iconSwitchLeft_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                             <ui:FontIcon Name="iconSwitchRight" Visibility="Collapsed" Icon="{x:Static ui:FluentSystemIcons.ChevronRight_24_Regular}" FontSize="24" Width="22" Height="22" MouseDown="iconSwitchRight_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
-                            <ui:FontIcon FontSize="24" Height="22" Width="22" Icon="{x:Static ui:FluentSystemIcons.Settings_20_Regular}" MouseDown="iconShowSettingsPanel_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
+                            <ui:FontIcon Name="iconShowSettingsPanel" FontSize="24" Height="22" Width="22" Icon="{x:Static ui:FluentSystemIcons.Settings_20_Regular}" MouseDown="iconShowSettingsPanel_MouseDown" Foreground="{DynamicResource ForegroundColor}"/>
                         </ikw:SimpleStackPanel>
                     </Grid>
                 </Border>
 
 
                 <!--其它-->
-                <Border x:Name="borderFirstOpening" CornerRadius="8" Grid.RowSpan="4" Grid.ColumnSpan="2" Background="{DynamicResource OtherPanelsBackgroundColor}" Visibility="Collapsed">
-                    <Grid Margin="48">
-                        <ui:ScrollViewerEx PanningMode="VerticalOnly">
-                            <ikw:SimpleStackPanel Spacing="16">
-                                <TextBlock FontSize="32" Text="初次使用,请查看以下常用设置项" Foreground="{DynamicResource ForegroundColor}"/>
-                                <TextBox ui:ControlHelper.Header="天气城市" Text="{Binding Text, ElementName=TextBoxWeatherCity}"/>
-                            </ikw:SimpleStackPanel>
-                        </ui:ScrollViewerEx>
-                        <Grid VerticalAlignment="Bottom">
-                            <Button x:Name="btnCloseFirstOpening" HorizontalAlignment="Right" Content="完成" Width="120" Click="btnCloseFirstOpening_Click" Foreground="{DynamicResource ForegroundColor}"/>
-                        </Grid>
-                    </Grid>
-                </Border>
                 <Border Name="BorderDragEnter" CornerRadius="8" Background="{DynamicResource OtherPanelsBackgroundColor}" Grid.RowSpan="4" Grid.ColumnSpan="2" Visibility="Collapsed">
                     <ikw:SimpleStackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="48">
                         <Viewbox>

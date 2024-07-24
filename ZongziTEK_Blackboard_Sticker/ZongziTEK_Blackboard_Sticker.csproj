@@ -98,6 +98,7 @@
     <Compile Include="Controls\Cards\ToggleSwitchCard.xaml.cs">
       <DependentUpon>ToggleSwitchCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ControlsHelper.cs" />
     <Compile Include="Pages\InfoBoardPages\CountdownPage.xaml.cs">
       <DependentUpon>CountdownPage.xaml</DependentUpon>
     </Compile>
@@ -408,6 +409,11 @@
     <Resource Include="Resources\WeatherIcons\Sunny.png" />
     <Resource Include="Resources\WeatherIcons\Thundery.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Emojis\smiling-face-with-heart-eyes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Emojis\party-popper.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

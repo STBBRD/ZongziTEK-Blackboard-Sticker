@@ -75,6 +75,7 @@ namespace ZongziTEK_Blackboard_Sticker
             });
 
             SetTheme();
+            SetWindowScaleTransform(Settings.Look.WindowScaleMultiplier);
 
             // 检查更新
             if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
@@ -1518,10 +1519,9 @@ namespace ZongziTEK_Blackboard_Sticker
             isSettingsWindowOpen = false;
         }
 
-        private void btnCloseFirstOpening_Click(object sender, RoutedEventArgs e)
+        private void WelcomeWindow_Closed(object sender, EventArgs e)
         {
-            borderFirstOpening.Visibility = Visibility.Collapsed;
-            SaveSettings();
+            iconShowSettingsPanel.Visibility = Visibility.Visible;
         }
         #endregion
         private void LoadSettings()
@@ -1537,7 +1537,10 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                borderFirstOpening.Visibility = Visibility.Visible;
+                iconShowSettingsPanel.Visibility = Visibility.Collapsed;
+                WelcomeWindow welcomeWindow = new WelcomeWindow();
+                welcomeWindow.Closed += WelcomeWindow_Closed;
+                welcomeWindow.Show();
             }
 
             ToggleButtonLock.IsChecked = Settings.Blackboard.IsLocked;
@@ -1941,7 +1944,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private bool GetIsLightTheme()
+        public static bool GetIsLightTheme()
         {
             if (Settings.Look.Theme == 1 || (Settings.Look.Theme == 0 && IsSystemThemeLight())) return true;
             else return false;

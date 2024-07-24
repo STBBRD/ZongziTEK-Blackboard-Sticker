@@ -1,4 +1,7 @@
-﻿using System;
+﻿using iNKORE.UI.WPF.Controls;
+using iNKORE.UI.WPF.Modern;
+using iNKORE.UI.WPF.Modern.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Helpers;
+using Page = System.Windows.Controls.Page;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
 {
@@ -23,6 +28,106 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
         public WelcomePage2()
         {
             InitializeComponent();
+
+            selectedBackgroundKey = ThemeKeys.AccentButtonBackgroundKey;
+            selectedBorderBrushKey = ThemeKeys.AccentButtonBorderBrushKey;
+            normalBackgroundKey = ThemeKeys.CardBackgroundFillColorDefaultBrushKey;
+            normalBorderBrushKey = ThemeKeys.ButtonBorderBrushKey;
+
+            UpdateInterfaceStateAndSaveSettings();
+        }
+
+        private string selectedBackgroundKey;
+        private string selectedBorderBrushKey;
+        private string normalBackgroundKey;
+        private string normalBorderBrushKey;
+
+        private void BorderNormal_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow.Settings.Look.LookMode = 0;
+            UpdateInterfaceStateAndSaveSettings();
+        }
+
+        private void BorderSimpleWithClock_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow.Settings.Look.LookMode = 1;
+            UpdateInterfaceStateAndSaveSettings();
+        }
+
+        private void BorderSimpleWithInfoBoard_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow.Settings.Look.LookMode = 2;
+            UpdateInterfaceStateAndSaveSettings();
+        }
+
+        private void UpdateInterfaceStateAndSaveSettings()
+        {
+            MainWindow.SaveSettings();
+            MainWindow.SwitchLookMode();
+
+            foreach (Border border in StackPanelOptions.Children)
+            {
+                ControlsHelper.SetDynamicResource(border, Border.BackgroundProperty, normalBackgroundKey);
+                ControlsHelper.SetDynamicResource(border, Border.BorderBrushProperty, normalBorderBrushKey);
+
+                if (MainWindow.GetIsLightTheme())
+                {
+                    ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.Black);
+                    foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
+                    {
+                        label.Foreground = new SolidColorBrush(Colors.Black);
+                    }
+                }
+                else
+                {
+                    ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.White);
+                    foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
+                    {
+                        label.Foreground = new SolidColorBrush(Colors.White);
+                    }
+                }
+            }
+
+            switch (MainWindow.Settings.Look.LookMode)
+            {
+                case 0:
+                    SetSelectedStyle(BorderNormal);
+                    break;
+                case 1:
+                    SetSelectedStyle(BorderSimpleWithClock);
+                    break;
+                case 2:
+                    SetSelectedStyle(BorderSimpleWithInfoBoard);
+                    break;
+            }
+        }
+
+        private void SetSelectedStyle(Border border)
+        {
+            ControlsHelper.SetDynamicResource(border, Border.BackgroundProperty, selectedBackgroundKey);
+            ControlsHelper.SetDynamicResource(border, Border.BorderBrushProperty, selectedBorderBrushKey);
+
+            if (MainWindow.GetIsLightTheme())
+            {
+                ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.White);
+                foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
+                {
+                    label.Foreground = new SolidColorBrush(Colors.White);
+                }
+            }
+            else
+            {
+                ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.Black);
+                foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
+                {
+                    label.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+        }
+
+        private void Page_ActualThemeChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateInterfaceStateAndSaveSettings();
         }
     }
 }

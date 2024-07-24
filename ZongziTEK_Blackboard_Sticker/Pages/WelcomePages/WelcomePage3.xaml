@@ -3,12 +3,25 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.WelcomePages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
       Title="WelcomePage3">
 
     <Grid>
-        <Rectangle Fill="Aqua"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">
+            配置<LineBreak/>信息看板
+        </TextBlock>
+        <ikw:SimpleStackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="48" Spacing="12">
+            <TextBox x:Name="TextBoxWeatherCity" ui:ControlHelper.Header="天气城市" Width="196" HorizontalAlignment="Left" TextChanged="TextBoxWeatherCity_TextChanged"/>
+            <TextBlock FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Left" Opacity="0.75">
+                可输入市名或区名，如 “北京” “北京市” “朝阳” ，不可同时输入市名和区名
+            </TextBlock>
+        </ikw:SimpleStackPanel>
     </Grid>
 </Page>

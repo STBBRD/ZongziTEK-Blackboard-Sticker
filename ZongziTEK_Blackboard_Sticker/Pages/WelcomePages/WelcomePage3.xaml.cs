@@ -23,6 +23,19 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
         public WelcomePage3()
         {
             InitializeComponent();
+
+            TextBoxWeatherCity.Text = MainWindow.Settings.InfoBoard.WeatherCity;
+            isLoaded = true;
+        }
+
+        private bool isLoaded = false;
+
+        private void TextBoxWeatherCity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!isLoaded) return;
+
+            MainWindow.Settings.InfoBoard.WeatherCity = TextBoxWeatherCity.Text;
+            MainWindow.SaveSettings();
         }
     }
 }
