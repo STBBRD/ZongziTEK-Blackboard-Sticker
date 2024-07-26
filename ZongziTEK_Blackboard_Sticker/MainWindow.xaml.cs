@@ -1126,29 +1126,28 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     FontSize = Settings.TimetableSettings.FontSize,
                     HorizontalAlignment = HorizontalAlignment.Center,
-                    Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
                     Text = "无课程"
                 };
 
                 StackPanelShowTimetable.Children.Add(textBlock);
+
+                ControlsHelper.SetDynamicResource(textBlock, ForegroundProperty, "ForegroundColor");
             }
             else
             {
                 foreach (Lesson lesson in timetableToShow)
                 {
-                    TextBlock textBlock = new TextBlock()
+                    TimetableLesson timetableLesson = new()
                     {
-                        FontSize = Settings.TimetableSettings.FontSize,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        Foreground = (SolidColorBrush)FindResource("ForegroundColor"),
-                        Text = lesson.Subject
+                        Subject = lesson.Subject,
+                        Time = lesson.StartTime.ToString(@"hh\:mm")
                     };
                     if (lesson.IsSplitBelow)
                     {
-                        textBlock.Margin = new Thickness(0, 0, 0, 8);
+                        timetableLesson.Margin = new Thickness(0, 0, 0, 8);
                     }
 
-                    StackPanelShowTimetable.Children.Add(textBlock);
+                    StackPanelShowTimetable.Children.Add(timetableLesson);
                 }
             }
 
@@ -1214,8 +1213,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 // 在界面中高亮当前课程或下一节课
                 int lessonToHighlightIndex = -1; // lessonToHighlightIndex 为 -1 时，不高亮任何课程
-                SolidColorBrush noHighlightBrush = (SolidColorBrush)FindResource("ForegroundColor");
-                SolidColorBrush highlightBrush = (SolidColorBrush)FindResource(ThemeKeys.SystemControlBackgroundAccentBrushKey);
 
                 if (isInClass) // 上课时，高亮当前课程
                 {
@@ -1230,23 +1227,24 @@ namespace ZongziTEK_Blackboard_Sticker
                     lessonToHighlightIndex = -1;
                 }
 
-                foreach (TextBlock textBlock in StackPanelShowTimetable.Children)
+                if (!(StackPanelShowTimetable.Children[0] is TextBlock))
                 {
-                    if (StackPanelShowTimetable.Children.IndexOf(textBlock) == lessonToHighlightIndex) // 高亮要高亮的课程
+                    foreach (TimetableLesson timetableLesson in StackPanelShowTimetable.Children)
                     {
-                        textBlock.Foreground = highlightBrush;
+                        if (StackPanelShowTimetable.Children.IndexOf(timetableLesson) == lessonToHighlightIndex) // 高亮要高亮的课程，在课程开始后显示距离其结束的时间
+                        {
+                            timetableLesson.Activate();
+                            if (isInClass)
+                            {
+                                timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
+                            }
+                        }
+                        else // 取消高亮不要高亮的课程，并恢复时间显示
+                        {
+                            timetableLesson.Deactivate();
+                            timetableLesson.Time = timetableToShow[StackPanelShowTimetable.Children.IndexOf(timetableLesson)].StartTime.ToString(@"hh\:mm");
+                        }
                     }
-                    else // 取消高亮不要高亮的课程
-                    {
-                        textBlock.Foreground = noHighlightBrush;
-                    }
-                }
-            }
-            else if (StackPanelShowTimetable.Children.Count > 0)
-            {
-                foreach (TextBlock textBlock in StackPanelShowTimetable.Children)
-                {
-                    textBlock.Foreground = (SolidColorBrush)FindResource("ForegroundColor");
                 }
             }
 

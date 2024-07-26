@@ -98,6 +98,9 @@
     <Compile Include="Controls\Cards\ToggleSwitchCard.xaml.cs">
       <DependentUpon>ToggleSwitchCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TimetableLesson.xaml.cs">
+      <DependentUpon>TimetableLesson.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\ControlsHelper.cs" />
     <Compile Include="Pages\InfoBoardPages\CountdownPage.xaml.cs">
       <DependentUpon>CountdownPage.xaml</DependentUpon>
@@ -185,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Cards\ToggleSwitchCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimetableLesson.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

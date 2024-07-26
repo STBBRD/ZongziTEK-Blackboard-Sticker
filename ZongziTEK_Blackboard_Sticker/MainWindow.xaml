@@ -186,10 +186,12 @@
                         </Grid.RowDefinitions>
                         <ui:ScrollViewerEx Name="ScrollViewerShowCurriculum" PanningMode="VerticalOnly">
                             <Grid Margin="16">
-                                <TextBlock Visibility="Collapsed" Name="textBlockCurriculum" TextWrapping="Wrap"
-                                    Text="语文&#10;数学&#10;英语&#10;物理&#10;化学&#10;生物&#10;历史&#10;政治&#10;地理&#10;活动&#10;体育" 
-                                    FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
-                                <ikw:SimpleStackPanel Name="StackPanelShowTimetable"/>
+                                <TextBlock Visibility="Collapsed" Name="textBlockCurriculum" TextWrapping="Wrap" FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
+                                <ikw:SimpleStackPanel Name="StackPanelShowTimetable" Spacing="4">
+                                    <ikw:SimpleStackPanel.LayoutTransform>
+                                        <ScaleTransform x:Name="ScaleTimetable"/>
+                                    </ikw:SimpleStackPanel.LayoutTransform>
+                                </ikw:SimpleStackPanel>
                             </Grid>
                         </ui:ScrollViewerEx>
                         <ui:ScrollViewerEx x:Name="ScrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">

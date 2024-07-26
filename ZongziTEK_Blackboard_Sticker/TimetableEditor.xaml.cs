@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using iNKORE.UI.WPF.Helpers;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,6 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         #region Window & Controls
-        public static event Action EditorButtonUseCurriculum_Click;
-
         private bool isCloseWithoutWarning = false;
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -63,18 +62,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-
-        private void ButtonUseCurriculum_Click(object sender, RoutedEventArgs e)
-        {
-            if (isEdited || MessageBox.Show("是否保存当前含时间信息的课程表内容", "ZongziTEK 黑板贴", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.OK)
-            {
-                ButtonSave_Click(null, null);
-            }
-            MessageBox.Show("若后续需要使用含时间信息的课程表，请在设置中启用", "ZongziTEK 黑板贴");
-            EditorButtonUseCurriculum_Click?.Invoke();
-            isCloseWithoutWarning = true;
             Close();
         }
 
@@ -121,7 +108,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     Lesson lesson = new Lesson(changedItem.Subject, TimeSpan.Parse(changedItem.StartTime), TimeSpan.Parse(changedItem.EndTime), changedItem.IsSplitBelow, changedItem.IsStrongClassOverNotificationEnabled);
                     GetSelectedDay()[index] = lesson;
-                    if (lesson.IsSplitBelow)
+                    changedItem.BeginAnimation(MarginProperty, null);
+                    if (changedItem.IsSplitBelow)
                     {
                         changedItem.Margin = new Thickness(0, 0, 0, 8);
                     }
