@@ -1152,6 +1152,12 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             lessonIndex = -1;
+
+            double scale = (0.5 / 16) * Settings.TimetableSettings.FontSize + (1 - (0.5 / 16) * 24);
+            if (scale < 0.5) scale = 0.5;
+            else if (scale > 1.6) scale = 1.6;
+            ScaleTimetable.ScaleX = scale;
+            ScaleTimetable.ScaleY = scale;
         }
 
         private int lessonIndex = -1; // 第几节课
