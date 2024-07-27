@@ -29,7 +29,6 @@ using System.Windows.Media.Animation;
 using ZongziTEK_Blackboard_Sticker.Pages;
 using System.Windows.Interop;
 using iNKORE.UI.WPF.Controls;
-using System.Security.Permissions;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -140,6 +139,10 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 window.BeginAnimation(LeftProperty, windowAnimation);
             }
+
+            timetableScrollTimer.Tick += TimetableScrollTimer_Tick;
+            timetableScrollTimer.Start();
+            ScrollToCurrentLesson();
         }
 
         private void window_Activated(object sender, EventArgs e)
@@ -1162,6 +1165,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private int lessonIndex = -1; // 第几节课
         private bool isInClass = false; // 是否是上课时段
+        private int lastLessonIndex = -1;
 
         private void CheckTimetable(object sender, EventArgs e)
         {
@@ -1252,6 +1256,10 @@ namespace ZongziTEK_Blackboard_Sticker
                         }
                     }
                 }
+
+                // 自动滚动课程表
+                if (lessonIndex != lastLessonIndex) ScrollToCurrentLesson();
+                lastLessonIndex = lessonIndex;
             }
 
             timetableTimer.Start();
@@ -1308,6 +1316,56 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     new StrongNotificationWindow("课堂结束", "").Show();
                 }
+            }
+        }
+
+        private void ScrollToCurrentLesson()
+        {
+            if (Settings.TimetableSettings.IsTimetableEnabled && StackPanelShowTimetable.ActualHeight > (ScrollViewerShowCurriculum.ActualHeight - 32))
+            {
+                int extraMarginCount = 0;
+                foreach (Lesson lesson in timetableToShow)
+                {
+                    if (lesson.IsSplitBelow) extraMarginCount++;
+                    if (timetableToShow.IndexOf(lesson) >= lessonIndex) break;
+                }
+
+                ScrollViewerShowCurriculum.ScrollToVerticalOffset((lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48);
+            }
+        }
+
+        private int scrollFreeTime = 0;
+
+        private DispatcherTimer timetableScrollTimer = new()
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+
+        private void TimetableScrollTimer_Tick(object sender, EventArgs e)
+        {
+            scrollFreeTime++;
+
+            if (scrollFreeTime > 5)
+            {
+                ScrollToCurrentLesson();
+            }
+        }
+
+        private void ScrollViewerShowCurriculum_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            scrollFreeTime = 0;
+        }
+
+        private void MenuItemTimetableAutoScroll_Click(object sender, RoutedEventArgs e)
+        {
+            if (MenuItemTimetableAutoScroll.IsChecked)
+            {
+                ScrollToCurrentLesson();
+                timetableScrollTimer.Start();
+            }
+            else
+            {
+                timetableScrollTimer.Stop();
             }
         }
         #endregion

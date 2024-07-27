@@ -170,11 +170,21 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Load & Save
-        private Timetable Timetable = MainWindow.Timetable;
+        private Timetable Timetable = new Timetable();
         private bool isEdited = false;
 
         private async void LoadTimetable()
         {
+            if (File.Exists(MainWindow.GetDataPath() + MainWindow.timetableFileName))
+            {
+                try
+                {
+                    string text = File.ReadAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName);
+                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                }
+                catch { }
+            }
+
             TextBlockLessonCount.Text = GetSelectedDay().Count.ToString();
 
             ListStackPanel.Children.Clear();
@@ -297,6 +307,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 GetSelectedDay().Add(lesson);
             }
             LoadTimetable();
+
+            isEdited = true;
         }
 
         #endregion

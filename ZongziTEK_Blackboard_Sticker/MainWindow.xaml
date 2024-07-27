@@ -177,6 +177,7 @@
                         </Border>
                     </Grid>
                 </Border>
+
                 <!--课程表-->
                 <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource WindowBackgroundColor}" Margin="8,0,8,8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
@@ -184,7 +185,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <ui:ScrollViewerEx Name="ScrollViewerShowCurriculum" PanningMode="VerticalOnly">
+                        <ui:ScrollViewerEx Name="ScrollViewerShowCurriculum" PanningMode="VerticalOnly" ScrollChanged="ScrollViewerShowCurriculum_ScrollChanged">
                             <Grid Margin="16">
                                 <TextBlock Visibility="Collapsed" Name="textBlockCurriculum" TextWrapping="Wrap" FontSize="28" Foreground="{DynamicResource ForegroundColor}" TextAlignment="Center"/>
                                 <ikw:SimpleStackPanel Name="StackPanelShowTimetable" Spacing="4">
@@ -244,6 +245,7 @@
                                                 <MenuItem Name="MenuItemShowSundayTimetable" IsCheckable="True" Header="周日" Click="MenuItemShowSundayTimetable_Click"/>
                                                 <MenuItem Name="MenuItemShowTempTimetable" IsCheckable="True" Header="临时" Click="MenuItemShowTempTimetable_Click"/>
                                             </MenuItem>
+                                            <MenuItem Name="MenuItemTimetableAutoScroll" Header="自动滚动" IsCheckable="True" Click="MenuItemTimetableAutoScroll_Click" IsChecked="True"/>
                                             <MenuItem Header="编辑" Click="editCurriculumButton_Click"/>
                                         </ui:MenuFlyout>
                                     </ui:FlyoutService.Flyout>
