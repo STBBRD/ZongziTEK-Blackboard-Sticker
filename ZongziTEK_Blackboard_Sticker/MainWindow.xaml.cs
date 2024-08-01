@@ -861,12 +861,14 @@ namespace ZongziTEK_Blackboard_Sticker
                 LoadTimetable();
                 textBlockCurriculum.Visibility = Visibility.Collapsed;
                 StackPanelShowTimetable.Visibility = Visibility.Visible;
+                MenuItemTimetableAutoScroll.IsChecked = true;
             }
             else
             {
                 LoadCurriculum();
                 textBlockCurriculum.Visibility = Visibility.Visible;
                 StackPanelShowTimetable.Visibility = Visibility.Collapsed;
+                MenuItemTimetableAutoScroll.IsChecked = false;
             }
             CheckTimetableMenuItems();
         }
@@ -1339,13 +1341,15 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 double offset = (lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48;
+                if (offset > StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight) 
+                    offset = StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight;
 
                 DoubleAnimation offsetAnimation = new()
                 {
                     From = ScrollViewerShowCurriculum.VerticalOffset,
                     To = offset,
-                    Duration = TimeSpan.FromMilliseconds(1000),
-                    EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseInOut, Exponent = 2 }
+                    Duration = TimeSpan.FromMilliseconds(750),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
                 };
                 ScrollViewerShowCurriculum.BeginAnimation(ScrollViewerBehavior.VerticalOffsetProperty, offsetAnimation);
             }
