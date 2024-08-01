@@ -27,7 +27,17 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public TimetableEditor()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            if (File.Exists(MainWindow.GetDataPath() + MainWindow.timetableFileName))
+            {
+                try
+                {
+                    string text = File.ReadAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName);
+                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                }
+                catch { }
+            }
 
             AutoSelectTimetableToEdit();
         }
@@ -175,16 +185,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private async void LoadTimetable()
         {
-            if (File.Exists(MainWindow.GetDataPath() + MainWindow.timetableFileName))
-            {
-                try
-                {
-                    string text = File.ReadAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName);
-                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
-                }
-                catch { }
-            }
-
             TextBlockLessonCount.Text = GetSelectedDay().Count.ToString();
 
             ListStackPanel.Children.Clear();
