@@ -1345,7 +1345,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     From = ScrollViewerShowCurriculum.VerticalOffset,
                     To = offset,
                     Duration = TimeSpan.FromMilliseconds(1000),
-                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
+                    EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseInOut, Exponent = 2 }
                 };
                 ScrollViewerShowCurriculum.BeginAnimation(ScrollViewerBehavior.VerticalOffsetProperty, offsetAnimation);
             }
