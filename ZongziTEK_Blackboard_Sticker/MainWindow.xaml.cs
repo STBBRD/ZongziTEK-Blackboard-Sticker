@@ -1246,7 +1246,14 @@ namespace ZongziTEK_Blackboard_Sticker
                             timetableLesson.Activate();
                             if (isInClass)
                             {
-                                timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
+                                if (DateTime.Now.Hour == 0)
+                                {
+                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
+                                }
+                                else
+                                {
+                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"hh\:mm\:ss");
+                                }
                             }
                         }
                         else // 取消高亮不要高亮的课程，并恢复时间显示
