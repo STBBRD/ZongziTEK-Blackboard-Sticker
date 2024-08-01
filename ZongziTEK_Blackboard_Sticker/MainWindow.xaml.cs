@@ -29,6 +29,7 @@ using System.Windows.Media.Animation;
 using ZongziTEK_Blackboard_Sticker.Pages;
 using System.Windows.Interop;
 using iNKORE.UI.WPF.Controls;
+using ScrollViewerBehavior = ZongziTEK_Blackboard_Sticker.Helpers.ScrollViewerBehavior;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -1337,7 +1338,16 @@ namespace ZongziTEK_Blackboard_Sticker
                     if (timetableToShow.IndexOf(lesson) >= lessonIndex) break;
                 }
 
-                ScrollViewerShowCurriculum.ScrollToVerticalOffset((lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48);
+                double offset = (lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48;
+
+                DoubleAnimation offsetAnimation = new()
+                {
+                    From = ScrollViewerShowCurriculum.VerticalOffset,
+                    To = offset,
+                    Duration = TimeSpan.FromMilliseconds(1000),
+                    EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut }
+                };
+                ScrollViewerShowCurriculum.BeginAnimation(ScrollViewerBehavior.VerticalOffsetProperty, offsetAnimation);
             }
         }
 
