@@ -1,6 +1,7 @@
 ﻿using iNKORE.UI.WPF.Controls;
 using iNKORE.UI.WPF.Modern;
 using iNKORE.UI.WPF.Modern.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,13 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
             normalBackgroundKey = ThemeKeys.CardBackgroundFillColorDefaultBrushKey;
             normalBorderBrushKey = ThemeKeys.ButtonBorderBrushKey;
 
+            UpdateInterfaceStateAndSaveSettings();
+
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPregerenceChanged;
+        }
+
+        private void SystemEvents_UserPregerenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
             UpdateInterfaceStateAndSaveSettings();
         }
 
@@ -70,7 +78,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
                 ControlsHelper.SetDynamicResource(border, Border.BackgroundProperty, normalBackgroundKey);
                 ControlsHelper.SetDynamicResource(border, Border.BorderBrushProperty, normalBorderBrushKey);
 
-                if (MainWindow.GetIsLightTheme())
+                if (ThemeManager.GetActualTheme(this) == ElementTheme.Light)
                 {
                     ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.Black);
                     foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
@@ -107,7 +115,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
             ControlsHelper.SetDynamicResource(border, Border.BackgroundProperty, selectedBackgroundKey);
             ControlsHelper.SetDynamicResource(border, Border.BorderBrushProperty, selectedBorderBrushKey);
 
-            if (MainWindow.GetIsLightTheme())
+            if (ThemeManager.GetActualTheme(this) == ElementTheme.Light)
             {
                 ((border.Child as Grid).Children[0] as FontIcon).Foreground = new SolidColorBrush(Colors.White);
                 foreach (Label label in ((border.Child as Grid).Children[1] as SimpleStackPanel).Children)
