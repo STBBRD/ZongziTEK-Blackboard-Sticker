@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,6 +39,7 @@ namespace ZongziTEK_Blackboard_Sticker
     public partial class MainWindow : Window
     {
         DrawingAttributes drawingAttributes;
+        private TimeSpan timeOffset = TimeSpan.Zero;
 
         bool isSettingsLoaded = false;
         public MainWindow()
@@ -1174,28 +1175,31 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             timetableTimer.Stop();
 
-            TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
+            TimeSpan currentTime = (DateTime.Now + timeOffset).TimeOfDay;
 
             if (timetableToShow != null && timetableToShow.Count != 0)
             {
                 // 获取上课状态 lessonIndex 和 isInClass
                 foreach (var lesson in timetableToShow)
                 {
-                    if (currentTime >= lesson.StartTime) // 在这节课开始后
+                    TimeSpan adjustedStartTime = lesson.GetAdjustedStartTime(timeOffset);
+                    TimeSpan adjustedEndTime = lesson.GetAdjustedEndTime(timeOffset);
+
+                    if (currentTime >= adjustedStartTime) // 在这节课开始后
                     {
                         if (timetableToShow.IndexOf(lesson) + 1 < timetableToShow.Count) // 不是最后一节课
                         {
-                            if (currentTime < timetableToShow[timetableToShow.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
+                            if (currentTime < timetableToShow[timetableToShow.IndexOf(lesson) + 1].GetAdjustedStartTime(timeOffset)) // 在下一节课上课前
                             {
                                 lessonIndex = timetableToShow.IndexOf(lesson);
-                                isInClass = currentTime < lesson.EndTime;
+                                isInClass = currentTime < adjustedEndTime;
                                 break;
                             }
                         }
                         else // 是最后一节课
                         {
                             lessonIndex = timetableToShow.Count - 1;
-                            isInClass = currentTime < lesson.EndTime;
+                            isInClass = currentTime < adjustedEndTime;
                             break;
                         }
                     }
@@ -1210,7 +1214,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 // 弹出上下课提醒
                 if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
                 {
-                    if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].EndTime) // 下课时
+                    if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].GetAdjustedEndTime(timeOffset)) // 下课时
                     {
                         if (lessonIndex + 1 < timetableToShow.Count) // 不是最后一节课
                         {
@@ -1218,7 +1222,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         }
                         else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
                     }
-                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
+                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].GetAdjustedStartTime(timeOffset) - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
                     {
                         ShowClassBeginPreNotification(timetableToShow, lessonIndex);
                     }
@@ -1251,18 +1255,18 @@ namespace ZongziTEK_Blackboard_Sticker
                             {
                                 if (DateTime.Now.Hour == 0)
                                 {
-                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
+                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].GetAdjustedEndTime(timeOffset) - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
                                 }
                                 else
                                 {
-                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"hh\:mm\:ss");
+                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].GetAdjustedEndTime(timeOffset) - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"hh\:mm\:ss");
                                 }
                             }
                         }
                         else // 取消高亮不要高亮的课程，并恢复时间显示
                         {
                             timetableLesson.Deactivate();
-                            timetableLesson.Time = timetableToShow[StackPanelShowTimetable.Children.IndexOf(timetableLesson)].StartTime.ToString(@"hh\:mm");
+                            timetableLesson.Time = timetableToShow[StackPanelShowTimetable.Children.IndexOf(timetableLesson)].GetAdjustedStartTime(timeOffset).ToString(@"hh\:mm");
                         }
                     }
                 }
@@ -1274,6 +1278,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
             timetableTimer.Start();
         }
+
+
 
         private void ShowClassBeginPreNotification(List<Lesson> today, int index)
         {
@@ -1395,8 +1401,27 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Clock
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            textBlockTime.Text = DateTime.Now.ToString("HH:mm:ss");
+            textBlockTime.Text = (DateTime.Now + timeOffset).ToString("HH:mm:ss");
         }
+
+        private void TextBlockTime_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // 创建输入对话框
+            var inputDialog = new InputDialog("时间偏移设置", "请输入时间偏移量（秒）：", "0");
+            if (inputDialog.ShowDialog() == true)
+            {
+                if (int.TryParse(inputDialog.Answer, out int offsetSeconds))
+                {
+                    timeOffset = TimeSpan.FromSeconds(offsetSeconds);
+                }
+                else
+                {
+                    MessageBox.Show("请输入有效的数字。");
+                }
+            }
+        }
+
+
 
         private DispatcherTimer clockTimer;
 
