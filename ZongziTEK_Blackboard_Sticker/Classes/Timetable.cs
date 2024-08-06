@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +35,21 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             return curriculums;
         }
+
+        public List<Lesson> GetCurrentDayLessons(DayOfWeek dayOfWeek)
+        {
+            return dayOfWeek switch
+            {
+                DayOfWeek.Monday => Monday,
+                DayOfWeek.Tuesday => Tuesday,
+                DayOfWeek.Wednesday => Wednesday,
+                DayOfWeek.Thursday => Thursday,
+                DayOfWeek.Friday => Friday,
+                DayOfWeek.Saturday => Saturday,
+                DayOfWeek.Sunday => Sunday,
+                _ => Temp,
+            };
+        }
     }
 
     public class Lesson
@@ -53,5 +68,16 @@ namespace ZongziTEK_Blackboard_Sticker
             IsSplitBelow = isSplitBelow;
             IsStrongClassOverNotificationEnabled = isStrongClassOverNotificationEnabled;
         }
+
+        public TimeSpan GetAdjustedStartTime(TimeSpan offset)
+        {
+            return StartTime + offset;
+        }
+
+        public TimeSpan GetAdjustedEndTime(TimeSpan offset)
+        {
+            return EndTime + offset;
+        }
     }
+
 }
