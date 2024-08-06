@@ -1,4 +1,4 @@
-﻿<Window x:Name="window" x:Class="ZongziTEK_Blackboard_Sticker.MainWindow"
+<Window x:Name="window" x:Class="ZongziTEK_Blackboard_Sticker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -45,7 +45,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Viewbox Margin="16,4">
-                            <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="textBlockTime" FontSize="40" Foreground="{DynamicResource ForegroundColor}" Text="08:00:00" TextAlignment="Center" VerticalAlignment="Center" MouseDown="TextBlockTime_MouseDown"/>
                         </Viewbox>
                         <ui:Frame Grid.Column="1" Name="FrameInfo">
                             <ui:Frame.ContentTransitions>
