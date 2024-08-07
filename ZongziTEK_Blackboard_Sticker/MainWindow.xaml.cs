@@ -1247,15 +1247,16 @@ namespace ZongziTEK_Blackboard_Sticker
                         if (StackPanelShowTimetable.Children.IndexOf(timetableLesson) == lessonToHighlightIndex) // 高亮要高亮的课程，在课程开始后显示距离其结束的时间
                         {
                             timetableLesson.Activate();
+                            TimeSpan timeLeft = timetableToShow[lessonToHighlightIndex].EndTime - currentTime;
                             if (isInClass)
                             {
-                                if (DateTime.Now.Hour == 0)
+                                if (timeLeft.Hours == 0)
                                 {
-                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"mm\:ss");
+                                    timetableLesson.Time = timeLeft.ToString(@"mm\:ss");
                                 }
                                 else
                                 {
-                                    timetableLesson.Time = (timetableToShow[lessonToHighlightIndex].EndTime - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second)).ToString(@"hh\:mm\:ss");
+                                    timetableLesson.Time = timeLeft.ToString(@"hh\:mm\:ss");
                                 }
                             }
                         }
@@ -1341,7 +1342,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 double offset = (lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48;
-                if (offset > StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight) 
+                if (offset > StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight)
                     offset = StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight;
 
                 DoubleAnimation offsetAnimation = new()
