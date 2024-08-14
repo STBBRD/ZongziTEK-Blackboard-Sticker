@@ -1218,7 +1218,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         }
                         else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
                     }
-                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationPreTime)) // 有下一节课，在下一节课开始的数秒前
+                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime + 5)) // 有下一节课，在下一节课开始的数秒前
                     {
                         ShowClassBeginPreNotification(timetableToShow, lessonIndex);
                     }
@@ -1335,15 +1335,17 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.TimetableSettings.IsTimetableEnabled && StackPanelShowTimetable.ActualHeight > (ScrollViewerShowCurriculum.ActualHeight - 32))
             {
                 int extraMarginCount = 0;
+                double scale = ScaleTimetable.ScaleX;
+
                 foreach (Lesson lesson in timetableToShow)
                 {
                     if (lesson.IsSplitBelow) extraMarginCount++;
                     if (timetableToShow.IndexOf(lesson) >= lessonIndex) break;
                 }
 
-                double offset = (lessonIndex + 1) * 48 * ScaleTimetable.ScaleX + 8 * extraMarginCount - 48;
-                if (offset > StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight)
-                    offset = StackPanelShowTimetable.ActualHeight + 32 - ScrollViewerShowCurriculum.ActualHeight;
+                double offset = (((lessonIndex + 1) * 48) + 8 * extraMarginCount - 48) * scale;
+                if (offset > (StackPanelShowTimetable.ActualHeight * scale + 32 - ScrollViewerShowCurriculum.ActualHeight))
+                    offset = (StackPanelShowTimetable.ActualHeight * scale + 32 - ScrollViewerShowCurriculum.ActualHeight);
 
                 DoubleAnimation offsetAnimation = new()
                 {
