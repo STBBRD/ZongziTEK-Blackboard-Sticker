@@ -66,6 +66,12 @@ namespace ZongziTEK_Blackboard_Sticker
             ShowNotification();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            timeTimer.Stop();
+            timeTimer.Tick -= Timer_Tick;
+        }
+
         private DispatcherTimer timeTimer = new()
         {
             Interval = TimeSpan.FromMilliseconds(10)
