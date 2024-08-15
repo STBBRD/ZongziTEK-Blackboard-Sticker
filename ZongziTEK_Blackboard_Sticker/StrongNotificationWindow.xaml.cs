@@ -42,7 +42,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private SpeechSynthesizer synthesizer;
+        private SpeechSynthesizer synthesizer = null;
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -71,9 +71,12 @@ namespace ZongziTEK_Blackboard_Sticker
             await Task.Delay(500);
 
             // 语音播报
-            synthesizer.Speak(TextBlockTitle.Text);
-            await Task.Delay(200);
-            synthesizer.Speak(TextBlockSubtitle.Text);
+            if (synthesizer != null)
+            {
+                synthesizer.Speak(TextBlockTitle.Text);
+                await Task.Delay(200);
+                synthesizer.Speak(TextBlockSubtitle.Text);
+            }
 
             // 退出动画
             DoubleAnimation opacityAnimationOut = new()
