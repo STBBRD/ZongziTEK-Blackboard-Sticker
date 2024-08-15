@@ -31,9 +31,18 @@ namespace ZongziTEK_Blackboard_Sticker
             TextBlockSubtitle.Text = subtitle;
 
             if (subtitle == "") TextBlockSubtitle.Visibility = Visibility.Collapsed;
+
+            try
+            {
+                synthesizer = new SpeechSynthesizer();
+            }
+            catch (Exception ex)
+            {
+                // 系统 TTS 不存在
+            }
         }
 
-        private SpeechSynthesizer synthesizer = new();
+        private SpeechSynthesizer synthesizer;
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
