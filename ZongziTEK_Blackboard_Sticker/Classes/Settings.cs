@@ -45,6 +45,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public double BeginNotificationTime { get; set; } = 60;
         //public double BeginNotificationPreTime { get; set; } = 10;
         public double OverNotificationTime { get; set; } = 10;
+        public double TimeOffset { get; set; } = 0; // 秒
     }
 
     public class Blackboard

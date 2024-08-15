@@ -23,7 +23,7 @@ namespace ZongziTEK_Blackboard_Sticker
     /// </summary>
     public partial class TimetableNotificationWindow : Window
     {
-        public TimetableNotificationWindow(string title, string subtitle, double time)
+        public TimetableNotificationWindow(string title, string subtitle, double time, bool isTextTimeVisible)
         {
             InitializeComponent();
 
@@ -38,6 +38,12 @@ namespace ZongziTEK_Blackboard_Sticker
             timeTimer.Start();
 
             GridNotification.Opacity = 0;
+
+            if (!isTextTimeVisible)
+            {
+                TextTime.Visibility = Visibility.Collapsed;
+                isTimeHidden = true;
+            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)

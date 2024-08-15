@@ -8,10 +8,17 @@
         mc:Ignorable="d"
         Title="ZongziTEK 黑板贴 - 通知" d:Height="900" d:Width="1600" WindowStyle="None" WindowState="Maximized" AllowsTransparency="True" Background="{x:Null}" Topmost="True" Loaded="Window_Loaded">
     <Grid Name="GridNotification">
-        <Border Name="BorderNotification" Height="128" VerticalAlignment="Top" Margin="32" ui:ClipHelper.CornerRadius="16" MouseDown="BorderNotification_MouseDown">
+        <Border x:Name="border" Height="{Binding ActualHeight, ElementName=BorderNotification, Mode=OneWay}" 
+                Width="{Binding ActualWidth, ElementName=BorderNotification, Mode=OneWay}" 
+                Margin="{Binding Margin, ElementName=BorderNotification}" 
+                Opacity="{Binding Opacity, ElementName=BorderNotification}"
+                Background="{Binding Background, ElementName=BorderNotification}"
+                CornerRadius="16" VerticalAlignment="Top">
             <Border.Effect>
-                <DropShadowEffect Color="{DynamicResource {x:Static ui:ThemeKeys.SystemAccentColorKey}}" Direction="270" ShadowDepth="4" BlurRadius="24" Opacity="0.5"/>
+                <DropShadowEffect Color="{DynamicResource {x:Static ui:ThemeKeys.SystemAccentColorKey}}" Direction="270" ShadowDepth="4" BlurRadius="36" Opacity="0.5"/>
             </Border.Effect>
+        </Border>
+        <Border Name="BorderNotification" Height="128" VerticalAlignment="Top" Margin="32" ui:ClipHelper.CornerRadius="16" MouseDown="BorderNotification_MouseDown">
             <Border.Background>
                 <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
                     <GradientStop Color="{DynamicResource {x:Static ui:ThemeKeys.SystemAccentColorKey}}"/>

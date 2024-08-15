@@ -24,6 +24,10 @@
                                      Value="{Binding BeginNotificationTime, Mode=TwoWay}" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
                     <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.PersonRunning_20_Regular}" Header="下课通知持续时间（秒）" Minimum="4" Maximum="60" TickFrequency="1"
                                      Value="{Binding OverNotificationTime, Mode=TwoWay}" ValueChanged="SliderOverNotificationTime_ValueChanged"/>
+                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ShiftsActivity_20_Regular}" 
+                                     Header="时间补偿（秒）" Tip="当学校铃声时间与黑板贴上下课提醒出现时间不一致时，请修改此值。正值为提前，负值为延后。"
+                                     Minimum="-30" Maximum="30" TickFrequency="1"
+                                     Value="{Binding TimeOffset, Mode=TwoWay}" ValueChanged="SliderTimeOffset_ValueChanged"/>
                 </ikw:SimpleStackPanel>
                 <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.TextFontSize_20_Regular}" Header="课程表字号" Minimum="18" Maximum="40" TickFrequency="1"
                                  Value="{Binding FontSize, Mode=TwoWay}" ValueChanged="SliderFontSize_ValueChanged"/>

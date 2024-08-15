@@ -55,5 +55,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 
             (Application.Current.MainWindow as MainWindow).LoadTimetableOrCurriculum();
         }
+
+        private void SliderTimeOffset_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
     }
 }

@@ -195,8 +195,6 @@ namespace ZongziTEK_Blackboard_Sticker
             Grid.SetColumn(BorderMain, 0);
             iconSwitchLeft.Visibility = Visibility.Collapsed;
             iconSwitchRight.Visibility = Visibility.Visible;
-
-            new TimetableNotificationWindow("啊啊", "", 5).Show();
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
@@ -204,8 +202,6 @@ namespace ZongziTEK_Blackboard_Sticker
             Grid.SetColumn(BorderMain, 1);
             iconSwitchRight.Visibility = Visibility.Collapsed;
             iconSwitchLeft.Visibility = Visibility.Visible;
-
-            new TimetableNotificationWindow("呃呃", "哦哦", 3).Show();
         }
 
         /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁，故注释
@@ -1178,7 +1174,7 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             timetableTimer.Stop();
 
-            TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds);
+            TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds) + TimeSpan.FromSeconds(Settings.TimetableSettings.TimeOffset);
 
             if (timetableToShow != null && timetableToShow.Count != 0)
             {
@@ -1222,7 +1218,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         }
                         else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
                     }
-                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime + 5)) // 有下一节课，在下一节课开始的数秒前
+                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime)) // 有下一节课，在下一节课开始的数秒前
                     {
                         ShowClassBeginPreNotification(timetableToShow, lessonIndex);
                     }
@@ -1292,7 +1288,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 string title = today[nextLessonIndex].Subject + "课 即将开始";
                 string subtitle = "此课程将从 " + startTimeString + " 开始，到 " + endTimeString + " 结束";
 
-                new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.BeginNotificationTime).Show();
+                new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.BeginNotificationTime, true).Show();
             }
         }
 
@@ -1309,7 +1305,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (!today[index].IsStrongClassOverNotificationEnabled)
                 {
-                    new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.OverNotificationTime).Show();
+                    new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.OverNotificationTime, false).Show();
                 }
                 else
                 {
@@ -1325,7 +1321,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 if (!isStrongNotificationEnabled)
                 {
-                    new TimetableNotificationWindow("课堂结束", "", Settings.TimetableSettings.OverNotificationTime).Show();
+                    new TimetableNotificationWindow("课堂结束", "", Settings.TimetableSettings.OverNotificationTime, false).Show();
                 }
                 else
                 {
