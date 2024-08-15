@@ -195,6 +195,8 @@ namespace ZongziTEK_Blackboard_Sticker
             Grid.SetColumn(BorderMain, 0);
             iconSwitchLeft.Visibility = Visibility.Collapsed;
             iconSwitchRight.Visibility = Visibility.Visible;
+
+            new TimetableNotificationWindow("啊啊", "", 5).Show();
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
@@ -202,6 +204,8 @@ namespace ZongziTEK_Blackboard_Sticker
             Grid.SetColumn(BorderMain, 1);
             iconSwitchRight.Visibility = Visibility.Collapsed;
             iconSwitchLeft.Visibility = Visibility.Visible;
+
+            new TimetableNotificationWindow("呃呃", "哦哦", 3).Show();
         }
 
         /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁，故注释
@@ -1288,7 +1292,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 string title = today[nextLessonIndex].Subject + "课 即将开始";
                 string subtitle = "此课程将从 " + startTimeString + " 开始，到 " + endTimeString + " 结束";
 
-                ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.BeginNotificationTime, false);
+                new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.BeginNotificationTime).Show();
             }
         }
 
@@ -1305,7 +1309,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (!today[index].IsStrongClassOverNotificationEnabled)
                 {
-                    ShowNotificationBNS(title, subtitle, Settings.TimetableSettings.OverNotificationTime, false);
+                    new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.OverNotificationTime).Show();
                 }
                 else
                 {
@@ -1321,7 +1325,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 if (!isStrongNotificationEnabled)
                 {
-                    ShowNotificationBNS("课堂结束", "", Settings.TimetableSettings.OverNotificationTime, false);
+                    new TimetableNotificationWindow("课堂结束", "", Settings.TimetableSettings.OverNotificationTime).Show();
                 }
                 else
                 {
@@ -1937,33 +1941,7 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
 
-        private void ShowNotificationBNS(string title, string subtitle, double time, bool isBottom)
-        {
-            string timeString = time.ToString();
-
-            try
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                /*&if (Settings.TimetableSettings.BNSPath.EndsWith("\\"))
-                {
-                    startInfo.FileName = Settings.TimetableSettings.BNSPath + "bns.exe";
-                }
-                else
-                {
-                    startInfo.FileName = Settings.TimetableSettings.BNSPath + "\\bns.exe";
-                }*/
-                if (GetBNSPath() != null) startInfo.FileName = GetBNSPath();
-                else return;
-
-                startInfo.Arguments = "\"" + title + "\"" + " \"" + subtitle + "\" -t " + timeString;
-                if (isBottom) startInfo.Arguments += " -bottom";
-
-                Process.Start(startInfo);
-            }
-            catch { }
-        }
-
-        public static string GetBNSPath()
+        /*public static string GetBNSPath()
         {
             string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\{92ECD1B1-7ACD-4523-836F-D1F98FB9AF39}_is1";
             string valueName = "InstallLocation";
@@ -1981,7 +1959,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
 
             return null;
-        }
+        }*/
 
         public static void SwitchLookMode()
         {

@@ -172,6 +172,9 @@
     <Compile Include="TimetableEditor.xaml.cs">
       <DependentUpon>TimetableEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimetableNotificationWindow.xaml.cs">
+      <DependentUpon>TimetableNotificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
@@ -323,6 +326,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TimetableEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimetableNotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
