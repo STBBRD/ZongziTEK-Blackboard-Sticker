@@ -60,5 +60,15 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         {
             MainWindow.SaveSettings();
         }
+
+        private void ToggleSwitchIsBeginSpeechEnabled_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
+
+        private void ToggleSwitchIsOverSpeechEnabled_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
     }
 }

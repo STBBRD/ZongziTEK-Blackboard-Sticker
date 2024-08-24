@@ -31,18 +31,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TextBlockSubtitle.Text = subtitle;
 
             if (subtitle == "") TextBlockSubtitle.Visibility = Visibility.Collapsed;
-
-            try
-            {
-                synthesizer = new SpeechSynthesizer();
-            }
-            catch (Exception ex)
-            {
-                // 系统 TTS 不存在
-            }
         }
-
-        private SpeechSynthesizer synthesizer = null;
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -70,13 +59,7 @@ namespace ZongziTEK_Blackboard_Sticker
             ViewboxContent.BeginAnimation(MarginProperty, viewboxMarginAnimationIn);
             await Task.Delay(500);
 
-            // 语音播报
-            if (synthesizer != null)
-            {
-                synthesizer.Speak(TextBlockTitle.Text);
-                await Task.Delay(200);
-                synthesizer.Speak(TextBlockSubtitle.Text);
-            }
+            await Task.Delay(10000);
 
             // 退出动画
             DoubleAnimation opacityAnimationOut = new()

@@ -204,7 +204,7 @@ namespace ZongziTEK_Blackboard_Sticker
             iconSwitchLeft.Visibility = Visibility.Visible;
         }
 
-        /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁，故注释
+        /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁
         {
             Interval = new TimeSpan(0, 0, 0, 0, 500)
         };
@@ -1278,10 +1278,10 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ShowClassBeginPreNotification(List<Lesson> today, int index)
         {
+            int nextLessonIndex = index + 1;
+
             if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
-                int nextLessonIndex = index + 1;
-
                 string startTimeString = today[nextLessonIndex].StartTime.ToString(@"hh\:mm");
                 string endTimeString = today[nextLessonIndex].EndTime.ToString(@"hh\:mm");
 
@@ -1290,14 +1290,27 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 new TimetableNotificationWindow(title, subtitle, Settings.TimetableSettings.BeginNotificationTime, true).Show();
             }
+
+            if (Settings.TimetableSettings.IsBeginSpeechEnabled)
+            {
+                int timeLeft = Convert.ToInt32(Settings.TimetableSettings.BeginNotificationTime / 60);
+                if (timeLeft > 0)
+                {
+                    TTSHelper.PlayText("距上课还有" + timeLeft.ToString() + "分钟。" + "准备上课，" + today[nextLessonIndex].Subject + "课即将开始");
+                }
+                else
+                {
+                    TTSHelper.PlayText("准备上课，" + today[nextLessonIndex].Subject + "课即将开始");
+                }
+            }
         }
 
         private void ShowClassOverNotification(List<Lesson> today, int index)
         {
+            int nextLessonIndex = index + 1;
+
             if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
             {
-                int nextLessonIndex = index + 1;
-
                 string startTimeString = today[nextLessonIndex].StartTime.ToString(@"hh\:mm");
 
                 string title = "下一节 " + today[nextLessonIndex].Subject + "课";
@@ -1311,7 +1324,14 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     title = "下一节是 " + today[nextLessonIndex].Subject + "课";
                     new StrongNotificationWindow(title, subtitle).Show();
+                    TTSHelper.PlayText("下课。下一节是" + today[nextLessonIndex].Subject + "课");
+                    return;
                 }
+            }
+
+            if (Settings.TimetableSettings.IsOverSpeechEnabled)
+            {
+                TTSHelper.PlayText("下课。下一节是" + today[nextLessonIndex].Subject + "课");
             }
         }
 
@@ -1326,7 +1346,14 @@ namespace ZongziTEK_Blackboard_Sticker
                 else
                 {
                     new StrongNotificationWindow("课堂结束", "").Show();
+                    TTSHelper.PlayText("课堂结束");
+                    return;
                 }
+            }
+
+            if (Settings.TimetableSettings.IsOverSpeechEnabled)
+            {
+                TTSHelper.PlayText("课堂结束");
             }
         }
 

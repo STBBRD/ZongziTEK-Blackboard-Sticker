@@ -39,12 +39,11 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public bool IsTimetableEnabled { get; set; } = true;
         public bool IsTimetableNotificationEnabled { get; set; } = true;
-        /*public bool UseDefaultBNSPath { get; set; } = true;
-        public string BNSPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Blackboard Notification Service";*/
         public double FontSize { get; set; } = 24;
         public double BeginNotificationTime { get; set; } = 60;
-        //public double BeginNotificationPreTime { get; set; } = 10;
+        public bool IsBeginSpeechEnabled { get; set; } = false;
         public double OverNotificationTime { get; set; } = 10;
+        public bool IsOverSpeechEnabled { get; set; } = false;
         public double TimeOffset { get; set; } = 0; // 秒
     }
 
