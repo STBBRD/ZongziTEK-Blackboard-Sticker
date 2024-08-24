@@ -83,6 +83,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TextTime.Text = timeLeft.TotalSeconds.ToString("00");
             double barWidth = BorderNotification.ActualWidth * (timeLeft.TotalSeconds / totalTime.TotalSeconds);
             if (barWidth >= 0) RectangleProgressBar.Width = barWidth;
+            if (barWidth == 0) timeTimer.Stop();
 
             if (Convert.ToInt32(TextTime.Text) == 1)
             {
@@ -118,8 +119,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private async void HideNotification()
         {
-            isNotificationHidden = true; 
-            
+            isNotificationHidden = true;
+
             DoubleAnimation opacityAnimation = new()
             {
                 From = 1,
@@ -160,7 +161,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void BorderNotification_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(!isNotificationHidden)
+            if (!isNotificationHidden)
             {
                 HideNotification();
             }
