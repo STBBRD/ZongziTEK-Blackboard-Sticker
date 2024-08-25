@@ -388,7 +388,7 @@
     <PackageReference Include="Autoupdater.NET.Official">
       <Version>1.9.1</Version>
     </PackageReference>
-    <PackageReference Include="Edge_tts_sharp">
+    <PackageReference Include="EdgeTTS_dotNET_Framework">
       <Version>1.1.1</Version>
     </PackageReference>
     <PackageReference Include="iNKORE.UI.WPF">
