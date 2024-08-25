@@ -2,8 +2,10 @@
 
 [![LOGO](https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker/blob/master/ZongziTEK_Blackboard_Sticker/黑板贴.png?raw=true "LOGO")](# "LOGO")
 
-# ZongziTEK 黑板贴
-  
+# ZongziTEK 黑板贴  
+
+[稳定版下载](https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker/releases/latest "Latest Releases") | [新功能尝鲜](https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker/actions "Actions") 
+
 [![交流群](https://img.shields.io/badge/-%E4%BA%A4%E6%B5%81%E7%BE%A4%201101582374-blue?style=flat&logo=TencentQQ)](https://jq.qq.com/?_wv=1027&k=epb9KDPe)  [![GitHub issues](https://img.shields.io/github/issues/STBBRD/ZongziTEK-Blackboard-Sticker?logo=github)](https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker/issues)
 
 
