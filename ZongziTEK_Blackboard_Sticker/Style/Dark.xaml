@@ -5,4 +5,6 @@
     <SolidColorBrush x:Key="OtherPanelsBackgroundColor" Color="#FF222222"/> 
     <SolidColorBrush x:Key="ForegroundColor" Color="White"/>
     <SolidColorBrush x:Key="BorderBrush" Color="#12FFFFFF"/>
+    <SolidColorBrush x:Key="SolidBackground" Color="Black"/>
+    <SolidColorBrush x:Key="iNKOREForeground" Color="White"/>
 </ResourceDictionary>

@@ -432,5 +432,8 @@
   <ItemGroup>
     <Resource Include="Resources\Emojis\party-popper.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\iNKORE.UI.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
