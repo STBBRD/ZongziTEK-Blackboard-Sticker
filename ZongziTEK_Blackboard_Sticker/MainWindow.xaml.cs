@@ -1222,10 +1222,19 @@ namespace ZongziTEK_Blackboard_Sticker
         private int lessonIndex = -1; // 第几节课
         private bool isInClass = false; // 是否是上课时段
         private int lastLessonIndex = -1;
+        private DayOfWeek lastDay = DateTime.Today.DayOfWeek;
 
         private void CheckTimetable(object sender, EventArgs e)
         {
             timetableTimer.Stop();
+
+            if (lastDay != DateTime.Now.DayOfWeek)
+            {
+                lastDay = DateTime.Now.DayOfWeek;
+
+                timetableToShow_index = (int)DateTime.Now.DayOfWeek;                
+                LoadTimetable();
+            }
 
             TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds) + TimeSpan.FromSeconds(Settings.TimetableSettings.TimeOffset);
 
