@@ -55,6 +55,7 @@ namespace ZongziTEK_Blackboard_Sticker
             drawingAttributes.StylusTip = StylusTip.Ellipse;
             drawingAttributes.FitToCurve = true;
             squarePicker.SelectedColor = inkCanvas.DefaultDrawingAttributes.Color;
+            originalColorPickerMargin = borderColorPicker.Margin;
 
             // 窗体
             SetWindowMaximized();
@@ -222,8 +223,8 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 //if (!confirmingClear)
                 //{
-                if (borderColorPicker.Visibility == Visibility.Collapsed) borderColorPicker.Visibility = Visibility.Visible;
-                else borderColorPicker.Visibility = Visibility.Collapsed;
+                if (borderColorPicker.Visibility == Visibility.Collapsed) ShowColorPicker();
+                else HideColorPicker();
                 //}
             }
             else
@@ -234,7 +235,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void eraserButton_Click(object sender, RoutedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
+            HideColorPicker();
             inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
         }
 
@@ -242,7 +243,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
+            HideColorPicker();
 
             //borderClearConfirm.Visibility = Visibility.Visible;
             //confirmingClear = true;
@@ -342,7 +343,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
                 eraserButton.Visibility = Visibility.Collapsed;
-                borderColorPicker.Visibility = Visibility.Collapsed;
+                HideColorPicker();
 
             }
             else
@@ -406,6 +407,55 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private Thickness originalColorPickerMargin;
+
+        private void ShowColorPicker()
+        {
+            ThicknessAnimation marginAnimation = new()
+            {
+                From = new Thickness(originalColorPickerMargin.Left, originalColorPickerMargin.Top, originalColorPickerMargin.Right, originalColorPickerMargin.Bottom - 50),
+                To = originalColorPickerMargin,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+
+            borderColorPicker.Visibility = Visibility.Visible;
+            borderColorPicker.BeginAnimation(OpacityProperty, opacityAnimation);
+            borderColorPicker.BeginAnimation(MarginProperty, marginAnimation);
+        }
+
+        private async void HideColorPicker()
+        {
+            ThicknessAnimation marginAnimation = new()
+            {
+                From = originalColorPickerMargin,
+                To = new Thickness(originalColorPickerMargin.Left, originalColorPickerMargin.Top, originalColorPickerMargin.Right, originalColorPickerMargin.Bottom - 50),
+                Duration = TimeSpan.FromMilliseconds(250),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+            };
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(250),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+            };
+
+            borderColorPicker.BeginAnimation(OpacityProperty, opacityAnimation);
+            borderColorPicker.BeginAnimation(MarginProperty, marginAnimation);
+
+            await Task.Delay(250);
+
+            borderColorPicker.Visibility = Visibility.Collapsed;
+        }
+
         private void SaveStrokes()
         {
             FileStream fileStream = new FileStream(GetDataPath() + "sticker.icstk", FileMode.Create);
@@ -447,6 +497,11 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             SaveStrokes();
         }*/
+
+        private void inkCanvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            HideColorPicker();
+        }
 
         private List<int> dec = new List<int>(); //记录触摸设备ID
         Point centerPoint; //中心点
@@ -533,8 +588,6 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
-
             // 检查是否是压感笔书写
             foreach (StylusPoint stylusPoint in e.Stroke.StylusPoints)
             {

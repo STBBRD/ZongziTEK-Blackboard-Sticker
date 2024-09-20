@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
-        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         Title="ZongziTEK 黑板贴" Height="1080" Width="1920" 
         Background="#00000000" 
         ResizeMode="NoResize" ShowInTaskbar="False"
@@ -71,7 +70,7 @@
                             </ikw:SimpleStackPanel>
                         </Border>
                         <Grid Name="touchGrid" ManipulationStarting="touchGrid_ManipulationStarting" ManipulationDelta="touchGrid_ManipulationDelta" Background="#00000000">
-                            <InkCanvas x:Name="inkCanvas" PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp"
+                            <InkCanvas x:Name="inkCanvas" PreviewTouchDown="inkCanvas_PreviewTouchDown" PreviewTouchUp="inkCanvas_PreviewTouchUp" PreviewMouseDown="inkCanvas_PreviewMouseDown"
                            StrokeCollected="inkCanvas_StrokeCollected" StrokeErased="inkCanvas_StrokeErased"
                            IsManipulationEnabled="True" Background="{x:Null}"/>
                         </Grid>
@@ -92,12 +91,12 @@
                                                 HorizontalAlignment="Right" Visibility="{Binding Visibility, ElementName=eraserButton}">
                                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Edit_20_Regular}" FontSize="24"/>
                                         </Button>
-                                        <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="4" Width="246" Height="450" Visibility="Collapsed" BorderThickness="{Binding BorderThickness, ElementName=buttonExplorer}"
-                                                Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{Binding BorderBrush, ElementName=buttonExplorer}">
+                                        <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="8" Width="246" Height="450" Visibility="Collapsed" BorderThickness="1"
+                                                Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource BorderBrush}">
                                             <ikw:SimpleStackPanel Margin="16" Spacing="12">
                                                 <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
                                                 <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
-                                                <colorpicker:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
+                                                <ikw:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
                                                 <Grid Height="75">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition/>
