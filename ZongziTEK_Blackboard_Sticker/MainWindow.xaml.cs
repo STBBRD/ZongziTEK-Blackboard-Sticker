@@ -912,16 +912,22 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.TimetableSettings.IsTimetableEnabled)
             {
                 LoadTimetable();
+
                 textBlockCurriculum.Visibility = Visibility.Collapsed;
                 StackPanelShowTimetable.Visibility = Visibility.Visible;
                 MenuItemTimetableAutoScroll.IsChecked = true;
+
+                timetableTimer.Start();
             }
             else
             {
                 LoadCurriculum();
+
                 textBlockCurriculum.Visibility = Visibility.Visible;
                 StackPanelShowTimetable.Visibility = Visibility.Collapsed;
                 MenuItemTimetableAutoScroll.IsChecked = false;
+
+                timetableTimer.Stop();
             }
             CheckTimetableMenuItems();
         }
@@ -1269,21 +1275,18 @@ namespace ZongziTEK_Blackboard_Sticker
                     }
                 }
 
-                // 弹出上下课提醒
-                if (Settings.TimetableSettings.IsTimetableNotificationEnabled)
+                // 上下课通知和语音
+                if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].EndTime) // 下课时
                 {
-                    if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].EndTime) // 下课时
+                    if (lessonIndex + 1 < timetableToShow.Count) // 不是最后一节课
                     {
-                        if (lessonIndex + 1 < timetableToShow.Count) // 不是最后一节课
-                        {
-                            ShowClassOverNotification(timetableToShow, lessonIndex);
-                        }
-                        else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
+                        ShowClassOverNotification(timetableToShow, lessonIndex);
                     }
-                    if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime)) // 有下一节课，在下一节课开始的数秒前
-                    {
-                        ShowClassBeginPreNotification(timetableToShow, lessonIndex);
-                    }
+                    else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
+                }
+                if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime)) // 有下一节课，在下一节课开始的数秒前
+                {
+                    ShowClassBeginPreNotification(timetableToShow, lessonIndex);
                 }
 
                 // 在界面中高亮当前课程或下一节课
