@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 {
@@ -30,19 +31,29 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         private void ComboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainWindow.SaveSettings();
-            MainWindow.SetTheme();            
+            MainWindow.SetTheme();
         }
 
         private void ComboBoxLookMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainWindow.SaveSettings();
-            MainWindow.SwitchLookMode();
+            MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
         }
 
         private void SliderWindowScaleMultiplier_ValueChanged(object sender, RoutedEventArgs e)
         {
             MainWindow.SaveSettings();
             MainWindow.SetWindowScaleTransform(MainWindow.Settings.Look.WindowScaleMultiplier);
+        }
+
+        private void SliderWindowScaleMultiplier_ValueChangeStart(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.Settings.Look.LookMode != 0) MainWindow.SwitchLookMode(0);
+        }
+
+        private void SliderWindowScaleMultiplier_ValueChangeEnd(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.Settings.Look.LookMode != 0) MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
         }
     }
 }

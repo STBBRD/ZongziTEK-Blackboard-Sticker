@@ -134,5 +134,35 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.Cards
             RoutedEventArgs routedEventArgs = new RoutedEventArgs(ValueChangedEvent, this);
             RaiseEvent(routedEventArgs);
         }
+
+        // ValueChangeStart Event
+        public static readonly RoutedEvent ValueChangeStartEvent = EventManager.RegisterRoutedEvent("ValueChangeStart", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SliderCard));
+
+        public event RoutedEventHandler ValueChangeStart
+        {
+            add { AddHandler(ValueChangeStartEvent, value); }
+            remove { RemoveHandler(ValueChangeStartEvent, value); }
+        }
+
+        private void MainSlider_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(ValueChangeStartEvent, this);
+            RaiseEvent(routedEventArgs);
+        }
+
+        // ValueChangeEnd Event
+        public static readonly RoutedEvent ValueChangeEndEvent = EventManager.RegisterRoutedEvent("ValueChangeEnd", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SliderCard));
+
+        public event RoutedEventHandler ValueChangeEnd
+        {
+            add { AddHandler(ValueChangeEndEvent, value); }
+            remove { RemoveHandler(ValueChangeEndEvent, value); }
+        }
+
+        private void MainSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(ValueChangeEndEvent, this);
+            RaiseEvent(routedEventArgs);
+        }
     }
 }

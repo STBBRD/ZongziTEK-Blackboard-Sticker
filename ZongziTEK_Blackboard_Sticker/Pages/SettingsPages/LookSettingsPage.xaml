@@ -14,8 +14,12 @@
         <ui:ScrollViewerEx>
             <ikw:SimpleStackPanel Spacing="8" Margin="24">
                 <Label FontSize="24" Content="外观" Margin="12,8" FontWeight="Bold"/>
-                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ScaleFit_20_Regular}" Header="界面缩放" Tip="当黑板贴的界面过大或过小时，需要调节此设置项" Value="{Binding WindowScaleMultiplier, Mode=TwoWay}" 
-                                 Minimum="0.5" Maximum="2.0" ValueChanged="SliderWindowScaleMultiplier_ValueChanged"/>
+                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ScaleFit_20_Regular}" Header="界面缩放" Tip="当黑板贴的界面过大或过小时，需要调节此设置项" 
+                                 Value="{Binding WindowScaleMultiplier, Mode=TwoWay}" 
+                                 Minimum="0.5" Maximum="2.0" 
+                                 ValueChanged="SliderWindowScaleMultiplier_ValueChanged"
+                                 ValueChangeStart="SliderWindowScaleMultiplier_ValueChangeStart"
+                                 ValueChangeEnd="SliderWindowScaleMultiplier_ValueChangeEnd"/>
                 <card:GenericSettingsCard Icon="{x:Static ui:FluentSystemIcons.PaintBrush_20_Regular}" Header="颜色主题">
                     <card:GenericSettingsCard.CardContent>
                         <ComboBox Width="180" SelectedIndex="{Binding Theme}" SelectionChanged="ComboBoxTheme_SelectionChanged">

@@ -71,7 +71,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
         private void UpdateInterfaceStateAndSaveSettings()
         {
             MainWindow.SaveSettings();
-            MainWindow.SwitchLookMode();
+            MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
 
             foreach (Border border in StackPanelOptions.Children)
             {

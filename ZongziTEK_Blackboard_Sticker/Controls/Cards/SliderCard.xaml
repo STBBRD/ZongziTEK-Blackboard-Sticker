@@ -29,7 +29,8 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
-                            <Slider x:Name="MainSlider" Grid.Column="0" ValueChanged="MainSlider_ValueChanged" IsSnapToTickEnabled="True" VerticalAlignment="Center" TickPlacement="Both" AutoToolTipPlacement="None"/>
+                            <Slider x:Name="MainSlider" Grid.Column="0" ValueChanged="MainSlider_ValueChanged" PreviewMouseDown="MainSlider_PreviewMouseDown" PreviewMouseUp="MainSlider_PreviewMouseUp"
+                                    IsSnapToTickEnabled="True" VerticalAlignment="Center" TickPlacement="Both" AutoToolTipPlacement="None"/>
                             <TextBlock Grid.Column="1" Text="{Binding Path=Value,Source={x:Reference Name=MainSlider}}" Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="12,0,0,0"/>
                         </Grid>
                     </ui:Flyout>

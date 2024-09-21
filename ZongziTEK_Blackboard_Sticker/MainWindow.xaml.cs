@@ -127,7 +127,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-            SwitchLookMode();
+            SwitchLookMode(Settings.Look.LookMode);
 
             if (Settings.Look.IsAnimationEnhanced)
             {
@@ -1232,7 +1232,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 lastDay = DateTime.Now.DayOfWeek;
 
-                timetableToShow_index = (int)DateTime.Now.DayOfWeek;                
+                timetableToShow_index = (int)DateTime.Now.DayOfWeek;
                 LoadTimetable();
             }
 
@@ -1948,8 +1948,10 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public static void SetWindowScaleTransform(double Multiplier)
         {
-            (Application.Current.MainWindow as MainWindow).windowScale.ScaleX = Multiplier;
-            (Application.Current.MainWindow as MainWindow).windowScale.ScaleY = Multiplier;
+            MainWindow window = Application.Current.MainWindow as MainWindow;
+
+            window.windowScale.ScaleX = Multiplier;
+            window.windowScale.ScaleY = Multiplier;
         }
 
         public static void SetTheme()
@@ -2054,11 +2056,11 @@ namespace ZongziTEK_Blackboard_Sticker
             return null;
         }*/
 
-        public static void SwitchLookMode()
+        public static void SwitchLookMode(int mode)
         {
             MainWindow window = Application.Current.MainWindow as MainWindow;
 
-            switch (Settings.Look.LookMode)
+            switch (mode)
             {
                 case 0: // 默认
                     window.BorderMain.ClearValue(WidthProperty);
@@ -2083,7 +2085,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     window.ColumnClock.Width = new GridLength(1, GridUnitType.Star);
 
                     window.frameInfoNavigationTimer.Stop();
-                    window.FrameInfo.Navigate(window.frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+                    if (window.frameInfoPages.Count > 0) window.FrameInfo.Navigate(window.frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
                     break;
 
                 case 2: // 简约（顶部为看板）
