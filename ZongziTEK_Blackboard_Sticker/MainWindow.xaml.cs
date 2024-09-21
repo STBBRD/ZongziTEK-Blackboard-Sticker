@@ -66,7 +66,6 @@ namespace ZongziTEK_Blackboard_Sticker
             // 加载文件
             LoadSettings();
             LoadStrokes();
-            LoadTimetableOrCurriculum();
             Task.Run(() =>
             {
                 Dispatcher.BeginInvoke(() =>
@@ -93,10 +92,11 @@ namespace ZongziTEK_Blackboard_Sticker
             frameInfoNavigationTimer.Interval = TimeSpan.FromSeconds(4);
             frameInfoNavigationTimer.Start();
 
+            // 课程表
             timetableTimer = new DispatcherTimer();
             timetableTimer.Tick += CheckTimetable;
             timetableTimer.Interval = new TimeSpan(0, 0, 1);
-            timetableTimer.Start();
+            LoadTimetableOrCurriculum();
 
             // 颜色主题
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;

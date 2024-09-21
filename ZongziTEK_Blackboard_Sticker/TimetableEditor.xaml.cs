@@ -27,8 +27,8 @@ namespace ZongziTEK_Blackboard_Sticker
     {
         public TimetableEditor()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
             if (File.Exists(MainWindow.GetDataPath() + MainWindow.timetableFileName))
             {
                 try
@@ -47,12 +47,20 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!isCloseWithoutWarning)
+            if (!isCloseWithoutWarning && isEdited)
             {
                 e.Cancel = true;
-                if (!isEdited || MessageBox.Show("确定要直接关闭课程表编辑器吗\n这将丢失未保存的课程", "关闭而不保存", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("部分修改仍未保存，是否保存这些更改？", "是否保存更改", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
+                    ButtonSave_Click(null, null);
                     e.Cancel = false;
+                }
+                else
+                {
+                    if (MessageBox.Show("此操作将导致刚才的更改丢失，确定不要保存课表吗？", "关闭而不保存", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        e.Cancel = false;
+                    }
                 }
             }
         }
@@ -65,9 +73,10 @@ namespace ZongziTEK_Blackboard_Sticker
                 File.WriteAllText(MainWindow.GetDataPath() + MainWindow.timetableFileName, text);
             }
             catch { }
+            isEdited = false;
 
-            isCloseWithoutWarning = true;
-            Close();
+            //isCloseWithoutWarning = true;
+            //Close();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
