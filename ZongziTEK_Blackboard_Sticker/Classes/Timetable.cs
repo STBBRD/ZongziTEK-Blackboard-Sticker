@@ -35,6 +35,14 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             return curriculums;
         }
+
+        public void Sort(Timetable timetable)
+        {
+            foreach (List<Lesson> day in new[] { timetable.Monday, timetable.Tuesday, timetable.Wednesday, timetable.Thursday, timetable.Friday, timetable.Saturday, timetable.Sunday, timetable.Temp })
+            {
+                day.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
+            }
+        }
     }
 
     public class Lesson

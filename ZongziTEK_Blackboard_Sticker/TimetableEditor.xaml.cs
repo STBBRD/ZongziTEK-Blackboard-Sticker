@@ -67,6 +67,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            Timetable.Sort(Timetable);
+
             string text = JsonConvert.SerializeObject(Timetable, Formatting.Indented);
             try
             {
@@ -74,6 +76,8 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             catch { }
             isEdited = false;
+
+            LoadTimetable();
 
             //isCloseWithoutWarning = true;
             //Close();
