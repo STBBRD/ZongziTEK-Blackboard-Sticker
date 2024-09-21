@@ -17,7 +17,7 @@
                 <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}" Header="启动时检查更新" OnContent="启用" OffContent="禁用"
                                        IsOn="{Binding IsUpdateAutomatic, Mode=TwoWay}" Toggled="ToggleSwitchAutoUpdate_Toggled"/>
                 <Border HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
-                        CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        CornerRadius="4" BorderBrush="{DynamicResource {x:Static ui:ThemeKeys.CardStrokeColorDefaultBrushKey}}" BorderThickness="1">
                     <ikw:SimpleStackPanel Margin="16" Spacing="12">
                         <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                             <TextBlock FontSize="14">
@@ -25,13 +25,13 @@
                             </TextBlock>
                             <TextBlock FontSize="14" Text="" Name="TextBlockVersion"/>
                         </ikw:SimpleStackPanel>
-                        <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
+                        <TextBlock FontSize="14">
                                     <Bold>开发者:</Bold> ZongziTEK
                         </TextBlock>
                         <TextBlock FontSize="14">
                                     <Bold>贡献者:</Bold> Puran Lai
                         </TextBlock>
-                        <TextBlock FontSize="14" Foreground="{DynamicResource ForegroundColor}">
+                        <TextBlock FontSize="14">
                                     <Bold>开源地址:</Bold>
                                     <Hyperlink Click="Hyperlink_Click">
                                            <TextBlock Text="https://github.com/STBBRD/ZongziTEK-Blackboard-Sticker"></TextBlock>
@@ -41,7 +41,7 @@
                                      <Bold>开源协议:</Bold> GNU General Public License v3.0
                         </TextBlock>
                         <!--<TextBlock Margin="0,16,0,-8" FontSize="14" Foreground="{DynamicResource ForegroundColor}">自豪地采用 <Bold>iNKORE.UI.WPF.Modern</Bold></TextBlock>-->
-                        <Border HorizontalAlignment="Left" Margin="0,8,0,0" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}">
+                        <Border HorizontalAlignment="Left" Margin="0,8,0,0" BorderThickness="1" BorderBrush="{DynamicResource {x:Static ui:ThemeKeys.CardStrokeColorDefaultBrushKey}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
