@@ -1743,7 +1743,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Utility
         #region FileDrag
 
-        private bool isCopying = false;
+        /*private bool isCopying = false;
         private void window_DragEnter(object sender, System.Windows.DragEventArgs e)
         {
             TextBlockDragHint.Text = "松手以将文件添加到桌面";
@@ -1817,6 +1817,16 @@ namespace ZongziTEK_Blackboard_Sticker
             ProgressBarDragEnter.Visibility = Visibility.Collapsed;
 
             isCopying = false;
+        }*/
+        private void window_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    System.Windows.MessageBox.Show("请将此文件拖到桌面空白处", null, MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                });
+            });
         }
         #endregion
         #endregion
