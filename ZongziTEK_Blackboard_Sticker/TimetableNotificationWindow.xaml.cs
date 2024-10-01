@@ -64,6 +64,14 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             Timer_Tick(null, null);
             ShowNotification();
+
+            DoubleAnimation barWidthAnimation = new()
+            {
+                From = BorderNotification.ActualWidth,
+                To = 0,
+                Duration = totalTime
+            };
+            RectangleProgressBar.BeginAnimation(WidthProperty, barWidthAnimation);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -81,9 +89,6 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             timeLeft = timeToHide - DateTime.Now.TimeOfDay;
             TextTime.Text = timeLeft.TotalSeconds.ToString("00");
-            double barWidth = BorderNotification.ActualWidth * (timeLeft.TotalSeconds / totalTime.TotalSeconds);
-            if (barWidth >= 0) RectangleProgressBar.Width = barWidth;
-            if (barWidth == 0) timeTimer.Stop();
 
             if (Convert.ToInt32(TextTime.Text) == 1)
             {

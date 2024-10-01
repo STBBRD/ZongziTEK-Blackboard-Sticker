@@ -1242,7 +1242,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 LoadTimetable();
             }
 
-            TimeSpan currentTime = new TimeSpan(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds) + TimeSpan.FromSeconds(Settings.TimetableSettings.TimeOffset);
+            TimeSpan currentTime = new TimeSpan
+                (DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds) + TimeSpan.FromSeconds(Settings.TimetableSettings.TimeOffset);
 
             if (timetableToShow != null && timetableToShow.Count != 0)
             {
