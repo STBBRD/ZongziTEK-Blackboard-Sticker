@@ -342,7 +342,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
-                eraserButton.Visibility = Visibility.Collapsed;
+                eraserButton.Visibility = Visibility.Hidden;
                 HideColorPicker();
 
             }

@@ -27,6 +27,8 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             InitializeComponent();
 
+            Width = SystemParameters.WorkArea.Width;
+
             totalTime = TimeSpan.FromSeconds(time);
             timeLeft = totalTime;
             timeToHide = DateTime.Now.TimeOfDay + timeLeft;
@@ -41,17 +43,11 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (!isTextTimeVisible)
             {
-                TextTime.Visibility = Visibility.Collapsed;
+                TextTime.Visibility = Visibility.Hidden;
                 isTimeHidden = true;
             }
-        }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            var hwnd = new WindowInteropHelper(this).Handle;
-            WindowsHelper.SetWindowStyleToolWindow(hwnd);
+            TextTime.Text = (timeLeft.TotalSeconds - 1).ToString("00");
         }
 
         private TimeSpan totalTime;
@@ -62,7 +58,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Timer_Tick(null, null);
+            //Timer_Tick(null, null);
             ShowNotification();
 
             DoubleAnimation barWidthAnimation = new()
@@ -90,11 +86,11 @@ namespace ZongziTEK_Blackboard_Sticker
             timeLeft = timeToHide - DateTime.Now.TimeOfDay;
             TextTime.Text = timeLeft.TotalSeconds.ToString("00");
 
-            if (Convert.ToInt32(TextTime.Text) == 1)
+            if (timeLeft.TotalSeconds == 1)
             {
                 if (!isTimeHidden) HideTime();
             }
-            else if (Convert.ToInt32(TextTime.Text) <= 0)
+            else if (timeLeft.TotalSeconds <= 0)
             {
                 if (!isNotificationHidden) HideNotification();
             }
