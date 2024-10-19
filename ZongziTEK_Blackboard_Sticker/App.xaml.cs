@@ -6,6 +6,7 @@ using System.Windows.Data;
 using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 using AutoUpdaterDotNET;
 using System.Globalization;
+using ZongziTEK_Blackboard_Sticker.Helpers;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -31,6 +32,16 @@ namespace ZongziTEK_Blackboard_Sticker
                 MessageBox.Show("已有一个黑板贴正在运行", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
             }
+        }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                e.Handled = true;
+                LogHelper.WriteLogToFile(e.Exception.Message, LogHelper.LogType.Error);
+            }
+            catch { }
         }
     }
 
@@ -98,7 +109,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
     }
 }
