@@ -58,6 +58,8 @@
                         </Border>
                     </ikw:SimpleStackPanel>
                 </Border>
+                <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" 
+                           Text="本程序的错误日志将被上传至 Sentry 以便开发者分析" FontSize="10" TextWrapping="Wrap" Opacity="0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>
