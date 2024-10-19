@@ -86,13 +86,15 @@ namespace ZongziTEK_Blackboard_Sticker
             timeLeft = timeToHide - DateTime.Now.TimeOfDay;
             TextTime.Text = timeLeft.TotalSeconds.ToString("00");
 
-            if (timeLeft.TotalSeconds == 1)
+            if (timeLeft.TotalSeconds <= 1)
             {
-                if (!isTimeHidden) HideTime();
+                if (!isTimeHidden)
+                    HideTime();
             }
-            else if (timeLeft.TotalSeconds <= 0)
+            if (timeLeft <= TimeSpan.Zero)
             {
-                if (!isNotificationHidden) HideNotification();
+                if (!isNotificationHidden)
+                    HideNotification();
             }
         }
 
@@ -106,16 +108,25 @@ namespace ZongziTEK_Blackboard_Sticker
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
-            ThicknessAnimation marginAnimation = new()
+            /*ThicknessAnimation marginAnimation = new()
             {
                 From = new Thickness(0, -160, 0, 0),
                 To = new Thickness(0),
                 Duration = TimeSpan.FromMilliseconds(750),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };*/
+
+            DoubleAnimation topAnimation = new()
+            {
+                From = -Height,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(750),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
             GridNotification.BeginAnimation(OpacityProperty, opacityAnimation);
-            GridNotification.BeginAnimation(MarginProperty, marginAnimation);
+            //GridNotification.BeginAnimation(MarginProperty, marginAnimation);
+            BeginAnimation(TopProperty, topAnimation);
         }
 
         private async void HideNotification()
@@ -130,16 +141,25 @@ namespace ZongziTEK_Blackboard_Sticker
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
             };
 
-            ThicknessAnimation marginAnimation = new()
+            /*ThicknessAnimation marginAnimation = new()
             {
                 From = new Thickness(0),
                 To = new Thickness(0, -160, 0, 0),
                 Duration = TimeSpan.FromMilliseconds(750),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+            };*/
+
+            DoubleAnimation topAnimation = new()
+            {
+                From = 0,
+                To = -Height,
+                Duration = TimeSpan.FromMilliseconds(750),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
             };
 
             GridNotification.BeginAnimation(OpacityProperty, opacityAnimation);
-            GridNotification.BeginAnimation(MarginProperty, marginAnimation);
+            //GridNotification.BeginAnimation(MarginProperty, marginAnimation);
+            BeginAnimation(TopProperty, topAnimation);
 
             await Task.Delay(750);
             Close();

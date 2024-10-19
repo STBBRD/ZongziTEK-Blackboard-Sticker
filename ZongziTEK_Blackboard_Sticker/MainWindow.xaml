@@ -91,26 +91,50 @@
                                                 HorizontalAlignment="Right" Visibility="{Binding Visibility, ElementName=eraserButton}">
                                             <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.Edit_20_Regular}" FontSize="24"/>
                                         </Button>
-                                        <Border Name="borderColorPicker" Margin="-100,-480,-124,36" CornerRadius="8" Width="246" Height="450" Visibility="Collapsed" BorderThickness="1"
+                                        <Border Name="borderColorPicker" Margin="-100,-490,-124,36" CornerRadius="8" Width="246" Height="464" Visibility="Collapsed" d:Visibility="Visible" BorderThickness="1"
                                                 Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource BorderBrush}">
-                                            <ikw:SimpleStackPanel Margin="16" Spacing="12">
-                                                <TextBlock Text="选择画笔颜色" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
-                                                <Border Name="borderShowColor" Height="8" CornerRadius="2" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
-                                                <ikw:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White"/>
-                                                <Grid Height="75">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
+                                            <ikw:SimpleStackPanel Margin="16" Spacing="8">
+                                                <Grid >
+                                                    <TextBlock Text="设置画笔" FontSize="24" Foreground="{DynamicResource ForegroundColor}"/>
+                                                    <Border Name="borderShowColor" HorizontalAlignment="Right" Width="24" Height="24" CornerRadius="12" Background="White" BorderThickness="1" BorderBrush="#33000000"/>
+                                                </Grid>
+                                                <Label Content="颜色" FontSize="12" Opacity="0.75"/>
+                                                <ikw:SquarePicker Name="squarePicker" Height="222" ColorChanged="squarePicker_ColorChanged" SelectedColor="White" 
+                                                                  PreviewMouseUp="squarePicker_PreviewMouseUp"/>
+                                                <ui:TeachingTip x:Name="TeachingTipColorPicker" Target="{Binding ElementName=squarePicker}" Visibility="Collapsed"
+                                                                Title="提示"
+                                                                Subtitle="当画笔处于黑色或白色时，仅调整色相环是不会改变画笔颜色的，需要调整中间的圆点到右上角的彩色位置"/>
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Name="btnWhite" Click="btnWhite_Click" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="{DynamicResource ForegroundColor}" BorderThickness="0"/>
-                                                    <Button Name="btnBlue" Click="btnBlue_Click" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,4,4,4" VerticalAlignment="Stretch" Background="#FF00FFFF" BorderThickness="0"/>
-                                                    <Button Name="btnYellow" Click="btnYellow_Click" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFFFF00" BorderThickness="0"/>
-                                                    <Button Name="btnRed" Click="btnRed_Click" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="4,4,0,4" VerticalAlignment="Stretch" Background="#FFFF00FF" BorderThickness="0"/>
+                                                    <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" 
+                                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" 
+                                                            Background="{DynamicResource ForegroundColor}"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            MouseUp="BorderColorSelector_MouseUp"/>
+                                                    <Border Grid.Column="1" Width="36" Height="36" CornerRadius="18" 
+                                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" 
+                                                            Background="#EE00AA"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            MouseUp="BorderColorSelector_MouseUp"/>
+                                                    <Border Grid.Column="2" Width="36" Height="36" CornerRadius="18" 
+                                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" 
+                                                            Background="#EEAA00"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            MouseUp="BorderColorSelector_MouseUp"/>
+                                                    <Border Grid.Column="3" Width="36" Height="36" CornerRadius="18" 
+                                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" 
+                                                            Background="#00CCCC"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            MouseUp="BorderColorSelector_MouseUp"/>
                                                 </Grid>
+                                                <Label Content="大小" FontSize="12" Opacity="0.75"/>
+                                                <Slider x:Name="SliderPenThickness" Minimum="1.75" Maximum="4.75" TickFrequency="0.5" IsSnapToTickEnabled="True" TickPlacement="Both" AutoToolTipPlacement="None" Value="1.75"
+                                                        ValueChanged="SliderPenThickness_ValueChanged"/>
                                                 <Button x:Name="btnCloseColorPicker" Content="关闭" HorizontalAlignment="Stretch" Click="btnCloseColorPicker_Click"/>
                                             </ikw:SimpleStackPanel>
                                         </Border>

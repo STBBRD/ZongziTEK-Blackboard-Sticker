@@ -290,33 +290,41 @@ namespace ZongziTEK_Blackboard_Sticker
             //touchGrid.Visibility = Visibility.Visible;
         }
 
+        private void BorderColorSelector_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border border = (Border)sender;
+                squarePicker.SelectedColor = ((SolidColorBrush)border.Background).Color;
+            }
+        }
+
+        private void squarePicker_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (squarePicker.ColorState.HSL_S == 0 || squarePicker.ColorState.HSL_L == 0)
+            {
+                TeachingTipColorPicker.IsOpen = true;
+            }
+        }
+
         private void squarePicker_ColorChanged(object sender, RoutedEventArgs e)
         {
             borderShowColor.Background = new SolidColorBrush(squarePicker.SelectedColor);
             inkCanvas.DefaultDrawingAttributes.Color = squarePicker.SelectedColor;
         }
-        private void btnWhite_Click(object sender, RoutedEventArgs e)
-        {
-            squarePicker.SelectedColor = ((SolidColorBrush)btnWhite.Background).Color;
-        }
 
-        private void btnBlue_Click(object sender, RoutedEventArgs e)
-        {
-            squarePicker.SelectedColor = ((SolidColorBrush)btnBlue.Background).Color;
-        }
-
-        private void btnYellow_Click(object sender, RoutedEventArgs e)
-        {
-            squarePicker.SelectedColor = ((SolidColorBrush)btnYellow.Background).Color;
-        }
-
-        private void btnRed_Click(object sender, RoutedEventArgs e)
-        {
-            squarePicker.SelectedColor = ((SolidColorBrush)btnRed.Background).Color;
-        }
         private void btnCloseColorPicker_Click(object sender, RoutedEventArgs e)
         {
-            borderColorPicker.Visibility = Visibility.Collapsed;
+            HideColorPicker();
+        }
+
+        private void SliderPenThickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (drawingAttributes != null)
+            {
+                drawingAttributes.Width = SliderPenThickness.Value;
+                drawingAttributes.Height = SliderPenThickness.Value;
+            }
         }
 
         private void ToggleButtonLock_Click(object sender, RoutedEventArgs e)
@@ -433,6 +441,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private async void HideColorPicker()
         {
+            TeachingTipColorPicker.IsOpen = false;
+
             ThicknessAnimation marginAnimation = new()
             {
                 From = originalColorPickerMargin,
@@ -1983,7 +1993,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.White)
                 {
-                    window.btnWhite_Click(null, null);
+                    window.inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
                 }
 
                 foreach (Stroke stroke in window.inkCanvas.Strokes)
@@ -2005,7 +2015,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 if (window.inkCanvas.DefaultDrawingAttributes.Color == Colors.Black)
                 {
-                    window.btnWhite_Click(null, null);
+                    window.inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
                 }
                 foreach (Stroke stroke in window.inkCanvas.Strokes)
                 {
