@@ -7,6 +7,8 @@ using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 using AutoUpdaterDotNET;
 using System.Globalization;
 using ZongziTEK_Blackboard_Sticker.Helpers;
+using System.Diagnostics;
+using Sentry;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -19,7 +21,18 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public App()
         {
-            this.Startup += new StartupEventHandler(App_Startup);
+            this.Startup += new StartupEventHandler(App_Startup); 
+            
+            SentrySdk.Init(o =>
+            {
+                // Tells which project in Sentry to send events to:
+                o.Dsn = "https://be9e01f3b4459566b40b8bbc1ce7f8be@o4508149744140288.ingest.de.sentry.io/4508149746040912";
+                // When configuring for the first time, to see what the SDK is doing:
+                o.Debug = true;
+                // Set TracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+                // We recommend adjusting this value in production.
+                o.TracesSampleRate = 1.0;
+            });
         }
 
         void App_Startup(object sender, StartupEventArgs e)
@@ -39,9 +52,14 @@ namespace ZongziTEK_Blackboard_Sticker
             try
             {
                 e.Handled = true;
+                SentrySdk.CaptureException(e.Exception);
                 LogHelper.WriteLogToFile(e.Exception.Message, LogHelper.LogType.Error);
             }
-            catch { }
+            catch
+            {
+                Process.Start(System.Windows.Forms.Application.ExecutablePath, "-m");
+                Shutdown();
+            }
         }
     }
 

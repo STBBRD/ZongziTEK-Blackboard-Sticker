@@ -101,6 +101,7 @@
       <DependentUpon>TimetableLesson.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ControlsHelper.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\TTSHelper.cs" />
     <Compile Include="Pages\InfoBoardPages\CountdownPage.xaml.cs">
       <DependentUpon>CountdownPage.xaml</DependentUpon>
@@ -399,6 +400,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Sentry">
+      <Version>4.12.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
