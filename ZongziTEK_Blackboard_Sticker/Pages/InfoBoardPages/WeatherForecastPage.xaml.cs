@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Helpers;
 using ZongziTEK_Weather_API;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
@@ -46,7 +47,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                     {
                         castWeathers = JsonConvert.DeserializeObject<List<CastWeather>>(File.ReadAllText(castWeatherFilePath));
 
-                        if (castWeathers.Count == 0)
+                        if (castWeathers == null || castWeathers.Count == 0)
                         {
                             UpdateCastWeathers();
                         }
@@ -71,14 +72,21 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         private void UpdateCastWeathers()
         {
             castWeathers = Weather.GetCastWeathers(MainWindow.Settings.InfoBoard.WeatherCity);
-            File.WriteAllText(castWeatherFilePath, JsonConvert.SerializeObject(castWeathers, Formatting.Indented));
+            try
+            {
+                File.WriteAllText(castWeatherFilePath, JsonConvert.SerializeObject(castWeathers, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                LogHelper.NewLog(ex.Message);
+            }
         }
 
         private bool isTodayRainy = false;
 
         private void ShowCastWeathers()
         {
-            if (castWeathers.Count != 0)
+            if (castWeathers != null && castWeathers.Count != 0)
             {
                 string rainDays = "";
                 int today = (int)DateTime.Now.DayOfWeek;

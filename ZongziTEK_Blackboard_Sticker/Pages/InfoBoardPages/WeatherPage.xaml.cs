@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using ZongziTEK_Blackboard_Sticker.Helpers;
 using ZongziTEK_Weather_API;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
@@ -65,15 +66,22 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                     {
                         liveWeather = JsonConvert.DeserializeObject<LiveWeather>(File.ReadAllText(liveWeatherFilePath));
 
-                        if (liveWeather.adcode != Weather.GetCityCode(MainWindow.Settings.InfoBoard.WeatherCity))
+                        if (liveWeather != null)
                         {
-                            UpdateLiveWeather();
-                            if (File.Exists("Weather/CastWeather.json"))
+                            if (liveWeather.adcode != Weather.GetCityCode(MainWindow.Settings.InfoBoard.WeatherCity))
                             {
-                                File.Delete("Weather/CastWeather.json");
+                                UpdateLiveWeather();
+                                if (File.Exists("Weather/CastWeather.json"))
+                                {
+                                    File.Delete("Weather/CastWeather.json");
+                                }
+                            }
+                            else if (liveWeather.isError)
+                            {
+                                UpdateLiveWeather();
                             }
                         }
-                        else if (liveWeather.isError)
+                        else
                         {
                             UpdateLiveWeather();
                         }
@@ -95,12 +103,19 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         private void UpdateLiveWeather()
         {
             liveWeather = Weather.GetLiveWeather(MainWindow.Settings.InfoBoard.WeatherCity);
-            File.WriteAllText(liveWeatherFilePath, JsonConvert.SerializeObject(liveWeather, Formatting.Indented));
+            try
+            {
+                File.WriteAllText(liveWeatherFilePath, JsonConvert.SerializeObject(liveWeather, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                LogHelper.NewLog(ex.Message);
+            }
         }
 
         private void ShowLiveWeather()
         {
-            if (!liveWeather.isError)
+            if (liveWeather != null && !liveWeather.isError)
             {
                 LabelWeatherInfo.Content = liveWeather.weather + " " + liveWeather.temperature + "℃";
                 LabelCity.Content = liveWeather.province + " " + liveWeather.city;
