@@ -86,7 +86,7 @@ namespace ZongziTEK_Blackboard_Sticker
             timeLeft = timeToHide - DateTime.Now.TimeOfDay;
             TextTime.Text = timeLeft.TotalSeconds.ToString("00");
 
-            if (timeLeft.TotalSeconds <= 1)
+            if (timeLeft.TotalSeconds <= 2)
             {
                 if (!isTimeHidden)
                     HideTime();
@@ -133,13 +133,13 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             isNotificationHidden = true;
 
-            DoubleAnimation opacityAnimation = new()
+            /*DoubleAnimation opacityAnimation = new()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromMilliseconds(750),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
-            };
+            };*/
 
             /*ThicknessAnimation marginAnimation = new()
             {
@@ -153,11 +153,11 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = 0,
                 To = -Height,
-                Duration = TimeSpan.FromMilliseconds(750),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
             };
 
-            GridNotification.BeginAnimation(OpacityProperty, opacityAnimation);
+            //GridNotification.BeginAnimation(OpacityProperty, opacityAnimation);
             //GridNotification.BeginAnimation(MarginProperty, marginAnimation);
             BeginAnimation(TopProperty, topAnimation);
 
