@@ -161,6 +161,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             timer.Stop();
             timer.Tick -= Timer_Tick;
             Unloaded -= Page_Unloaded;
+            ImageWeather.Source = null;
         }
     }
 }
