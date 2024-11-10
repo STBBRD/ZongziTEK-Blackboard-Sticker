@@ -7,6 +7,7 @@ using System.Speech.Synthesis;
 using System.IO;
 using Edge_tts_sharp;
 using System.Net.NetworkInformation;
+using Edge_tts_sharp.Model;
 
 namespace ZongziTEK_Blackboard_Sticker.Helpers
 {
@@ -29,7 +30,14 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
             Task.Run(() =>
                 {
                     var voice = Edge_tts.GetVoice()[55];
-                    Edge_tts.PlayText(text, voice);
+
+                    PlayOption option = new()
+                    {
+                        Rate = 1,
+                        Text = text
+                    };
+
+                    Edge_tts.PlayText(option, voice);
                 });
         }
 
