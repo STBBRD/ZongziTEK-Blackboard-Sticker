@@ -1636,6 +1636,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 Process.Start(@"C:\Windows\System32\explorer.exe", "/s,");
             }
             catch (Exception) { }
+
+            if (Settings.Automation.IsBottomMost) WindowsHelper.SetBottom(window);
         }
         private void ButtonReloadLauncher_Click(object sender, RoutedEventArgs e)
         {
