@@ -29,7 +29,7 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         {
             Task.Run(() =>
                 {
-                    var voice = Edge_tts.GetVoice()[55];
+                    var voice = Edge_tts.GetVoice()[MainWindow.Settings.TimetableSettings.Voice];
 
                     PlayOption option = new()
                     {

@@ -16,7 +16,7 @@
                 <Label FontSize="24" Content="信息看板" Margin="12,8" FontWeight="Bold"/>
                 <Border HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" 
                         CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0">
-                    <Expander x:Name="CodeExpander" Grid.Row="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ui:ControlHelper.CornerRadius="4" 
+                    <Expander Grid.Row="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ui:ControlHelper.CornerRadius="4" 
                               Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Style="{DynamicResource {x:Static ui:ThemeKeys.ExpanderCardStyleKey}}" IsExpanded="True">
                         <Expander.Header>
                             <Label Content="选择要显示的信息看板页面"/>

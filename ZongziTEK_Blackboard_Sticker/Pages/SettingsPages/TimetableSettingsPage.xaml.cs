@@ -1,17 +1,8 @@
-﻿using System;
+﻿using iNKORE.UI.WPF.Modern.Media.Animation;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.TimetableSettingsPages;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 {
@@ -24,51 +15,27 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         {
             InitializeComponent();
 
-            DataContext = MainWindow.Settings.TimetableSettings;
+            NavigationViewRoot.SelectedItem = NavigationViewRoot.MenuItems[0];
         }
 
-        private void ToggleSwitchUseTimetable_Toggled(object sender, RoutedEventArgs e)
+        private int lastPageIndex = 0;
+
+        private List<Type> pages = new()
         {
-            MainWindow.SaveSettings();
+            typeof(TimetableGenericSettingsPage),
+            typeof(TimetableSpeechSettingsPage)
+        };
 
-            (Application.Current.MainWindow as MainWindow).LoadTimetableOrCurriculum();
-        }
-
-        private void ToggleSwitchIsTimetableNotificationEnabled_Toggled(object sender, RoutedEventArgs e)
+        private void NavigationViewRoot_SelectionChanged(iNKORE.UI.WPF.Modern.Controls.NavigationView sender, iNKORE.UI.WPF.Modern.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            MainWindow.SaveSettings();
-        }
+            int currentPageIndex = NavigationViewRoot.MenuItems.IndexOf(NavigationViewRoot.SelectedItem);
 
-        private void SliderBeginNotificationTime_ValueChanged(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
-        }
+            if (currentPageIndex > lastPageIndex) FrameTransitionEffect.Effect = SlideNavigationTransitionEffect.FromRight;
+            else FrameTransitionEffect.Effect = SlideNavigationTransitionEffect.FromLeft;
 
-        private void SliderOverNotificationTime_ValueChanged(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
-        }
+            FrameRoot.Navigate(pages[currentPageIndex]);
 
-        private void SliderFontSize_ValueChanged(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
-
-            (Application.Current.MainWindow as MainWindow).LoadTimetableOrCurriculum();
-        }
-
-        private void SliderTimeOffset_ValueChanged(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
-        }
-
-        private void ToggleSwitchIsBeginSpeechEnabled_Toggled(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
-        }
-
-        private void ToggleSwitchIsOverSpeechEnabled_Toggled(object sender, RoutedEventArgs e)
-        {
-            MainWindow.SaveSettings();
+            lastPageIndex = currentPageIndex;
         }
     }
 }

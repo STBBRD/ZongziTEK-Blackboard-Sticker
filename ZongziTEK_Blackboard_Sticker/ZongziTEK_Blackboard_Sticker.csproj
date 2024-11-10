@@ -149,6 +149,12 @@
     <Compile Include="Pages\SettingsPages\TimetableSettingsPage.xaml.cs">
       <DependentUpon>TimetableSettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPages\TimetableSettingsPages\TimetableGenericSettingsPage.xaml.cs">
+      <DependentUpon>TimetableGenericSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\TimetableSettingsPages\TimetableSpeechSettingsPage.xaml.cs">
+      <DependentUpon>TimetableSpeechSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WelcomePages\WelcomePage0.xaml.cs">
       <DependentUpon>WelcomePage0.xaml</DependentUpon>
     </Compile>
@@ -260,6 +266,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\TimetableSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\TimetableSettingsPages\TimetableGenericSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\TimetableSettingsPages\TimetableSpeechSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,5 +450,6 @@
   <ItemGroup>
     <Resource Include="Resources\iNKORE.UI.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

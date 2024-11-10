@@ -7,35 +7,24 @@
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.SettingsPages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1600" d:DesignWidth="800"
       Title="TimetableSettingsPage">
 
     <Grid>
-        <ui:ScrollViewerEx>
-            <ikw:SimpleStackPanel Spacing="8" Margin="24">
-                <Label FontSize="24" Content="课程表" Margin="12,8" FontWeight="Bold"/>
-                <card:ToggleSwitchCard x:Name="ToggleSwitchUseTimetable" Icon="{x:Static ui:FluentSystemIcons.Timeline_20_Regular}"
-                                       Header="使用带时间信息的课程表" Tip="关闭后，课程表将变为纯文本，失去一切与时间有关的功能" OnContent="启用" OffContent="禁用"
-                                       IsOn="{Binding IsTimetableEnabled, Mode=TwoWay}" Toggled="ToggleSwitchUseTimetable_Toggled"/>
-                <ikw:SimpleStackPanel Spacing="8" Visibility="{Binding ElementName=ToggleSwitchUseTimetable, Path=IsOn, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.Alert_20_Regular}" Header="上下课提醒" Tip="此设置不会影响语音播报" OnContent="启用" OffContent="禁用"
-                                           IsOn="{Binding IsTimetableNotificationEnabled, Mode=TwoWay}" Toggled="ToggleSwitchIsTimetableNotificationEnabled_Toggled"/>
-                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.PersonVoice_20_Regular}" Header="准备上课语音提醒" OnContent="启用" OffContent="禁用"
-                                           IsOn="{Binding IsBeginSpeechEnabled, Mode=TwoWay}" Toggled="ToggleSwitchIsBeginSpeechEnabled_Toggled"/>
-                    <card:ToggleSwitchCard Icon="{x:Static ui:FluentSystemIcons.PersonVoice_20_Regular}" Header="课堂结束语音提醒" OnContent="启用" OffContent="禁用"
-                                           IsOn="{Binding IsOverSpeechEnabled, Mode=TwoWay}" Toggled="ToggleSwitchIsOverSpeechEnabled_Toggled"/>
-                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ArrowEnter_20_Regular}" Header="课前通知持续时间（秒）" Minimum="20" Maximum="180" TickFrequency="2.5"
-                                     Value="{Binding BeginNotificationTime, Mode=TwoWay}" ValueChanged="SliderBeginNotificationTime_ValueChanged"/>
-                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.PersonRunning_20_Regular}" Header="下课通知持续时间（秒）" Minimum="4" Maximum="60" TickFrequency="1"
-                                     Value="{Binding OverNotificationTime, Mode=TwoWay}" ValueChanged="SliderOverNotificationTime_ValueChanged"/>
-                    <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.ShiftsActivity_20_Regular}" 
-                                     Header="时间补偿（秒）" Tip="当学校铃声时间与黑板贴上下课提醒出现时间不一致时，请修改此值。正值为提前，负值为延后。"
-                                     Minimum="-30" Maximum="30" TickFrequency="1"
-                                     Value="{Binding TimeOffset, Mode=TwoWay}" ValueChanged="SliderTimeOffset_ValueChanged"/>
-                </ikw:SimpleStackPanel>
-                <card:SliderCard Icon="{x:Static ui:FluentSystemIcons.TextFontSize_20_Regular}" Header="课程表字号" Minimum="18" Maximum="40" TickFrequency="1"
-                                 Value="{Binding FontSize, Mode=TwoWay}" ValueChanged="SliderFontSize_ValueChanged"/>
-            </ikw:SimpleStackPanel>
-        </ui:ScrollViewerEx>
+        <ui:NavigationView Name="NavigationViewRoot" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionChanged="NavigationViewRoot_SelectionChanged">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="常规"/>
+                <ui:NavigationViewItem Content="语音"/>
+            </ui:NavigationView.MenuItems>
+            <ui:Frame Name="FrameRoot">
+                <ui:Frame.ContentTransitions>
+                    <ui:TransitionCollection>
+                        <ui:NavigationThemeTransition>
+                            <ui:SlideNavigationTransitionInfo x:Name="FrameTransitionEffect"/>
+                        </ui:NavigationThemeTransition>
+                    </ui:TransitionCollection>
+                </ui:Frame.ContentTransitions>
+            </ui:Frame>
+        </ui:NavigationView>
     </Grid>
 </Page>
