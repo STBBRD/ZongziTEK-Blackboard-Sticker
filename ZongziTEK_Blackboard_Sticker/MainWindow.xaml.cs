@@ -1626,6 +1626,8 @@ namespace ZongziTEK_Blackboard_Sticker
             WshShell shell = new();
             IWshShortcut wshShortcut = (IWshShortcut)shell.CreateShortcut(filePath);
             Process.Start("explorer.exe", wshShortcut.TargetPath);
+
+            if (Settings.Automation.IsBottomMost) WindowsHelper.SetBottom(window);
         }
         private void buttonExplorer_Click(object sender, RoutedEventArgs e)
         {
