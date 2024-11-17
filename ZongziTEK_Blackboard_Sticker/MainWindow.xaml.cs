@@ -30,6 +30,7 @@ using ZongziTEK_Blackboard_Sticker.Pages;
 using System.Windows.Interop;
 using iNKORE.UI.WPF.Controls;
 using ScrollViewerBehavior = ZongziTEK_Blackboard_Sticker.Helpers.ScrollViewerBehavior;
+using Sentry;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -560,6 +561,8 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void inkCanvas_PreviewTouchDown(object sender, TouchEventArgs e)
         {
+            HideColorPicker();
+
             dec.Add(e.TouchDevice.Id);
             //设备1个的时候，记录中心点
             if (dec.Count == 1)
