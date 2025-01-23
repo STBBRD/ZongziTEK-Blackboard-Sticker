@@ -35,7 +35,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public void Activate()
         {
-            ControlsHelper.SetDynamicResource(BorderActiveIndicator, Border.BackgroundProperty, ThemeKeys.SystemControlBackgroundAccentBrushKey);
+            ControlsHelper.SetDynamicResource(BorderActiveIndicator, Border.BackgroundProperty, ThemeKeys.AccentButtonBackgroundKey);
             if (!IsActive) IsActive = true;
         }
 

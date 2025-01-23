@@ -8,11 +8,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		NoDebug-ZongziTEK_Blackboard_Sticker|Any CPU = NoDebug-ZongziTEK_Blackboard_Sticker|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.NoDebug-ZongziTEK_Blackboard_Sticker|Any CPU.ActiveCfg = ZongziTEK_Blackboard_Sticker|Any CPU
+		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.NoDebug-ZongziTEK_Blackboard_Sticker|Any CPU.Build.0 = ZongziTEK_Blackboard_Sticker|Any CPU
 		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01ACAAF3-0138-4CE5-815E-D3BC58764234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
