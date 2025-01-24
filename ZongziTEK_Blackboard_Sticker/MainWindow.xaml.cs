@@ -31,6 +31,7 @@ using System.Windows.Interop;
 using iNKORE.UI.WPF.Controls;
 using ScrollViewerBehavior = ZongziTEK_Blackboard_Sticker.Helpers.ScrollViewerBehavior;
 using Sentry;
+using iNKORE.UI.WPF.Modern.Controls.Helpers;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -59,7 +60,7 @@ namespace ZongziTEK_Blackboard_Sticker
             originalColorPickerMargin = borderColorPicker.Margin;
 
             // 窗体
-            SetWindowMaximized();
+            SetWindowSize();
 
             /*windowTimer.Tick += windowTimer_Tick; // 强力置底，可能导致界面闪烁，故注释
             windowTimer.Start();*/
@@ -77,6 +78,16 @@ namespace ZongziTEK_Blackboard_Sticker
 
             SetTheme();
             SetWindowScaleTransform(Settings.Look.WindowScaleMultiplier);
+
+            // WindowChrome 会影响部分功能，故注释
+            /*if (Settings.Look.IsWindowChromeDisabled) // AllowTransparency
+            {
+                WindowsHelper.SetAllowTransparency(this);
+            }
+            else // WindowChrome
+            {
+                WindowsHelper.SetWindowChrome(this);
+            }*/
 
             // 检查更新
             if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
@@ -134,8 +145,8 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 DoubleAnimation windowAnimation = new DoubleAnimation()
                 {
-                    From = window.ActualWidth,
-                    To = 0,
+                    From = SystemParameters.WorkArea.Width,
+                    To = SystemParameters.WorkArea.Width / 2,
                     Duration = TimeSpan.FromMilliseconds(1000),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
@@ -184,26 +195,34 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private void SetWindowMaximized()
+        private void SetWindowSize()
         {
             Height = System.Windows.SystemParameters.WorkArea.Height;
-            Width = System.Windows.SystemParameters.WorkArea.Width;
+            Width = System.Windows.SystemParameters.WorkArea.Width / 2;
             Top = 0;
-            Left = 0;
+            Left = Width;
         }
 
         private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid.SetColumn(BorderMain, 0);
+            window.BeginAnimation(LeftProperty, null);
+
             iconSwitchLeft.Visibility = Visibility.Collapsed;
             iconSwitchRight.Visibility = Visibility.Visible;
+
+            Left = 0;
+
+            ShowClassBeginPreNotification(timetableToShow, -1); // 调试后删除！！！
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid.SetColumn(BorderMain, 1);
+            window.BeginAnimation(LeftProperty, null);
+
             iconSwitchRight.Visibility = Visibility.Collapsed;
             iconSwitchLeft.Visibility = Visibility.Visible;
+
+            Left = Width;
         }
 
         /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁

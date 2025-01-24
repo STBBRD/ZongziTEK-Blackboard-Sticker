@@ -38,6 +38,10 @@
                         </ComboBox>
                     </card:GenericSettingsCard.CardContent>
                 </card:GenericSettingsCard>
+                <card:ToggleSwitchCard x:Name="ToggleSwitchIsWindowChromeDisabled" Icon="{x:Static ui:FluentSystemIcons.Code_20_Regular}" 
+                                       Header="禁用 WindowChrome" Tip="开启后，将使用 AllowTransparency 代替 WindowChrome。如遇桌面变黑，请开启此设置项"
+                                       IsOn="{Binding IsWindowChromeDisabled, Mode=TwoWay}"
+                                       Toggled="ToggleSwitchIsWindowChromeDisabled_Toggled"/>
             </ikw:SimpleStackPanel>
         </ui:ScrollViewerEx>
     </Grid>

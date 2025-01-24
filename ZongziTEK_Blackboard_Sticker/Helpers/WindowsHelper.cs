@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Shell;
 
 namespace ZongziTEK_Blackboard_Sticker.Helpers
 {
@@ -105,11 +106,40 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
         public const int WS_EX_TOOLWINDOW = 0x00000080;
+        public const int WS_EX_LAYERED = 0x00080000;
+        public const int WS_EX_TRANSPARENT = 0x00000020;
 
         public static void SetWindowStyleToolWindow(IntPtr hwnd)
         {
             var extendedStyle = GetWindowLong(hwnd, -20);
             SetWindowLong(hwnd, -20, extendedStyle | WS_EX_TOOLWINDOW);
+        }
+        #endregion
+
+        #region SetWindowChrome & SetAllowTransparency
+        public static void SetWindowChrome(Window window)
+        {
+            WindowChrome windowChrome = new()
+            {
+                GlassFrameThickness = new(-1)
+            };
+            WindowChrome.SetWindowChrome(window, windowChrome);
+
+            window.AllowsTransparency = false;
+        }
+
+        public static void SetAllowTransparency(Window window)
+        {
+            window.AllowsTransparency = true;
+            WindowChrome.SetWindowChrome(window, null);
+        }
+        #endregion
+
+        #region StyleStruct
+        public struct StyleStruct
+        {
+            public int styleOld;
+            public int styleNew;
         }
         #endregion
     }

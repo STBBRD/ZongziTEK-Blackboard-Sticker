@@ -55,5 +55,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         {
             if (MainWindow.Settings.Look.LookMode != 0) MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
         }
+
+        private void ToggleSwitchIsWindowChromeDisabled_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
     }
 }

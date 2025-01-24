@@ -40,22 +40,7 @@
                         <TextBlock FontSize="14">
                                      <Bold>开源协议:</Bold> GNU General Public License v3.0
                         </TextBlock>
-                        <!--<TextBlock Margin="0,16,0,-8" FontSize="14" Foreground="{DynamicResource ForegroundColor}">自豪地采用 <Bold>iNKORE.UI.WPF.Modern</Bold></TextBlock>-->
-                        <Border HorizontalAlignment="Left" Margin="0,8,0,0" BorderThickness="1" BorderBrush="{DynamicResource {x:Static ui:ThemeKeys.CardStrokeColorDefaultBrushKey}}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <Rectangle Fill="{DynamicResource SolidBackground}"/>
-                                <Label Foreground="{DynamicResource iNKOREForeground}" Content="Proudly adopted" Margin="16,8" FontFamily="Consolas" FontWeight="DemiBold"/>
-                                
-                                <Rectangle Grid.Column="1" Fill="#4b30b2"/>
-                                <Image Grid.Column="1" HorizontalAlignment="Left" Source="../../Resources/iNKORE.UI.png" Height="16" Margin="16,0"/>
-                                <Label Grid.Column="1" Foreground="White" Content="UI.WPF.Modern" Margin="42,8,16,8" FontFamily="Consolas" FontWeight="ExtraBold"/>
-                            </Grid>
-                        </Border>
+                        <ui:ProjectBadge/>
                     </ikw:SimpleStackPanel>
                 </Border>
                 <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" 
