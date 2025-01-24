@@ -211,8 +211,6 @@ namespace ZongziTEK_Blackboard_Sticker
             iconSwitchRight.Visibility = Visibility.Visible;
 
             Left = 0;
-
-            ShowClassBeginPreNotification(timetableToShow, -1); // 调试后删除！！！
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
