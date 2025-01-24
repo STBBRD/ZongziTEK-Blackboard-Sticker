@@ -210,7 +210,14 @@ namespace ZongziTEK_Blackboard_Sticker
             iconSwitchLeft.Visibility = Visibility.Collapsed;
             iconSwitchRight.Visibility = Visibility.Visible;
 
-            Left = 0;
+            DoubleAnimation leftAnimation = new()
+            {
+                From = Left,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
+            };
+            BeginAnimation(LeftProperty, leftAnimation);
         }
 
         private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
@@ -220,7 +227,14 @@ namespace ZongziTEK_Blackboard_Sticker
             iconSwitchRight.Visibility = Visibility.Collapsed;
             iconSwitchLeft.Visibility = Visibility.Visible;
 
-            Left = Width;
+            DoubleAnimation leftAnimation = new()
+            {
+                From = Left,
+                To = Width,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
+            };
+            BeginAnimation(LeftProperty, leftAnimation);
         }
 
         /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁
