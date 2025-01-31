@@ -45,6 +45,7 @@ namespace ZongziTEK_Blackboard_Sticker
         public bool IsOverSpeechEnabled { get; set; } = false;
         public int Voice { get; set; } = 55;
         public double TimeOffset { get; set; } = 0; // 秒
+        public bool IsClickToHideNotificationEnabled { get; set; } = true;
     }
 
     public class Blackboard

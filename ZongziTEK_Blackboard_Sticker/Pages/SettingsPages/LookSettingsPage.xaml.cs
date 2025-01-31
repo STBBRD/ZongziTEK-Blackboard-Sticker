@@ -28,6 +28,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
             DataContext = MainWindow.Settings.Look;
         }
 
+        private bool isCurrentWindowChromeDisabled = MainWindow.Settings.Look.IsWindowChromeDisabled;
         MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
 
         private void ComboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,6 +62,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         private void ToggleSwitchIsWindowChromeDisabled_Toggled(object sender, RoutedEventArgs e)
         {
             MainWindow.SaveSettings();
+
+            if (ToggleSwitchIsWindowChromeDisabled.IsOn != isCurrentWindowChromeDisabled) MessageBox.Show("此更改需重启黑板贴后生效", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

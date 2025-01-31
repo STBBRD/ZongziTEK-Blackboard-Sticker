@@ -196,6 +196,11 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             isNotificationMinimized = true;
 
+            if (!MainWindow.Settings.TimetableSettings.IsClickToHideNotificationEnabled) // 当禁用点击隐藏通知时，允许在处于小岛模式时穿透鼠标事件
+            {
+                WindowsHelper.SetWindowExTransparent(this);
+            }
+
             BorderNotification.HorizontalAlignment = HorizontalAlignment.Center;
 
             DoubleAnimation widthAnimation = new()
@@ -291,7 +296,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else if (!isNotificationHidden)
             {
-                HideNotification();
+                if (MainWindow.Settings.TimetableSettings.IsClickToHideNotificationEnabled) HideNotification();
             }
         }
     }

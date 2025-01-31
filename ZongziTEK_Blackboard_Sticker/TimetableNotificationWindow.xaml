@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴 - 通知" Height="192" d:Width="1600" Top="0" Left="0" WindowStyle="None" Background="#00000000" Topmost="True" ShowInTaskbar="False"
+        Title="ZongziTEK 黑板贴 - 通知" Height="192" d:Width="1600" Top="0" Left="0" WindowStyle="None" Background="#00000000" Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
         Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid Name="GridNotification">
         <Border Name="BorderShadowEffect" Height="{Binding ActualHeight, ElementName=BorderNotification, Mode=OneWay}" 
@@ -38,7 +38,7 @@
 
                     <ui:FontIcon Grid.Column="0" FontSize="76" Foreground="White" Icon="{x:Static ui:FluentSystemIcons.Alert_48_Filled}"/>
                     <ikw:SimpleStackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
-                        <TextBlock Name="TextTitle" Foreground="White" FontSize="48" d:Text="数学课 即将开始"/>
+                        <TextBlock Name="TextTitle" Foreground="White" FontSize="48" d:Text="数学课 即将开始" FontWeight="Bold"/>
                         <TextBlock Name="TextSubtitle" Foreground="White" FontSize="18" d:Text="此课程将从 07:25 开始，到 08:05 结束" Opacity="0.75" Visibility="{Binding Text, Converter={StaticResource TextEmptyToCollapsedConverter}, ElementName=TextSubtitle}"/>
                     </ikw:SimpleStackPanel>
                     <TextBlock Name="TextTime" Grid.Column="2" Foreground="White" FontSize="64" d:Text="30" VerticalAlignment="Center" Margin="48,0" FontFamily="Resources/#Digital-7 Mono"/>

@@ -107,12 +107,25 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
 
         public const int WS_EX_TOOLWINDOW = 0x00000080;
         public const int WS_EX_LAYERED = 0x00080000;
-        public const int WS_EX_TRANSPARENT = 0x00000020;
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TRANSPARENT = 0x00000020;
 
         public static void SetWindowStyleToolWindow(IntPtr hwnd)
         {
             var extendedStyle = GetWindowLong(hwnd, -20);
             SetWindowLong(hwnd, -20, extendedStyle | WS_EX_TOOLWINDOW);
+        }
+
+        public static void SetWindowExTransparent(Window window)
+        {
+            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            if (hwnd == IntPtr.Zero)
+                throw new InvalidOperationException("The window must be shown before setting the transparency.");
+
+            // 获取当前的扩展样式
+            int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            // 设置新的扩展样式，包括透明属性
+            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
         }
         #endregion
 

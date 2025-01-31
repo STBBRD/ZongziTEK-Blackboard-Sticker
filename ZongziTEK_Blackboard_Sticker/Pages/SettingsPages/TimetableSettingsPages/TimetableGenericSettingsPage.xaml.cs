@@ -60,5 +60,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.TimetableSettingsPage
         {
             MainWindow.SaveSettings();
         }
+
+        private void ToggleSwitchIsClickToHideNotificationEnabled_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
     }
 }
