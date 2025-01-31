@@ -28,11 +28,9 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Look
     {
         public double WindowScaleMultiplier { get; set; } = 1;
-        public int Theme { get; set; } = 0; // 0 代表自动切换，1 代表浅色，2 代表深色
+        public int Theme { get; set; } = 0; // 0 - 自动切换，1 - 浅色，2 - 深色
         public bool IsAnimationEnhanced { get; set; } = true;
-        //public bool UseLiteMode { get; set; } = false;
-        //public bool IsLiteModeWithInfoBoard { get; set; } = false;
-        public int LookMode { get; set; } = 0; // 0 代表默认模式，1 代表顶部为时钟的简约模式，2 代表顶部为信息看板的简约模式
+        public int LookMode { get; set; } = 0; // 0 - 默认，1 - 简约（顶部为时钟），2 - 简约（顶部为看板）
         public bool IsWindowChromeDisabled { get; set; } = false;
     }
 
@@ -75,6 +73,6 @@ namespace ZongziTEK_Blackboard_Sticker
     public class Update
     {
         public bool IsUpdateAutomatic { get; set; } = true;
-        public int UpdateChannel { get; set; } = 0; // 0 代表 Release 频道，1 代表 Preview 频道
+        public int UpdateChannel { get; set; } = 0; // 0 - Release 频道，1 - Preview 频道
     }
 }

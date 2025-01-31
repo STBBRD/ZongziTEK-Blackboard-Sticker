@@ -28,6 +28,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
             DataContext = MainWindow.Settings.Look;
         }
 
+        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+
         private void ComboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainWindow.SaveSettings();
@@ -37,7 +39,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
         private void ComboBoxLookMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainWindow.SaveSettings();
-            MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
+            mainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
         }
 
         private void SliderWindowScaleMultiplier_ValueChanged(object sender, RoutedEventArgs e)
@@ -48,12 +50,12 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 
         private void SliderWindowScaleMultiplier_ValueChangeStart(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.Settings.Look.LookMode != 0) MainWindow.SwitchLookMode(0);
+            if (MainWindow.Settings.Look.LookMode != 0) mainWindow.SwitchLookMode(0);
         }
 
         private void SliderWindowScaleMultiplier_ValueChangeEnd(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.Settings.Look.LookMode != 0) MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
+            if (MainWindow.Settings.Look.LookMode != 0) mainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
         }
 
         private void ToggleSwitchIsWindowChromeDisabled_Toggled(object sender, RoutedEventArgs e)

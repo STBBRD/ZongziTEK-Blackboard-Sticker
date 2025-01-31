@@ -19,7 +19,7 @@
         </Grid.LayoutTransform>
 
         <Border Name="BorderMain" Margin="8" CornerRadius="8" Background="{DynamicResource WindowBackgroundColor}">
-            <Grid x:Name="GridMain">
+            <Grid Name="GridMain">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Name="RowMain"/>

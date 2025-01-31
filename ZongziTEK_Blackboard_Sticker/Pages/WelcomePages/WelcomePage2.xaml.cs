@@ -40,6 +40,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPregerenceChanged;
         }
 
+        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+
         private void SystemEvents_UserPregerenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             UpdateInterfaceStateAndSaveSettings();
@@ -56,13 +58,13 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
             UpdateInterfaceStateAndSaveSettings();
         }
 
-        private void BorderSimpleWithClock_MouseUp(object sender, MouseButtonEventArgs e)
+        private void BorderLiteWithClock_MouseUp(object sender, MouseButtonEventArgs e)
         {
             MainWindow.Settings.Look.LookMode = 1;
             UpdateInterfaceStateAndSaveSettings();
         }
 
-        private void BorderSimpleWithInfoBoard_MouseUp(object sender, MouseButtonEventArgs e)
+        private void BorderLiteWithInfoBoard_MouseUp(object sender, MouseButtonEventArgs e)
         {
             MainWindow.Settings.Look.LookMode = 2;
             UpdateInterfaceStateAndSaveSettings();
@@ -71,7 +73,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
         private void UpdateInterfaceStateAndSaveSettings()
         {
             MainWindow.SaveSettings();
-            MainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
+            mainWindow.SwitchLookMode(MainWindow.Settings.Look.LookMode);
 
             foreach (Border border in StackPanelOptions.Children)
             {
@@ -102,10 +104,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
                     SetSelectedStyle(BorderNormal);
                     break;
                 case 1:
-                    SetSelectedStyle(BorderSimpleWithClock);
+                    SetSelectedStyle(BorderLiteWithClock);
                     break;
                 case 2:
-                    SetSelectedStyle(BorderSimpleWithInfoBoard);
+                    SetSelectedStyle(BorderLiteWithInfoBoard);
                     break;
             }
         }

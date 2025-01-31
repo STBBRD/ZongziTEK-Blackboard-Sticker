@@ -60,7 +60,7 @@ namespace ZongziTEK_Blackboard_Sticker
             originalColorPickerMargin = borderColorPicker.Margin;
 
             // 窗体
-            SetWindowSize();
+            SetWindowVerticalSize();
 
             /*windowTimer.Tick += windowTimer_Tick; // 强力置底，可能导致界面闪烁，故注释
             windowTimer.Start();*/
@@ -79,15 +79,15 @@ namespace ZongziTEK_Blackboard_Sticker
             SetTheme();
             SetWindowScaleTransform(Settings.Look.WindowScaleMultiplier);
 
-            // WindowChrome 会影响部分功能，故注释
-            /*if (Settings.Look.IsWindowChromeDisabled) // AllowTransparency
+            // 设置透明窗口
+            if (Settings.Look.IsWindowChromeDisabled) // AllowTransparency
             {
                 WindowsHelper.SetAllowTransparency(this);
             }
             else // WindowChrome
             {
                 WindowsHelper.SetWindowChrome(this);
-            }*/
+            }
 
             // 检查更新
             if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
@@ -143,15 +143,15 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (Settings.Look.IsAnimationEnhanced)
             {
-                DoubleAnimation windowAnimation = new DoubleAnimation()
+                ThicknessAnimation marginAnimation = new()
                 {
-                    From = SystemParameters.WorkArea.Width,
-                    To = SystemParameters.WorkArea.Width / 2,
+                    From = new Thickness(BorderMain.ActualWidth + BorderMain.Margin.Right, 8, -BorderMain.ActualWidth + BorderMain.Margin.Right, 8),
+                    To = new Thickness(8),
                     Duration = TimeSpan.FromMilliseconds(1000),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
 
-                window.BeginAnimation(LeftProperty, windowAnimation);
+                BorderMain.BeginAnimation(MarginProperty, marginAnimation);
             }
 
             timetableScrollTimer.Tick += TimetableScrollTimer_Tick;
@@ -195,15 +195,13 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private void SetWindowSize()
+        private void SetWindowVerticalSize()
         {
-            Height = System.Windows.SystemParameters.WorkArea.Height;
-            Width = System.Windows.SystemParameters.WorkArea.Width / 2;
+            Height = SystemParameters.WorkArea.Height;
             Top = 0;
-            Left = Width;
         }
 
-        private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
             window.BeginAnimation(LeftProperty, null);
 
@@ -218,9 +216,13 @@ namespace ZongziTEK_Blackboard_Sticker
                 EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
             };
             BeginAnimation(LeftProperty, leftAnimation);
+
+            await Task.Delay(500);
+
+            window.BeginAnimation(LeftProperty, null);
         }
 
-        private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
         {
             window.BeginAnimation(LeftProperty, null);
 
@@ -235,6 +237,10 @@ namespace ZongziTEK_Blackboard_Sticker
                 EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
             };
             BeginAnimation(LeftProperty, leftAnimation);
+
+            await Task.Delay(500);
+
+            window.BeginAnimation(LeftProperty, null);
         }
 
         /*private DispatcherTimer windowTimer = new DispatcherTimer() // 强力置底，可能导致界面闪烁
@@ -2098,69 +2104,59 @@ namespace ZongziTEK_Blackboard_Sticker
             return false;
         }
 
-        /*public static string GetBNSPath()
+        public void SwitchLookMode(int mode)
         {
-            string keyPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\{92ECD1B1-7ACD-4523-836F-D1F98FB9AF39}_is1";
-            string valueName = "InstallLocation";
-
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath))
-            {
-                if (key != null)
-                {
-                    object value = key.GetValue(valueName);
-                    if (value != null)
-                    {
-                        return value.ToString() + "bns.exe";
-                    }
-                }
-            }
-
-            return null;
-        }*/
-
-        public static void SwitchLookMode(int mode)
-        {
-            MainWindow window = Application.Current.MainWindow as MainWindow;
+            double liteModeWidth = ColumnLauncher.ActualWidth;
 
             switch (mode)
             {
                 case 0: // 默认
-                    window.BorderMain.ClearValue(WidthProperty);
-                    window.BorderMain.ClearValue(HorizontalAlignmentProperty);
-                    window.iconSwitchLeft.Visibility = Visibility.Visible;
+                    BorderMain.ClearValue(WidthProperty);
+                    BorderMain.ClearValue(HorizontalAlignmentProperty);
+                    iconSwitchLeft.Visibility = Visibility.Visible;
+                    iconSwitchRight.Visibility = Visibility.Collapsed;
 
-                    window.ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
-                    window.ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
-                    window.ColumnClock.Width = GridLength.Auto;
+                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnClock.Width = GridLength.Auto;
 
-                    window.frameInfoNavigationTimer.Start();
+                    frameInfoNavigationTimer.Start();
+
+                    Width = SystemParameters.WorkArea.Width / 2;
+                    Left = Width;
                     break;
 
                 case 1: // 简约（顶部为时钟）
-                    window.BorderMain.Width = window.ColumnLauncher.ActualWidth;
-                    window.BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    window.iconSwitchRight_MouseDown(null, null);
-                    window.iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    BorderMain.Width = liteModeWidth;
+                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    iconSwitchRight.Visibility = Visibility.Collapsed;
 
-                    window.ColumnCanvas.Width = new GridLength(0);
-                    window.ColumnInfoBoard.Width = new GridLength(0);
-                    window.ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnInfoBoard.Width = new GridLength(0);
+                    ColumnClock.Width = new GridLength(1, GridUnitType.Star);
 
-                    window.frameInfoNavigationTimer.Stop();
-                    if (window.frameInfoPages.Count > 0) window.FrameInfo.Navigate(window.frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+                    frameInfoNavigationTimer.Stop();
+                    if (frameInfoPages.Count > 0) FrameInfo.Navigate(frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+
+                    Width = liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right;
+                    Left = SystemParameters.WorkArea.Width - ActualWidth;
                     break;
 
                 case 2: // 简约（顶部为看板）
-                    window.BorderMain.Width = window.ColumnLauncher.ActualWidth;
-                    window.BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    window.iconSwitchRight_MouseDown(null, null);
-                    window.iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    BorderMain.Width = liteModeWidth;
+                    BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
+                    iconSwitchLeft.Visibility = Visibility.Collapsed;
+                    iconSwitchRight.Visibility = Visibility.Collapsed;
 
-                    window.ColumnCanvas.Width = new GridLength(0);
-                    window.ColumnClock.Width = new GridLength(0);
-                    window.ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnClock.Width = new GridLength(0);
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
 
-                    window.frameInfoNavigationTimer.Start();
+                    frameInfoNavigationTimer.Start();
+
+                    Width = liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right;
+                    Left = SystemParameters.WorkArea.Width - ActualWidth;
                     break;
             }
         }

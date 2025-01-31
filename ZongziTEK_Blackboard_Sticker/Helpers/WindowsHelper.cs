@@ -121,7 +121,8 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         {
             WindowChrome windowChrome = new()
             {
-                GlassFrameThickness = new(-1)
+                GlassFrameThickness = new(-1),
+                CaptionHeight = 0
             };
             WindowChrome.SetWindowChrome(window, windowChrome);
 
