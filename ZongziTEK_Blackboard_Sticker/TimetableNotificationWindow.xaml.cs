@@ -257,6 +257,14 @@ namespace ZongziTEK_Blackboard_Sticker
                 Duration = TimeSpan.FromMilliseconds(50)
             };
 
+            CornerRadiusAnimation cornerRadiusAnimation = new()
+            {
+                From = BorderNotification.CornerRadius,
+                To = new CornerRadius(24),
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
+            };
+
             GridBig.BeginAnimation(OpacityProperty, bigOpacityAnimation);
             BorderShadowEffect.BeginAnimation(OpacityProperty, bigOpacityAnimation);
             RectangleProgressBar.BeginAnimation(OpacityProperty, barOpacityHideAnimation);
@@ -266,7 +274,7 @@ namespace ZongziTEK_Blackboard_Sticker
             BorderNotification.BeginAnimation(HeightProperty, heightAnimation);
             BorderNotification.BeginAnimation(MarginProperty, marginAnimation);
             BorderNotification.BeginAnimation(OpacityProperty, notificationOpacityAnimation);
-            ClipHelper.SetCornerRadius(BorderNotification, new CornerRadius(8));
+            BorderNotification.BeginAnimation(ClipHelper.CornerRadiusProperty, cornerRadiusAnimation);
 
             await Task.Delay(500);
 
@@ -282,7 +290,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = BorderNotification.ActualWidth * (timeLeft.TotalSeconds / totalTime.TotalSeconds),
                 To = 0,
-                Duration = totalTime
+                Duration = timeLeft
             };
             RectangleProgressBar.BeginAnimation(WidthProperty, barWidthAnimation);
             RectangleProgressBar.BeginAnimation(OpacityProperty, barOpacityAppearAnimation);

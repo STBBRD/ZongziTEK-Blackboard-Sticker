@@ -44,8 +44,14 @@
                     <TextBlock Name="TextTime" Grid.Column="2" Foreground="White" FontSize="64" d:Text="30" VerticalAlignment="Center" Margin="48,0" FontFamily="Resources/#Digital-7 Mono"/>
                 </Grid>
                 <Grid Name="GridSmall" Width="480" Height="48" Visibility="Collapsed" d:Visibility="Visible" VerticalAlignment="Top">
-                    <TextBlock Text="{Binding Text, ElementName=TextTitle}" Foreground="White" VerticalAlignment="Center" FontSize="22" Margin="16,0" HorizontalAlignment="Left" FontWeight="Bold"/>
-                    <TextBlock Opacity="{Binding Opacity, ElementName=TextTime}" Text="{Binding Text, ElementName=TextTime}" FontFamily="{Binding FontFamily, ElementName=TextTime}" Foreground="White" VerticalAlignment="Center" FontSize="24" Margin="16,0" HorizontalAlignment="Right"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <ui:FontIcon Grid.Column="0" FontSize="32" Foreground="White" Icon="{x:Static ui:FluentSystemIcons.Alert_32_Regular}" Margin="12,0,8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Text, ElementName=TextTitle}" Foreground="White" VerticalAlignment="Center" FontSize="22" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <TextBlock Grid.Column="1" Opacity="{Binding Opacity, ElementName=TextTime}" Text="{Binding Text, ElementName=TextTime}" FontFamily="{Binding FontFamily, ElementName=TextTime}" Foreground="White" VerticalAlignment="Center" FontSize="24" Margin="24,0" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Border>

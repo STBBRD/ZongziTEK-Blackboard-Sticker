@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\CornerRadiusAnimation.cs" />
     <Compile Include="Controls\Cards\GenericSettingsCard.xaml.cs">
       <DependentUpon>GenericSettingsCard.xaml</DependentUpon>
     </Compile>
