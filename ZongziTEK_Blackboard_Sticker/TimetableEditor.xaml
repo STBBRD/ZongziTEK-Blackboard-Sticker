@@ -53,7 +53,7 @@
 
         <Border Grid.Row="1" Height="52" Margin="16,4,16,0" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                 Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}">
-            <Grid Margin="16,8">
+            <Grid Margin="8">
                 <ikw:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
                     <ComboBox Name="ComboBoxDay" Width="100" HorizontalAlignment="Left" SelectionChanged="ComboBoxDay_SelectionChanged">
                         <ComboBoxItem Content="周一"/>

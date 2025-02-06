@@ -26,7 +26,7 @@
 
         <Border Grid.Row="1" Height="52" Margin="16,4,16,8" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
                 Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" Visibility="{Binding Visibility, ElementName=ListScrollViewer}">
-            <Grid Margin="16,8">
+            <Grid Margin="8">
                 <ikw:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
                     <Button Width="32" Height="32" Padding="0" BorderThickness="0" Background="#00000000" Click="ButtonRefresh_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_20_Regular}"/>
