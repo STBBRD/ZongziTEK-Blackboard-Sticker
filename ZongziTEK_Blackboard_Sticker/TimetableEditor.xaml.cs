@@ -417,7 +417,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
-        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        private void MenuItemImportFromTimetable_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new()
             {
@@ -436,6 +436,36 @@ namespace ZongziTEK_Blackboard_Sticker
                         {
                             string text = File.ReadAllText(openFileDialog.FileName);
                             Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                            LoadTimetable();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void MenuItemImportFromCses_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "导入课程表",
+                FileName = "Timetable.yaml",
+                Filter = "CSES 档案文件 (*.yaml)|*.yaml|所有文件 (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    try
+                    {
+                        if (MessageBox.Show("这里原有的课程将被覆盖", "确定要导入吗？", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        {
+                            string text = File.ReadAllText(openFileDialog.FileName);
+                            Timetable = Timetable.ConvertFromCses(text);
                             LoadTimetable();
                         }
                     }

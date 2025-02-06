@@ -90,8 +90,15 @@
                     <Button Name="ButtonExport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonExport_Click">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowExportRtl_20_Regular}"/>
                     </Button>
-                    <Button Name="ButtonImport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0" Click="ButtonImport_Click">
+                    <Button Name="ButtonImport" BorderThickness="0" Background="#00000000" Width="32" Height="32" Padding="0">
                         <ui:FontIcon Icon="{x:Static ui:FluentSystemIcons.ArrowImport_20_Regular}"/>
+
+                        <ui:FlyoutService.Flyout>
+                            <ui:MenuFlyout>
+                                <MenuItem Click="MenuItemImportFromTimetable_Click" Header="导入黑板贴课程表"/>
+                                <MenuItem Click="MenuItemImportFromCses_Click" Header="导入 CSES 档案" IsEnabled="False"/>
+                            </ui:MenuFlyout>
+                        </ui:FlyoutService.Flyout>
                     </Button>
                 </ikw:SimpleStackPanel>
                 <Button Style="{StaticResource AccentButtonStyle}" Height="32" HorizontalAlignment="Right" Click="ButtonSave_Click">

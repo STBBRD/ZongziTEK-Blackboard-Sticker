@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using CsesSharp;
+using CsesSharp.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -36,12 +34,59 @@ namespace ZongziTEK_Blackboard_Sticker
             return curriculums;
         }
 
-        public void Sort(Timetable timetable)
+        public static void Sort(Timetable timetable)
         {
             foreach (List<Lesson> day in new[] { timetable.Monday, timetable.Tuesday, timetable.Wednesday, timetable.Thursday, timetable.Friday, timetable.Saturday, timetable.Sunday, timetable.Temp })
             {
                 day.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
             }
+        }
+
+        public static Timetable ConvertFromCses(string csesText)
+        {
+            Timetable timetable = new Timetable();
+            Profile profile = CsesLoader.LoadFromYamlString(csesText);
+
+            if (profile != null)
+            {
+                foreach (Schedule schedule in profile.Schedules)
+                {
+                    List<Lesson> targetDay = new();
+                    switch (schedule.EnableDay)
+                    {
+                        case DayOfWeek.Monday:
+                            targetDay = timetable.Monday;
+                            break;
+                        case DayOfWeek.Tuesday:
+                            targetDay = timetable.Tuesday;
+                            break;
+                        case DayOfWeek.Wednesday:
+                            targetDay = timetable.Wednesday;
+                            break;
+                        case DayOfWeek.Thursday:
+                            targetDay = timetable.Thursday;
+                            break;
+                        case DayOfWeek.Friday:
+                            targetDay = timetable.Friday;
+                            break;
+                        case DayOfWeek.Saturday:
+                            targetDay = timetable.Saturday;
+                            break;
+                        case DayOfWeek.Sunday:
+                            targetDay = timetable.Sunday;
+                            break;
+                    }
+
+                    targetDay.Clear();
+                    foreach (ClassInfo classInfo in schedule.Classes)
+                    {
+                        targetDay.Add(Lesson.ConvertFromCsesClass(classInfo));
+                    }
+                }
+                Sort(timetable);
+            }
+
+            return timetable;
         }
     }
 
@@ -60,6 +105,13 @@ namespace ZongziTEK_Blackboard_Sticker
             EndTime = endTime;
             IsSplitBelow = isSplitBelow;
             IsStrongClassOverNotificationEnabled = isStrongClassOverNotificationEnabled;
+        }
+
+        public static Lesson ConvertFromCsesClass(ClassInfo classInfo)
+        {
+            if (classInfo == null) return new("", new(), new(), false, false);
+            Lesson lesson = new(classInfo.Subject, classInfo.StartTime, classInfo.EndTime, false, false);
+            return lesson;
         }
     }
 }
