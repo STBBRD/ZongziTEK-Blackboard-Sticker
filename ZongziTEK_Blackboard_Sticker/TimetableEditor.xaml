@@ -96,7 +96,7 @@
                         <ui:FlyoutService.Flyout>
                             <ui:MenuFlyout>
                                 <MenuItem Click="MenuItemImportFromTimetable_Click" Header="导入黑板贴课程表"/>
-                                <MenuItem Click="MenuItemImportFromCses_Click" Header="导入 CSES 档案" IsEnabled="False"/>
+                                <MenuItem Click="MenuItemImportFromCses_Click" Header="导入 CSES 档案"/>
                             </ui:MenuFlyout>
                         </ui:FlyoutService.Flyout>
                     </Button>

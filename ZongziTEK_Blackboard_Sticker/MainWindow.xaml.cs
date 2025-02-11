@@ -2137,9 +2137,9 @@ namespace ZongziTEK_Blackboard_Sticker
                     ColumnClock.Width = new GridLength(1, GridUnitType.Star);
 
                     frameInfoNavigationTimer.Stop();
-                    if (frameInfoPages.Count > 0) FrameInfo.Navigate(frameInfoPages[0]);  //切换到日期页面防止继续调用天气 API
+                    if (frameInfoPages.Count > 0) FrameInfo.Navigate(frameInfoPages[0]);  // 切换到日期页面防止继续调用天气 API
 
-                    Width = liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right;
+                    Width = (liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right) * windowScale.ScaleX;
                     Left = SystemParameters.WorkArea.Width - ActualWidth;
                     break;
 
@@ -2155,7 +2155,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                     frameInfoNavigationTimer.Start();
 
-                    Width = liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right;
+                    Width = (liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right) * windowScale.ScaleX;
                     Left = SystemParameters.WorkArea.Width - ActualWidth;
                     break;
             }

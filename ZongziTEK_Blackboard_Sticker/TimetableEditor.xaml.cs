@@ -453,7 +453,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 Title = "导入课程表",
                 FileName = "Timetable.yaml",
-                Filter = "CSES 档案文件 (*.yaml)|*.yaml|所有文件 (*.*)|*.*"
+                Filter = "CSES 档案文件 (*.yaml;*.yml)|*.yaml;*.yml|所有文件 (*.*)|*.*"
             };
 
             if (openFileDialog.ShowDialog() == true)
