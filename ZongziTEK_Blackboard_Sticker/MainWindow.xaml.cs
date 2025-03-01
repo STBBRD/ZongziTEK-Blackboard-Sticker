@@ -139,6 +139,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
+            SwitchLookMode(0);
             SwitchLookMode(Settings.Look.LookMode);
 
             if (Settings.Look.IsAnimationEnhanced)
