@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using ZongziTEK_Blackboard_Sticker.Helpers;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -25,6 +26,15 @@ namespace ZongziTEK_Blackboard_Sticker
         public FullScreenClock()
         {
             InitializeComponent();
+
+            if (MainWindow.Settings.Look.IsWindowChromeDisabled) // AllowTransparency
+            {
+                WindowsHelper.SetAllowTransparency(this);
+            }
+            else // WindowChrome
+            {
+                WindowsHelper.SetWindowChrome(this);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
