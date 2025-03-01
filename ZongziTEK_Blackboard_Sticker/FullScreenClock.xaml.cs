@@ -47,7 +47,7 @@ namespace ZongziTEK_Blackboard_Sticker
             };
             ViewboxClock.BeginAnimation(MarginProperty, clockMarginAnimation);
 
-            textBlockBigClock.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            textBlockBigClock.Text = DateTime.Now.ToString(("HH':'mm':'ss"));
 
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += new EventHandler(Clock);
@@ -56,7 +56,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void Clock(object sender, EventArgs e)
         {
-            textBlockBigClock.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            textBlockBigClock.Text = DateTime.Now.ToString(("HH':'mm':'ss"));
         }
 
         private DispatcherTimer clockTimer;

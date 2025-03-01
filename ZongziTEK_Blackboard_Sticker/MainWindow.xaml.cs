@@ -93,7 +93,7 @@ namespace ZongziTEK_Blackboard_Sticker
             if (Settings.Update.IsUpdateAutomatic) CheckUpdate();
 
             // 看板
-            textBlockTime.Text = DateTime.Now.ToString(("HH:mm:ss"));
+            textBlockTime.Text = DateTime.Now.ToString(("HH':'mm':'ss"));
             clockTimer = new DispatcherTimer();
             clockTimer.Tick += ClockTimer_Tick;
             clockTimer.Interval = new TimeSpan(0, 0, 0, 0, 5);
@@ -1542,7 +1542,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Clock
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            textBlockTime.Text = DateTime.Now.ToString("HH:mm:ss");
+            textBlockTime.Text = DateTime.Now.ToString("HH':'mm':'ss");
         }
 
         private DispatcherTimer clockTimer;
