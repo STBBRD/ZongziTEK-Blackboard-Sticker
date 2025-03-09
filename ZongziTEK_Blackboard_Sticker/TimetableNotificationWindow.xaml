@@ -51,7 +51,7 @@
 
                     <ui:FontIcon Grid.Column="0" FontSize="32" Foreground="White" Icon="{x:Static ui:FluentSystemIcons.Alert_32_Regular}" Margin="12,0,8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="1" Text="{Binding Text, ElementName=TextTitle}" Foreground="White" VerticalAlignment="Center" FontSize="22" HorizontalAlignment="Left" FontWeight="Bold"/>
-                    <TextBlock Grid.Column="1" Opacity="{Binding Opacity, ElementName=TextTime}" Text="{Binding Text, ElementName=TextTime}" FontFamily="{Binding FontFamily, ElementName=TextTime}" Foreground="White" VerticalAlignment="Center" FontSize="24" Margin="24,0" HorizontalAlignment="Right"/>
+                    <TextBlock Grid.Column="1" Visibility="{Binding Visibility, ElementName=TextTime}" Opacity="{Binding Opacity, ElementName=TextTime}" Text="{Binding Text, ElementName=TextTime}" FontFamily="{Binding FontFamily, ElementName=TextTime}" Foreground="White" VerticalAlignment="Center" FontSize="24" Margin="24,0" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Border>

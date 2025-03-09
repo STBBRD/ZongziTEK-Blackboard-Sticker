@@ -142,7 +142,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = new Thickness(0, -Height, 0, 0),
                 To = new Thickness(0),
-                Duration = TimeSpan.FromMilliseconds(750),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
@@ -166,7 +166,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = new Thickness(0),
                 To = new Thickness(0, -Height, 0, 0),
-                Duration = TimeSpan.FromMilliseconds(750),
+                Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
             };
 
