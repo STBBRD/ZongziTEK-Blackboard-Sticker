@@ -70,20 +70,17 @@ namespace ZongziTEK_Blackboard_Sticker
         }
 
         private DispatcherTimer clockTimer;
-        bool isBorderCloseBigClockShowing = false;
+        bool isBorderToolBarShowing = false;
         private async void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!isBorderCloseBigClockShowing)
+            if (!isBorderToolBarShowing)
             {
-                isBorderCloseBigClockShowing = true;
-                BorderCloseBigClock.Opacity = 0;
-                BorderCloseBigClock.Margin = new Thickness(150);
-                BorderCloseBigClock.Visibility = Visibility.Visible;
+                isBorderToolBarShowing = true;
 
                 var BorderCloseBigClockThicknessAnimation = new ThicknessAnimation()
                 {
-                    From = new Thickness(150),
-                    To = new Thickness(200),
+                    From = new Thickness(136),
+                    To = new Thickness(144),
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
@@ -96,21 +93,22 @@ namespace ZongziTEK_Blackboard_Sticker
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
 
-                BorderCloseBigClock.BeginAnimation(MarginProperty, BorderCloseBigClockThicknessAnimation);
-                BorderCloseBigClock.BeginAnimation(OpacityProperty, BorderCloseBigClockDoubleAnimation);
+                BorderToolBar.Visibility = Visibility.Visible;
+                BorderToolBar.BeginAnimation(MarginProperty, BorderCloseBigClockThicknessAnimation);
+                BorderToolBar.BeginAnimation(OpacityProperty, BorderCloseBigClockDoubleAnimation);
 
 
                 await Task.Delay(1500);
 
-                var BorderCloseBigClockExitThicknessAnimation = new ThicknessAnimation()
+                var BorderToolBarThicknessAnimation = new ThicknessAnimation()
                 {
-                    From = new Thickness(200),
-                    To = new Thickness(150),
+                    From = new Thickness(144),
+                    To = new Thickness(136),
                     Duration = new Duration(TimeSpan.FromMilliseconds(250)),
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
                 };
 
-                var BorderCloseBigClockExitDoubleAnimation = new DoubleAnimation()
+                var BorderToolBarDoubleAnimation = new DoubleAnimation()
                 {
                     From = 1,
                     To = 0,
@@ -118,18 +116,18 @@ namespace ZongziTEK_Blackboard_Sticker
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
                 };
 
-                BorderCloseBigClock.BeginAnimation(MarginProperty, BorderCloseBigClockExitThicknessAnimation);
-                BorderCloseBigClock.BeginAnimation(OpacityProperty, BorderCloseBigClockExitDoubleAnimation);
+                BorderToolBar.BeginAnimation(MarginProperty, BorderToolBarThicknessAnimation);
+                BorderToolBar.BeginAnimation(OpacityProperty, BorderToolBarDoubleAnimation);
 
                 await Task.Delay(250);
 
-                BorderCloseBigClock.Visibility = Visibility.Collapsed;
+                BorderToolBar.Visibility = Visibility.Collapsed;
 
-                isBorderCloseBigClockShowing = false;
+                isBorderToolBarShowing = false;
             }
         }
 
-        private async void BorderCloseBigClock_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
             DoubleAnimation opacityAnimation = new()
             {

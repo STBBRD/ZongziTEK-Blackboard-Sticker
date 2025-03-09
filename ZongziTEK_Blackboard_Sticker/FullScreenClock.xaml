@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴 - 全屏时钟" Height="450" Width="800" Top="0" Left="0" Margin="0,0,2,0"
-        ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded" AllowsTransparency="True">
+        Title="ZongziTEK 黑板贴 - 全屏时钟" d:Height="900" d:Width="1600" Top="0" Left="0" Margin="0,0,2,0"
+        ResizeMode="NoResize" WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded" AllowsTransparency="True" 
+        ui:ThemeManager.RequestedTheme="Dark">
     <Grid Background="Black" MouseDown="Grid_MouseDown">
         <Grid>
             <Viewbox Name="ViewboxClock" Margin="100">
@@ -15,19 +17,13 @@
                        x:FieldModifier="public"/>
             </Viewbox>
         </Grid>
-        <Border x:Name="BorderCloseBigClock" Width="200" Height="50" CornerRadius="4" VerticalAlignment="Bottom" Margin="100"
-                MouseDown="BorderCloseBigClock_MouseDown" Visibility="Collapsed">
-            <Border.Effect>
-                <DropShadowEffect Color="#FF00E7FF" BlurRadius="10" ShadowDepth="4" Opacity="0.5" Direction="270"/>
-            </Border.Effect>
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0,0" StartPoint="0.5,1">
-                    <GradientStop Color="#FF0C9DFF"/>
-                    <GradientStop Color="#FF00E7FF" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <TextBlock Text="点击此处关闭时钟" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20">
-            </TextBlock>
+        <Border x:Name="BorderToolBar" CornerRadius="6" VerticalAlignment="Bottom" Margin="144"
+                Visibility="Collapsed" d:Visibility="Visible" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" HorizontalAlignment="Center">
+            <ikw:SimpleStackPanel Margin="8" Spacing="8">
+                <Button x:Name="ButtonExit" Click="ButtonExit_Click">
+                    <ui:IconAndText Icon="{x:Static ui:FluentSystemIcons.ArrowExit_20_Regular}" Content="关闭"/>
+                </Button>
+            </ikw:SimpleStackPanel>
         </Border>
     </Grid>
 </Window>
