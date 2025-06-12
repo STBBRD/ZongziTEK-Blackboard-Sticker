@@ -137,15 +137,15 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromMilliseconds(500),
+                Duration = TimeSpan.FromMilliseconds(1000),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
             ThicknessAnimation marginAnimationIn = new()
             {
-                From = new Thickness(100, 144, 100, 56),
-                To = new Thickness(100),
-                Duration = TimeSpan.FromMilliseconds(500),
+                From = new Thickness(200, 288, 200, 112),
+                To = new Thickness(200),
+                Duration = TimeSpan.FromMilliseconds(1000),
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
@@ -153,27 +153,27 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromMilliseconds(250),
-                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
             ThicknessAnimation marginAnimationOut = new()
             {
-                From = new Thickness(100),
-                To = new Thickness(88),
-                Duration = TimeSpan.FromMilliseconds(250),
-                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn }
+                From = new Thickness(200),
+                To = new Thickness(144),
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
             ViewboxSplashScreen.BeginAnimation(OpacityProperty, opacityAnimationIn);
             ViewboxSplashScreen.BeginAnimation(MarginProperty, marginAnimationIn);
 
-            await Task.Delay(1250);
+            await Task.Delay(2000);
 
             ViewboxSplashScreen.BeginAnimation(MarginProperty, marginAnimationOut);
             GridSplashScreen.BeginAnimation(OpacityProperty, opacityAnimationOut);
 
-            await Task.Delay(250);
+            await Task.Delay(500);
 
             GridSplashScreen.Visibility = Visibility.Collapsed;
         }

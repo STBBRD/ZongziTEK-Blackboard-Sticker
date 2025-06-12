@@ -1888,7 +1888,7 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Check
-        private void SystemEvents_UserPreferenceChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (Settings.Look.Theme == 0) SetTheme();
         }

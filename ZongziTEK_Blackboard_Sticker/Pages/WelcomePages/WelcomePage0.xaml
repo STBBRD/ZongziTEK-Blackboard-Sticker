@@ -14,7 +14,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="ImageEmoji" Grid.Column="0" Source="../../Resources/Emojis/smiling-face-with-heart-eyes.png" Margin="48"/>
+        <Image x:Name="ImageEmoji" Grid.Column="0" Source="../../Resources/Emojis/smiling-face-with-heart-eyes.png" Margin="96"/>
 
         <ikw:SimpleStackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="32" Spacing="12">
             <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" Text="嗨！来完成对黑板贴的初始设置吧" FontSize="40" TextWrapping="Wrap"/>

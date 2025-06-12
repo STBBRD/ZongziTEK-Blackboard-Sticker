@@ -14,7 +14,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="ImageEmoji" Grid.Column="0" Source="../../Resources/Emojis/party-popper.png" Margin="48"/>
+        <Image x:Name="ImageEmoji" Grid.Column="0" Source="../../Resources/Emojis/party-popper.png" Margin="96"/>
 
         <ikw:SimpleStackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="32" Spacing="12">
             <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" Text="轰！嚓嚓！你已经完成了初始设置" FontSize="40" TextWrapping="Wrap"/>

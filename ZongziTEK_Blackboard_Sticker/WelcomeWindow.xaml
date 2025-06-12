@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
         xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
         mc:Ignorable="d"
-        Title="ZongziTEK 黑板贴 - 初始化设置" Height="450" Width="800" MinHeight="450" MinWidth="800"
+        Title="ZongziTEK 黑板贴 - 初始化设置" Height="600" Width="800" MinHeight="600" MinWidth="800"
         ui:WindowHelper.FixMaximizedWindow="False" ui:WindowHelper.UseModernWindowStyle="True" ui:WindowHelper.SystemBackdropType="Mica" ui:TitleBar.MaximizeButtonAvailability="Collapsed"
         ui:TitleBar.Height="48" ui:TitleBar.ExtendViewIntoTitleBar="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
@@ -56,11 +56,10 @@
                 <TextBlock Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}" Text="返回"/>
             </ikw:SimpleStackPanel>
         </Button>
-        <Grid x:Name="GridSplashScreen" Grid.RowSpan="3" Background="{DynamicResource OtherPanelsBackgroundColor}" d:Visibility="Collapsed">
-            <Viewbox x:Name="ViewboxSplashScreen" Margin="100" Opacity="0">
+        <Grid x:Name="GridSplashScreen" Grid.RowSpan="3" Background="{DynamicResource OtherPanelsBackgroundColor}" d:Visibility="Visible">
+            <Viewbox x:Name="ViewboxSplashScreen" Margin="200">
                 <ikw:SimpleStackPanel Spacing="24">
                     <Image Source="黑板贴.png"/>
-                    <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="黑板贴" HorizontalAlignment="Center" FontSize="100"/>
                 </ikw:SimpleStackPanel>
             </Viewbox>
         </Grid>

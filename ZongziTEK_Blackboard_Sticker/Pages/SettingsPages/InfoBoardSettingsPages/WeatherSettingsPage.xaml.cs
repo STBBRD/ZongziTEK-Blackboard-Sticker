@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iNKORE.UI.WPF.Modern.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Page = System.Windows.Controls.Page;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPages
 {
@@ -25,20 +27,18 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPage
             InitializeComponent();
 
             DataContext = MainWindow.Settings.InfoBoard;
-            LastCity = MainWindow.Settings.InfoBoard.WeatherCity.ToString();
         }
 
-        private string LastCity;
-
-        private void TextBoxCity_TextChanged(object sender, RoutedEventArgs e)
+        private async void ButtonEditWeatherCity_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.SaveSettings();
-
-            if (MainWindow.Settings.InfoBoard.WeatherCity != LastCity)
+            ContentDialog weatherCityPickerDialog = new()
             {
-                (Application.Current.MainWindow as MainWindow).SwitchFrameInfoPage();
-                LastCity = MainWindow.Settings.InfoBoard.WeatherCity;
-            }
+                Title = "选择城市或行政区",
+                CloseButtonText = "完成",
+                DefaultButton = ContentDialogButton.Close,
+                Content = new Controls.DialogContents.WeatherCityPicker()
+            };
+            await weatherCityPickerDialog.ShowAsync();
         }
     }
 }
