@@ -53,6 +53,65 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         }
     }
 
+    public class XiaomiWeather
+    {
+        [JsonProperty("current")] public Current Current { get; set; }
+    }
+
+    public class Current
+    {
+        [JsonProperty("weather")] public string Weather { get; set; }
+        [JsonProperty("uvIndex")] public string UvIndex { get; set; }
+        [JsonProperty("pubTime")] public string PubTime { get; set; }
+        [JsonProperty("feelsLike")] public FeelsLike FeelsLike { get; set; }
+        [JsonProperty("humidity")] public Humidity Humidity { get; set; }
+        [JsonProperty("pressure")] public Pressure Pressure { get; set; }
+        [JsonProperty("temperature")] public Temperature Temperature { get; set; }
+        [JsonProperty("visibility")] public Visibility Visibility { get; set; }
+        [JsonProperty("wind")] public Wind Wind { get; set; }
+    }
+
+    public class FeelsLike
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Humidity
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Pressure
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Temperature
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Visibility
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Wind
+    {
+        [JsonProperty("direction")] public Direction Direction { get; set; }
+        [JsonProperty("speed")] public Speed Speed { get; set; }
+    }
+    public class Direction
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+    public class Speed
+    {
+        [JsonProperty("unit")] public string Unit { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
+    }
+
     public class CityCodeToNameConverter : IValueConverter
     {
         private static readonly List<City> Cities = GetWeatherCityData().Cities.ToList();

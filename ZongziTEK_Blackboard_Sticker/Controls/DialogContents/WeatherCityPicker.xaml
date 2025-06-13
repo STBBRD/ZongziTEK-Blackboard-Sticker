@@ -17,7 +17,7 @@
         <TextBox x:Name="TextBoxSearch" Grid.Row="0" Margin="12" ui:ControlHelper.PlaceholderText="搜索城市或行政区" TextChanged="TextBoxSearch_TextChanged"/>
         <ui:ProgressRing x:Name="ProgressRing" Grid.Row="1" Visibility="Collapsed" d:Visibility="Visible" IsIndeterminate="True"/>
         <TextBlock x:Name="TextNoResult" Text="无结果" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.75" Visibility="Collapsed"/>
-        <ui:ScrollViewerEx Grid.Row="1" Margin="12">
+        <ui:ScrollViewerEx x:Name="ScrollViewerSearchResult" Grid.Row="1" Margin="12">
             <ikw:SimpleStackPanel x:Name="StackPanelSearchResult" Spacing="8"/>
         </ui:ScrollViewerEx>
     </Grid>

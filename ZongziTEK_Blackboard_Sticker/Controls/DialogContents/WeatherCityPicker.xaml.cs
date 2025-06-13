@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ZongziTEK_Blackboard_Sticker.Helpers;
+using System.Windows.Threading;
 using iNKORE.UI.WPF.Controls;
 using static ZongziTEK_Blackboard_Sticker.Helpers.WeatherHelper;
 
@@ -32,7 +24,7 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
             FilterCitiesAsync();
         }
 
-        WeatherCityData weatherCityData = new();
+        private WeatherCityData weatherCityData = new();
         private List<City> filteredCities = new();
         private System.Threading.Timer searchDelayTimer;
 
@@ -43,7 +35,6 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // 延迟搜索，避免频繁触发
             searchDelayTimer?.Dispose();
             searchDelayTimer = new System.Threading.Timer(_ =>
             {
@@ -53,6 +44,7 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
 
         private void FilterCities()
         {
+            StackPanelSearchResult.Children.Clear();
             string searchText = TextBoxSearch.Text;
 
             if (string.IsNullOrWhiteSpace(searchText))
@@ -73,16 +65,10 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
                 .Where(p => filteredProvinceIds.Contains(p.Id - 1))
                 .ToList();
 
-            StackPanelSearchResult.Children.Clear();
-
             if (filteredCities.Count == 0)
             {
                 TextNoResult.Visibility = Visibility.Visible;
                 return;
-            }
-            else
-            {
-                TextNoResult.Visibility = Visibility.Collapsed;
             }
 
             foreach (Province province in filteredProvinces)
@@ -94,9 +80,10 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
                 Expander expander = new()
                 {
                     Header = province.Name,
-                    Padding = new Thickness(8),
-                    Content = new SimpleStackPanel() { Spacing = 4 }
+                    Padding = new Thickness(8)
                 };
+
+                SimpleStackPanel stackPanel = new() { Spacing = 4 };
 
                 if (citiesInProvince.Count != 0)
                 {
@@ -111,14 +98,17 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
                         if (city.CityCode == MainWindow.Settings.InfoBoard.WeatherCity)
                         {
                             radioButton.IsChecked = true;
+                            expander.IsExpanded = true;
                         }
 
                         radioButton.Checked += RadioButton_Checked;
 
-                        ((SimpleStackPanel)expander.Content).Children.Add(radioButton);
+                        stackPanel.Children.Add(radioButton);
                     }
                     if (!string.IsNullOrWhiteSpace(searchText)) expander.IsExpanded = true;
                 }
+
+                expander.Content = stackPanel;
                 StackPanelSearchResult.Children.Add(expander);
             }
         }
@@ -130,7 +120,10 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
             {
                 StackPanelSearchResult.Visibility = Visibility.Collapsed;
                 ProgressRing.Visibility = Visibility.Visible;
-                await Dispatcher.InvokeAsync(FilterCities);
+                TextNoResult.Visibility = Visibility.Collapsed;
+
+                await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Render);
+                await Dispatcher.BeginInvoke(FilterCities);
             }
             finally
             {
