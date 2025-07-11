@@ -202,12 +202,19 @@ namespace ZongziTEK_Blackboard_Sticker
             Top = 0;
         }
 
-        private async void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
+        private void iconSwitchLeft_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ActionSwitchLeft();
+        }
+        
+        private async void ActionSwitchLeft()
         {
             window.BeginAnimation(LeftProperty, null);
 
             iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
             iconSwitchRight.Visibility = System.Windows.Visibility.Visible;
+            leftSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
+            leftSwitchRight.Visibility = System.Windows.Visibility.Visible;
 
             DoubleAnimation leftAnimation = new()
             {
@@ -223,17 +230,31 @@ namespace ZongziTEK_Blackboard_Sticker
             window.BeginAnimation(LeftProperty, null);
         }
 
-        private async void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
+        private void iconSwitchRight_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ActionSwitchRight();
+        }
+        
+        private async void ActionSwitchRight()
         {
             window.BeginAnimation(LeftProperty, null);
 
-            iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
             iconSwitchLeft.Visibility = System.Windows.Visibility.Visible;
+            iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+            leftSwitchLeft.Visibility =  System.Windows.Visibility.Visible;
+            leftSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
 
+            double animationEnd = Width;
+            if (Settings.Look.LookMode == 3)
+            {
+                double liteModeWidth = (SystemParameters.WorkArea.Width / 2 - BorderMain.Margin.Left - BorderMain.Margin.Right) / 1.425 * 0.425;
+                animationEnd = SystemParameters.WorkArea.Width - (SystemParameters.WorkArea.Width / 2 - liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right);
+            }
+            
             DoubleAnimation leftAnimation = new()
             {
                 From = Left,
-                To = Width,
+                To = animationEnd,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseInOut }
             };
@@ -256,6 +277,27 @@ namespace ZongziTEK_Blackboard_Sticker
         #endregion
 
         #region Blackboard
+
+        private void leftShowBigClock_Click(object sender, RoutedEventArgs e)
+        {
+            new FullScreenClock().Show();
+        }
+        
+        private void leftSwitchLeft_Click(object sender, RoutedEventArgs e)
+        {
+            ActionSwitchLeft();
+        }
+        
+        private void leftSwitchRight_Click(object sender, RoutedEventArgs e)
+        {
+            ActionSwitchRight();
+        }
+
+        private void leftShowSettingsPanel_Click(object sender, RoutedEventArgs e)
+        {
+            ActionShowSettingsPanel();
+        }
+        
         private void penButton_Click(object sender, RoutedEventArgs e)
         {
             if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
@@ -1735,6 +1777,11 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void iconShowSettingsPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            ActionShowSettingsPanel();
+        }
+        
+        private void ActionShowSettingsPanel()
+        {
             /*if (borderSettingsPanel.Visibility == Visibility.Collapsed) borderSettingsPanel.Visibility = Visibility.Visible;
             else btnHideSettingsPanel_Click(null, null);
 
@@ -1756,6 +1803,7 @@ namespace ZongziTEK_Blackboard_Sticker
         private void WelcomeWindow_Closed(object sender, EventArgs e)
         {
             iconShowSettingsPanel.Visibility = System.Windows.Visibility.Visible;
+            leftShowSettingsPanel.Visibility = System.Windows.Visibility.Visible;
         }
         #endregion
         private void LoadSettings()
@@ -1772,6 +1820,7 @@ namespace ZongziTEK_Blackboard_Sticker
             else
             {
                 iconShowSettingsPanel.Visibility = System.Windows.Visibility.Collapsed;
+                leftShowSettingsPanel.Visibility = System.Windows.Visibility.Collapsed;
                 WelcomeWindow welcomeWindow = new WelcomeWindow();
                 welcomeWindow.Closed += WelcomeWindow_Closed;
                 welcomeWindow.Show();
@@ -2107,7 +2156,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public void SwitchLookMode(int mode)
         {
-            double liteModeWidth = ColumnLauncher.ActualWidth;
+            double liteModeWidth = (SystemParameters.WorkArea.Width / 2 - BorderMain.Margin.Left - BorderMain.Margin.Right) / 1.425 * 0.425;
 
             switch (mode)
             {
@@ -2116,10 +2165,13 @@ namespace ZongziTEK_Blackboard_Sticker
                     BorderMain.ClearValue(HorizontalAlignmentProperty);
                     iconSwitchLeft.Visibility = System.Windows.Visibility.Visible;
                     iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+                    LeftControlPanel.Visibility = System.Windows.Visibility.Collapsed;
 
-                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
-                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
                     ColumnClock.Width = GridLength.Auto;
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnLauncher.Width= new GridLength(0.425, GridUnitType.Star);
+                    Blackboard.Margin = new Thickness(8, 0, 0, 8);
 
                     frameInfoNavigationTimer.Start();
 
@@ -2132,10 +2184,13 @@ namespace ZongziTEK_Blackboard_Sticker
                     BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
                     iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
                     iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+                    LeftControlPanel.Visibility = System.Windows.Visibility.Collapsed;
 
-                    ColumnCanvas.Width = new GridLength(0);
-                    ColumnInfoBoard.Width = new GridLength(0);
                     ColumnClock.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnInfoBoard.Width = new GridLength(0);
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnLauncher.Width= new GridLength(0.425, GridUnitType.Star);
+                    Blackboard.Margin = new Thickness(8, 0, 0, 8);
 
                     frameInfoNavigationTimer.Stop();
                     if (frameInfoPages.Count > 0) FrameInfo.Navigate(frameInfoPages[0]);  // 切换到日期页面防止继续调用天气 API
@@ -2149,14 +2204,36 @@ namespace ZongziTEK_Blackboard_Sticker
                     BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
                     iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
                     iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+                    LeftControlPanel.Visibility = System.Windows.Visibility.Collapsed;
 
-                    ColumnCanvas.Width = new GridLength(0);
                     ColumnClock.Width = new GridLength(0);
                     ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(0);
+                    ColumnLauncher.Width= new GridLength(0.425, GridUnitType.Star);
+                    Blackboard.Margin = new Thickness(8, 0, 0, 8);
 
                     frameInfoNavigationTimer.Start();
 
                     Width = (liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right) * windowScale.ScaleX;
+                    Left = SystemParameters.WorkArea.Width - ActualWidth;
+                    break;
+                
+                case 3: // 简约（仅小黑板）
+                    BorderMain.Width = SystemParameters.WorkArea.Width / 2 - liteModeWidth;
+                    BorderMain.ClearValue(HorizontalAlignmentProperty);
+                    iconSwitchLeft.Visibility = System.Windows.Visibility.Visible;
+                    iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+                    LeftControlPanel.Visibility = System.Windows.Visibility.Visible;
+
+                    ColumnClock.Width = GridLength.Auto;
+                    ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
+                    ColumnLauncher.Width= new GridLength(0);
+                    Blackboard.Margin = new Thickness(8, 0, 8, 8);
+
+                    frameInfoNavigationTimer.Start();
+
+                    Width = SystemParameters.WorkArea.Width / 2 - liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right;
                     Left = SystemParameters.WorkArea.Width - ActualWidth;
                     break;
             }

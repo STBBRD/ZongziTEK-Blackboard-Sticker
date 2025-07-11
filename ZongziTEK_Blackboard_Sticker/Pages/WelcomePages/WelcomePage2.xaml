@@ -63,6 +63,21 @@
                     </ikw:SimpleStackPanel>
                 </Grid>
             </Border>
+            <Border x:Name="BorderLiteWithBlackBoard" CornerRadius="4" BorderThickness="1" Height="64"
+                    Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" BorderBrush="{DynamicResource {x:Static ui:ThemeKeys.ButtonBorderBrushKey}}"
+                    MouseUp="BorderLiteWithBlackBoard_MouseUp">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ui:FontIcon Grid.Column="0" Icon="{x:Static ui:FluentSystemIcons.Whiteboard_20_Regular}"/>
+                    <ikw:SimpleStackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                        <Label Content="简约（仅小黑板）"/>
+                        <Label Content="时钟、信息看板、小黑板" FontSize="12" Opacity="0.75"/>
+                    </ikw:SimpleStackPanel>
+                </Grid>
+            </Border>
         </ikw:SimpleStackPanel>
     </Grid>
 </Page>

@@ -54,7 +54,7 @@
                 </Border>
 
                 <!--小黑板-->
-                <Border Grid.RowSpan="3" Grid.Row="1" Background="{DynamicResource WindowBackgroundColor}" Margin="8,0,0,8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <Border x:Name="Blackboard" Grid.RowSpan="3" Grid.Row="1" Background="{DynamicResource WindowBackgroundColor}" Margin="8,0,0,8" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid>
                         <Border x:Name="borderClearConfirm" Visibility="Collapsed">
                             <ikw:SimpleStackPanel Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -81,6 +81,25 @@
                             <Grid>
                                 <Label Content="小黑板" VerticalAlignment="Center" Margin="8,0" FontSize="20"/>
                                 <ikw:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="8,0">
+                                    <ikw:SimpleStackPanel Name="LeftControlPanel" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0">
+                                        <Button Click="leftShowBigClock_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                                                Width="32" Height="32" Padding="0">
+                                            <ui:FontIcon FontSize="24" Icon="{x:Static ui:FluentSystemIcons.Clock_20_Regular}"/>
+                                        </Button>
+                                        <Button Name="leftSwitchLeft" Click="leftSwitchLeft_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                                                Width="32" Height="32" Padding="0">
+                                            <ui:FontIcon FontSize="24" Icon="{x:Static ui:FluentSystemIcons.ChevronLeft_24_Regular}"/>
+                                        </Button>
+                                        <Button Name="leftSwitchRight" Click="leftSwitchRight_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                                                Width="32" Height="32" Padding="0" Visibility="Collapsed">
+                                            <ui:FontIcon FontSize="24" Icon="{x:Static ui:FluentSystemIcons.ChevronRight_24_Regular}"/>
+                                        </Button>
+                                        <Button Name="leftShowSettingsPanel" Click="leftShowSettingsPanel_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
+                                                Width="32" Height="32" Padding="0">
+                                            <ui:FontIcon FontSize="24" Icon="{x:Static ui:FluentSystemIcons.Settings_20_Regular}"/>
+                                        </Button>
+                                        <ui:AppBarSeparator />
+                                    </ikw:SimpleStackPanel>
                                     <Grid>
                                         <Button Name="penButton" Click="penButton_Click" BorderThickness="0" Background="#00000000" Foreground="{DynamicResource ForegroundColor}"
                                                 Width="32" Height="32" Padding="0"
