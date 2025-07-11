@@ -206,8 +206,8 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             window.BeginAnimation(LeftProperty, null);
 
-            iconSwitchLeft.Visibility = Visibility.Collapsed;
-            iconSwitchRight.Visibility = Visibility.Visible;
+            iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
+            iconSwitchRight.Visibility = System.Windows.Visibility.Visible;
 
             DoubleAnimation leftAnimation = new()
             {
@@ -227,8 +227,8 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             window.BeginAnimation(LeftProperty, null);
 
-            iconSwitchRight.Visibility = Visibility.Collapsed;
-            iconSwitchLeft.Visibility = Visibility.Visible;
+            iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
+            iconSwitchLeft.Visibility = System.Windows.Visibility.Visible;
 
             DoubleAnimation leftAnimation = new()
             {
@@ -262,7 +262,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 //if (!confirmingClear)
                 //{
-                if (borderColorPicker.Visibility == Visibility.Collapsed) ShowColorPicker();
+                if (borderColorPicker.Visibility == System.Windows.Visibility.Collapsed) ShowColorPicker();
                 else HideColorPicker();
                 //}
             }
@@ -385,24 +385,24 @@ namespace ZongziTEK_Blackboard_Sticker
                 btnClearCancel_Click(null, null);
                 //}
 
-                BorderLockBlackboard.Visibility = Visibility.Visible;
+                BorderLockBlackboard.Visibility = System.Windows.Visibility.Visible;
 
                 if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
 
-                eraserButton.Visibility = Visibility.Hidden;
+                eraserButton.Visibility = System.Windows.Visibility.Hidden;
                 HideColorPicker();
 
             }
             else
             {
-                BorderLockBlackboard.Visibility = Visibility.Collapsed;
+                BorderLockBlackboard.Visibility = System.Windows.Visibility.Collapsed;
 
                 if (GetIsLightTheme()) ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black); else ToggleButtonLock.Foreground = new SolidColorBrush(Colors.White);
 
                 eraserButton_Click(null, null);
                 penButton_Click(null, null);
 
-                eraserButton.Visibility = Visibility.Visible;
+                eraserButton.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
@@ -418,7 +418,7 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 isHighlightingLockState = true;
 
-                StackPanelHighlightBlackboardLockState.Visibility = Visibility.Visible;
+                StackPanelHighlightBlackboardLockState.Visibility = System.Windows.Visibility.Visible;
                 if (GetIsLightTheme())
                 {
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
@@ -447,7 +447,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     await Task.Delay(200);
                     ToggleButtonLock.Foreground = new SolidColorBrush(Colors.Black);
                 }
-                StackPanelHighlightBlackboardLockState.Visibility = Visibility.Collapsed;
+                StackPanelHighlightBlackboardLockState.Visibility = System.Windows.Visibility.Collapsed;
 
                 isHighlightingLockState = false;
                 CheckIsBlackboardLocked();
@@ -473,7 +473,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
             };
 
-            borderColorPicker.Visibility = Visibility.Visible;
+            borderColorPicker.Visibility = System.Windows.Visibility.Visible;
             borderColorPicker.BeginAnimation(OpacityProperty, opacityAnimation);
             borderColorPicker.BeginAnimation(MarginProperty, marginAnimation);
         }
@@ -502,7 +502,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             await Task.Delay(250);
 
-            borderColorPicker.Visibility = Visibility.Collapsed;
+            borderColorPicker.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void SaveStrokes()
@@ -964,8 +964,8 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 LoadTimetable();
 
-                textBlockCurriculum.Visibility = Visibility.Collapsed;
-                StackPanelShowTimetable.Visibility = Visibility.Visible;
+                textBlockCurriculum.Visibility = System.Windows.Visibility.Collapsed;
+                StackPanelShowTimetable.Visibility = System.Windows.Visibility.Visible;
                 MenuItemTimetableAutoScroll.IsChecked = true;
 
                 timetableTimer.Start();
@@ -974,8 +974,8 @@ namespace ZongziTEK_Blackboard_Sticker
             {
                 LoadCurriculum();
 
-                textBlockCurriculum.Visibility = Visibility.Visible;
-                StackPanelShowTimetable.Visibility = Visibility.Collapsed;
+                textBlockCurriculum.Visibility = System.Windows.Visibility.Visible;
+                StackPanelShowTimetable.Visibility = System.Windows.Visibility.Collapsed;
                 MenuItemTimetableAutoScroll.IsChecked = false;
 
                 timetableTimer.Stop();
@@ -1159,11 +1159,11 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                ScrollViewerShowCurriculum.Visibility = Visibility.Collapsed;
-                editCurriculumButton.Visibility = Visibility.Collapsed;
+                ScrollViewerShowCurriculum.Visibility = System.Windows.Visibility.Collapsed;
+                editCurriculumButton.Visibility = System.Windows.Visibility.Collapsed;
 
-                saveCurriculumButton.Visibility = Visibility.Visible;
-                ScrollViewerCurriculum.Visibility = Visibility.Visible;
+                saveCurriculumButton.Visibility = System.Windows.Visibility.Visible;
+                ScrollViewerCurriculum.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
@@ -1177,11 +1177,11 @@ namespace ZongziTEK_Blackboard_Sticker
         {
             SaveCurriculum();
 
-            ScrollViewerShowCurriculum.Visibility = Visibility.Visible;
-            editCurriculumButton.Visibility = Visibility.Visible;
+            ScrollViewerShowCurriculum.Visibility = System.Windows.Visibility.Visible;
+            editCurriculumButton.Visibility = System.Windows.Visibility.Visible;
 
-            saveCurriculumButton.Visibility = Visibility.Collapsed;
-            ScrollViewerCurriculum.Visibility = Visibility.Collapsed;
+            saveCurriculumButton.Visibility = System.Windows.Visibility.Collapsed;
+            ScrollViewerCurriculum.Visibility = System.Windows.Visibility.Collapsed;
 
             LoadTimetableOrCurriculum();
         }
@@ -1556,8 +1556,8 @@ namespace ZongziTEK_Blackboard_Sticker
         #region Launcher
         private async void LoadLauncher()
         {
-            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
-            ProgressBarLauncher.Visibility = Visibility.Visible;
+            ScrollViewerLauncher.Visibility = System.Windows.Visibility.Collapsed;
+            ProgressBarLauncher.Visibility = System.Windows.Visibility.Visible;
 
             Dictionary<string, Drawing.Bitmap> fileInfo = new();
             string LinkPath = AppDomain.CurrentDomain.BaseDirectory + @"LauncherLinks\";
@@ -1625,7 +1625,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     TextBlock textBlockFileName = new()
                     {
                         Text = Path.GetFileName(file.Key),
-                        Visibility = Visibility.Collapsed
+                        Visibility = System.Windows.Visibility.Collapsed
                     };
 
                     TextBlock textBlockLinkName = new()
@@ -1651,8 +1651,8 @@ namespace ZongziTEK_Blackboard_Sticker
                     });
                 }
 
-                ScrollViewerLauncher.Visibility = Visibility.Visible;
-                ProgressBarLauncher.Visibility = Visibility.Collapsed;
+                ScrollViewerLauncher.Visibility = System.Windows.Visibility.Visible;
+                ProgressBarLauncher.Visibility = System.Windows.Visibility.Collapsed;
             }
             catch (Exception e)
             {
@@ -1682,8 +1682,8 @@ namespace ZongziTEK_Blackboard_Sticker
         }
         private void ButtonReloadLauncher_Click(object sender, RoutedEventArgs e)
         {
-            ScrollViewerLauncher.Visibility = Visibility.Collapsed;
-            ProgressBarLauncher.Visibility = Visibility.Visible;
+            ScrollViewerLauncher.Visibility = System.Windows.Visibility.Collapsed;
+            ProgressBarLauncher.Visibility = System.Windows.Visibility.Visible;
 
             Button buttonExplorerBackup = buttonExplorer;
 
@@ -1755,7 +1755,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
         private void WelcomeWindow_Closed(object sender, EventArgs e)
         {
-            iconShowSettingsPanel.Visibility = Visibility.Visible;
+            iconShowSettingsPanel.Visibility = System.Windows.Visibility.Visible;
         }
         #endregion
         private void LoadSettings()
@@ -1771,7 +1771,7 @@ namespace ZongziTEK_Blackboard_Sticker
             }
             else
             {
-                iconShowSettingsPanel.Visibility = Visibility.Collapsed;
+                iconShowSettingsPanel.Visibility = System.Windows.Visibility.Collapsed;
                 WelcomeWindow welcomeWindow = new WelcomeWindow();
                 welcomeWindow.Closed += WelcomeWindow_Closed;
                 welcomeWindow.Show();
@@ -2114,8 +2114,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 case 0: // 默认
                     BorderMain.ClearValue(WidthProperty);
                     BorderMain.ClearValue(HorizontalAlignmentProperty);
-                    iconSwitchLeft.Visibility = Visibility.Visible;
-                    iconSwitchRight.Visibility = Visibility.Collapsed;
+                    iconSwitchLeft.Visibility = System.Windows.Visibility.Visible;
+                    iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
 
                     ColumnCanvas.Width = new GridLength(1, GridUnitType.Star);
                     ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
@@ -2130,8 +2130,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 case 1: // 简约（顶部为时钟）
                     BorderMain.Width = liteModeWidth;
                     BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    iconSwitchLeft.Visibility = Visibility.Collapsed;
-                    iconSwitchRight.Visibility = Visibility.Collapsed;
+                    iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
+                    iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
 
                     ColumnCanvas.Width = new GridLength(0);
                     ColumnInfoBoard.Width = new GridLength(0);
@@ -2147,8 +2147,8 @@ namespace ZongziTEK_Blackboard_Sticker
                 case 2: // 简约（顶部为看板）
                     BorderMain.Width = liteModeWidth;
                     BorderMain.HorizontalAlignment = HorizontalAlignment.Right;
-                    iconSwitchLeft.Visibility = Visibility.Collapsed;
-                    iconSwitchRight.Visibility = Visibility.Collapsed;
+                    iconSwitchLeft.Visibility = System.Windows.Visibility.Collapsed;
+                    iconSwitchRight.Visibility = System.Windows.Visibility.Collapsed;
 
                     ColumnCanvas.Width = new GridLength(0);
                     ColumnClock.Width = new GridLength(0);

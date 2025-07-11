@@ -55,7 +55,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             if (!isTextTimeVisible)
             {
-                TextTime.Visibility = Visibility.Hidden;
+                TextTime.Visibility = System.Windows.Visibility.Hidden;
                 isTimeHidden = true;
             }
 
@@ -269,7 +269,7 @@ namespace ZongziTEK_Blackboard_Sticker
             BorderShadowEffect.BeginAnimation(OpacityProperty, bigOpacityAnimation);
             RectangleProgressBar.BeginAnimation(OpacityProperty, barOpacityHideAnimation);
             GridSmall.BeginAnimation(OpacityProperty, smallOpacityAnimation);
-            GridSmall.Visibility = Visibility.Visible;
+            GridSmall.Visibility = System.Windows.Visibility.Visible;
             BorderNotification.BeginAnimation(WidthProperty, widthAnimation);
             BorderNotification.BeginAnimation(HeightProperty, heightAnimation);
             BorderNotification.BeginAnimation(MarginProperty, marginAnimation);

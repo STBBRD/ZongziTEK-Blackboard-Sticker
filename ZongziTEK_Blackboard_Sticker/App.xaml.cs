@@ -78,13 +78,13 @@ namespace ZongziTEK_Blackboard_Sticker
         }
     }
 
-    [ValueConversion(typeof(string), typeof(Visibility))]
+    [ValueConversion(typeof(string), typeof(System.Windows.Visibility))]
     public class TextEmptyToCollapsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string text = value as string;
-            return string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+            return string.IsNullOrEmpty(text) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -93,7 +93,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
     }
 
-    [ValueConversion(typeof(bool), typeof(Visibility))]
+    [ValueConversion(typeof(bool), typeof(System.Windows.Visibility))]
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -103,7 +103,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             bool boolValue = (bool)value;
 
-            return boolValue ? Visibility.Visible : Visibility.Collapsed;
+            return boolValue ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -112,7 +112,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
     }
 
-    [ValueConversion(typeof(bool), typeof(Visibility))]
+    [ValueConversion(typeof(bool), typeof(System.Windows.Visibility))]
     public class InverseBoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -122,7 +122,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
             bool boolValue = (bool)value;
 
-            return boolValue ? Visibility.Collapsed : Visibility.Visible;
+            return boolValue ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

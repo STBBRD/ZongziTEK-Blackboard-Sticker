@@ -93,7 +93,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
                 };
 
-                BorderToolBar.Visibility = Visibility.Visible;
+                BorderToolBar.Visibility = System.Windows.Visibility.Visible;
                 BorderToolBar.BeginAnimation(MarginProperty, BorderCloseBigClockThicknessAnimation);
                 BorderToolBar.BeginAnimation(OpacityProperty, BorderCloseBigClockDoubleAnimation);
 
@@ -121,7 +121,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 await Task.Delay(250);
 
-                BorderToolBar.Visibility = Visibility.Collapsed;
+                BorderToolBar.Visibility = System.Windows.Visibility.Collapsed;
 
                 isBorderToolBarShowing = false;
             }
