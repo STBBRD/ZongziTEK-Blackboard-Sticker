@@ -70,6 +70,12 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
             UpdateInterfaceStateAndSaveSettings();
         }
 
+        private void BorderLiteWithBlackBoard_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow.Settings.Look.LookMode = 3;
+            UpdateInterfaceStateAndSaveSettings();
+        }
+        
         private void UpdateInterfaceStateAndSaveSettings()
         {
             MainWindow.SaveSettings();
@@ -108,6 +114,9 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
                     break;
                 case 2:
                     SetSelectedStyle(BorderLiteWithInfoBoard);
+                    break;
+                case 3:
+                    SetSelectedStyle(BorderLiteWithBlackBoard);
                     break;
             }
         }

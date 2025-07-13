@@ -35,6 +35,7 @@
                             <ComboBoxItem>完整（默认）</ComboBoxItem>
                             <ComboBoxItem>简约（顶部为时钟）</ComboBoxItem>
                             <ComboBoxItem>简约（顶部为看板）</ComboBoxItem>
+                            <ComboBoxItem>简约（仅小黑板）</ComboBoxItem>
                         </ComboBox>
                     </card:GenericSettingsCard.CardContent>
                 </card:GenericSettingsCard>

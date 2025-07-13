@@ -30,7 +30,7 @@ namespace ZongziTEK_Blackboard_Sticker
             TextBlockTitle.Text = title;
             TextBlockSubtitle.Text = subtitle;
 
-            if (subtitle == "") TextBlockSubtitle.Visibility = Visibility.Collapsed;
+            if (subtitle == "") TextBlockSubtitle.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)

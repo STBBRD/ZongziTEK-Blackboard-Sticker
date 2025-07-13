@@ -152,7 +152,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             {
                 LabelWeatherInfo.Content = "暂无实况天气信息";
                 LabelCity.Content = "天气";
-                ImageWeather.Visibility = Visibility.Collapsed;
+                ImageWeather.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
 

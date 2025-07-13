@@ -32,8 +32,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.TimetableSettingsPage
 
             if (!MainWindow.Settings.TimetableSettings.IsTimetableEnabled)
             {
-                ScrollViewerRoot.Visibility = Visibility.Collapsed;
-                LabelTimetableDisabledHint.Visibility = Visibility.Visible;
+                ScrollViewerRoot.Visibility = System.Windows.Visibility.Collapsed;
+                LabelTimetableDisabledHint.Visibility = System.Windows.Visibility.Visible;
             }
             var voices = Edge_tts.GetVoice();
             foreach (eVoice voice in voices)
