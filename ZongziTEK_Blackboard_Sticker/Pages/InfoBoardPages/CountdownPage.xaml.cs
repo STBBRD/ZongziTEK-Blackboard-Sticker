@@ -43,17 +43,17 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             if (timeSpan.TotalDays < 0)
             {
                 LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));
-                LabelName.Content = "距离" + countdownName + "开始已过去";
+                LabelName.Text = "距离" + countdownName + "开始已过去";
                 timeSpan = -timeSpan;
             }
             else
             {
                 if (timeSpan.Days < MainWindow.Settings.InfoBoard.CountdownWarnDays) LabelDays.Foreground = Brushes.Red;
                 else LabelDays.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 204, 0));
-                LabelName.Content = "距离" + countdownName + "还有";
+                LabelName.Text = "距离" + countdownName + "还有";
             }
-            LabelDays.Content = timeSpan.Days;
-            LabelDaysDetail.Content = "." + Math.Truncate((timeSpan.TotalDays - timeSpan.Days) * 1000).ToString("000");
+            LabelDays.Text = timeSpan.Days.ToString();
+            LabelDaysDetail.Text = "." + Math.Truncate((timeSpan.TotalDays - timeSpan.Days) * 1000).ToString("000");
         }
 
         private void Page_Unloaded(object sender, EventArgs e)

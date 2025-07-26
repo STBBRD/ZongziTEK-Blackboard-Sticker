@@ -10,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources/>
                 <ui:XamlControlsResources/>
+                <ResourceDictionary Source="/Resources/Fonts/Fonts.xaml"/>
                 <!-- Other merged dictionaries here -->
                 <ResourceDictionary Source="Style/Light.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -18,6 +19,12 @@
             <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
             <!-- Other app resources here -->
+            <Style TargetType="{x:Type TextElement}">
+                <Setter Property="FontFamily" Value="{StaticResource HarmonyOsSans}"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{StaticResource HarmonyOsSans}"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

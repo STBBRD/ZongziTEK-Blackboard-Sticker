@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ZongziTEK_Blackboard_Sticker.Helpers;
-using ZongziTEK_Weather_API;
+using System.Windows.Threading;
+using Newtonsoft.Json;
+using ZongziTEK_Blackboard_Sticker.Helpers.Weather;
+using static ZongziTEK_Blackboard_Sticker.Helpers.Weather.WeatherHelper;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
 {
@@ -28,128 +32,187 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
         {
             InitializeComponent();
 
-            Task.Run(() =>
+            Timer_Tick(null, null);
+
+            timer.Interval = TimeSpan.FromMinutes(30);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
+            MainWindow.Settings.InfoBoard.PropertyChanged += InfoBoard_PropertyChanged;
+            Unloaded += Page_Unloaded;
+        }
+
+        private DispatcherTimer timer = new DispatcherTimer();
+
+        private ForecastDaily forecastWeather = new();
+
+        private List<ForecastWeatherItemData> ForecastWeatherItemDatas = new();
+
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            timer.Stop();
+            await Task.Run(() =>
             {
                 if (!new DirectoryInfo("Weather/").Exists)
                 {
-                    try { new DirectoryInfo("Weather/").Create(); }
+                    try
+                    {
+                        new DirectoryInfo("Weather/").Create();
+                    }
                     catch { }
                 }
 
-                if (File.Exists(castWeatherFilePath))
+                if (File.Exists(xiaomiWeatherFilePath))
                 {
-                    DateTime castWeatherFetchTime = new FileInfo(castWeatherFilePath).LastWriteTime;
-                    if (castWeatherFetchTime.Date != DateTime.Today)
+                    DateTime currentWeatherFetchTime = new FileInfo(
+                        xiaomiWeatherFilePath
+                    ).LastWriteTime;
+                    if (DateTime.Now - currentWeatherFetchTime > TimeSpan.FromHours(1))
                     {
-                        UpdateCastWeathers();
+                        UpdateXiaomiWeather();
                     }
                     else
                     {
-                        castWeathers = JsonConvert.DeserializeObject<List<CastWeather>>(File.ReadAllText(castWeatherFilePath));
+                        xiaomiWeather = JsonConvert.DeserializeObject<XiaomiWeather>(
+                            File.ReadAllText(xiaomiWeatherFilePath)
+                        );
 
-                        if (castWeathers == null || castWeathers.Count == 0)
+                        if (forecastWeather != null)
                         {
-                            UpdateCastWeathers();
+                            if (lastCityCode != MainWindow.Settings.InfoBoard.WeatherCity)
+                            {
+                                UpdateXiaomiWeather();
+                                if (File.Exists(xiaomiWeatherFilePath))
+                                {
+                                    File.Delete(xiaomiWeatherFilePath);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            UpdateXiaomiWeather();
                         }
                     }
                 }
                 else
                 {
-                    UpdateCastWeathers();
+                    UpdateXiaomiWeather();
                 }
+
+                forecastWeather = xiaomiWeather.ForecastDaily;
+                lastCityCode = MainWindow.Settings.InfoBoard.WeatherCity;
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                    ShowCastWeathers();
+                    //ShowForecastWeathers();
+                    UpdateForecastWeatherItemDatas();
                 });
             });
+            timer.Start();
         }
 
-        private string castWeatherFilePath = "Weather/CastWeather.json";
-
-        private List<CastWeather> castWeathers = new List<CastWeather>();
-
-        private void UpdateCastWeathers()
+        private void UpdateForecastWeatherItemDatas()
         {
-            castWeathers = Weather.GetCastWeathers(MainWindow.Settings.InfoBoard.WeatherCity);
-            try
+            ForecastWeatherItemDatas.Clear();
+
+            for (int i = 0; i < 4; i++)
             {
-                File.WriteAllText(castWeatherFilePath, JsonConvert.SerializeObject(castWeathers, Formatting.Indented));
+                ForecastWeatherItemData itemData = new()
+                {
+                    DayName = TransformIndexToDay(i),
+                    TemperatureFrom = forecastWeather.Temperature.Values[i].From + forecastWeather.Temperature.Unit,
+                    TemperatureTo = forecastWeather.Temperature.Values[i].To + forecastWeather.Temperature.Unit,
+                    WeatherFromIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].From), false),
+                    WeatherToIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].To), true)
+                };
+                ForecastWeatherItemDatas.Add(itemData);
             }
-            catch (Exception ex)
-            {
-                LogHelper.NewLog(ex.Message);
-            }
+
+            ItemsControlForecastWeather.ItemsSource = ForecastWeatherItemDatas;
         }
 
-        private bool isTodayRainy = false;
-
-        private void ShowCastWeathers()
+        private void ShowForecastWeathers()
         {
-            if (castWeathers != null && castWeathers.Count != 0)
+            if (forecastWeather != null && forecastWeather.Weather.Values.Length != 0)
             {
                 string rainDays = "";
-                int today = (int)DateTime.Now.DayOfWeek;
-                if (today == 0) today = 7;
-                foreach (var castWeather in castWeathers)
+
+                int index = 0;
+
+                foreach (var forecastWeather in forecastWeather.Weather.Values)
                 {
-                    if (castWeather.dayweather.Contains("雨") || castWeather.nightweather.Contains("雨"))
+                    int countLimit = 3;
+                    if (MainWindow.Settings.Look.LookMode != 0) countLimit = 2;
+                    if (index > countLimit) break;
+
+                    if (
+                        GetWeatherName(Convert.ToInt32(forecastWeather.From)).Contains("雨")
+                        || GetWeatherName(Convert.ToInt32(forecastWeather.To)).Contains("雨")
+                    )
                     {
-                        if (castWeather.week == today)
-                        {
-                            isTodayRainy = true;
-                        }
-                        else
-                        {
-                            rainDays += TransformDayOfWeek(castWeather.week) + "、";
-                        }
+                        rainDays += TransformIndexToDay(index) + "、";
                     }
+                    index++;
                 }
                 if (rainDays.Length > 0)
                 {
                     rainDays = rainDays.Remove(rainDays.Length - 1);
-                    LabelWeatherForecast.Content = rainDays + "将会下雨";
+                    TextRainyDays.Text = rainDays + "有雨";
                 }
                 else
                 {
-                    LabelWeatherForecast.Content = "未来 " + (castWeathers.Count - 1) + " 天不会下雨";
+                    TextRainyDays.Text =
+                        "未来 " + (forecastWeather.Weather.Values.Length - 1) + " 天不会下雨";
                 }
-                if (isTodayRainy) LabelWeatherForecast.Content = "今天有雨，" + LabelWeatherForecast.Content;
             }
             else
             {
-                LabelWeatherForecast.Content = "暂无未来天气信息";
+                TextRainyDays.Text = "暂无天气预报信息";
             }
         }
 
-        private string TransformDayOfWeek(int week)
+        private string TransformIndexToDay(int index)
         {
             string weekstring = "";
-            switch (week)
+            DateTime today = DateTime.Today;
+
+            switch (index)
             {
+                case 0:
+                    return "今天";
                 case 1:
-                    weekstring = "周一";
-                    break;
-                case 2:
-                    weekstring = "周二";
-                    break;
-                case 3:
-                    weekstring = "周三";
-                    break;
-                case 4:
-                    weekstring = "周四";
-                    break;
-                case 5:
-                    weekstring = "周五";
-                    break;
-                case 6:
-                    weekstring = "周六";
-                    break;
-                case 7:
-                    weekstring = "周日";
-                    break;
+                    return "明天";
             }
-            return weekstring;
+
+            DateTime targetDate = today.AddDays(index);
+
+            return targetDate.DayOfWeek switch
+            {
+                DayOfWeek.Sunday => "周日",
+                DayOfWeek.Monday => "周一",
+                DayOfWeek.Tuesday => "周二",
+                DayOfWeek.Wednesday => "周三",
+                DayOfWeek.Thursday => "周四",
+                DayOfWeek.Friday => "周五",
+                DayOfWeek.Saturday => "周六",
+                _ => weekstring,
+            };
+        }
+
+        private void InfoBoard_PropertyChanged(
+            object sender,
+            System.ComponentModel.PropertyChangedEventArgs e
+        )
+        {
+            Timer_Tick(null, null);
+        }
+
+        private void Page_Unloaded(object sender, EventArgs e)
+        {
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
+            Unloaded -= Page_Unloaded;
+            MainWindow.Settings.InfoBoard.PropertyChanged -= InfoBoard_PropertyChanged;
         }
     }
 }

@@ -5,14 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       xmlns:card="clr-namespace:ZongziTEK_Blackboard_Sticker.Controls.Cards"
-      xmlns:helpers="clr-namespace:ZongziTEK_Blackboard_Sticker.Helpers"
+      xmlns:weather="clr-namespace:ZongziTEK_Blackboard_Sticker.Helpers.Weather"
       xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker.Pages.WelcomePages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" d:Background="White"
       Title="WelcomePage3">
 
     <Page.Resources>
-        <helpers:CityCodeToNameConverter x:Key="CityCodeToNameConverter"/>
+        <weather:CityCodeToNameConverter x:Key="CityCodeToNameConverter"/>
     </Page.Resources>
 
     <Grid>

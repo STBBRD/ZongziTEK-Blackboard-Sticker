@@ -15,8 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using ZongziTEK_Blackboard_Sticker.Helpers;
-using ZongziTEK_Weather_API;
+using ZongziTEK_Blackboard_Sticker.Helpers.Weather;
+using static ZongziTEK_Blackboard_Sticker.Helpers.Weather.WeatherHelper;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages
 {
@@ -31,18 +31,17 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
             Timer_Tick(null, null);
 
-            timer.Interval = TimeSpan.FromHours(1);
+            timer.Interval = TimeSpan.FromMinutes(30);
             timer.Tick += Timer_Tick;
             timer.Start();
 
+            MainWindow.Settings.InfoBoard.PropertyChanged += InfoBoard_PropertyChanged;
             Unloaded += Page_Unloaded;
         }
 
         private DispatcherTimer timer = new DispatcherTimer();
 
-        private string liveWeatherFilePath = "Weather/LiveWeather.json";
-
-        private LiveWeather liveWeather = new LiveWeather();
+        private CurrentWeather currentWeather = new();
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
@@ -55,90 +54,85 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                     catch { }
                 }
 
-                if (File.Exists(liveWeatherFilePath))
+                if (File.Exists(xiaomiWeatherFilePath))
                 {
-                    DateTime liveWeatherFetchTime = new FileInfo(liveWeatherFilePath).LastWriteTime;
-                    if (DateTime.Now - liveWeatherFetchTime > TimeSpan.FromHours(1))
+                    DateTime currentWeatherFetchTime = new FileInfo(xiaomiWeatherFilePath).LastWriteTime;
+                    if (DateTime.Now - currentWeatherFetchTime > TimeSpan.FromHours(1))
                     {
-                        UpdateLiveWeather();
+                        UpdateXiaomiWeather();
                     }
                     else
                     {
-                        liveWeather = JsonConvert.DeserializeObject<LiveWeather>(File.ReadAllText(liveWeatherFilePath));
+                        xiaomiWeather = JsonConvert.DeserializeObject<XiaomiWeather>(File.ReadAllText(xiaomiWeatherFilePath));
 
-                        if (liveWeather != null)
+                        if (currentWeather != null)
                         {
-                            if (liveWeather.adcode != Weather.GetCityCode(MainWindow.Settings.InfoBoard.WeatherCity))
+                            if (lastCityCode != MainWindow.Settings.InfoBoard.WeatherCity)
                             {
-                                UpdateLiveWeather();
-                                if (File.Exists("Weather/CastWeather.json"))
+                                UpdateXiaomiWeather();
+                                if (File.Exists(xiaomiWeatherFilePath))
                                 {
-                                    File.Delete("Weather/CastWeather.json");
+                                    File.Delete(xiaomiWeatherFilePath);
                                 }
-                            }
-                            else if (liveWeather.isError)
-                            {
-                                UpdateLiveWeather();
                             }
                         }
                         else
                         {
-                            UpdateLiveWeather();
+                            UpdateXiaomiWeather();
                         }
                     }
                 }
                 else
                 {
-                    UpdateLiveWeather();
+                    UpdateXiaomiWeather();
                 }
+
+                currentWeather = xiaomiWeather.Current;
+                lastCityCode = MainWindow.Settings.InfoBoard.WeatherCity;
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                    ShowLiveWeather();
+                    ShowCurrentWeather();
                 });
             });
             timer.Start();
         }
 
-        private void UpdateLiveWeather()
+        private void ShowCurrentWeather()
         {
-            liveWeather = Weather.GetLiveWeather(MainWindow.Settings.InfoBoard.WeatherCity);
-            try
+            if (currentWeather != null)
             {
-                File.WriteAllText(liveWeatherFilePath, JsonConvert.SerializeObject(liveWeather, Formatting.Indented));
-            }
-            catch (Exception ex)
-            {
-                LogHelper.NewLog(ex.Message);
-            }
-        }
+                CityCodeToNameConverter cityCodeToNameConverter = new();
 
-        private void ShowLiveWeather()
-        {
-            if (liveWeather != null && !liveWeather.isError)
-            {
-                LabelWeatherInfo.Content = liveWeather.weather + " " + liveWeather.temperature + "℃";
-                LabelCity.Content = liveWeather.province + " " + liveWeather.city;
+                string locationName = ((string)cityCodeToNameConverter.Convert(MainWindow.Settings.InfoBoard.WeatherCity, typeof(string), null, System.Globalization.CultureInfo.CurrentCulture))
+                    .Replace('.', ' ');
+                string weatherName = GetWeatherName(Convert.ToInt32(currentWeather.Weather));
+                int aqiValue = Convert.ToInt32(xiaomiWeather.Aqi.Value);
 
-                //加载天气图标
+                LabelWeatherInfo.Content = weatherName + " " + currentWeather.Temperature.Value + currentWeather.Temperature.Unit;
+                LabelCity.Content = locationName;
+                TextHumidity.Text = currentWeather.Humidity.Value + currentWeather.Humidity.Unit;
+                TextAqi.Text = xiaomiWeather.Aqi.Value;
+
+                // 加载天气图标
                 string imagePath = "../../Resources/WeatherIcons/";
-                if (liveWeather.weather.Contains("雷"))
+                if (weatherName.Contains("雷"))
                 {
                     imagePath += "Thundery.png";
                 }
-                else if (liveWeather.weather.Contains("雨"))
+                else if (weatherName.Contains("雨"))
                 {
                     imagePath += "Rainy.png";
                 }
-                else if (liveWeather.weather.Contains("雪"))
+                else if (weatherName.Contains("雪"))
                 {
                     imagePath += "Snowy.png";
                 }
-                else if (liveWeather.weather.Contains("阴"))
+                else if (weatherName.Contains("阴"))
                 {
                     imagePath += "Cloudy.png";
                 }
-                else if (liveWeather.weather.Contains("晴"))
+                else if (weatherName.Contains("晴"))
                 {
                     imagePath += "Sunny.png";
                 }
@@ -147,13 +141,89 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                     imagePath += "MostCloudy.png";
                 }
                 ImageWeather.Source = new BitmapImage(new Uri(imagePath, UriKind.Relative));
+
+                // 判断空气质量等级
+                if (aqiValue == -1)
+                {
+                    TextAqi.Text = "未知";
+                    BorderAqi.Background = new SolidColorBrush(Colors.Gray);
+                }
+                else
+                {
+                    LinearGradientBrush aqiBackgroundBrush = new()
+                    {
+                        StartPoint = new Point(0.5, 1),
+                        EndPoint = new Point(1, 0),
+                    };
+
+                    GradientStop startPointStop = new GradientStop();
+                    GradientStop endPointStop = new GradientStop() { Offset = 1 };
+
+                    aqiBackgroundBrush.GradientStops.Add(startPointStop);
+                    aqiBackgroundBrush.GradientStops.Add(endPointStop);
+
+                    switch (GetAqiLevel(aqiValue))
+                    {
+                        case 0:
+                            TextAqi.Text += " 优";
+                            startPointStop.Color = Color.FromRgb(0, 187, 54);
+                            endPointStop.Color = Color.FromRgb(160, 210, 0);
+                            break;
+                        case 1:
+                            TextAqi.Text += " 良";
+                            startPointStop.Color = Color.FromRgb(255, 187, 0);
+                            endPointStop.Color = Color.FromRgb(255, 225, 0);
+                            break;
+                        case 2:
+                            TextAqi.Text += " 轻度污染";
+                            startPointStop.Color = Colors.DarkOrange;
+                            endPointStop.Color = Colors.OrangeRed;
+                            break;
+                        case 3:
+                            TextAqi.Text += " 中度污染";
+                            startPointStop.Color = Colors.OrangeRed;
+                            endPointStop.Color = Colors.Red;
+                            break;
+                        case 4:
+                            TextAqi.Text += " 重度污染";
+                            startPointStop.Color = Color.FromRgb(111, 47, 160);
+                            endPointStop.Color = Color.FromRgb(255, 0, 255);
+                            break;
+                        case 5:
+                            TextAqi.Text += " 严重污染";
+                            startPointStop.Color = Color.FromRgb(153, 1, 52);
+                            endPointStop.Color = Color.FromRgb(105, 0, 35);
+                            break;
+                    }
+
+                    BorderAqi.Background = aqiBackgroundBrush;
+                }
+
+                ImageWeather.Visibility = Visibility.Visible;
+                if (MainWindow.Settings.Look.LookMode == 0)
+                {
+                    BorderHumidity.Visibility = Visibility.Visible;
+                    BorderAqi.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    BorderHumidity.Visibility = Visibility.Collapsed;
+                    BorderAqi.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
                 LabelWeatherInfo.Content = "暂无实况天气信息";
                 LabelCity.Content = "天气";
                 ImageWeather.Visibility = Visibility.Collapsed;
+                BorderHumidity.Visibility = Visibility.Collapsed;
+                BorderAqi.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void InfoBoard_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Timer_Tick(null, null);
         }
 
         private void Page_Unloaded(object sender, EventArgs e)
@@ -161,6 +231,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             timer.Stop();
             timer.Tick -= Timer_Tick;
             Unloaded -= Page_Unloaded;
+            MainWindow.Settings.InfoBoard.PropertyChanged -= InfoBoard_PropertyChanged;
             ImageWeather.Source = null;
         }
     }

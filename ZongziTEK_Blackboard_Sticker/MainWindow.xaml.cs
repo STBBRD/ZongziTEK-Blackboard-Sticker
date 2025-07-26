@@ -121,6 +121,7 @@ namespace ZongziTEK_Blackboard_Sticker
             timerHideSeewoServiceAssistant.Tick += TimerHideSeewoServiceAssistant_Tick;
             timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
         }
+
         #region Window
         protected override void OnSourceInitialized(EventArgs e)
         {

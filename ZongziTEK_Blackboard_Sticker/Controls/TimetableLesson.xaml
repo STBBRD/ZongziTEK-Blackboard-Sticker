@@ -18,10 +18,10 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Border x:Name="BorderActiveIndicator" Grid.Column="0" CornerRadius="2" Width="4" Background="#99555555" Margin="8"/>
-                    <Viewbox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6">
-                        <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TimetableLesson}, Mode=FindAncestor}, Path=Subject}" FontSize="32" Padding="0,0,0,2"/>
+                    <Viewbox Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,6">
+                        <TextBlock Foreground="{DynamicResource ForegroundColor}" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TimetableLesson}, Mode=FindAncestor}, Path=Subject}" FontSize="32" Padding="0,1,0,0"/>
                     </Viewbox>
-                    <TextBlock Foreground="{DynamicResource ForegroundColor}" Grid.Column="2" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TimetableLesson}, Mode=FindAncestor}, Path=Time}" VerticalAlignment="Center" Margin="8" FontSize="20" Opacity="0.75" FontFamily="../Resources/#Digital-7 Mono"/>
+                    <TextBlock Foreground="{DynamicResource ForegroundColor}" Grid.Column="2" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TimetableLesson}, Mode=FindAncestor}, Path=Time}" VerticalAlignment="Center" Margin="8,0,12,0" FontSize="18" Opacity="0.5"/>
                 </Grid>
             </Border>
         </Grid>

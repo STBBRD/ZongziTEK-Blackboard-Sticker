@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using iNKORE.UI.WPF.Controls;
-using static ZongziTEK_Blackboard_Sticker.Helpers.WeatherHelper;
+using ZongziTEK_Blackboard_Sticker.Helpers.Weather;
 
 namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
 {
@@ -30,7 +30,7 @@ namespace ZongziTEK_Blackboard_Sticker.Controls.DialogContents
 
         private void LoadCityData()
         {
-            weatherCityData = GetWeatherCityData();
+            weatherCityData = WeatherHelper.GetWeatherCityData();
         }
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)

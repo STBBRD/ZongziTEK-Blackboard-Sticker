@@ -7,15 +7,15 @@
       mc:Ignorable="d" 
       xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CountdownPage">
+      Title="CountdownPage" Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}">
 
     <Grid Margin="16,8" HorizontalAlignment="Right">
         <Viewbox>
             <StackPanel Orientation="Horizontal">
-                <Label Name="LabelName" FontSize="60" Content="距离期末考试还有"/>
-                <Label Name="LabelDays" FontFamily="../../Resources/#Digital-7 Mono" Margin="12,0,0,0" FontSize="80" Content="10" Foreground="#00cc00"/>
-                <Label Name="LabelDaysDetail" FontFamily="../../Resources/#Digital-7 Mono" Margin="0,0,12,7" FontSize="40" Content=".000" VerticalContentAlignment="Bottom" Foreground="{Binding Foreground, ElementName=LabelDays}"/>
-                <Label FontSize="60" Content="天"/>
+                <TextBlock Name="LabelName" FontSize="60" Text="距离期末考试还有" VerticalAlignment="Bottom"/>
+                <TextBlock Name="LabelDays" FontFamily="../../Resources/#Digital-7 Mono" Margin="24,0,0,0" FontSize="76" d:Text="10" Foreground="#00cc00" VerticalAlignment="Bottom"/>
+                <TextBlock Name="LabelDaysDetail" FontFamily="../../Resources/#Digital-7 Mono" Margin="0,0,24,6" FontSize="40" d:Text=".000" Foreground="{Binding Foreground, ElementName=LabelDays}" VerticalAlignment="Bottom"/>
+                <TextBlock FontSize="60" Text="天" VerticalAlignment="Bottom"/>
             </StackPanel>
         </Viewbox>
     </Grid>
