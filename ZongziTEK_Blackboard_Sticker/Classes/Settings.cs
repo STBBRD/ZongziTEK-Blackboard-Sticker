@@ -521,6 +521,20 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private bool _isRainForecastOnly = false;
+        public bool IsRainForecastOnly
+        {
+            get => _isRainForecastOnly;
+            set
+            {
+                if (_isRainForecastOnly != value)
+                {
+                    _isRainForecastOnly = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

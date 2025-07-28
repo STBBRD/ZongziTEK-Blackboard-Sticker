@@ -83,10 +83,6 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                             if (lastCityCode != MainWindow.Settings.InfoBoard.WeatherCity)
                             {
                                 UpdateXiaomiWeather();
-                                if (File.Exists(xiaomiWeatherFilePath))
-                                {
-                                    File.Delete(xiaomiWeatherFilePath);
-                                }
                             }
                         }
                         else
@@ -105,17 +101,28 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                    //ShowForecastWeathers();
-                    UpdateForecastWeatherItemDatas();
+                    if (MainWindow.Settings.InfoBoard.IsRainForecastOnly)
+                    {
+                        ShowRainForecast();
+                        ViewboxRainForecast.Visibility = Visibility.Visible;
+                        ViewboxFullForecast.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        ShowFullForecast();
+                        ViewboxRainForecast.Visibility = Visibility.Collapsed;
+                        ViewboxFullForecast.Visibility = Visibility.Visible;
+                    }
                 });
             });
             timer.Start();
         }
 
-        private void UpdateForecastWeatherItemDatas()
+        private void ShowFullForecast()
         {
             int countLimit = 4;
-            if (MainWindow.Settings.Look.LookMode != 0) countLimit = 2;
+            if (MainWindow.Settings.Look.LookMode != 0)
+                countLimit = 2;
 
             ForecastWeatherItemDatas.Clear();
 
@@ -124,15 +131,26 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 ForecastWeatherItemData itemData = new()
                 {
                     DayName = TransformIndexToDay(i),
-                    TemperatureFrom = forecastWeather.Temperature.Values[i].From + forecastWeather.Temperature.Unit,
-                    TemperatureTo = forecastWeather.Temperature.Values[i].To + forecastWeather.Temperature.Unit,
-                    WeatherFromIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].From), false),
-                    WeatherToIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].To), true)
+                    TemperatureFrom =
+                        forecastWeather.Temperature.Values[i].From
+                        + forecastWeather.Temperature.Unit,
+                    TemperatureTo =
+                        forecastWeather.Temperature.Values[i].To + forecastWeather.Temperature.Unit,
+                    WeatherFromIcon = GetWeatherIcon(
+                        Convert.ToInt32(forecastWeather.Weather.Values[i].From),
+                        false
+                    ),
+                    WeatherToIcon = GetWeatherIcon(
+                        Convert.ToInt32(forecastWeather.Weather.Values[i].To),
+                        true
+                    ),
                 };
                 if (
-                        GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].From)).Contains("雨")
-                        || GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].To)).Contains("雨")
-                    )
+                    GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].From))
+                        .Contains("雨")
+                    || GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].To))
+                        .Contains("雨")
+                )
                 {
                     itemData.IsRainy = true;
                 }
@@ -140,10 +158,11 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 ForecastWeatherItemDatas.Add(itemData);
             }
 
+            ItemsControlForecastWeather.ItemsSource = null;
             ItemsControlForecastWeather.ItemsSource = ForecastWeatherItemDatas;
         }
 
-        private void ShowForecastWeathers()
+        private void ShowRainForecast()
         {
             if (forecastWeather != null && forecastWeather.Weather.Values.Length != 0)
             {
@@ -154,8 +173,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                 foreach (var forecastWeather in forecastWeather.Weather.Values)
                 {
                     int countLimit = 3;
-                    if (MainWindow.Settings.Look.LookMode != 0) countLimit = 2;
-                    if (index > countLimit) break;
+                    if (MainWindow.Settings.Look.LookMode != 0)
+                        countLimit = 2;
+                    if (index > countLimit)
+                        break;
 
                     if (
                         GetWeatherName(Convert.ToInt32(forecastWeather.From)).Contains("雨")
@@ -211,10 +232,7 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
             };
         }
 
-        private void InfoBoard_PropertyChanged(
-            object sender,
-            System.ComponentModel.PropertyChangedEventArgs e
-        )
+        private void InfoBoard_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Timer_Tick(null, null);
         }

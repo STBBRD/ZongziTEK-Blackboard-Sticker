@@ -2122,6 +2122,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
                     ColumnClock.Width = GridLength.Auto;
 
+                    SwitchFrameInfoPage();
                     frameInfoNavigationTimer.Start();
 
                     Width = SystemParameters.WorkArea.Width / 2;
@@ -2155,6 +2156,7 @@ namespace ZongziTEK_Blackboard_Sticker
                     ColumnClock.Width = new GridLength(0);
                     ColumnInfoBoard.Width = new GridLength(1, GridUnitType.Star);
 
+                    SwitchFrameInfoPage();
                     frameInfoNavigationTimer.Start();
 
                     Width = (liteModeWidth + BorderMain.Margin.Left + BorderMain.Margin.Right) * windowScale.ScaleX;

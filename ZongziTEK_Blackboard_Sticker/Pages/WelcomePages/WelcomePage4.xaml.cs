@@ -39,8 +39,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
         {
             ThicknessAnimation downAnimation = new()
             {
-                From = new Thickness(96, 72, 96, 120),
-                To = new Thickness(96, 120, 96, 72),
+                From = new Thickness(96, 80, 96, 112),
+                To = new Thickness(96, 112, 96, 80),
                 Duration = TimeSpan.FromSeconds(1),
                 EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut }
             };
@@ -50,8 +50,8 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.WelcomePages
 
             ThicknessAnimation upAnimation = new()
             {
-                From = new Thickness(96, 120, 96, 72),
-                To = new Thickness(96, 72, 96, 120),
+                From = new Thickness(96, 112, 96, 80),
+                To = new Thickness(96, 80, 96, 112),
                 Duration = TimeSpan.FromSeconds(1),
                 EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut }
             };

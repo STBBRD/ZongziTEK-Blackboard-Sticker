@@ -40,5 +40,10 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages.InfoBoardSettingsPage
             };
             await weatherCityPickerDialog.ShowAsync();
         }
+
+        private void ToggleSwitchIsRainForecastOnly_Toggled(object sender, RoutedEventArgs e)
+        {
+            MainWindow.SaveSettings();
+        }
     }
 }

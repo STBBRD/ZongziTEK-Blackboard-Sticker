@@ -11,7 +11,7 @@
       d:Background="#ebf1f6" Foreground="{DynamicResource {x:Static ui:ThemeKeys.TextControlForegroundKey}}">
 
     <Grid HorizontalAlignment="Right">
-        <Viewbox Margin="16,12" Visibility="Collapsed">
+        <Viewbox Name="ViewboxRainForecast" Margin="16,12" Visibility="Collapsed">
             <Border Name="BorderRainyDays" Height="48" CornerRadius="24" VerticalAlignment="Center">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="1,0" StartPoint="0,1">
@@ -25,7 +25,7 @@
                            d:Text="今天、明天、周一、周二有雨"/>
             </Border>
         </Viewbox>
-        <Viewbox Margin="16,8">
+        <Viewbox Name="ViewboxFullForecast" Margin="16,8">
             <ItemsControl x:Name="ItemsControlForecastWeather">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

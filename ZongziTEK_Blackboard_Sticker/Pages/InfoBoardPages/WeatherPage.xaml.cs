@@ -70,10 +70,6 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                             if (lastCityCode != MainWindow.Settings.InfoBoard.WeatherCity)
                             {
                                 UpdateXiaomiWeather();
-                                if (File.Exists(xiaomiWeatherFilePath))
-                                {
-                                    File.Delete(xiaomiWeatherFilePath);
-                                }
                             }
                         }
                         else
