@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -113,9 +114,12 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
         private void UpdateForecastWeatherItemDatas()
         {
+            int countLimit = 4;
+            if (MainWindow.Settings.Look.LookMode != 0) countLimit = 2;
+
             ForecastWeatherItemDatas.Clear();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < countLimit; i++)
             {
                 ForecastWeatherItemData itemData = new()
                 {
@@ -125,6 +129,14 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
                     WeatherFromIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].From), false),
                     WeatherToIcon = GetWeatherIcon(Convert.ToInt32(forecastWeather.Weather.Values[i].To), true)
                 };
+                if (
+                        GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].From)).Contains("雨")
+                        || GetWeatherName(Convert.ToInt32(forecastWeather.Weather.Values[i].To)).Contains("雨")
+                    )
+                {
+                    itemData.IsRainy = true;
+                }
+
                 ForecastWeatherItemDatas.Add(itemData);
             }
 

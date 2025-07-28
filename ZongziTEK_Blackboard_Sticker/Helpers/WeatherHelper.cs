@@ -310,6 +310,7 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers.Weather
         public FontIconData WeatherToIcon { get; set; }
         public string TemperatureFrom { get; set; }
         public string TemperatureTo { get; set; }
+        public bool IsRainy { get; set; }
     }
     #endregion
 

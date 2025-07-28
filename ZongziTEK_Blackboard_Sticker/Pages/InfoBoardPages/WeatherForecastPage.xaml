@@ -45,10 +45,9 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Ellipse Grid.RowSpan="2"
+                            <Ellipse Name="EllipseIsRainyIndicator" Grid.RowSpan="2"
                                      Width="8" Height="8" 
-                                     Fill="{DynamicResource 
-                                {x:Static ui:ThemeKeys.AccentButtonBackgroundKey}}"/>
+                                     Fill="#99555555"/>
                             <TextBlock Grid.RowSpan="2" Grid.Column="1" VerticalAlignment="Center"
                                        Text="{Binding DayName}" FontSize="20" Margin="6,0,0,0" Opacity="0.75"/>
                             <ui:FontIcon Grid.Column="2" VerticalAlignment="Bottom" 
@@ -62,6 +61,13 @@
                             <TextBlock Grid.Column="3" Grid.Row="1" VerticalAlignment="Top"
                                        Text="{Binding TemperatureTo}" FontSize="20" Margin="6,0,0,0"/>
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsRainy}" Value="true">
+                                <Setter TargetName="EllipseIsRainyIndicator" 
+                                        Property="Fill"
+                                        Value="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonBackgroundKey}}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
