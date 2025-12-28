@@ -126,6 +126,9 @@ namespace ZongziTEK_Blackboard_Sticker.Pages
 
             ForecastWeatherItemDatas.Clear();
 
+            if(forecastWeather == null || forecastWeather.Temperature.Values.Length == 0)
+                return;
+
             for (int i = 0; i < countLimit; i++)
             {
                 ForecastWeatherItemData itemData = new()
