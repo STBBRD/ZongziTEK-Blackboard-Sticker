@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Speech.Synthesis;
-using System.IO;
-using Edge_tts_sharp;
-using System.Net.NetworkInformation;
+﻿using Edge_tts_sharp;
 using Edge_tts_sharp.Model;
+using System.Net.NetworkInformation;
+using System.Speech.Synthesis;
+using System.Threading.Tasks;
 
 namespace ZongziTEK_Blackboard_Sticker.Helpers
 {
@@ -17,7 +12,7 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
-                EdgeTTSPlayText(text);
+                Task.Run(() => EdgeTTSPlayText(text));
             }
             else
             {
@@ -25,20 +20,17 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
             }
         }
 
-        private static void EdgeTTSPlayText(string text)
+        private static async Task EdgeTTSPlayText(string text)
         {
-            Task.Run(() =>
-                {
-                    var voice = Edge_tts.GetVoice()[MainWindow.Settings.TimetableSettings.Voice];
+            var voice = Edge_tts.GetVoice()[MainWindow.Settings.TimetableSettings.Voice];
 
-                    PlayOption option = new()
-                    {
-                        Rate = 1,
-                        Text = text
-                    };
+            PlayOption option = new()
+            {
+                Rate = 0,
+                Text = text
+            };
 
-                    Edge_tts.PlayText(option, voice);
-                });
+            await Edge_tts.PlayTextAsync(option, voice);
         }
 
         private static void SysTTSPlayText(string text)
@@ -56,6 +48,7 @@ namespace ZongziTEK_Blackboard_Sticker.Helpers
 
             if (synthesizer != null)
             {
+                synthesizer.Volume = 100;
                 synthesizer.SpeakAsync(text);
             }
         }
