@@ -2177,10 +2177,10 @@ namespace ZongziTEK_Blackboard_Sticker
             switch (Settings.Update.UpdateChannel)
             {
                 case 0: // Release 频道
-                    AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdate.xml");
+                    AutoUpdater.Start($"http://update.zongzitek.top/zbsupdate.xml");
                     break;
                 case 1: // Preview 频道
-                    AutoUpdater.Start($"http://s.zztek.top:1573/zbsupdatepreview.xml");
+                    AutoUpdater.Start($"http://update.zongzitek.top/zbsupdatepreview.xml");
                     break;
             }
             AutoUpdater.ApplicationExitEvent += () =>
