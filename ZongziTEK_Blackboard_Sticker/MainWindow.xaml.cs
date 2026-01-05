@@ -2176,11 +2176,11 @@ namespace ZongziTEK_Blackboard_Sticker
             AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("AutoUpdater.json");
             switch (Settings.Update.UpdateChannel)
             {
-                case 0: // Release 频道
-                    AutoUpdater.Start($"http://update.zongzitek.top/zbsupdate.xml");
+                case 6: // Preview 频道
+                    AutoUpdater.Start($"https://update.zongzitek.top/zbsupdatepreview.xml");
                     break;
-                case 1: // Preview 频道
-                    AutoUpdater.Start($"http://update.zongzitek.top/zbsupdatepreview.xml");
+                default: // Release 频道
+                    AutoUpdater.Start($"https://update.zongzitek.top/zbsupdate.xml");
                     break;
             }
             AutoUpdater.ApplicationExitEvent += () =>
