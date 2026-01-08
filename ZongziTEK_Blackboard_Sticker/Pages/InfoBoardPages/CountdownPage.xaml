@@ -12,7 +12,7 @@
     <Grid Margin="16,8" HorizontalAlignment="Right">
         <Viewbox>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Name="LabelName" FontSize="60" Text="距离期末考试还有" VerticalAlignment="Bottom"/>
+                <TextBlock Name="LabelName" FontSize="60" d:Text="距离期末考试还有" VerticalAlignment="Bottom"/>
                 <TextBlock Name="LabelDays" FontFamily="../../Resources/#Digital-7 Mono" Margin="24,0,0,0" FontSize="76" d:Text="10" Foreground="#00cc00" VerticalAlignment="Bottom"/>
                 <TextBlock Name="LabelDaysDetail" FontFamily="../../Resources/#Digital-7 Mono" Margin="0,0,24,6" FontSize="40" d:Text=".000" Foreground="{Binding Foreground, ElementName=LabelDays}" VerticalAlignment="Bottom"/>
                 <TextBlock FontSize="60" Text="天" VerticalAlignment="Bottom"/>
