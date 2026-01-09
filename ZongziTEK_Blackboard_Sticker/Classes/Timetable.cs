@@ -7,14 +7,14 @@ namespace ZongziTEK_Blackboard_Sticker
 {
     public class Timetable
     {
-        public List<Lesson> Monday { get; set; } = new List<Lesson>();
-        public List<Lesson> Tuesday { get; set; } = new List<Lesson>();
-        public List<Lesson> Wednesday { get; set; } = new List<Lesson>();
-        public List<Lesson> Thursday { get; set; } = new List<Lesson>();
-        public List<Lesson> Friday { get; set; } = new List<Lesson>();
-        public List<Lesson> Saturday { get; set; } = new List<Lesson>();
-        public List<Lesson> Sunday { get; set; } = new List<Lesson>();
-        public List<Lesson> Temp { get; set; } = new List<Lesson>();
+        public List<Lesson> Monday { get; set; } = new();
+        public List<Lesson> Tuesday { get; set; } = new();
+        public List<Lesson> Wednesday { get; set; } = new();
+        public List<Lesson> Thursday { get; set; } = new();
+        public List<Lesson> Friday { get; set; } = new();
+        public List<Lesson> Saturday { get; set; } = new();
+        public List<Lesson> Sunday { get; set; } = new();
+        public List<Lesson> Temp { get; set; } = new();
 
         public string ToCurriculums(List<Lesson> list)
         {

@@ -618,4 +618,29 @@ namespace ZongziTEK_Blackboard_Sticker
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    public class Interactions : INotifyPropertyChanged
+    {
+        private bool _isClassIslandConnectorEnabled = false;
+
+        public bool IsClassIslandConnectorEnabled
+        {
+            get => _isClassIslandConnectorEnabled;
+            set
+            {
+                if (_isClassIslandConnectorEnabled != value)
+                {
+                    _isClassIslandConnectorEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }
