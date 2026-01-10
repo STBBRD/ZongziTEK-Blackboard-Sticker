@@ -1239,7 +1239,9 @@ namespace ZongziTEK_Blackboard_Sticker
             StackPanelShowTimetable.Children.Clear();
             if (timetableToShow.Count == 0)
             {
-                TextBlock textBlock = new TextBlock()
+                LabelNoClass.Visibility = Visibility.Visible;
+
+                /*TextBlock textBlock = new TextBlock()
                 {
                     FontSize = Settings.TimetableSettings.FontSize,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -1248,10 +1250,12 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 StackPanelShowTimetable.Children.Add(textBlock);
 
-                ControlsHelper.SetDynamicResource(textBlock, ForegroundProperty, "ForegroundColor");
+                ControlsHelper.SetDynamicResource(textBlock, ForegroundProperty, "ForegroundColor");*/
             }
             else
             {
+                LabelNoClass.Visibility = Visibility.Collapsed;
+
                 foreach (Lesson lesson in timetableToShow)
                 {
                     TimetableLesson timetableLesson = new()

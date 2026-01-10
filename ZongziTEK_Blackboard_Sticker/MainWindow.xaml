@@ -212,6 +212,14 @@
                                         <ScaleTransform x:Name="ScaleTimetable"/>
                                     </ikw:SimpleStackPanel.LayoutTransform>
                                 </ikw:SimpleStackPanel>
+                                <Label Name="LabelNoClass" 
+                                       Content="无课程"
+                                       FontSize="18"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Opacity="0.6"
+                                       Visibility="Collapsed"
+                                       d:Visibility="Visible"/>
                             </Grid>
                         </ui:ScrollViewerEx>
                         <ui:ScrollViewerEx x:Name="ScrollViewerCurriculum" Visibility="Collapsed" PanningMode="VerticalOnly">
