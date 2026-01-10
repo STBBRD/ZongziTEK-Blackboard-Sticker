@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Services;
 
 namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 {
@@ -35,6 +36,18 @@ namespace ZongziTEK_Blackboard_Sticker.Pages.SettingsPages
 
         private void InteractionsSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(Interactions.IsClassIslandConnectorEnabled) && App.ServiceManager != null)
+            {
+                if (InteractionsSettings.IsClassIslandConnectorEnabled)
+                {
+                    App.ServiceManager.RegisterService<ClassIslandConnectorService>();
+                }
+                else
+                {
+                    App.ServiceManager.RemoveService<ClassIslandConnectorService>();
+                }
+            }
+
             MainWindow.SaveSettings();
         }
 

@@ -8,7 +8,10 @@ using AutoUpdaterDotNET;
 using System.Globalization;
 using ZongziTEK_Blackboard_Sticker.Helpers;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Sentry;
+using ZongziTEK_Blackboard_Sticker.Services;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -17,12 +20,13 @@ namespace ZongziTEK_Blackboard_Sticker
     /// </summary>
     public partial class App : Application
     {
-        System.Threading.Mutex mutex;
+        Mutex mutex;
+        private ServiceManager? _serviceManager;
+
+        public static ServiceManager? ServiceManager => ((App)Current)._serviceManager;
 
         public App()
         {
-            this.Startup += new StartupEventHandler(App_Startup); 
-            
             SentrySdk.Init(o =>
             {
                 // Tells which project in Sentry to send events to:
@@ -35,16 +39,32 @@ namespace ZongziTEK_Blackboard_Sticker
             });
         }
 
-        void App_Startup(object sender, StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             bool ret;
-            mutex = new System.Threading.Mutex(true, "ZongziTEK_Blackboard_Sticker", out ret);
+            mutex = new(true, "ZongziTEK_Blackboard_Sticker", out ret);
 
             if (!ret && !e.Args.Contains("-m"))
             {
                 MessageBox.Show("已有一个黑板贴正在运行", "ZongziTEK 黑板贴", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Environment.Exit(0);
+                Shutdown();
             }
+
+            // Service Manager
+            _serviceManager = new ServiceManager();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            // Service Manager
+            if (_serviceManager != null)
+            {
+                _serviceManager?.RemoveAllServicesAsync().GetAwaiter().GetResult();
+            }
+
+            base.OnExit(e);
         }
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -63,6 +83,7 @@ namespace ZongziTEK_Blackboard_Sticker
         }
     }
 
+    #region Converters
     [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
@@ -130,4 +151,5 @@ namespace ZongziTEK_Blackboard_Sticker
             throw new NotImplementedException();
         }
     }
+    #endregion
 }

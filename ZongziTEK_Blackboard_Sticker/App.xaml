@@ -1,9 +1,9 @@
 ﻿<Application x:Class="ZongziTEK_Blackboard_Sticker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ZongziTEK_Blackboard_Sticker"
              StartupUri="MainWindow.xaml"
-             xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern" xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>

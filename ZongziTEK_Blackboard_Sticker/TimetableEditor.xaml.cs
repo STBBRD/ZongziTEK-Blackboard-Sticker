@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ZongziTEK_Blackboard_Sticker.Services;
 using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace ZongziTEK_Blackboard_Sticker
@@ -28,6 +29,11 @@ namespace ZongziTEK_Blackboard_Sticker
         public TimetableEditor()
         {
             InitializeComponent();
+
+            if (App.ServiceManager.GetService<ClassIslandConnectorService>().IsTimetableSyncEnabled)
+            {
+                InfoBarSharedTimetableEnabled.IsOpen = true;
+            }
 
             if (File.Exists(MainWindow.GetDataPath() + MainWindow.timetableFileName))
             {

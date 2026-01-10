@@ -31,7 +31,24 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ui:InfoBar Name="InfoBarTempTimetable" Grid.Row="0" Title="提示" Message="如需展示临时课表，请在课程表菜单中选择" IsClosable="False"/>
+
+            <ikw:SimpleStackPanel Grid.Row="0"
+                                  Spacing="4">
+                <ui:InfoBar Name="InfoBarSharedTimetableEnabled"
+                            Grid.Row="0"
+                            Title="警告"
+                            Message="正在使用共享课程表，此处编辑的本地课程表不会显示在黑板贴上。如需展示此处课程表，请查看共享课程表相关设置，并禁用它。"
+                            Severity="Warning"
+                            IsClosable="False"
+                            d:IsOpen="True"/>
+                <ui:InfoBar Name="InfoBarTempTimetable" 
+                            Grid.Row="0" 
+                            Title="提示" 
+                            Message="如需展示临时课表，请在课程表菜单中选择。" 
+                            IsClosable="False"
+                            d:IsOpen="True"/>
+            </ikw:SimpleStackPanel>
+
             <Border Height="48" Margin="0,8" Background="{DynamicResource {x:Static ui:ThemeKeys.CardBackgroundFillColorDefaultBrushKey}}" CornerRadius="4" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>

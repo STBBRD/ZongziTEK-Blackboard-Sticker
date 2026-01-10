@@ -32,6 +32,7 @@ using iNKORE.UI.WPF.Controls;
 using ScrollViewerBehavior = ZongziTEK_Blackboard_Sticker.Helpers.ScrollViewerBehavior;
 using Sentry;
 using iNKORE.UI.WPF.Modern.Controls.Helpers;
+using ZongziTEK_Blackboard_Sticker.Services;
 
 namespace ZongziTEK_Blackboard_Sticker
 {
@@ -120,6 +121,15 @@ namespace ZongziTEK_Blackboard_Sticker
             // 隐藏管家助手
             timerHideSeewoServiceAssistant.Tick += TimerHideSeewoServiceAssistant_Tick;
             timerHideSeewoServiceAssistant.Interval = TimeSpan.FromSeconds(1);
+
+            // 服务
+            if (App.ServiceManager != null)
+            {
+                if (Settings.Interactions.IsClassIslandConnectorEnabled)
+                {
+                    App.ServiceManager.RegisterService<ClassIslandConnectorService>();
+                }
+            }
         }
 
         #region Window
@@ -961,7 +971,9 @@ namespace ZongziTEK_Blackboard_Sticker
 
         public void LoadTimetableOrCurriculum()
         {
-            if (Settings.TimetableSettings.IsTimetableEnabled)
+            var classIslandConnectorService = App.ServiceManager.GetService<ClassIslandConnectorService>();
+
+            if (Settings.TimetableSettings.IsTimetableEnabled || (classIslandConnectorService != null && classIslandConnectorService.IsTimetableSyncEnabled))
             {
                 LoadTimetable();
 
@@ -981,6 +993,7 @@ namespace ZongziTEK_Blackboard_Sticker
 
                 timetableTimer.Stop();
             }
+
             CheckTimetableMenuItems();
         }
 
@@ -1201,71 +1214,88 @@ namespace ZongziTEK_Blackboard_Sticker
         public static Timetable Timetable = new Timetable();
         public static string timetableFileName = "Timetable.json";
         private DispatcherTimer timetableTimer;
-        List<Lesson> timetableToShow = new List<Lesson>();
+        List<Lesson> timetableCurrent = new();
 
         private void LoadTimetable()
         {
-            if (File.Exists(GetDataPath() + timetableFileName))
+            var classIslandConnectorService = App.ServiceManager.GetService<ClassIslandConnectorService>();
+
+            if (classIslandConnectorService == null || !classIslandConnectorService.IsTimetableSyncEnabled) // 加载黑板贴本地课表
             {
-                try
+                if (File.Exists(GetDataPath() + timetableFileName))
                 {
-                    string text = File.ReadAllText(GetDataPath() + timetableFileName);
-                    Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                    try
+                    {
+                        string text = File.ReadAllText(GetDataPath() + timetableFileName);
+                        Timetable = JsonConvert.DeserializeObject<Timetable>(text);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"加载本地课程表时遇到错误：{ex.Message}");
+                    }
                 }
-                catch { }
+
+                string day = DateTime.Today.DayOfWeek.ToString();
+
+                switch (timetableToShow_index)
+                {
+                    case 1: // 周一
+                        timetableCurrent = Timetable.Monday;
+                        break;
+                    case 2: // 周二
+                        timetableCurrent = Timetable.Tuesday;
+                        break;
+                    case 3: // 周三
+                        timetableCurrent = Timetable.Wednesday;
+                        break;
+                    case 4: // 周四
+                        timetableCurrent = Timetable.Thursday;
+                        break;
+                    case 5: // 周五
+                        timetableCurrent = Timetable.Friday;
+                        break;
+                    case 6: // 周六
+                        timetableCurrent = Timetable.Saturday;
+                        break;
+                    case 0: // 周日
+                        timetableCurrent = Timetable.Sunday;
+                        break;
+                    case 7: // 临时
+                        timetableCurrent = Timetable.Temp;
+                        break;
+                }
+
+                MenuChooseTimetableToShow.IsEnabled = true;
             }
-
-            string day = DateTime.Today.DayOfWeek.ToString();
-
-            switch (timetableToShow_index)
+            else // 加载共享课表，来自 ClassIsland 连接器
             {
-                case 1: // 周一
-                    timetableToShow = Timetable.Monday;
-                    break;
-                case 2: // 周二
-                    timetableToShow = Timetable.Tuesday;
-                    break;
-                case 3: // 周三
-                    timetableToShow = Timetable.Wednesday;
-                    break;
-                case 4: // 周四
-                    timetableToShow = Timetable.Thursday;
-                    break;
-                case 5: // 周五
-                    timetableToShow = Timetable.Friday;
-                    break;
-                case 6: // 周六
-                    timetableToShow = Timetable.Saturday;
-                    break;
-                case 0: // 周日
-                    timetableToShow = Timetable.Sunday;
-                    break;
-                case 7: // 临时
-                    timetableToShow = Timetable.Temp;
-                    break;
+                timetableCurrent = classIslandConnectorService.TimetableShared;
+                MenuChooseTimetableToShow.IsEnabled = false;
             }
 
+            PresentTimetable(timetableCurrent);
+
+            lessonIndex = -1;
+
+            double scale = (0.5 / 16) * Settings.TimetableSettings.FontSize + (1 - (0.5 / 16) * 24);
+            if (scale < 0.5) scale = 0.5;
+            else if (scale > 1.6) scale = 1.6;
+            ScaleTimetable.ScaleX = scale;
+            ScaleTimetable.ScaleY = scale;
+        }
+
+        private void PresentTimetable(List<Lesson> timetable)
+        {
             StackPanelShowTimetable.Children.Clear();
-            if (timetableToShow.Count == 0)
+            if (timetable == null || timetable.Count == 0)
             {
                 LabelNoClass.Visibility = Visibility.Visible;
-
-                /*TextBlock textBlock = new TextBlock()
-                {
-                    FontSize = Settings.TimetableSettings.FontSize,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Text = "无课程"
-                };
-
-                StackPanelShowTimetable.Children.Add(textBlock);
-
-                ControlsHelper.SetDynamicResource(textBlock, ForegroundProperty, "ForegroundColor");*/
             }
             else
             {
                 LabelNoClass.Visibility = Visibility.Collapsed;
 
-                foreach (Lesson lesson in timetableToShow)
+                foreach (Lesson lesson in timetable)
                 {
                     TimetableLesson timetableLesson = new()
                     {
@@ -1280,14 +1310,6 @@ namespace ZongziTEK_Blackboard_Sticker
                     StackPanelShowTimetable.Children.Add(timetableLesson);
                 }
             }
-
-            lessonIndex = -1;
-
-            double scale = (0.5 / 16) * Settings.TimetableSettings.FontSize + (1 - (0.5 / 16) * 24);
-            if (scale < 0.5) scale = 0.5;
-            else if (scale > 1.6) scale = 1.6;
-            ScaleTimetable.ScaleX = scale;
-            ScaleTimetable.ScaleY = scale;
         }
 
         private int lessonIndex = -1; // 第几节课
@@ -1310,30 +1332,30 @@ namespace ZongziTEK_Blackboard_Sticker
             TimeSpan currentTime = new TimeSpan
                 (DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds) + TimeSpan.FromSeconds(Settings.TimetableSettings.TimeOffset);
 
-            if (timetableToShow != null && timetableToShow.Count != 0)
+            if (timetableCurrent != null && timetableCurrent.Count != 0)
             {
                 // 获取上课状态 lessonIndex 和 isInClass
-                foreach (var lesson in timetableToShow)
+                foreach (var lesson in timetableCurrent)
                 {
                     if (currentTime >= lesson.StartTime) // 在这节课开始后
                     {
-                        if (timetableToShow.IndexOf(lesson) + 1 < timetableToShow.Count) // 不是最后一节课
+                        if (timetableCurrent.IndexOf(lesson) + 1 < timetableCurrent.Count) // 不是最后一节课
                         {
-                            if (currentTime < timetableToShow[timetableToShow.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
+                            if (currentTime < timetableCurrent[timetableCurrent.IndexOf(lesson) + 1].StartTime) // 在下一节课上课前
                             {
-                                lessonIndex = timetableToShow.IndexOf(lesson);
+                                lessonIndex = timetableCurrent.IndexOf(lesson);
                                 isInClass = currentTime < lesson.EndTime;
                                 break;
                             }
                         }
                         else // 是最后一节课
                         {
-                            lessonIndex = timetableToShow.Count - 1;
+                            lessonIndex = timetableCurrent.Count - 1;
                             isInClass = currentTime < lesson.EndTime;
                             break;
                         }
                     }
-                    else if (timetableToShow.IndexOf(lesson) == 0) // 在第一节课开始前
+                    else if (timetableCurrent.IndexOf(lesson) == 0) // 在第一节课开始前
                     {
                         lessonIndex = -1;
                         isInClass = false;
@@ -1342,17 +1364,17 @@ namespace ZongziTEK_Blackboard_Sticker
                 }
 
                 // 上下课通知和语音
-                if (lessonIndex != -1 && currentTime == timetableToShow[lessonIndex].EndTime) // 下课时
+                if (lessonIndex != -1 && currentTime == timetableCurrent[lessonIndex].EndTime) // 下课时
                 {
-                    if (lessonIndex + 1 < timetableToShow.Count) // 不是最后一节课
+                    if (lessonIndex + 1 < timetableCurrent.Count) // 不是最后一节课
                     {
-                        ShowClassOverNotification(timetableToShow, lessonIndex);
+                        ShowClassOverNotification(timetableCurrent, lessonIndex);
                     }
-                    else ShowLastClassOverNotification(timetableToShow[lessonIndex].IsStrongClassOverNotificationEnabled);
+                    else ShowLastClassOverNotification(timetableCurrent[lessonIndex].IsStrongClassOverNotificationEnabled);
                 }
-                if (lessonIndex + 1 < timetableToShow.Count && !isInClass && currentTime == timetableToShow[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime)) // 有下一节课，在下一节课开始的数秒前
+                if (lessonIndex + 1 < timetableCurrent.Count && !isInClass && currentTime == timetableCurrent[lessonIndex + 1].StartTime - TimeSpan.FromSeconds(Settings.TimetableSettings.BeginNotificationTime)) // 有下一节课，在下一节课开始的数秒前
                 {
-                    ShowClassBeginPreNotification(timetableToShow, lessonIndex);
+                    ShowClassBeginPreNotification(timetableCurrent, lessonIndex);
                 }
 
                 // 在界面中高亮当前课程或下一节课
@@ -1362,7 +1384,7 @@ namespace ZongziTEK_Blackboard_Sticker
                 {
                     lessonToHighlightIndex = lessonIndex;
                 }
-                else if (lessonIndex + 1 < timetableToShow.Count) // 在第一节课前或课间，高亮下一节课
+                else if (lessonIndex + 1 < timetableCurrent.Count) // 在第一节课前或课间，高亮下一节课
                 {
                     lessonToHighlightIndex = lessonIndex + 1;
                 }
@@ -1378,7 +1400,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         if (StackPanelShowTimetable.Children.IndexOf(timetableLesson) == lessonToHighlightIndex) // 高亮要高亮的课程，在课程开始后显示距离其结束的时间
                         {
                             timetableLesson.Activate();
-                            TimeSpan timeLeft = timetableToShow[lessonToHighlightIndex].EndTime - currentTime;
+                            TimeSpan timeLeft = timetableCurrent[lessonToHighlightIndex].EndTime - currentTime;
                             if (isInClass)
                             {
                                 if (timeLeft.Hours == 0)
@@ -1394,7 +1416,7 @@ namespace ZongziTEK_Blackboard_Sticker
                         else // 取消高亮不要高亮的课程，并恢复时间显示
                         {
                             timetableLesson.Deactivate();
-                            timetableLesson.Time = timetableToShow[StackPanelShowTimetable.Children.IndexOf(timetableLesson)].StartTime.ToString(@"hh\:mm");
+                            timetableLesson.Time = timetableCurrent[StackPanelShowTimetable.Children.IndexOf(timetableLesson)].StartTime.ToString(@"hh\:mm");
                         }
                     }
                 }
@@ -1495,10 +1517,10 @@ namespace ZongziTEK_Blackboard_Sticker
                 int extraMarginCount = 0;
                 double scale = ScaleTimetable.ScaleX;
 
-                foreach (Lesson lesson in timetableToShow)
+                foreach (Lesson lesson in timetableCurrent)
                 {
                     if (lesson.IsSplitBelow) extraMarginCount++;
-                    if (timetableToShow.IndexOf(lesson) >= lessonIndex) break;
+                    if (timetableCurrent.IndexOf(lesson) >= lessonIndex) break;
                 }
 
                 double offset = (((lessonIndex + 1) * 48) + 8 * extraMarginCount - 48) * scale;
