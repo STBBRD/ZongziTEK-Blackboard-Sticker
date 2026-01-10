@@ -1142,6 +1142,15 @@ namespace ZongziTEK_Blackboard_Sticker
                     textBlockCurriculum.Text = Curriculums.Temp.Curriculums;
                     break;
             }
+
+            if (textBlockCurriculum.Text.Trim() == string.Empty)
+            {
+                LabelNoClass.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                LabelNoClass.Visibility = Visibility.Collapsed;
+            }
         }
 
         private bool isTimetableEditorOpen = false;
