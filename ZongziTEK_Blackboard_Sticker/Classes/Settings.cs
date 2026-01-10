@@ -107,6 +107,20 @@ namespace ZongziTEK_Blackboard_Sticker
             }
         }
 
+        private Interactions _interactions = new Interactions();
+        public Interactions Interactions
+        {
+            get => _interactions;
+            set
+            {
+                if (_interactions != value)
+                {
+                    _interactions = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

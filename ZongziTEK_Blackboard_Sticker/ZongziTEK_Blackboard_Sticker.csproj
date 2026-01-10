@@ -152,6 +152,9 @@
     <Compile Include="Pages\SettingsPages\InfoBoardSettingsPages\WeatherSettingsPage.xaml.cs">
       <DependentUpon>WeatherSettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPages\InteractionsSettingsPage.xaml.cs">
+      <DependentUpon>InteractionsSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPages\LookSettingsPage.xaml.cs">
       <DependentUpon>LookSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -270,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\InfoBoardSettingsPages\WeatherSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\InteractionsSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

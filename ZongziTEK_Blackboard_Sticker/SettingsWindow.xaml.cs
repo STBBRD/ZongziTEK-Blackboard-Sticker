@@ -35,6 +35,7 @@ namespace ZongziTEK_Blackboard_Sticker
             typeof(TimetableSettingsPage),
             typeof(InfoBoardSettingsPage),
             typeof(AutomationSettingsPage),
+            typeof(InteractionsSettingsPage),
             typeof(AboutPage)
         };
 
